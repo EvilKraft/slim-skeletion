@@ -1,0 +1,323 @@
+{% extends 'backend_layout.twig' %}
+{% import _self as self %}
+
+{%
+    set CRUDRoutes = {
+        'create'   : currentRoute ~ '_create',
+        'get'      : currentRoute ~ '_get',
+        'delete'   : currentRoute ~ '_delete',
+        'newChild' : currentRoute ~ '_newChild',
+        'move'     : currentRoute ~ '_move',
+    }
+%}
+
+{% block tableRow %}
+    {% spaceless %}
+        {% set item_id = attribute(item, fields|keys|first) %}
+
+        <tr id="row_{{ item_id }}">
+            {% for field, field_name in fields %}
+                <td>
+                    {% if field == 'getLaveledTitle' %}
+                        {{ (attribute(item, field)|join(','))|raw }}
+                    {% elseif field == 'isActive' %}
+                        <a href="javascript:void(0);" onclick="moveItem('{{ path_for(CRUDRoutes.get, {'lang': lang, 'id': item_id }) }}');"><i class="fa fa-check-square-o {{ item.isActive == 1 ? 'text-green' : 'text-muted' }}"></i></a>
+                    {% else %}
+                        {{ attribute(item, field)|join(',') }}
+                    {% endif %}
+                </td>
+            {% endfor %}
+
+            {% if actions is defined and not actions is empty %}
+                <td class="action_btns">
+                    {% if 'edit' in actions %}
+                        <a href="{{ path_for(CRUDRoutes.get, {'lang': lang, 'id': item_id}) }}" title="{{ 'Edit'|trans }}"><i class="fa fa-edit"></i></a>
+                    {% endif %}
+                    {% if 'delete' in actions %}
+                        <a href="javascript:void(0);" onclick="deleteItem('{{ path_for(CRUDRoutes.delete, {'lang': lang, 'id': item_id }) }}', this);" title="{{ 'Delete'|trans }}"><i class="fa fa-remove"></i></a>
+                    {% endif %}
+                    {% if 'newChild' in actions %}
+                        <a href="{{ path_for(CRUDRoutes.newChild, {'lang': lang, 'id': item_id}) }}" title="{{ 'newChild'|trans }}"><i class="fa fa-plus-square"></i></a>
+                    {% endif %}
+                    {% if 'move' in actions %}
+                        {% if not loop.first %}
+                            <a href="javascript:void(0);" onclick="moveItem('{{ path_for(CRUDRoutes.move, {'lang': lang, 'id': item_id }) }}', 'up');" title="{{ 'moveUp'|trans }}"><i class="fa fa-arrow-up"></i></a>
+                        {% endif %}
+                        {% if not loop.last %}
+                            <a href="javascript:void(0);" onclick="moveItem('{{ path_for(CRUDRoutes.move, {'lang': lang, 'id': item_id }) }}', 'down');" title="{{ 'moveDown'|trans }}"><i class="fa fa-arrow-down"></i></a>
+                        {% endif %}
+                    {% endif %}
+                </td>
+            {% endif %}
+        </tr>
+    {% endspaceless %}
+{% endblock %}
+
+{% macro table_rows(items, fields, actions, CRUDRoutes) %}
+    {% for item in items %}
+        {{ block('tableRow') }}
+
+        {% if item.__children is defined %}
+            {{ self.table_rows(item.__children, fields, actions, CRUDRoutes) }}
+        {% endif %}
+    {% endfor %}
+{% endmacro %}
+
+{% block content %}
+        <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>{{ pageTitle }}</h1>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+            {% if tableData is defined %}
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">{{ pageTitle }}</h3>
+                    <br><br>
+                    <form class="form-inline" id="myForm" method="GET" action="{{ currentUrl }}">
+                        <div class="form-group">
+                            <label for="group">{{ 'Group'|trans }}: </label>
+                            <select id="group" name="group" class="form-control select2">
+                                <option value="">{{ 'Select a group'|trans }}</option>
+                                {% for grp in groups %}
+                                    <option value="{{ grp.id }}" {{ (group|default('') == grp.id) ? 'selected' }}>{{ grp.name }}</option>
+                                {% endfor %}
+                            </select>
+                            <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="industry">{{ 'Industry'|trans }}: </label>
+                            <select id="industry" name="industry" class="form-control select2">
+                                <option value="">{{ 'Select an industry'|trans }}</option>
+                                {% for ind in industries %}
+                                    <option value="{{ ind.id }}" {{ (industry|default('') == ind.id ) ? 'selected' }}>{{ ind.name }}</option>
+                                {% endfor %}
+                            </select>
+                            <div class="help-block with-errors"></div>
+                        </div>
+                        <button type="submit" class="btn btn-default" style="vertical-align: top;">{{ 'Send'|trans }}</button>
+                    </form>
+                </div>
+                <div class="box-body">
+                    <table id="example" class="table table-striped table-bordered table-hover">
+
+                    </table>
+
+                    <br><br>
+
+
+                    {% if tableData.data|length > 0 %}
+                        <table id="tableData" class="table table-striped table-bordered table-hover"></table>
+                    {% else %}
+                        {{ 'You do not have tenders'|trans }}
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+    </section>
+    <!-- /.content -->
+{% endblock %}
+
+
+{% block head %}
+    {{ parent() }}
+
+    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/resources/libs/Magnific-Popup/dist/magnific-popup.css?ver={{ version }}">
+
+    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/libs/DataTables/dataTables.min.css">
+    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/libs/dataTableExportCollection/dataTableExportCollection.css">
+
+    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/resources/libs/select2/dist/css/select2.min.css?ver={{ version }}">
+    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/resources/libs/select2/dist/css/select2-bootstrap.min.css?ver={{ version }}">
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+
+    <script type="text/javascript" src="{{ base_url() }}/resources/libs/Magnific-Popup/dist/jquery.magnific-popup.min.js?ver={{ version }}"></script>
+
+    <script type="text/javascript" src="{{ base_url() }}/libs/DataTables/datatables.min.js"></script>
+    <script type="text/javascript" src="{{ base_url() }}/assets/dataTableSelectAllBtn/dataTableSelectAllBtn.js"></script>
+    <script type="text/javascript" src="{{ base_url() }}/libs/dataTableExportCollection/dataTableExportCollection.js"></script>
+
+    <script src="{{ base_url() }}/resources/libs/select2/dist/js/select2.min.js?ver={{ version }}"></script>
+    <script src="{{ base_url() }}/resources/libs/select2/dist/js/i18n/{{ lang }}.js?ver={{ version }}"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+
+            var cols = [
+                { data: "login",     title: "login" },
+                { data: "name",      title: "name" },
+                { data: "voen",      title: "voen" },
+                { data: "country",   title: "country" },
+                { data: "createdAt", title: "createdAt" }
+            ];
+
+            $('#example').DataTable( {
+                serverSide: true,
+                ordering: false,
+                searching: false,
+                ajax: '{{ path_for(currentRoute~'_getTable', {'lang': lang}) }}',
+                scrollY: 200,
+                scroller: {
+                    loadingIndicator: true
+                },
+
+                columns: cols,
+
+
+
+
+            {#
+                //columns: JSON.parse( '{{ dtColumns }}' ),
+#}
+            } );
+
+
+
+            $('#group').select2({ theme: "bootstrap",  placeholder: "{{ 'Select a group'|trans }}", minimumResultsForSearch: Infinity, allowClear: true, });
+            $('#industry').select2({ theme: "bootstrap",  placeholder: "{{ 'Select an industry'|trans }}", minimumResultsForSearch: Infinity, allowClear: true, });
+
+            var buttonCommon = {
+                exportOptions: {
+                    columns: ':not(:last-child)'
+                }
+            };
+
+            $.extend( true, $.fn.dataTable.defaults, {
+                dom: "<'row'<'col-sm-6 col-lg-3'B><'col-sm-6 col-lg-3'l><'col-sm-6 col-lg-4'fr><'col-sm-6 col-lg-2 dataTableExtraBtns'>>" +
+                "<'row'<'col-sm-12't>>" +
+                "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+
+                iDisplayLength: 15,
+                aLengthMenu: [ [15, 50, -1], [15, 50, "All"] ],
+                language: {
+                    url: "{{ base_url() }}/resources/libs/DataTables-1.10.15/i18n/{{ lang }}.json",
+                },
+                "columnDefs": [{
+                    "targets": 'no-sort',
+                    "orderable": false,
+                }],
+
+                //"ordering": false,
+                "aaSorting": [],   /* Disable initial sort */
+                //"aaSorting": [[ 0, 'asc' ]],
+
+                "autoWidth": false,
+                "scrollX": true,
+            } );
+
+
+            {% if (tableData is defined) and (tableData.data|length > 0) %}
+            var tableData = $("#tableData").DataTable({
+                data    : {{ tableData.data|raw }},
+                columns : {{ tableData.columns|raw }},
+                rowId   : 0,
+
+                select: {
+                    style: 'multi',
+                },
+
+                columnDefs: [
+                    { "width": "10px", "targets": [0] },
+
+                    {% if currentRoute in ['admin_tenders', 'admin_help']%}
+                        { "width": "135px", "orderable": false, "targets": -1 },
+                    {% else %}
+                        {   "targets": -1,
+                            "orderable": false,
+                            "width": "70px",
+                            //    "data": null,
+                            //    "defaultContent": "<button>Click!</button>",
+                        },
+                    {% endif %}
+
+                    {% if currentRoute == 'admin_tenders'%}
+                        { "width": "120px", "targets": [-2] },
+                    {% endif %}
+                ],
+
+                "createdRow": function( row, data, dataIndex ) {
+                   //     $(row).addClass('important');
+                        $(row).attr('id', 'row_'+data[0]);
+                },
+
+                buttons: [
+                    'select_all',
+                    'export_collection',
+                ],
+
+                "initComplete": function (settings, json) {
+                    var api = this.api();
+
+                    // Add 2 add and delete buttons
+                    new $.fn.dataTable.Buttons( api, {
+                        name: 'main',
+                        buttons: [
+                            {% if 'add' in actions %}
+                                {
+                                    text: '<i class="fa fa-plus fa-lg"></i>',
+                                    titleAttr: '{{ 'Add new item'|trans }}',
+                                    className: 'text-green',
+                                    action: function ( e, dt, node, conf ) {
+                                        window.location = "{{ path_for(CRUDRoutes.create, {'lang': lang}) }}";
+                                    }
+                                },
+                            {% endif %}
+
+                            {% if 'delete' in actions %}
+                                {
+                                    text: '<i class="fa fa-trash fa-lg"></i>',
+                                    titleAttr: '{{ 'Delete items'|trans }}',
+                                    className: 'text-red',
+                                    action: function ( e, dt, node, conf ) {
+                                        deleteSelectedItems('{{ path_for(currentRoute, {'lang': lang}) }}', api);
+                                    }
+                                }
+                            {% endif %}
+                        ]
+                    }).container().appendTo(
+                        $('.dataTableExtraBtns', api.table().container() )
+                    );
+
+                    {% if currentRoute == 'admin_tenders'%}
+                        api.columns(2).every( function () {
+                            var column = this;
+                            var select = $('<select class="form-control " style="width: 100%; padding: 0 10px; height: 20px;"><option value=""></option></select>')
+                                .appendTo( $(column.header()).empty() )
+                                .on( 'change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                    column.search( val ? '^'+val+'$' : '', true, false ).draw();
+                                });
+
+                            column.data().unique().sort().each( function ( d, j ) {
+                                if(d){
+                                    select.append( '<option value="'+d+'">'+d+'</option>' )
+                                }
+                            });
+                        });
+                    {% endif %}
+
+                    $('.magnificPopup').magnificPopup({
+                        type: 'ajax',
+                        ajax: {
+                            settings: null, // Ajax settings object that will extend default one - http://api.jquery.com/jQuery.ajax/#jQuery-ajax-settings
+                            cursor: 'mfp-ajax-cur', // CSS class that will be added to body during the loading (adds "progress" cursor)
+                            tError: '<a href="%url%">The content could not be loaded.</a>' //  Error message, can contain %curr% and %total% tags if gallery is enabled
+                        },
+                        callbacks: {
+                            ajaxContentAdded: function() {
+                                // Ajax content is loaded and appended to DOM
+                                //initializeSelect2();
+                            }
+                        }
+                    });
+                },
+            });
+            {% endif %}
+        });
+    </script>
+{% endblock %}

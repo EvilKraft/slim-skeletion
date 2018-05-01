@@ -1,0 +1,150 @@
+{% extends 'backend_layout.twig' %}
+
+
+
+{% block content %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>{{ pageTitle }}</h1>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-lg-6">
+
+                {% for chat in chats %}
+                    <div class="box box-primary direct-chat direct-chat-primary collapsed-box" data-chatid="{{ chat.id }}">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">
+                                {% set tender_link = (item is not defined) ? '<a href="'~path_for('tenders_get', {'lang': lang, 'id': chat.tenderId})~'">'~chat.tender_name~'</a> - ' %}
+                                {{ tender_link|raw }}{{ chat.contact_name is defined ? chat.contact_name~' ('~chat.user_name~')' : chat.user_name }}
+                            </h3>
+                            <div class="box-tools pull-right">
+                                <span data-toggle="tooltip" data-original-title="0 new messages" class="badge bg-light-blue">0</span>
+                                <button type="button" class="btn btn-box-tool" data-toggle="tooltip" data-original-title="{{ 'Contact info'|trans }}" data-widget="chat-pane-toggle"><i class="fa fa-id-card-o fa-lg"></i></button>
+                                <button type="button" class="btn btn-box-tool chat-collapser" data-widget="collapse"><i class="fa fa-plus fa-lg"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div class="direct-chat-messages"></div>
+                            <div class="direct-chat-contacts">
+                                <ul class="contacts-list">
+                                    <li>
+                                        <a href="#">
+                                            <i class="fa fa-user-circle-o fa-3x direct-chat-img text-muted"></i>
+                                            <div class="contacts-list-info">
+                                                {% if chat.contact_name is defined %}
+                                                    <span class="contacts-list-name">{{ chat.contact_name }} ({{ chat.user_name }})</span>
+                                                    <p class="contacts-list-msg">{{ chat.contact_position }}</p>
+                                                    <p class="contacts-list-msg"><i class="glyphicon glyphicon-phone-alt text-light-blue"></i> : {{ chat.contact_phone }}</p>
+                                                    <p class="contacts-list-msg"><i class="glyphicon glyphicon-envelope text-light-blue"></i> : <a href="mailto:{{ chat.contact_email }}">{{ chat.contact_email }}</a></p>
+                                                {% else %}
+                                                    <span class="contacts-list-name">{{ chat.user_name }}</span>
+                                                    <p class="contacts-list-msg">{{ chat.user_description }}</p>
+                                                    <p class="contacts-list-msg"><i class="glyphicon glyphicon-phone-alt text-light-blue"></i> : {{ chat.user_phone }}</p>
+                                                    <p class="contacts-list-msg"><i class="glyphicon glyphicon-envelope text-light-blue"></i> : <a href="mailto:{{ chat.user_email }}">{{ chat.user_email }}</a></p>
+                                                {% endif %}
+
+                                                {% if chat.user_group != 1 %}
+                                                    <p>
+                                                        {#{% set display_stars = (session.user.groupId == 1 or chat.voted == 1) ? 'data-display-only="true"' : '' %}#}
+                                                        {% set display_stars = (session.user.groupId == 1) ? 'data-display-only="true"' : '' %}
+
+                                                        <input type="text" class="star-rating" value="{{ chat.user_stars }}" {{ display_stars|default('') }} data-vote-for="{{ chat.user_id }}" >
+                                                    </p>
+                                                {% endif %}
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="box-footer">
+                            <div class="input-group">
+                                <input type="text" name="chat-message" placeholder="{{ 'Type Message ...'|trans }}" class="form-control" data-chat-id="{{ chat.id }}">
+                                <span class="input-group-btn">
+                                    <button id="chat_send_{{ chat.id }}" type="button" class="btn btn-primary btn-flat" onclick="myChat{{ chat.id }}.save();">{{ 'Send'|trans }}</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+
+    <script src="{{ base_url() }}/resources/js/TenderChat.js?ver={{ version }}"></script>
+
+    <script type="text/javascript">
+	    chatConfig = {
+		    update_path : "{{ path_for('chat_update', {'lang': lang}) }}",
+		    save_path   : "{{ path_for('chat_save', {'lang': lang}) }}",
+	    };
+        {% for chat in chats %}
+            myChat{{ chat.id }} = new TenderChat({{ chat.id }}, {{ chat.status }}, chatConfig);
+            myChat{{ chat.id }}.update();
+        {% endfor %}
+
+        $(document).ready(function(){
+	        $('[data-toggle="tooltip"]').on('click', function () {
+		        var icon = $(this).find('i.fa');
+		        if(icon.hasClass('fa-id-card-o')){
+			        icon.removeClass('fa-id-card-o').addClass('fa-comments-o');
+		        }else{
+			        icon.removeClass('fa-comments-o').addClass('fa-id-card-o');
+		        }
+
+		        if($(this).parents('.direct-chat').hasClass('collapsed-box')){
+			        $(this).parent().find('.chat-collapser').click();
+		        }
+	        });
+
+            $('.direct-chat').on('click', function () {
+                $(this).find("input[name='chat-message']").focus();
+            });
+
+            $( "input[name='chat-message']").keyup(function(event){
+                if(event.keyCode == 13){
+                    var chat_id = $(this).attr('data-chat-id');
+                    eval(('myChat'+chat_id)).save();
+                }
+            });
+
+            $(".star-rating").rating({
+                min:0, max:5, step:1, size:'xs',
+                showCaption: false,
+                showClear:false
+            }).on('rating.change', function(event, value, caption) {
+
+                var voteFor = $(this).attr('data-vote-for');
+                //$( "input[data-vote-for='"+voteFor+"']").rating("refresh", {displayOnly:true});
+
+                $.ajax({
+                    url: '{{ path_for('chat_vote', {'lang': lang}) }}',
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        voteFor : $(this).attr('data-vote-for'),
+                        stars   : value
+                    },
+                    statusCode: {
+                        201: function(data, textStatus, jqXHR) {
+                            $( "input[data-vote-for='"+voteFor+"']").rating("update", value);
+                        },
+                    }
+                });
+            });
+        });
+    </script>
+
+{% endblock %}

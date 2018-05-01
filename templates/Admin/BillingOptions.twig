@@ -1,0 +1,87 @@
+{% extends 'backend_layout.twig' %}
+
+{% block content %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>{{ pageTitle }}</h1>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="box box-primary">
+                    <div class="box-body">
+                        <form id="updateForm" method="POST" enctype="multipart/form-data" data-toggle="validator" action="{{ currentUrl }}">
+                            {% if item.id|default('') != '' %}
+                                <input type="hidden" name="_METHOD" value="PUT" />
+                            {% endif %}
+
+
+                            <div class="form-group">
+                                <label for="groupId">{{ 'Group'|trans }}</label>
+                                <select id="groupId" name="groupId" class="form-control select2" disabled="" data-error="{{ 'Select a group'|trans }}">
+                                    <option value="" {{ (item.groupId|default('') == '') ? 'selected' }} disabled>{{ 'Select a group'|trans }}</option>
+                                    {% for group in groups %}
+                                        <option value="{{ group.id }}" {{ (group.id == item.groupId|default('')) ? 'selected' }}>{{ group.name }}</option>
+                                    {% endfor %}
+                                </select>
+                                <div class="help-block with-errors"></div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="name">{{ 'REST.BillingOptions.fields.fullAccessTrial'|trans }} <span class="text-red">*</span></label>
+                                <input id="fullAccessTrial" name="fullAccessTrial" class="form-control" placeholder="{{ 'REST.BillingOptions.fields.fullAccessTrial'|trans }}" value="{{ item.fullAccessTrial|default(0) }}" required type="text" pattern="[0-9]{1,}" data-error="{{ 'Invalid value'|trans }}">
+                                <div class="help-block with-errors"></div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="name">{{ 'REST.BillingOptions.fields.periodicPayment'|trans }} <span class="text-red">*</span></label>
+                                <input id="periodicPayment" name="periodicPayment" class="form-control" placeholder="{{ 'REST.BillingOptions.fields.periodicPayment'|trans }}" value="{{ item.periodicPayment|default(0.00) }}" required type="text" pattern="^[0-9]+([.][0-9]{1,2})?$" data-error="{{ 'Invalid value'|trans }}">
+                                <div class="help-block with-errors"></div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="name">{{ 'REST.BillingOptions.fields.aperiodicPayment'|trans }} <span class="text-red">*</span></label>
+                                <input id="aperiodicPayment" name="aperiodicPayment" class="form-control" placeholder="{{ 'REST.BillingOptions.fields.aperiodicPayment'|trans }}" value="{{ item.aperiodicPayment|default(0.00) }}" required type="text" pattern="^[0-9]+([.][0-9]{1,2})?$" data-error="{{ 'Invalid value'|trans }}">
+                                <div class="help-block with-errors"></div>
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="box-footer">
+                        <div class="form-group">
+                            <button class="btn btn-primary" type="submit" form="updateForm">{{ 'Submit'|trans }}</button>
+                            <a class="btn btn-default pull-right" href="{{ path_for('admin_industries', {'lang': lang}) }}">{{ 'Cancel'|trans }}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+
+    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/resources/libs/select2/dist/css/select2.min.css?ver={{ version }}">
+    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/resources/libs/select2/dist/css/select2-bootstrap.min.css?ver={{ version }}">
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+
+    <script src="{{ base_url() }}/resources/libs/select2/dist/js/select2.min.js?ver={{ version }}"></script>
+    <script src="{{ base_url() }}/resources/libs/select2/dist/js/i18n/{{ lang }}.js?ver={{ version }}"></script>
+
+    <script src="{{ base_url() }}/resources/libs/bootstrap-validator/dist/validator.min.js?ver={{ version }}"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+	        var grpSelect = $('#groupId').select2({ theme: "bootstrap", width: '100%', placeholder: "{{ 'Select a group'|trans }}" });
+        });
+    </script>
+
+{% endblock %}

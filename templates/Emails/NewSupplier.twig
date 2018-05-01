@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{{ page_title|default('site_name'|trans) }}</title>
+    </head>
+    <body>
+        <h3>{{ 'New supplier'|trans }}</h3>
+        <br>
+        <p>
+            {{ 'Tender'|trans }}:
+            <a href="{{ base_url() }}{{ path_for('tenders_get', {'lang': lang, 'id': id}) }}">{{ name }}</a>
+        </p>
+        <br>
+        <p>{{ 'Description'|trans }}: {{ description }}</p>
+        <br>
+        <br>
+        <br>
+        <p>{{ user_name }}</p>
+        <p>{{ user_description }}</p>
+        <p>{{ user_phone }}</p>
+        <p><a href="mailto:{{ user_email }}">{{ user_email }}</a></p>
+        {{ text|default('')|raw }}
+    </body>
+</html>

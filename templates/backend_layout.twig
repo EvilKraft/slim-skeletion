@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <!-- Tell the browser to be responsive to screen width -->
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+        <meta name="description" content="">
+        <meta name="author" content="Konstantin Kaluzhnikov, k.kaluzhnikov@gmail.com">
+        <link rel="icon" href="{{ base_url() }}/favicon.ico">
+
+        <title>{{ pageTitle|default('site_name'|trans) }}</title>
+
+        {% block head %}
+            <!-- Bootstrap 3.3.7 -->
+            <link rel="stylesheet" href="{{ base_url() }}/assets/bootstrap/dist/css/bootstrap.min.css">
+            <!-- Font Awesome -->
+            <link rel="stylesheet" href="{{ base_url() }}/assets/font-awesome/css/font-awesome.min.css">
+            <!-- Ionicons -->
+            <link rel="stylesheet" href="{{ base_url() }}/assets/ionicons/css/ionicons.min.css">
+            <!-- Theme style -->
+            <link rel="stylesheet" href="{{ base_url() }}/assets/adminlte/dist/css/AdminLTE.min.css">
+            <!-- AdminLTE Skins. Choose a skin from the css/skins
+                 folder instead of downloading all of them to reduce the load. -->
+            <link rel="stylesheet" href="{{ base_url() }}/assets/adminlte/dist/css/skins/_all-skins.min.css">
+
+            <link rel="stylesheet" href="{{ base_url() }}/assets/jquery-toast-plugin/dist/jquery.toast.min.css">
+
+            <link rel="stylesheet" href="{{ base_url() }}/assets/bootstrap-star-rating/css/star-rating.min.css">
+
+            <link rel="stylesheet" href="{{ base_url() }}/assets/flag-icon-css/css/flag-icon.min.css">
+
+            <link rel="stylesheet" href="{{ base_url() }}/resources/css/backend.css?ver={{ version }}">
+        {% endblock %}
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <!-- Google Font -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    </head>
+    <body class="hold-transition skin-blue sidebar-mini">
+        <!-- Site wrapper -->
+        <div class="wrapper">
+
+            <header class="main-header">
+                <!-- Logo -->
+                <a href="{{ path_for((session.user.groupId == 1)? 'admin_tenders_moderate' : 'tenders', {'lang': lang}) }}" class="logo">
+                    <!-- mini logo for sidebar mini 50x50 pixels -->
+                    <span class="logo-mini"><b>A</b>LT</span>
+                    <!-- logo for regular state and mobile devices -->
+                    <span class="logo-lg"><b>Admin</b>LTE</span>
+                </a>
+                <!-- Header Navbar: style can be found in header.less -->
+                <nav class="navbar navbar-static-top">
+                    <!-- Sidebar toggle button-->
+                    <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                        <span class="sr-only">Toggle navigation</span>
+                    </a>
+
+                    <div class="navbar-custom-menu">
+                        <ul class="nav navbar-nav">
+                            <li class="dropdown messages-menu">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="flag-icon flag-icon-{{ lang }}"></i>
+                                </a>
+                                <ul class="dropdown-menu" style="width: auto; min-width: 40px">
+                                    <li>
+                                        {% for site_lang in site_langs %}
+                                            {% if site_lang != lang %}
+                                                {% set currentRouteArgs = currentRouteArgs|merge({'lang': site_lang}) %}
+
+                                                <a href="{{ path_for(currentRoute, currentRouteArgs) }}" >
+                                                    <i class="flag-icon flag-icon-{{ site_lang }}"></i>
+                                                </a>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </li>
+                                </ul>
+                            </li>
+                            <!-- Messages: style can be found in dropdown.less-->
+                            <li class="dropdown messages-menu">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-envelope-o"></i>
+                                    {% if newMsgs|length > 0 %}
+                                        <span class="label label-warning" id="allUnreadedCountUp">{{ newMsgs|length }}</span>
+                                    {% endif %}
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="header">{{ 'You have %msgs% new messages'|trans({'%msgs%': newMsgs|length}) }}</li>
+                                    <li>
+                                        <ul class="menu" id="allUnreadedList">
+                                            {% for msg in newMsgs %}
+                                                <li>
+                                                    <a href="{{ path_for('tenders_msgs', {'lang': lang, 'id': msg.tenderId, 'accessId': msg.tenderAccessId}) }}">
+                                                        <div class="pull-left">
+                                                            <i class="fa fa-user-circle-o fa-3x direct-chat-img"></i>
+                                                            {#<img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">#}
+                                                        </div>
+                                                        <h4>
+                                                            {{ msg.user_name }}
+                                                            <small><i class="fa fa-clock-o"></i> {{ msg.createdAt|timeago }}</small>
+                                                        </h4>
+                                                        <p>{{ msg.text }}</p>
+                                                    </a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                    <li class="footer"><a href="{{ path_for('mailbox', {'lang': lang}) }}">{{ 'See All Messages'|trans }}</a></li>
+                                </ul>
+                            </li>
+
+                            <!-- User Account: style can be found in dropdown.less -->
+                            <li class="dropdown user user-menu" style="min-width: 150px">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-user fa-lg" ></i>
+                                    <span class="hidden-xs">{{ session.user.name }}</span>
+                                    <i class="hidden-xs" style="position: absolute; top: 30px; left: 38px; display: block; font-size: 12px;">
+										{% if session.user.groupId in [2] %}
+                                            <p> {{'Buyers'|trans}} </p>                                        
+										{% endif %}
+										{% if session.user.groupId in [3] %}
+											<p> {{'Suppliers'|trans}} </p>  
+										{% endif %}
+									</i>
+                                </a>
+
+                                <ul class="dropdown-menu">
+                                    <li class="user-footer">
+                                        <a href="{{ path_for('profile', {'lang': lang}) }}"><i class="fa fa-address-card-o"></i>{{ 'Profile'|trans }}</a>
+                                        {% if session.user.groupId in [2, 3] %}
+                                            <a href="{{ path_for('billing', {'lang': lang}) }}"><i class="fa fa-credit-card"></i>{{ 'Billing options'|trans }}</a>
+                                            {#<a href="{{ path_for('referals', {'lang': lang}) }}"><i class="fa fa-users"></i>{{ 'Referals'|trans }}</a>#}
+                                        {% endif %}
+                                        <hr>
+                                        <a href="{{ path_for('logout', {'lang': lang}) }}"><i class="fa fa-power-off"></i>{{ 'Sign out'|trans }}</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+
+            <!-- =============================================== -->
+
+            <!-- Left side column. contains the sidebar -->
+            <aside class="main-sidebar">
+                <!-- sidebar: style can be found in sidebar.less -->
+                <section class="sidebar">
+                    <!-- sidebar menu: : style can be found in sidebar.less -->
+                    <ul class="sidebar-menu">
+                        {% if session.user.groupId == 1 %}
+                            <li class="header">{{ 'ADMINISTRATIVE TOOLS'|trans }}</li>
+                            <li {{ currentRoute == 'admin_tenders_moderate' ? 'class="active"' }}>
+                                <a href="{{ path_for('admin_tenders_moderate', {'lang': lang}) }}">
+                                    <i class="fa fa-th-list"></i> <span>{{ 'New tenders'|trans }}</span>
+                                    {% if toModerate > 0 %}
+                                        <span class="pull-right-container">
+                                            <small class="label label-warning pull-right">{{ toModerate }}</small>
+                                        </span>
+                                    {% endif %}
+                                </a>
+                            </li>
+                            <li {{ currentRoute == 'admin_tenders' ? 'class="active"' }}>
+                                <a href="{{ path_for('admin_tenders', {'lang': lang}) }}">
+                                    <i class="fa fa-th-list"></i> <span>{{ 'REST.Tenders.pageTitle'|trans }}</span>
+                                </a>
+                            </li>
+                            <li {{ currentRoute == 'admin_users' ? 'class="active"' }}>
+                                <a href="{{ path_for('admin_users', {'lang': lang}) }}"><i class="fa fa-users"></i> <span>{{ 'REST.Users.pageTitle'|trans }}</span></a>
+                            </li>
+                            <li {{ currentRoute == 'admin_industries' ? 'class="active"' }}>
+                                <a href="{{ path_for('admin_industries', {'lang': lang}) }}"><i class="fa fa-industry"></i> <span>{{ 'REST.Industries.pageTitle'|trans }}</span></a>
+                            </li>
+
+                            <li {{ currentRoute == 'admin_blog' ? 'class="active"' }}>
+                                <a href="{{ path_for('admin_blog', {'lang': lang}) }}"><i class="fa fa-bold"></i> <span>{{ 'REST.Blog.pageTitle'|trans }}</span></a>
+                            </li>
+
+                            <li {{ currentRoute == 'admin_pages' ? 'class="active"' }}>
+                                <a href="{{ path_for('admin_pages', {'lang': lang}) }}"><i class="fa fa-pencil-square-o"></i> <span>{{ 'REST.Pages.pageTitle'|trans }}</span></a>
+                            </li>
+                            <li {{ currentRoute == 'admin_billingoptions' ? 'class="active"' }}>
+                                <a href="{{ path_for('admin_billingoptions', {'lang': lang}) }}"><i class="fa fa-credit-card"></i> <span>{{ 'REST.BillingOptions.pageTitle'|trans }}</span></a>
+                            </li>
+                            <li {{ currentRoute == 'admin_help' ? 'class="active"' }}>
+                                <a href="{{ path_for('admin_help', {'lang': lang}) }}"><i class="fa fa-question-circle"></i> <span>{{ 'REST.Help.pageTitle'|trans }}</span></a>
+                            </li>
+
+                            <li class="treeview">
+                                <a href="#">
+                                    <i class="fa fa-line-chart"></i>
+                                    <span>{{ 'Reports'|trans }}</span>
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li {{ currentRoute == 'usersListReport'       ? 'class="active"' }}><a href="{{ path_for('usersListReport',       {'lang': lang}) }}"><i class="fa fa-circle-o"></i>{{ 'All users'|trans }}</a></li>
+                                    <li {{ currentRoute == 'usersByIndustryReport' ? 'class="active"' }}><a href="{{ path_for('usersByIndustryReport', {'lang': lang}) }}"><i class="fa fa-circle-o"></i>{{ 'Users by industry'|trans }}</a></li>
+                                </ul>
+                            </li>
+                        {% endif %}
+
+                        <li class="header">{{ 'MENU'|trans }}</li>
+
+                        {% if session.user.groupId != 1 %}
+                            <li {{ currentRoute == 'tenders' ? 'class="active"' }}>
+                                <a href="{{ path_for('tenders', {'lang': lang}) }}">
+                                    <i class="fa fa-th-list"></i> <span>{{ 'Tenders'|trans }}</span>
+                                    {% if newTenders > 0 %}
+                                        <span class="pull-right-container">
+                                            <span class="label label-primary pull-right">{{ newTenders }}</span>
+                                        </span>
+                                    {% endif %}
+                                </a>
+                            </li>
+                        {% endif %}
+
+                        <li {{ currentRoute == 'mailbox' ? 'class="active"' }}>
+                            <a href="{{ path_for('mailbox', {'lang': lang}) }}">
+                                <i class="fa fa-envelope"></i> <span>{{ 'Mailbox'|trans }}</span>
+                                {% if newMsgs|default('')|length > 0 %}
+                                    <span class="pull-right-container">
+                                        <small class="label label-warning pull-right" id="allUnreadedCountLeft">{{ newMsgs|length }}</small>
+                                    </span>
+                                {% endif %}
+                            </a>
+                        </li>
+
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-gears"></i>
+                                <span>{{ 'Settings'|trans }}</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li {{ currentRoute == 'profile'  ? 'class="active"' }}><a href="{{ path_for('profile', {'lang': lang}) }}"><i class="fa fa-address-card-o"></i>{{ 'Profile'|trans }}</a></li>
+                                {% if session.user.groupId in [2, 3] %}
+                                    <li {{ currentRoute == 'billing'  ? 'class="active"' }}><a href="{{ path_for('billing', {'lang': lang}) }}"><i class="fa fa-credit-card"></i>{{ 'Billing options'|trans }}</a></li>
+                                    {#<li {{ currentRoute == 'referals' ? 'class="active"' }}><a href="{{ path_for('referals', {'lang': lang}) }}"><i class="fa fa-users"></i>{{ 'Referals'|trans }}</a></li>#}
+                                {% endif %}
+                            </ul>
+                        </li>
+                        {% if session.user.groupId in [2, 3] %}
+                            <li {{ currentRoute == 'help' ? 'class="active"' }}>
+                                <a href="{{ path_for('help', {'lang': lang}) }}"><i class="fa fa-question-circle"></i> <span>{{ 'Help'|trans }}</span></a>
+                            </li>
+                            <li {{ currentRoute == 'support' ? 'class="active"' }}>
+                                <a href="{{ path_for('support', {'lang': lang}) }}"><i class="fa fa-wrench"></i> <span>{{ 'Support'|trans }}</span></a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </section>
+                <!-- /.sidebar -->
+            </aside>
+
+            <!-- =============================================== -->
+
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+                {% block content %}
+                {% endblock %}
+            </div>
+            <!-- /.content-wrapper -->
+
+            <footer class="main-footer">
+
+                <div class="pull-right" style="top: -6px; position:relative">
+                    <a href="https://www.facebook.com/mytenderaz-1542822582441907/" target="_blank" class="btn btn-social-icon btn-facebook">
+                        <i class="fa fa-facebook"></i>
+                    </a>
+                    <a href="https://plus.google.com/u/1/107117665769435340749?hl=rub" target="_blank"	class="btn btn-social-icon btn-google">
+                        <i class="fa fa-google-plus"></i>
+                    </a>
+                    <a	href="https://www.linkedin.com/company/11333841/"	target="_blank"	class="btn btn-social-icon btn-linkedin">
+                        <i class="fa fa-linkedin"></i>
+                    </a>
+                </div>
+
+                <strong>Copyright &copy; 2017 <a href="mailto:k.kaluzhnikov@gmail.com">Konstantin Kaluzhnikov, k.kaluzhnikov@gmail.com</a>.</strong> All rights reserved.
+            </footer>
+
+        </div>
+        <!-- ./wrapper -->
+
+        {% block scripts %}
+            <!-- jQuery 3 -->
+            <script src="{{ base_url() }}/assets/jquery/dist/jquery.min.js"></script>
+            <!-- Bootstrap 3.3.7 -->
+            <script src="{{ base_url() }}/assets/bootstrap/dist/js/bootstrap.min.js"></script>
+            <!-- SlimScroll -->
+            <script src="{{ base_url() }}/assets/slimscroll/jquery.slimscroll.min.js"></script>
+            <!-- FastClick -->
+            <script src="{{ base_url() }}/assets/fastclick/lib/fastclick.js"></script>
+            <!-- AdminLTE App -->
+            <script src="{{ base_url() }}/assets/adminlte/dist/js/app.min.js"></script>
+
+            <script src="{{ base_url() }}/assets/i18next/i18next.min.js"></script>
+            <script src="{{ base_url() }}/assets/i18next-xhr-backend/i18nextXHRBackend.min.js"></script>
+
+
+            <script src="{{ base_url() }}/assets/jquery-toast-plugin/dist/jquery.toast.min.js"></script>
+
+            <script src="{{ base_url() }}/assets/bootstrap-star-rating/js/star-rating.min.js"></script>
+
+            <script src="{{ base_url() }}/resources/js/main.js?ver={{ version }}"></script>
+            <script>
+                i18next
+                    .use(i18nextXHRBackend)
+                    .init({
+                        lng: '{{ lang }}',
+                        backend: {
+                            loadPath: '/locales/{{ '{{lng}}' }}/{{ '{{ns}}' }}.json',
+                            addPath: '/locales/add/{{ '{{lng}}' }}/{{ '{{ns}}' }}',
+                        },
+                        saveMissing: true,
+                        //    debug: true
+                    });
+
+                $(document).ready(function () {
+                    {% for type, group in flash_messages %}
+                        $.toast({
+                            heading: '{{ type|capitalize }}!',
+                            text: [
+                                {% for msg in group %}
+                                    '{{ msg }}',
+                                {% endfor %}
+                            ],
+                            icon: '{{ type }}',
+                            position: 'bottom-right',
+                            showHideTransition: 'slide',
+                            loader: false
+                        });
+                    {% endfor %}
+
+                })
+            </script>
+        {% endblock %}
+    </body>
+</html>

@@ -1,0 +1,52 @@
+
+
+.fields-to-add{
+	border-bottom: #eee solid 1px;
+	margin-bottom: 15px;
+}
+.fields-to-add:last-child{
+	border-bottom: none;
+	margin-bottom: 0;
+}
+
+
+
+/*
+ * Blog name and description
+ */
+.blog-header {
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+.blog-title {
+	margin-top: 30px;
+	margin-bottom: 0;
+	font-size: 60px;
+	font-weight: normal;
+}
+.blog-description {
+	font-size: 20px;
+	color: #999;
+}
+/*
+ * Main column and sidebar layout
+ */
+.blog-main {
+	font-size: 18px;
+	line-height: 1.5;
+}
+/*
+ * Blog posts
+ */
+.blog-post {
+	margin-bottom: 60px;
+}
+.blog-post-title {
+	margin-bottom: 5px;
+	font-size: 40px;
+}
+.blog-post-meta {
+	margin-bottom: 20px;
+	color: #999;
+}
+

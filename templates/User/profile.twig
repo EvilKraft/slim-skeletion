@@ -1,0 +1,300 @@
+{% extends 'backend_layout.twig' %}
+
+
+
+{% block content %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>{{ pageTitle }}</h1>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-10 col-lg-8">
+                <div class="box box-primary">
+                    <div class="box-body">
+                        <form id="updateForm" method="POST" enctype="multipart/form-data" action="{{ currentUrl }}">
+                            <input type="hidden" name="_METHOD" value="PUT" />
+
+                            <div class="form-group">
+                                <label for="name">{{ 'Name'|trans }} <span class="text-red">*</span></label>
+                                <input id="name" name="name" class="form-control" placeholder="{{ 'Name'|trans }}" value="{{ item.name|default('') }}" required="" type="text" data-error="{{ 'Invalid value'|trans }}">
+                                <div class="help-block with-errors"></div>
+                            </div>
+
+                            {% if item.groupId|default('') in ['', '2', '3'] %}
+                                {% if item.country == 'AZ' %}
+                                    <div class="form-group">
+                                        <label for="voen">VÖEN <span class="text-red">*</span></label>
+                                        <input id="voen" name="voen" class="form-control" placeholder="VÖEN" value="{{ item.voen|default('') }}" required="" type="text" pattern="[0-9]{10}" data-error="{{ 'Invalid value'|trans }}">
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="city">{{ 'City'|trans }} <span class="text-red">*</span></label>
+                                        <select id="city" name="city" class="form-control select2" required="" data-error="{{ 'Select a city'|trans }}">
+                                            <option value="" {{ (item.city|default('') == '') ? 'selected' }} disabled>{{ 'Select a city'|trans }}</option>
+                                            {% for city in cities %}
+                                                <option value="{{ city.id }}" {{ (city.id == item.city|default('')) ? 'selected' }}>{{ city.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                {% endif %}
+
+                                <div class="form-group has-feedback">
+                                    <label for="address">{{ 'Address'|trans }} <span class="text-red">*</span></label>
+                                    <input id="address" name="address" class="form-control" placeholder="{{ 'Address'|trans }}" type="text" value="{{ item.address|default('') }}" required="" data-error="{{ 'Invalid value'|trans }}">
+                                    <span class="glyphicon glyphicon-map-marker form-control-feedback"></span>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+
+                                <div class="form-group has-feedback">
+                                    <label for="phone">{{ 'Phone'|trans }} <span class="text-red">*</span></label>
+                                    {#<input id="phone" name="phone" class="form-control" placeholder="{{ 'Phone'|trans }}" required="" type="text" value="{{ item.phone|default('')|phone_format }}" data-inputmask="'mask': '(999) 999-9999', 'autoUnmask': true, 'removeMaskOnSubmit': true" pattern="\(0(12|18|20|21|22|23|24|25|26|36|50|51|55|70|77)\) [0-9]{3}-[0-9]{4}" data-error="{{ 'Invalid value'|trans }}">#}
+                                    <input id="phone" name="phone" class="form-control" placeholder="{{ 'Phone'|trans }}" required="" type="text" value="{{ item.phone|default('') }}" data-error="{{ 'Invalid value'|trans }}">
+                                    <span class="glyphicon glyphicon-earphone form-control-feedback"></span>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            {% endif %}
+
+                            <div class="form-group has-feedback">
+                                <label for="email">Email <span class="text-red">*</span></label>
+                                <input id="email" name="email" class="form-control" placeholder="Email" required="" type="email" value="{{ item.email|default('') }}" data-error="{{ 'Invalid email'|trans }}">
+                                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                                <div class="help-block with-errors"></div>
+                            </div>
+
+                            {% if item.groupId|default('') in ['', '2', '3'] %}
+
+                                <div class="form-group has-feedback">
+                                    <label for="site">{{ 'Site'|trans }}</label>
+                                    <input id="site" name="site" class="form-control" placeholder="{{ 'Site'|trans }}" type="url" value="{{ item.site|default('') }}" data-error="{{ 'Invalid url'|trans }}">
+                                    <span class="glyphicon glyphicon-globe form-control-feedback"></span>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                                <div class="form-group has-feedback">
+                                    <label for="facebook">{{'Facebook'|trans}}</label>
+                                    <input id="facebook" name="facebook" class="form-control" placeholder="{{ 'Facebook'|trans }}" type="url" value="{{ item.facebook|default('') }}" data-error="{{ 'Invalid url'|trans }}">
+                                    <span class="form-control-feedback fa fa-facebook" ></span>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="description">{{ 'Description'|trans }}</label>
+                                    <textarea id="description" name="description" class="form-control" placeholder="{{ 'Description'|trans }}">{{ item.description|default('') }}</textarea>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+
+
+                                <div class="collapse {{ item.groupId|default('') == 3 ? 'in' }} collapsible-s">
+                                    <div class="form-group">
+                                        <label for="industry">{{ 'Industry'|trans }} <span class="text-red">*</span></label>
+                                        <select id="industry" name="industry[]" class="form-control select2" multiple="multiple" required="" data-error="{{ 'Select an industry'|trans }}" data-validate="{{ item.groupId|default('') == 3 ? 'true' : "false" }}">
+                                            {% for industry in industries %}
+                                                <option value="{{ industry.id }}" {{ (industry.userId is not null) ? 'selected' }}>{{ industry.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+
+                                <hr>
+
+                                {% if item.groupId|default('') == 2 %}
+
+                                    <div class="collapse {{ item.groupId|default('') == 2 ? 'in' }} collapsible-b">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                {{ 'Contacts'|trans }}
+                                                <a class="pull-right text-success" href="javascript:void(0);" onclick="addContact()" title="{{ 'Append contact'|trans }}">
+                                                    <i class="fa fa-plus-circle fa-lg " aria-hidden="true"></i>
+                                                </a>
+                                            </div>
+                                            <div class="panel-body">
+                                                {% if contacts|length > 0 %}
+                                                    {% for contact in contacts %}
+                                                        <div class="row fields-to-add">
+                                                            <input type="hidden" name="contact_id[]" value="{{ contact.id }}" />
+
+                                                            <div class="col-xs-11">
+                                                                <div class="form-group">
+                                                                    <label for="name">{{ 'Name'|trans }} <span class="text-red">*</span></label>
+                                                                    <input name="contact_name[]" class="form-control contact_info" placeholder="{{ 'Name'|trans }}" value="{{ contact.name|default('') }}" required="" type="text" data-error="{{ 'Invalid value'|trans }}" data-validate="{{ item.groupId == 2 ? 'true' : "false" }}">
+                                                                    <div class="help-block with-errors"></div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="name">{{ 'Position'|trans }} <span class="text-red">*</span></label>
+                                                                    <input name="contact_position[]" class="form-control contact_info" placeholder="{{ 'Position'|trans }}" value="{{ contact.position|default('') }}" required="" type="text" data-error="{{ 'Invalid value'|trans }}" data-validate="{{ item.groupId == 2 ? 'true' : "false" }}">
+                                                                    <div class="help-block with-errors"></div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="phone">{{ 'Phone'|trans }} <span class="text-red">*</span></label>
+                                                                    {#<input name="contact_phone[]" class="form-control contact_info" placeholder="{{ 'Phone'|trans }}" value="{{ contact.phone|phone_format }}" required="" type="text" data-inputmask="'mask': '(999) 999-9999', 'autoUnmask': true, 'removeMaskOnSubmit': true" pattern="\(0(12|18|20|21|22|23|24|25|26|36|50|51|55|70|77)\) [0-9]{3}-[0-9]{4}" data-error="{{ 'Invalid value'|trans }}" data-validate="{{ item.groupId == 2 ? 'true' : "false" }}">#}
+                                                                    <input name="contact_phone[]" class="form-control contact_info" placeholder="{{ 'Phone'|trans }}" value="{{ contact.phone }}" required="" type="text" data-error="{{ 'Invalid value'|trans }}" data-validate="{{ item.groupId == 2 ? 'true' : "false" }}">
+                                                                    <div class="help-block with-errors"></div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="email">Email <span class="text-red">*</span></label>
+                                                                    <input name="contact_email[]" class="form-control contact_info" placeholder="Email" value="{{ contact.email|default('') }}" required="" type="email" data-error="{{ 'Invalid email'|trans }}" data-validate="{{ item.groupId == 2 ? 'true' : "false" }}">
+                                                                    <div class="help-block with-errors"></div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-1">
+                                                                <a href="javascript:void(0);" onclick="removeContact(this);" style="float: right; padding: 5px 5px 0 10px; {{ loop.first ? 'display:none' }};" title="{{ 'Delete'|trans }}">
+                                                                    <i class="fa fa-remove"></i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    {% endfor %}
+                                                {% else %}
+                                                    <div class="row fields-to-add">
+                                                        <input type="hidden" name="contact_id[]" value="" />
+
+                                                        <div class="col-xs-11">
+                                                            <div class="form-group">
+                                                                <label class="sr-only" for="name">{{ 'Name'|trans }}</label>
+                                                                <input name="contact_name[]" class="form-control contact_info" placeholder="{{ 'Name'|trans }}" required="" type="text" data-error="{{ 'Invalid value'|trans }}" data-validate="{{ item.groupId == 2 ? 'true' : "false" }}">
+                                                                <div class="help-block with-errors"></div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="sr-only" for="name">{{ 'Position'|trans }}</label>
+                                                                <input name="contact_position[]" class="form-control contact_info" placeholder="{{ 'Position'|trans }}" required="" type="text" data-error="{{ 'Invalid value'|trans }}" data-validate="{{ item.groupId == 2 ? 'true' : "false" }}">
+                                                                <div class="help-block with-errors"></div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="sr-only" for="phone">{{ 'Phone'|trans }}</label>
+                                                                {#<input name="contact_phone[]" class="form-control contact_info" placeholder="{{ 'Phone'|trans }}" required="" type="text" data-inputmask="'mask': '(999) 999-9999', 'autoUnmask': true, 'removeMaskOnSubmit': true" pattern="\(0(12|18|20|21|22|23|24|25|26|36|50|51|55|70|77)\) [0-9]{3}-[0-9]{4}" data-error="{{ 'Invalid value'|trans }}" data-validate="{{ item.groupId == 2 ? 'true' : "false" }}" >#}
+                                                                <input name="contact_phone[]" class="form-control contact_info" placeholder="{{ 'Phone'|trans }}" required="" type="text" data-error="{{ 'Invalid value'|trans }}" data-validate="{{ item.groupId == 2 ? 'true' : "false" }}" >
+                                                                <div class="help-block with-errors"></div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="sr-only" for="email">Email</label>
+                                                                <input name="contact_email[]" class="form-control contact_info" placeholder="Email" required="" type="email" data-error="{{ 'Invalid email'|trans }}" data-validate="{{ item.groupId == 2 ? 'true' : "false" }}">
+                                                                <div class="help-block with-errors"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-1">
+                                                            <a href="javascript:void(0);" onclick="removeContact(this);" style="float: right; padding: 5px 5px 0 10px; display:none;" title="{{ 'Delete'|trans }}">
+                                                                <i class="fa fa-remove"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <hr>
+                                    </div>
+
+                                {% endif %}
+
+                            {% endif %}
+
+                            <div class="form-group has-feedback">
+                                <label for="login">{{ 'Login'|trans }}</label>
+                                <input id="login" name="login" class="form-control" placeholder="{{ 'Login'|trans }}" type="text" disabled data-error="{{ 'Invalid value'|trans }}" data-remote="{{ path_for('checkLogin', {'lang': lang}) }}">
+                                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                                <div class="help-block with-errors"></div>
+                            </div>
+
+                            <div class="form-group has-feedback">
+                                <label for="inputPassword">{{ 'New password'|trans }}</label>
+                                <input type="password" class="form-control" id="inputPassword" name="password" placeholder="{{ 'New password'|trans }}" data-minlength="6"  >
+                                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                                <div class="help-block with-errors">{{ 'Minimum of 6 characters'|trans }}</div>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-control" id="passwordConfirm" placeholder="{{ 'Confirm password'|trans }}" data-minlength="6" data-match="#inputPassword" data-error="{{ 'Password don\'t match'|trans }}" >
+                                <div class="help-block with-errors"></div>
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="box-footer">
+                        <div class="form-group">
+                            <button class="btn btn-primary" type="submit" form="updateForm">{{ 'Submit'|trans }}</button>
+                            <a class="btn btn-default pull-right" href="{{ path_for('tenders', {'lang': lang}) }}">{{ 'Cancel'|trans }}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+
+    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/resources/libs/select2/dist/css/select2.min.css?ver={{ version }}">
+    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/resources/libs/select2/dist/css/select2-bootstrap.min.css?ver={{ version }}">
+
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+
+    <script src="{{ base_url() }}/resources/libs/select2/dist/js/select2.min.js?ver={{ version }}"></script>
+    <script src="{{ base_url() }}/resources/libs/select2/dist/js/i18n/{{ lang }}.js?ver={{ version }}"></script>
+
+    <script src="{{ base_url() }}/resources/libs/Inputmask-4.x/dist/min/jquery.inputmask.bundle.min.js?ver={{ version }}"></script>
+
+    <script src="{{ base_url() }}/resources/libs/bootstrap-validator/dist/validator.min.js?ver={{ version }}"></script>
+
+    <script type="text/javascript">
+        function addContact() {
+            var elem = $('.fields-to-add').first().clone();
+
+            elem.find('a').show();
+            elem.find('input').val('');
+
+            $('.fields-to-add').last().after(elem);
+
+            //$('input[name="contact_phone[]"]').inputmask();
+
+            $('#updateForm').validator('update');
+        }
+        function removeContact(selector) {
+            $(selector).closest('.fields-to-add').remove();
+
+            $('#updateForm').validator('update');
+        }
+
+        $(document).ready(function(){
+            $('#inputPassword').keyup(function(event){
+                if($(this).val().length > 0){
+                    $('#passwordConfirm').prop('required', true);
+                }else{
+                    $('#passwordConfirm').prop('required', false);
+                }
+                $('#updateForm').validator('update');
+            });
+
+            $('#city').select2({
+                placeholder: "{{ 'Select a city'|trans }}",
+                theme: "bootstrap",
+                width: '100%',
+            });
+
+            $('#industry').select2({
+                placeholder: "{{ 'Select an industry'|trans }}",
+                theme: "bootstrap",
+                width: '100%',
+                tags: true,
+            });
+            $('#contact').select2({
+                placeholder: "{{ 'Select a contact'|trans }}",
+                theme: "bootstrap",
+                width: '100%',
+            });
+
+
+            //$('#phone').inputmask();
+            //$('input[name="contact_phone[]"]').inputmask();
+
+            $('#updateForm').validator('update');
+        });
+    </script>
+
+{% endblock %}

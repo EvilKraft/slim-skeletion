@@ -1,0 +1,86 @@
+body {
+    font-family: Arial, 'Source Sans Pro', 'Helvetica Neue', Helvetica, sans-serif;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+    font-family: Arial, 'Source Sans Pro', sans-serif;
+}
+
+.white-popup {
+    position: relative;
+    background: #FFF;
+    padding: 20px;
+    width:auto;
+    max-width: 50%;
+    margin: 20px auto;
+}
+
+.white-popup img {
+    display: inline-block;
+}
+
+td.action_btns_container * {
+    margin-right: 10px;
+    cursor: pointer;
+    color: #3c8dbc;
+}
+td.action_btns_container *:hover {
+    color: #367fa9;
+}
+
+td.action_btns_container :last-child{
+    margin-right: 0;
+}
+
+
+.dataTableExtraBtns .dataTables_filter{
+    display: inline-block;
+}
+.dataTableExtraBtns .dt-buttons{
+    margin-left: 10px;
+    float: right;
+}
+
+.tooltip-inner {
+    max-width: none;
+    white-space: nowrap;
+}
+
+.fields-to-add{
+	border-bottom: #eee solid 1px;
+	margin-bottom: 15px;
+}
+.fields-to-add:last-child{
+	border-bottom: none;
+	margin-bottom: 0;
+}
+/*
+.dropdown-menu > li > a {
+    color: #777 !important;
+}
+.dropdown-menu > .active > a {
+    background-color: #b5bbc8 !important;
+    color: #333 !important;
+}
+.dropdown-menu > li > a:hover {
+    background-color: #e1e3e9 !important;
+    color: #333 !important;
+}
+*/
+
+.flag-icon-en {
+    background-image: url(../../assets/flag-icon-css/flags/4x3/gb.svg);
+}
+.flag-icon-en.flag-icon-squared {
+    background-image: url(../../assets/flag-icon-css/flags/1x1/gb.svg);
+}

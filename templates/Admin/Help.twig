@@ -1,0 +1,89 @@
+{% extends 'backend_layout.twig' %}
+
+{% block content %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>{{ pageTitle }}</h1>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-10 col-lg-8">
+                <div class="box box-primary">
+                    <div class="box-body">
+                        <form id="updateForm" method="POST" enctype="multipart/form-data" data-toggle="validator" action="{{ currentUrl }}">
+                            {% if item.id|default('') != '' %}
+                                <input type="hidden" name="_METHOD" value="PUT" />
+                            {% endif %}
+
+                            <br>
+                            <div class="nav-tabs-custom" style="border: solid #d2d6de 1px">
+                                <ul class="nav nav-tabs" >
+                                    {% for lang in langs %}
+                                        <li {{ loop.first ? 'class="active"' }}><a data-toggle="tab" href="#tab_{{ lang }}">{{ lang|upper }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                                <div class="tab-content">
+                                    {% for lang in langs %}
+                                        <div id="tab_{{ lang }}" class="tab-pane {{ loop.first ? 'in active' }}">
+                                            <input type="hidden" name="id[{{ lang }}]" value="{{ item_langs[lang].id|default('') }}" />
+
+                                            <div class="form-group">
+                                                <label for="title">{{ 'Question'|trans }} <span class="text-red">*</span></label>
+                                                <input id="title_{{ lang }}" name="title[{{ lang }}]" class="form-control" placeholder="{{ 'Question'|trans }}" value="{{ item_langs[lang].title|default('') }}" required="" type="text" data-error="{{ 'Invalid value'|trans }}">
+                                                <div class="help-block with-errors"></div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="text">{{ 'Answer'|trans }} <span class="text-red">*</span></label>
+                                                <textarea id="text_{{ lang }}" name="text[{{ lang }}]" class="form-control ckeditor" placeholder="{{ 'Answer'|trans }}" required="" data-error="{{ 'Invalid value'|trans }}">{{ item_langs[lang].text|default('') }}</textarea>
+                                                <div class="help-block with-errors"></div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="box-footer">
+                        <div class="form-group">
+                            <button class="btn btn-primary" type="submit" form="updateForm">{{ 'Submit'|trans }}</button>
+                            <a class="btn btn-default pull-right" href="{{ path_for('admin_pages', {'lang': lang}) }}">{{ 'Cancel'|trans }}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+
+    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/resources/libs/AdminLTE/bower_components/ckeditor/skins/moono-lisa/editor_gecko.css?t=H5SE&ver={{ version }}">
+    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/resources/libs/AdminLTE/bower_components/ckeditor/plugins/scayt/skins/moono-lisa/scayt.css?ver={{ version }}">
+    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/resources/libs/AdminLTE/bower_components/ckeditor/plugins/scayt/dialogs/dialog.css?ver={{ version }}">
+    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/resources/libs/AdminLTE/bower_components/ckeditor/plugins/tableselection//styles/tableselection.css?ver={{ version }}">
+    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/resources/libs/AdminLTE/bower_components/ckeditor/plugins/wsc/skins/moono-lisa/wsc.css?ver={{ version }}">
+    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/resources/libs/AdminLTE/bower_components/ckeditor/skins/moono-lisa/dialog.css?t=H5SE&ver={{ version }}">
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+
+    <script src="{{ base_url() }}/resources/libs/AdminLTE/bower_components/ckeditor/ckeditor.js?ver={{ version }}"></script>
+    <script src="{{ base_url() }}/resources/libs/AdminLTE/bower_components/ckeditor/config.js?t=H5SE&ver={{ version }}"></script>
+    <script src="{{ base_url() }}/resources/libs/AdminLTE/bower_components/ckeditor/lang/{{ lang }}.js?t=H5SE&ver={{ version }}"></script>
+    <script src="{{ base_url() }}/resources/libs/AdminLTE/bower_components/ckeditor/styles.js?t=H5SE&ver={{ version }}"></script>
+    <script src="{{ base_url() }}/resources/libs/AdminLTE/bower_components/ckeditor/plugins/image/dialogs/image.js?t=H5SE&ver={{ version }}"></script>
+
+    <script src="{{ base_url() }}/resources/libs/bootstrap-validator/dist/validator.min.js?ver={{ version }}"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            CKEDITOR.replace('.ckeditor');
+        });
+    </script>
+
+{% endblock %}
