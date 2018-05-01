@@ -78,7 +78,7 @@ return [
                     'driver'      => 'oci8',
                     'host'        => 'localhost',
                     'port'        => '1521',
-                    'dbname'      => 'tenderDB',
+                    'dbname'      => 'myDB',
                     'servicename' => 'servicename',
                     'user'        => 'zzzzz',
                     'password'    => 'xxxxx',
@@ -99,14 +99,14 @@ return [
         'SwiftMailer' => [
             'transport'  => 'smtp',   						  // smtp, sendmail, false
             'auth_mode'  => 'login', 						    // plain, login, cram-md5, or null
-            'username'   =>	'noreply@mytender.az',			
-            'password'   => 'bn2Dm89?',  					   
-            'host'       => 'mail.mytender.az',					
+            'username'   =>	'noreply@mysite.com',
+            'password'   => '123456',
+            'host'       => 'mail.mysite.com',
             'port'       => '25', 								//'587',
             //'encryption' => 'none',    							 // tls, ssl, or null
             'command'    => null,  								 // for sendmail
         ],
-        'info_mail'          => ['noreply@mytender.az' => 'mytender.az'],
+        'info_mail'          => ['noreply@mysite.com' => 'mysite.com'],
         'mailer_queue_limit' => 10,
 
 
