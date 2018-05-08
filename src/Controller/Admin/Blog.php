@@ -28,7 +28,7 @@ class Blog extends \Controller\RESTController
         $this->data['langs'] = $this->settings['i18n']['langs'];
 
         $stmt = $this->db->prepare("SELECT * FROM ".$this->table."_lang WHERE blogId = ?");
-        $stmt->execute(array($this->data['item']['id']));
+        $stmt->execute(array($this->data['item'][$this->idxField]));
         while ($row = $stmt->fetch()){
             $this->data['item_langs'][$row['lang']] = $row;
         }

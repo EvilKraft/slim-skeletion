@@ -76,24 +76,20 @@
 {% block head %}
     {{ parent() }}
 
-    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/resources/libs/AdminLTE/bower_components/ckeditor/skins/moono-lisa/editor_gecko.css?t=H5SE&ver={{ version }}">
-    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/resources/libs/AdminLTE/bower_components/ckeditor/plugins/scayt/skins/moono-lisa/scayt.css?ver={{ version }}">
-    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/resources/libs/AdminLTE/bower_components/ckeditor/plugins/scayt/dialogs/dialog.css?ver={{ version }}">
-    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/resources/libs/AdminLTE/bower_components/ckeditor/plugins/tableselection//styles/tableselection.css?ver={{ version }}">
-    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/resources/libs/AdminLTE/bower_components/ckeditor/plugins/wsc/skins/moono-lisa/wsc.css?ver={{ version }}">
-    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/resources/libs/AdminLTE/bower_components/ckeditor/skins/moono-lisa/dialog.css?t=H5SE&ver={{ version }}">
+    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/assets/adminlte/plugins/ckeditor/skins/moono/editor_gecko.css?t=H5SE&ver={{ version }}">
+    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/assets/adminlte/plugins/ckeditor/skins/moono/dialog.css?t=H5SE&ver={{ version }}">
 {% endblock %}
 
 {% block scripts %}
     {{ parent() }}
 
-    <script src="{{ base_url() }}/resources/libs/AdminLTE/bower_components/ckeditor/ckeditor.js?ver={{ version }}"></script>
-    <script src="{{ base_url() }}/resources/libs/AdminLTE/bower_components/ckeditor/config.js?t=H5SE&ver={{ version }}"></script>
-    <script src="{{ base_url() }}/resources/libs/AdminLTE/bower_components/ckeditor/lang/{{ lang }}.js?t=H5SE&ver={{ version }}"></script>
-    <script src="{{ base_url() }}/resources/libs/AdminLTE/bower_components/ckeditor/styles.js?t=H5SE&ver={{ version }}"></script>
-    <script src="{{ base_url() }}/resources/libs/AdminLTE/bower_components/ckeditor/plugins/image/dialogs/image.js?t=H5SE&ver={{ version }}"></script>
+    <script src="{{ base_url() }}/assets/adminlte/plugins/ckeditor/ckeditor.js?ver={{ version }}"></script>
+    <script src="{{ base_url() }}/assets/adminlte/plugins/ckeditor/config.js?t=H5SE&ver={{ version }}"></script>
+    <script src="{{ base_url() }}/assets/adminlte/plugins/ckeditor/lang/{{ lang }}.js?t=H5SE&ver={{ version }}"></script>
+    <script src="{{ base_url() }}/assets/adminlte/plugins/ckeditor/styles.js?t=H5SE&ver={{ version }}"></script>
+    <script src="{{ base_url() }}/assets/adminlte/plugins/ckeditor/plugins/image/dialogs/image.js?t=H5SE&ver={{ version }}"></script>
 
-    <script src="{{ base_url() }}/resources/libs/bootstrap-validator/dist/validator.min.js?ver={{ version }}"></script>
+    <script src="{{ base_url() }}/assets/bootstrap-validator/dist/validator.min.js?ver={{ version }}"></script>
 
     <script type="text/javascript">
         $(document).ready(function(){

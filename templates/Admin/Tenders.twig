@@ -163,54 +163,50 @@
 {% block head %}
     {{ parent() }}
 
-    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/resources/libs/select2/dist/css/select2.min.css?ver={{ version }}">
-    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/resources/libs/select2/dist/css/select2-bootstrap.min.css?ver={{ version }}">
+    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/assets/select2/dist/css/select2.min.css?ver={{ version }}">
+    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/assets/select2/dist/css/select2-bootstrap.min.css?ver={{ version }}">
 
-    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/resources/libs/AdminLTE/bower_components/ckeditor/skins/moono-lisa/editor_gecko.css?t=H5SE&ver={{ version }}">
-    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/resources/libs/AdminLTE/bower_components/ckeditor/plugins/scayt/skins/moono-lisa/scayt.css?ver={{ version }}">
-    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/resources/libs/AdminLTE/bower_components/ckeditor/plugins/scayt/dialogs/dialog.css?ver={{ version }}">
-    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/resources/libs/AdminLTE/bower_components/ckeditor/plugins/tableselection//styles/tableselection.css?ver={{ version }}">
-    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/resources/libs/AdminLTE/bower_components/ckeditor/plugins/wsc/skins/moono-lisa/wsc.css?ver={{ version }}">
-    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/resources/libs/AdminLTE/bower_components/ckeditor/skins/moono-lisa/dialog.css?t=H5SE&ver={{ version }}">
+    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/assets/adminlte/plugins/ckeditor/skins/moono/editor_gecko.css?t=H5SE&ver={{ version }}">
+    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/assets/adminlte/plugins/ckeditor/skins/moono/dialog.css?t=H5SE&ver={{ version }}">
 
     <link type="text/css" rel="stylesheet" href="{{ base_url() }}/resources/libs/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css?ver={{ version }}">
 
-    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/resources/libs/bootstrap-fileinput/css/fileinput.min.css?ver={{ version }}" media="all" >
+    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/assets/bootstrap-fileinput/css/fileinput.min.css?ver={{ version }}" media="all" >
 {% endblock %}
 
 {% block scripts %}
     {{ parent() }}
 
-    <script src="{{ base_url() }}/resources/libs/select2/dist/js/select2.min.js?ver={{ version }}"></script>
-    <script src="{{ base_url() }}/resources/libs/select2/dist/js/i18n/{{ lang }}.js?ver={{ version }}"></script>
+    <script src="{{ base_url() }}/assets/select2/dist/js/select2.min.js?ver={{ version }}"></script>
+    <script src="{{ base_url() }}/assets/select2/dist/js/i18n/{{ lang }}.js?ver={{ version }}"></script>
 
-    <script src="{{ base_url() }}/resources/libs/AdminLTE/bower_components/ckeditor/ckeditor.js?ver={{ version }}"></script>
-    <script src="{{ base_url() }}/resources/libs/AdminLTE/bower_components/ckeditor/config.js?t=H5SE&ver={{ version }}"></script>
-    <script src="{{ base_url() }}/resources/libs/AdminLTE/bower_components/ckeditor/lang/{{ lang }}.js?t=H5SE&ver={{ version }}"></script>
-    <script src="{{ base_url() }}/resources/libs/AdminLTE/bower_components/ckeditor/styles.js?t=H5SE&ver={{ version }}"></script>
-    <script src="{{ base_url() }}/resources/libs/AdminLTE/bower_components/ckeditor/plugins/image/dialogs/image.js?t=H5SE&ver={{ version }}"></script>
+    <script src="{{ base_url() }}/assets/adminlte/plugins/ckeditor/ckeditor.js?ver={{ version }}"></script>
+    <script src="{{ base_url() }}/assets/adminlte/plugins/ckeditor/config.js?t=H5SE&ver={{ version }}"></script>
+    <script src="{{ base_url() }}/assets/adminlte/plugins/ckeditor/lang/{{ lang }}.js?t=H5SE&ver={{ version }}"></script>
+    <script src="{{ base_url() }}/assets/adminlte/plugins/ckeditor/styles.js?t=H5SE&ver={{ version }}"></script>
+    <script src="{{ base_url() }}/assets/adminlte/plugins/ckeditor/plugins/image/dialogs/image.js?t=H5SE&ver={{ version }}"></script>
 
-    <script src="{{ base_url() }}/resources/libs/AdminLTE/bower_components/moment/min/moment-with-locales.min.js?ver={{ version }}"></script>
+    <script src="{{ base_url() }}/assets/moment/min/moment-with-locales.min.js?ver={{ version }}"></script>
     <script src="{{ base_url() }}/resources/libs/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js?ver={{ version }}"></script>
 
     <!-- piexif.min.js is only needed if you wish to resize images before upload to restore exif data.
      This must be loaded before fileinput.min.js -->
-    <script src="{{ base_url() }}/resources/libs/bootstrap-fileinput/js/plugins/piexif.min.js?ver={{ version }}" type="text/javascript"></script>
+    <script src="{{ base_url() }}/assets/bootstrap-fileinput/js/plugins/piexif.min.js?ver={{ version }}" type="text/javascript"></script>
     <!-- sortable.min.js is only needed if you wish to sort / rearrange files in initial preview.
          This must be loaded before fileinput.min.js -->
-    <script src="{{ base_url() }}/resources/libs/bootstrap-fileinput/js/plugins/sortable.min.js?ver={{ version }}" type="text/javascript"></script>
+    <script src="{{ base_url() }}/assets/bootstrap-fileinput/js/plugins/sortable.min.js?ver={{ version }}" type="text/javascript"></script>
     <!-- purify.min.js is only needed if you wish to purify HTML content in your preview for HTML files.
          This must be loaded before fileinput.min.js -->
-    <script src="{{ base_url() }}/resources/libs/bootstrap-fileinput/js/plugins/purify.min.js?ver={{ version }}" type="text/javascript"></script>
+    <script src="{{ base_url() }}/assets/bootstrap-fileinput/js/plugins/purify.min.js?ver={{ version }}" type="text/javascript"></script>
     <!-- the main fileinput plugin file -->
-    <script src="{{ base_url() }}/resources/libs/bootstrap-fileinput/js/fileinput.min.js?ver={{ version }}"></script>
+    <script src="{{ base_url() }}/assets/bootstrap-fileinput/js/fileinput.min.js?ver={{ version }}"></script>
     <!-- optionally if you need a theme like font awesome theme you can include it as mentioned below -->
-    <script src="{{ base_url() }}/resources/libs/bootstrap-fileinput/themes/fa/theme.js?ver={{ version }}"></script>
+    <script src="{{ base_url() }}/assets/bootstrap-fileinput/themes/fa/theme.js?ver={{ version }}"></script>
     <!-- optionally if you need translation for your language then include locale file as mentioned below -->
-    <script src="{{ base_url() }}/resources/libs/bootstrap-fileinput/js/locales/{{ lang }}.js?ver={{ version }}"></script>
+    <script src="{{ base_url() }}/assets/bootstrap-fileinput/js/locales/{{ lang }}.js?ver={{ version }}"></script>
 
 
-    <script src="{{ base_url() }}/resources/libs/bootstrap-validator/dist/validator.min.js?ver={{ version }}"></script>
+    <script src="{{ base_url() }}/assets/bootstrap-validator/dist/validator.min.js?ver={{ version }}"></script>
 
     <script src="{{ base_url() }}/resources/js/TenderChat.js?ver={{ version }}"></script>
 

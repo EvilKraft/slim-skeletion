@@ -41,7 +41,7 @@
 {% block head %}
     {{ parent() }}
 
-    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/resources/libs/Magnific-Popup/dist/magnific-popup.css?ver={{ version }}">
+    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/assets/magnific-popup/dist/magnific-popup.css?ver={{ version }}">
 
     <link type="text/css" rel="stylesheet" href="{{ base_url() }}/libs/DataTables/dataTables.min.css">
     <link type="text/css" rel="stylesheet" href="{{ base_url() }}/libs/dataTableExportCollection/dataTableExportCollection.css">
@@ -50,7 +50,7 @@
 {% block scripts %}
     {{ parent() }}
 
-    <script type="text/javascript" src="{{ base_url() }}/resources/libs/Magnific-Popup/dist/jquery.magnific-popup.min.js?ver={{ version }}"></script>
+    <script type="text/javascript" src="{{ base_url() }}/assets/magnific-popup/dist/jquery.magnific-popup.min.js?ver={{ version }}"></script>
 
     <script type="text/javascript" src="{{ base_url() }}/libs/DataTables/datatables.min.js"></script>
     <script type="text/javascript" src="{{ base_url() }}/assets/dataTableSelectAllBtn/dataTableSelectAllBtn.js"></script>
@@ -67,7 +67,7 @@
                 iDisplayLength: 15,
                 aLengthMenu: [ [15, 50, -1], [15, 50, "{{ 'All records'|trans }}"] ],
                 language: {
-                    url: "{{ base_url() }}/resources/libs/DataTables-1.10.15/i18n/{{ lang }}.json",
+                    url: "{{ base_url() }}/libs/DataTables/Plugins-1.10.16/i18n/{{ lang }}.json",
                 },
                 "columnDefs": [{
                     "targets": 'no-sort',

@@ -55,9 +55,6 @@ $container['renderer'] = function ($c) {
             $renderer->getEnvironment()->addFilter(new \Twig_Filter('timeago',      '\Helpers\Helpers::timeago'));
             $renderer->getEnvironment()->addFilter(new \Twig_Filter('phone_format', '\Helpers\Helpers::phoneFormat' ));
 
-
-
-
             break;
         default :
             $renderer = new Slim\Views\PhpRenderer($settings[$rType]['template_path']); break;
@@ -99,7 +96,7 @@ $container['errorHandler'] = function ($c) {
     return new \Handlers\ErrorHandler($c->settings['displayErrorDetails'], $c['logger'], $c['renderer']);
 };
 $container['phpErrorHandler'] = function ($c) {
-    return new Handlers\PhpErrorHandler($c->settings['displayErrorDetails'], $c['logger'], $c['renderer']);
+    return new \Handlers\PhpErrorHandler($c->settings['displayErrorDetails'], $c['logger'], $c['renderer']);
 };
 //Override the default Not Found Handler
 $container['notFoundHandler'] = function ($c) {
