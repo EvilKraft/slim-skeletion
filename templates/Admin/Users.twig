@@ -15,7 +15,7 @@
                 <div class="box box-primary">
                     <div class="box-body">
                         <form id="updateForm" method="POST" enctype="multipart/form-data" data-toggle="validator" action="{{ currentUrl }}">
-                            {% if item.id|default('') != '' %}
+                            {% if item is defined %}
                                 <input type="hidden" name="_METHOD" value="PUT" />
                             {% endif %}
 
