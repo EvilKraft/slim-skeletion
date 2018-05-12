@@ -38,7 +38,8 @@
         "bower-asset/slimscroll": "^1.3",
         "bower-asset/fastclick": "^1.0",
         "bower-asset/animate-css": "^3.5",
-
+        "bower-asset/inputmask": "^4.0.0-beta.57@dev",
+        "bower-asset/eonasdan-bootstrap-datetimepicker": "^4.17",
 
         "EvilKraft/dataTableSelectAllBtn": "master@dev",
         "EvilKraft/dataTableActionBtns": "master@dev",
