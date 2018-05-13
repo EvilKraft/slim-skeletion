@@ -1,3 +1,5 @@
+{#
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -186,6 +188,542 @@
                     {% endfor %}
                 });
             </script>
+        {% endblock %}
+    </body>
+</html>
+#}
+
+
+
+<!DOCTYPE html>
+<html class="v2" dir="ltr" xmlns="http://www.w3.org/1999/xhtml" >
+    <head>
+        <title>News16</title>
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
+        <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+        {#
+        <link rel="shortcut icon" href="{{ base_url() }}/favicon.ico" type="image/x-icon">
+
+        <link rel="icon" href="{{ base_url() }}/favicon.ico" type="image/x-icon">#}
+        <link rel="icon" href="{{ base_url() }}/favicon.ico" type="image/x-icon">
+        <link rel="shortcut icon" href="{{ base_url() }}/favicon.ico" type="image/x-icon">
+
+        <meta name="description" content="News16 Professional Newspaper and Magazine Free Blogger Template Download" >
+        <meta name="keywords"    content="YOUR, KEYWORDS, HERE" >
+        <meta name="Author"      content="YOUR-NAME" >
+        <meta name="language"    content="english" >
+        <link rel="publisher" href="https://plus.google.com/GOOGLE+ID/posts" >
+        <link rel="author"    href="https://plus.google.com/GOOGLE+ID/about" >
+
+        {% block head %}
+            <!-- Bootstrap core CSS -->
+            <link rel="stylesheet" href="{{ base_url() }}/assets/bootstrap/dist/css/bootstrap.min.css?ver={{ version }}">
+
+            <link type="text/css" rel="stylesheet" href="{{ base_url() }}/resources/css/2437439463-css_bundle_v2.css">
+            <link type="text/css" rel="stylesheet" href="{{ base_url() }}/resources/css/page-skin-1.css?ver={{ version }}">
+            <link type="text/css" rel="stylesheet" href="{{ base_url() }}/resources/css/template-skin-1.css?ver={{ version }}">
+            <link type="text/css" rel="stylesheet" href="{{ base_url() }}/resources/css/popular-posts.css?ver={{ version }}">
+            <link type="text/css" rel="stylesheet" href="{{ base_url() }}/resources/css/css.css" media="all">
+
+            <style type="text/css">.fb_hidden{position:absolute;top:-10000px;z-index:10001}.fb_reposition{overflow:hidden;position:relative}.fb_invisible{display:none}.fb_reset{background:none;border:0;border-spacing:0;color:#000;cursor:auto;direction:ltr;font-family:"lucida grande", tahoma, verdana, arial, sans-serif;font-size:11px;font-style:normal;font-variant:normal;font-weight:normal;letter-spacing:normal;line-height:1;margin:0;overflow:visible;padding:0;text-align:left;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;visibility:visible;white-space:normal;word-spacing:normal}.fb_reset>div{overflow:hidden}.fb_link img{border:none}@keyframes fb_transform{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}.fb_animate{animation:fb_transform .3s forwards}
+                .fb_dialog{background:rgba(82, 82, 82, .7);position:absolute;top:-10000px;z-index:10001}.fb_reset .fb_dialog_legacy{overflow:visible}.fb_dialog_advanced{padding:10px;border-radius:8px}.fb_dialog_content{background:#fff;color:#333}.fb_dialog_close_icon{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 0 transparent;cursor:pointer;display:block;height:15px;position:absolute;right:18px;top:17px;width:15px}.fb_dialog_mobile .fb_dialog_close_icon{top:5px;left:5px;right:auto}.fb_dialog_padding{background-color:transparent;position:absolute;width:1px;z-index:-1}.fb_dialog_close_icon:hover{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -15px transparent}.fb_dialog_close_icon:active{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -30px transparent}.fb_dialog_loader{background-color:#f6f7f9;border:1px solid #606060;font-size:24px;padding:20px}.fb_dialog_top_left,.fb_dialog_top_right,.fb_dialog_bottom_left,.fb_dialog_bottom_right{height:10px;width:10px;overflow:hidden;position:absolute}.fb_dialog_top_left{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/ye/r/8YeTNIlTZjm.png) no-repeat 0 0;left:-10px;top:-10px}.fb_dialog_top_right{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/ye/r/8YeTNIlTZjm.png) no-repeat 0 -10px;right:-10px;top:-10px}.fb_dialog_bottom_left{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/ye/r/8YeTNIlTZjm.png) no-repeat 0 -20px;bottom:-10px;left:-10px}.fb_dialog_bottom_right{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/ye/r/8YeTNIlTZjm.png) no-repeat 0 -30px;right:-10px;bottom:-10px}.fb_dialog_vert_left,.fb_dialog_vert_right,.fb_dialog_horiz_top,.fb_dialog_horiz_bottom{position:absolute;background:#525252;filter:alpha(opacity=70);opacity:.7}.fb_dialog_vert_left,.fb_dialog_vert_right{width:10px;height:100%}.fb_dialog_vert_left{margin-left:-10px}.fb_dialog_vert_right{right:0;margin-right:-10px}.fb_dialog_horiz_top,.fb_dialog_horiz_bottom{width:100%;height:10px}.fb_dialog_horiz_top{margin-top:-10px}.fb_dialog_horiz_bottom{bottom:0;margin-bottom:-10px}.fb_dialog_iframe{line-height:0}.fb_dialog_content .dialog_title{background:#6d84b4;border:1px solid #365899;color:#fff;font-size:14px;font-weight:bold;margin:0}.fb_dialog_content .dialog_title>span{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/yd/r/Cou7n-nqK52.gif) no-repeat 5px 50%;float:left;padding:5px 0 7px 26px}body.fb_hidden{-webkit-transform:none;height:100%;margin:0;overflow:visible;position:absolute;top:-10000px;left:0;width:100%}.fb_dialog.fb_dialog_mobile.loading{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/ya/r/3rhSv5V8j3o.gif) white no-repeat 50% 50%;min-height:100%;min-width:100%;overflow:hidden;position:absolute;top:0;z-index:10001}.fb_dialog.fb_dialog_mobile.loading.centered{width:auto;height:auto;min-height:initial;min-width:initial;background:none}.fb_dialog.fb_dialog_mobile.loading.centered #fb_dialog_loader_spinner{width:100%}.fb_dialog.fb_dialog_mobile.loading.centered .fb_dialog_content{background:none}.loading.centered #fb_dialog_loader_close{color:#fff;display:block;padding-top:20px;clear:both;font-size:18px}#fb-root #fb_dialog_ipad_overlay{background:rgba(0, 0, 0, .45);position:absolute;bottom:0;left:0;right:0;top:0;width:100%;min-height:100%;z-index:10000}#fb-root #fb_dialog_ipad_overlay.hidden{display:none}.fb_dialog.fb_dialog_mobile.loading iframe{visibility:hidden}.fb_dialog_content .dialog_header{-webkit-box-shadow:white 0 1px 1px -1px inset;background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#738ABA), to(#2C4987));border-bottom:1px solid;border-color:#1d4088;color:#fff;font:14px Helvetica, sans-serif;font-weight:bold;text-overflow:ellipsis;text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0;vertical-align:middle;white-space:nowrap}.fb_dialog_content .dialog_header table{-webkit-font-smoothing:subpixel-antialiased;height:43px;width:100%}.fb_dialog_content .dialog_header td.header_left{font-size:12px;padding-left:5px;vertical-align:middle;width:60px}.fb_dialog_content .dialog_header td.header_right{font-size:12px;padding-right:5px;vertical-align:middle;width:60px}.fb_dialog_content .touchable_button{background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#4966A6), color-stop(.5, #355492), to(#2A4887));border:1px solid #29487d;-webkit-background-clip:padding-box;-webkit-border-radius:3px;-webkit-box-shadow:rgba(0, 0, 0, .117188) 0 1px 1px inset, rgba(255, 255, 255, .167969) 0 1px 0;display:inline-block;margin-top:3px;max-width:85px;line-height:18px;padding:4px 12px;position:relative}.fb_dialog_content .dialog_header .touchable_button input{border:none;background:none;color:#fff;font:12px Helvetica, sans-serif;font-weight:bold;margin:2px -12px;padding:2px 6px 3px 6px;text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0}.fb_dialog_content .dialog_header .header_center{color:#fff;font-size:16px;font-weight:bold;line-height:18px;text-align:center;vertical-align:middle}.fb_dialog_content .dialog_content{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/y9/r/jKEcVPZFk-2.gif) no-repeat 50% 50%;border:1px solid #555;border-bottom:0;border-top:0;height:150px}.fb_dialog_content .dialog_footer{background:#f6f7f9;border:1px solid #555;border-top-color:#ccc;height:40px}#fb_dialog_loader_close{float:left}.fb_dialog.fb_dialog_mobile .fb_dialog_close_button{text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0}.fb_dialog.fb_dialog_mobile .fb_dialog_close_icon{visibility:hidden}#fb_dialog_loader_spinner{animation:rotateSpinner 1.2s linear infinite;background-color:transparent;background-image:url(https://static.xx.fbcdn.net/rsrc.php/v3/yD/r/t-wz8gw1xG1.png);background-repeat:no-repeat;background-position:50% 50%;height:24px;width:24px}@keyframes rotateSpinner{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+                .fb_iframe_widget{display:inline-block;position:relative}.fb_iframe_widget span{display:inline-block;position:relative;text-align:justify}.fb_iframe_widget iframe{position:absolute}.fb_iframe_widget_fluid_desktop,.fb_iframe_widget_fluid_desktop span,.fb_iframe_widget_fluid_desktop iframe{max-width:100%}.fb_iframe_widget_fluid_desktop iframe{min-width:220px;position:relative}.fb_iframe_widget_lift{z-index:1}.fb_hide_iframes iframe{position:relative;left:-10000px}.fb_iframe_widget_loader{position:relative;display:inline-block}.fb_iframe_widget_fluid{display:inline}.fb_iframe_widget_fluid span{width:100%}.fb_iframe_widget_loader iframe{min-height:32px;z-index:2;zoom:1}.fb_iframe_widget_loader .FB_Loader{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/y9/r/jKEcVPZFk-2.gif) no-repeat;height:32px;width:32px;margin-left:-16px;position:absolute;left:50%;z-index:4}
+                .fb_customer_chat_bounce_in{animation-duration:250ms;animation-name:fb_bounce_in}.fb_customer_chat_bounce_out{animation-duration:250ms;animation-name:fb_fade_out}.fb_invisible_flow{display:inherit;height:0;overflow-x:hidden;width:0}.fb_mobile_overlay_active{background-color:#fff;height:100%;overflow:hidden;position:fixed;visibility:hidden;width:100%}@keyframes fb_fade_out{from{opacity:1}to{opacity:0}}@keyframes fb_bounce_in{0%{opacity:0;transform:scale(.8, .8);transform-origin:100% 100%}10%{opacity:.1}20%{opacity:.2}30%{opacity:.3}40%{opacity:.4}50%{opacity:.5}60%{opacity:.6}70%{opacity:.7}80%{opacity:.8;transform:scale(1.03, 1.03)}90{opacity:.9}100%{opacity:1;transform:scale(1, 1)}}
+            </style>
+
+            <!--[if IE]> <script> (function() { var html5 = ("abbr,article,aside,audio,canvas,datalist,details," + "figure,footer,header,hgroup,mark,menu,meter,nav,output," + "progress,section,time,video").split(','); for (var i = 0; i < html5.length; i++) { document.createElement(html5[i]); } try { document.execCommand('BackgroundImageCache', false, true); } catch(e) {} })(); </script> <![endif]-->
+
+            <script type="text/javascript">
+		        //<![CDATA[
+		        //CSS Ready
+		        function loadCSS(e, t, n) { "use strict"; var i = window.document.createElement("link"); var o = t || window.document.getElementsByTagName("script")[0]; i.rel = "stylesheet"; i.href = e; i.media = "only x"; o.parentNode.insertBefore(i, o); setTimeout(function () { i.media = n || "all" }) }
+		        loadCSS("//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800|Material+Icons");
+		        loadCSS("//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
+		        //]]>
+            </script>
+        {% endblock %}
+    </head>
+    <body>
+        <div class="bwrapsite-content" id="bwrapcontent">
+            <nav id="top-nav">
+                <div class="wrapper">
+                    <div class="blog-date">
+                        <script language="Javascript">
+							var dayName = new Array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
+							var monName = new Array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+
+							var now = new Date();
+
+							document.write("Today is " + dayName[now.getDay()] + ", " + monName[now.getMonth()] + " " + now.getDate() + " - ");
+
+							atoj  = new Date();
+							atoj1 = atoj.getHours();
+							atoj2 = atoj.getMinutes();
+							atoj3 = atoj.getSeconds();
+
+							if (0 == atoj1) {
+								atoj4 = " AM";
+								atoj1 = 12;
+							} else if (atoj1 <= 11) atoj4 = " AM"; else if (12 == atoj1) {
+								atoj4 = " PM";
+								atoj1 = 12;
+							} else if (atoj1 >= 13) {
+								atoj4 = " PM";
+								atoj1 -= 12;
+							}
+
+							if (atoj2 <= 9) atoj2 = "0" + atoj2;
+
+							document.write("" + atoj1 + ":" + atoj2 + ":" + atoj3 + atoj4);
+                        </script>
+                    </div>
+                    <div class="menu-top-menu-container">
+                        <ul class="menu" id="menu-top-menu">
+                            <li class="menu-item"><a href="#">About</a></li>
+                            <li class="menu-item"><a href="#">Contact</a></li>
+                            <li class="menu-item"><a href="#">Privacy</a></li>
+                            <li class="menu-item"><a href="#">Sitemap</a></li>
+                        </ul>
+                    </div>
+                    <div id="top-menu-icon"></div>
+                </div>
+            </nav>
+            <div class="top-header">
+                <div id="header-wrapper" itemscope="itemscope" itemtype="http://schema.org/WPHeader">
+                    <div class="header section section" id="header"><div class="widget Header" data-version="1" id="Header1">
+                            <div id="header-inner">
+                                <a href="https://news16-templatemark.blogspot.com/" style="display: block">
+                                    <img alt="News16" id="Header1_headerimg" src="/News16_files/news16.png" style="display: block" height="90px; " width="260px; ">
+                                </a>
+                            </div>
+                        </div></div>
+                    <div class="header-right section section" id="header-right"><div class="widget HTML" data-version="1" id="HTML112">
+                            <div class="widget-content">
+                                <img alt="Ad 728x90" data-original-height="90" data-original-width="728" src="/News16_files/728.png" title="Ad 728x90" border="0">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <nav id="menu">
+                    <input type="checkbox">
+                    <label>≡</label>
+                    <ul>
+                        <li class="homers"><a href="https://news16-templatemark.blogspot.com/"><i class="material-icons" style=" line-height: 2.1; display: block; ">home</i></a></li>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Drop Down <i class="material-icons" style=" font-size: 14px; ">keyboard_arrow_down</i></a>
+                            <ul class="menus">
+                                <li><a href="#">Tab 1</a></li>
+                                <li><a href="#">Tab 2</a></li>
+                                <li><a href="#">Tab 3</a></li>
+                                <li><a href="#">Tab 4</a></li>
+                                <li><a href="#">Tab 5</a></li>
+                                <li><a href="#">Tab 6</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Drop Down <i class="material-icons" style=" font-size: 14px; ">keyboard_arrow_down</i></a>
+                            <ul class="menus">
+                                <li><a href="#">Tab 1</a></li>
+                                <li><a href="#">Tab 2</a></li>
+                                <li><a href="#">Tab 3</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">Advertise</a></li>
+
+                        <li class="navbar-right"><a href="#" data-toggle="modal" data-target='#modalRegister'>Register</a></li>
+                        <li class="navbar-right dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                                Sign In<i class="material-icons" style=" font-size: 14px; ">keyboard_arrow_down</i>
+                            </a>
+                            <div class="dropdown-menu" id="formLogin">
+                                <div class="row">
+                                    <div class="container-fluid">
+                                        <form>
+                                            <div class="form-group">
+                                                <label>Username</label>
+                                                <input class="form-control" name="username" id="username" type="text">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Password</label>
+                                                <input class="form-control" name="password" id="password" type="password"><br>
+                                            </div>
+                                            <button type="submit" id="btnLogin" class="btn btn-success btn-sm">Login</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="clear"></div>
+
+            {% block content %}
+            {% endblock %}
+
+            <div id="sidebar-wrapper">
+                <div class="sidebar-area" id="sidebar" role="complementary">
+                    <div class="sidebarbtop section" id="sidebarbtop"><div class="widget HTML" data-version="1" id="HTML3">
+                            <h2>Search Blog</h2>
+                            <div class="widget-content">
+                                <div id="search-bar">
+                                    <form action="/search" id="search-form" method="get">
+                                        <input id="sq" name="q" placeholder="Search Here..." type="text">
+                                        <input id="searchsubmit" value="" type="submit">
+                                    </form>
+                                    <span class="search-form-icon"><span class="fa fa-search"></span></span>
+                                </div>
+                            </div>
+                        </div><div class="widget HTML" data-version="1" id="HTML4">
+                            <h2 class="title">Advertisement</h2>
+                            <div class="widget-content">
+                                <img alt="Ad 300x250" n7yr5zew8sdq9jta-lyez-ndee8gigclcbgas="" png="" s1600="" src="/News16_files/300.png" title="Ad 300x250" border="0">
+                            </div>
+                        </div><div class="widget PopularPosts" data-version="1" id="PopularPosts1">
+                            <h2>Popular Posts</h2>
+                            <div class="widget-content popular-posts">
+                                <ul>
+                                    <li>
+                                        <div class="item-content">
+                                            <div class="item-thumbnail">
+                                                <a href="https://news16-templatemark.blogspot.com/2017/10/new-form-of-farming-revolutionizes-way.html" target="_blank">
+                                                    <img alt="" src="/News16_files/woman_593141_960_720.jpg" height="72" border="0" width="72">
+                                                </a>
+                                            </div>
+                                            <div class="item-title"><a href="https://news16-templatemark.blogspot.com/2017/10/new-form-of-farming-revolutionizes-way.html">New Form of Farming Revolutionizes the Way We Eat</a></div>
+                                            <div class="item-snippet">By 2050, the world population will reach almost 10 billion...</div>
+                                        </div>
+                                        <div style="clear: both;"></div>
+                                    </li>
+                                    <li>
+                                        <div class="item-content">
+                                            <div class="item-thumbnail">
+                                                <a href="https://news16-templatemark.blogspot.com/2017/10/new-resources-critical-for-stroke.html" target="_blank">
+                                                    <img alt="" src="/News16_files/spring_2298279_960_7_0acWE_003.jpg" height="72" border="0" width="72">
+                                                </a>
+                                            </div>
+                                            <div class="item-title"><a href="https://news16-templatemark.blogspot.com/2017/10/new-resources-critical-for-stroke.html">New Resources Critical for Stroke Recovery</a></div>
+                                            <div class="item-snippet">The American Heart Association/American Stroke Association...</div>
+                                        </div>
+                                        <div style="clear: both;"></div>
+                                    </li>
+                                    <li>
+                                        <div class="item-content">
+                                            <div class="item-thumbnail">
+                                                <a href="https://news16-templatemark.blogspot.com/2017/10/fall-in-love-with-greater-fort.html" target="_blank">
+                                                    <img alt="" src="/News16_files/necklace_518268_960__CTVFi_003.jpg" height="72" border="0" width="72">
+                                                </a>
+                                            </div>
+                                            <div class="item-title"><a href="https://news16-templatemark.blogspot.com/2017/10/fall-in-love-with-greater-fort.html">Fall in Love with Greater Fort Lauderdale</a></div>
+                                            <div class="item-snippet">Travelers may think of summer and beach activities when...</div>
+                                        </div>
+                                        <div style="clear: both;"></div>
+                                    </li>
+                                    <li>
+                                        <div class="item-content">
+                                            <div class="item-thumbnail">
+                                                <a href="https://news16-templatemark.blogspot.com/2017/10/solving-major-problem-in-additive.html" target="_blank">
+                                                    <img alt="" src="/News16_files/child_817373_960_720.jpg" height="72" border="0" width="72">
+                                                </a>
+                                            </div>
+                                            <div class="item-title"><a href="https://news16-templatemark.blogspot.com/2017/10/solving-major-problem-in-additive.html">Solving A Major Problem in Additive Manufacturing</a></div>
+                                            <div class="item-snippet">A new approach to making everything from jet engines to...</div>
+                                        </div>
+                                        <div style="clear: both;"></div>
+                                    </li>
+                                    <li>
+                                        <div class="item-content">
+                                            <div class="item-thumbnail">
+                                                <a href="https://news16-templatemark.blogspot.com/2017/10/5-mistakes-to-avoid-when-choosing.html" target="_blank">
+                                                    <img alt="" src="/News16_files/blue_2705642_960_720_002.jpg" height="72" border="0" width="72">
+                                                </a>
+                                            </div>
+                                            <div class="item-title"><a href="https://news16-templatemark.blogspot.com/2017/10/5-mistakes-to-avoid-when-choosing.html">5 Mistakes to Avoid When Choosing a Medicare Advantage Plan</a></div>
+                                            <div class="item-snippet">The Medicare Annual Election Period takes place this fall...</div>
+                                        </div>
+                                        <div style="clear: both;"></div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div><div class="widget Label" data-version="1" id="Label1">
+                            <h2>All Categories</h2>
+                            <div class="widget-content list-label-widget-content">
+                                <ul>
+                                    <li>
+                                        <a dir="ltr" href="https://news16-templatemark.blogspot.com/search/label/Advertisement">Advertisement</a>
+                                    </li>
+                                    <li>
+                                        <a dir="ltr" href="https://news16-templatemark.blogspot.com/search/label/Content%20Marketing">Content Marketing</a>
+                                    </li>
+                                    <li>
+                                        <a dir="ltr" href="https://news16-templatemark.blogspot.com/search/label/Facebook">Facebook</a>
+                                    </li>
+                                    <li>
+                                        <a dir="ltr" href="https://news16-templatemark.blogspot.com/search/label/Gadgets">Gadgets</a>
+                                    </li>
+                                    <li>
+                                        <a dir="ltr" href="https://news16-templatemark.blogspot.com/search/label/Google%20Map">Google Map</a>
+                                    </li>
+                                    <li>
+                                        <a dir="ltr" href="https://news16-templatemark.blogspot.com/search/label/Local%20Search">Local Search</a>
+                                    </li>
+                                    <li>
+                                        <a dir="ltr" href="https://news16-templatemark.blogspot.com/search/label/News">News</a>
+                                    </li>
+                                    <li>
+                                        <a dir="ltr" href="https://news16-templatemark.blogspot.com/search/label/Paid%20Search">Paid Search</a>
+                                    </li>
+                                    <li>
+                                        <a dir="ltr" href="https://news16-templatemark.blogspot.com/search/label/Technology">Technology</a>
+                                    </li>
+                                    <li>
+                                        <a dir="ltr" href="https://news16-templatemark.blogspot.com/search/label/Tips%20and%20Tricks">Tips and Tricks</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div><div class="widget HTML" data-version="1" id="HTML1">
+                            <h2 class="title">Advertisement</h2>
+                            <div class="widget-content">
+                                <img alt="Ad 300x250" n7yr5zew8sdq9jta-lyez-ndee8gigclcbgas="" png="" s1600="" src="/News16_files/300.png" title="Ad 300x250" border="0">
+                            </div>
+                        </div>
+
+                        <div class="widget HTML" data-version="1" id="HTML55">
+                            <h2 class="title">Latest Posts</h2>
+                            <div class="widget-content">
+                                <div id="recent-posts"><ul><li><img alt="New Form of Farming Revolutionizes the Way We Eat" src="/News16_files/woman_593141_960_720.jpg"><div><a href="https://news16-templatemark.blogspot.com/2017/10/new-form-of-farming-revolutionizes-way.html" rel="nofollow" title="By 2050, the world population will reach almost 10 billion people, at least 66 percent of whom will live in urban areas.Water-scarcity issues are…">New Form of Farming Revolutionizes the Way We Eat</a></div><span>23/10/2017 - 3 Comments</span><div style="clear:both"></div></li><li><img alt="Study Suggests Today’s US Students Are Less Efficient Readers" src="/News16_files/sunglasses_635269_96_xlKy3.jpg"><div><a href="https://news16-templatemark.blogspot.com/2017/10/study-suggests-todays-us-students-are.html" rel="nofollow" title="Do today’s students perform better than their peers in 1960? Given the advances in education and technology, it would be natural to assume that the…">Study Suggests Today’s US Students Are Less Efficient Readers</a></div><span>23/10/2017 - 2 Comments</span><div style="clear:both"></div></li><li><img alt="New Resources Critical for Stroke Recovery" src="/News16_files/spring_2298279_960_7_0acWE_003.jpg"><div><a href="https://news16-templatemark.blogspot.com/2017/10/new-resources-critical-for-stroke.html" rel="nofollow" title="The American Heart Association/American Stroke Association (AHA/ASA), the world’s leading voluntary organization dedicated to building healthier…">New Resources Critical for Stroke Recovery</a></div><span>23/10/2017 - 1 Comments</span><div style="clear:both"></div></li><li><img alt="Fall in Love with Greater Fort Lauderdale" src="/News16_files/necklace_518268_960__CTVFi_003.jpg"><div><a href="https://news16-templatemark.blogspot.com/2017/10/fall-in-love-with-greater-fort.html" rel="nofollow" title="Travelers may think of summer and beach activities when they think of Florida, but Greater Fort Lauderdale takes its relaxing vibe into the fall…">Fall in Love with Greater Fort Lauderdale</a></div><span>23/10/2017 - 0 Comments</span><div style="clear:both"></div></li><li><img alt="Football Helmet Safety in Three Simple Steps" src="/News16_files/laugh_536287_960_720.jpg"><div><a href="https://news16-templatemark.blogspot.com/2017/10/football-helmet-safety-in-three-simple.html" rel="nofollow" title="As the high school and college football seasons heat up, the National Operating Committee on Standards for Athletic Equipment (NOCSAE) is encouraging…">Football Helmet Safety in Three Simple Steps</a></div><span>23/10/2017 - 0 Comments</span><div style="clear:both"></div></li><li><img alt="Outdoor Living – Bringing the Inside Out" src="/News16_files/kid_1241817_960_720.jpg"><div><a href="https://news16-templatemark.blogspot.com/2017/10/outdoor-living-bringing-inside-out.html" rel="nofollow" title="Enjoying your outside space does not have to take place on a dimly lit patio with moderately comfortable furniture devoid of fine furnishings and…">Outdoor Living – Bringing the Inside Out</a></div><span>23/10/2017 - 0 Comments</span><div style="clear:both"></div></li><li><img alt="Help for Homeowners On the Hook for Billions in Hurricane Damages" src="/News16_files/girl_97433_960_720.jpg"><div><a href="https://news16-templatemark.blogspot.com/2017/10/help-for-homeowners-on-hook-for.html" rel="nofollow" title="And now comes the arduous task of rebuilding hundreds of thousands of houses destroyed or damaged by Hurricanes Harvey and Irma.And with it, alas,…">Help for Homeowners On the Hook for Billions in Hurricane Damages</a></div><span>23/10/2017 - 0 Comments</span><div style="clear:both"></div></li><li><img alt="Solving A Major Problem in Additive Manufacturing" src="/News16_files/child_817373_960_720.jpg"><div><a href="https://news16-templatemark.blogspot.com/2017/10/solving-major-problem-in-additive.html" rel="nofollow" title="A new approach to making everything from jet engines to toys, called 3D printing, is creating a revolution in manufacturing — and a small company…">Solving A Major Problem in Additive Manufacturing</a></div><span>23/10/2017 - 0 Comments</span><div style="clear:both"></div></li></ul>
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                </div></div>
+            <div class="clear"></div>
+
+            {#
+            <ul class="pt-followers-icons ptfollowers7 share-buttons">
+                <li class="twitter-share">
+                    <a target="_self" href="#"> <span class="counter"> 158</span> <span class="counted"> Followers</span> <span class="action-button"> Follow</span> </a>
+                </li>
+                <li class="facebook-share">
+                    <a target="_self" href="#"> <span class="counter"> 239</span> <span class="counted"> Fans</span> <span class="action-button"> Like</span> </a>
+                </li>
+                <li class="google-plus-share">
+                    <a target="_self" href="#"> <span class="counter"> 12071</span> <span class="counted"> Fans</span> <span class="action-button"> +1</span> </a>
+                </li>
+                <li class="instagram-share">
+                    <a target="_self" href="#"> <span class="counter"> 11071</span> <span class="counted"> Fans</span> <span class="action-button"> Follow </span> </a>
+                </li>
+            </ul>
+            #}
+
+
+            <footer class="animated fadeInUpBig navplace" id="footer-wrapper" itemscope="itemscope" itemtype="http://schema.org/WPFooter" role="contentinfo">
+                <div class="footer-bottom">
+                    <div id="footer-widgetfix">
+                        <div class="footer-widget" id="footx1">
+                            <div class="footer section" id="footer1"><div class="widget HTML" data-version="1" id="HTML555">
+                                    <h2 class="title">About News16</h2>
+                                    <div class="widget-content">
+                                        Etiam at libero iaculis, mollis justo non, blandit augue. Vestibulum sit
+                                        amet sodales est, a lacinia ex. Suspendisse vel enim sagittis, volutpat
+                                        sem eget, condimentum sem. Pellentesque eu interdum ex, tempus volutpat
+                                        massa.
+                                    </div>
+                                </div><div class="widget Image" data-version="1" id="Image1">
+                                    <div class="widget-content">
+                                        <img alt="Logo" id="Image1_img" src="/News16_files/news16-2.png" height="90" width="260">
+                                        <br>
+                                    </div>
+                                </div></div>
+                        </div>
+                        <div class="footer-widget" id="footx2">
+                            <div class="footer section" id="footer2"><div class="widget Label" data-version="1" id="Label2">
+                                    <h2>Popular Tags</h2>
+                                    <div class="widget-content cloud-label-widget-content">
+                                        <span class="label-size label-size-5">
+                                            <a dir="ltr" href="https://news16-templatemark.blogspot.com/search/label/Advertisement">Advertisement</a>
+                                        </span>
+                                        <span class="label-size label-size-4">
+                                            <a dir="ltr" href="https://news16-templatemark.blogspot.com/search/label/Content%20Marketing">Content Marketing</a>
+                                        </span>
+                                        <span class="label-size label-size-5">
+                                            <a dir="ltr" href="https://news16-templatemark.blogspot.com/search/label/Facebook">Facebook</a>
+                                        </span>
+                                        <span class="label-size label-size-2">
+                                            <a dir="ltr" href="https://news16-templatemark.blogspot.com/search/label/Gadgets">Gadgets</a>
+                                        </span>
+                                        <span class="label-size label-size-5">
+                                            <a dir="ltr" href="https://news16-templatemark.blogspot.com/search/label/Google%20Map">Google Map</a>
+                                        </span>
+                                        <span class="label-size label-size-5">
+                                            <a dir="ltr" href="https://news16-templatemark.blogspot.com/search/label/Local%20Search">Local Search</a>
+                                        </span>
+                                        <span class="label-size label-size-2">
+                                            <a dir="ltr" href="https://news16-templatemark.blogspot.com/search/label/News">News</a>
+                                        </span>
+                                        <span class="label-size label-size-5">
+                                            <a dir="ltr" href="https://news16-templatemark.blogspot.com/search/label/Paid%20Search">Paid Search</a>
+                                        </span>
+                                        <span class="label-size label-size-1">
+                                            <a dir="ltr" href="https://news16-templatemark.blogspot.com/search/label/Technology">Technology</a>
+                                        </span>
+                                        <span class="label-size label-size-1">
+                                            <a dir="ltr" href="https://news16-templatemark.blogspot.com/search/label/Tips%20and%20Tricks">Tips and Tricks</a>
+                                        </span>
+                                    </div>
+                                </div></div>
+                        </div>
+                        <div class="footer-widget" id="footx3">
+                            <div class="footer section" id="footer3"><div class="widget PopularPosts" data-version="1" id="PopularPosts2">
+                                    <h2>Most Popular</h2>
+                                    <div class="widget-content popular-posts">
+                                        <ul>
+                                            <li>
+                                                <div class="item-thumbnail-only">
+                                                    <div class="item-thumbnail">
+                                                        <a href="https://news16-templatemark.blogspot.com/2017/10/new-form-of-farming-revolutionizes-way.html" target="_blank">
+                                                            <img alt="" src="/News16_files/woman_593141_960_720_002.jpg" border="0">
+                                                        </a>
+                                                    </div>
+                                                    <div class="item-title"><a href="https://news16-templatemark.blogspot.com/2017/10/new-form-of-farming-revolutionizes-way.html">New Form of Farming Revolutionizes the Way We Eat</a></div>
+                                                </div>
+                                                <div style="clear: both;"></div>
+                                            </li>
+                                            <li>
+                                                <div class="item-thumbnail-only">
+                                                    <div class="item-thumbnail">
+                                                        <a href="https://news16-templatemark.blogspot.com/2017/10/new-resources-critical-for-stroke.html" target="_blank">
+                                                            <img alt="" src="/News16_files/spring_2298279_960_7_0acWE.jpg" border="0">
+                                                        </a>
+                                                    </div>
+                                                    <div class="item-title"><a href="https://news16-templatemark.blogspot.com/2017/10/new-resources-critical-for-stroke.html">New Resources Critical for Stroke Recovery</a></div>
+                                                </div>
+                                                <div style="clear: both;"></div>
+                                            </li>
+                                            <li>
+                                                <div class="item-thumbnail-only">
+                                                    <div class="item-thumbnail">
+                                                        <a href="https://news16-templatemark.blogspot.com/2017/10/fall-in-love-with-greater-fort.html" target="_blank">
+                                                            <img alt="" src="/News16_files/necklace_518268_960__CTVFi_002.jpg" border="0">
+                                                        </a>
+                                                    </div>
+                                                    <div class="item-title"><a href="https://news16-templatemark.blogspot.com/2017/10/fall-in-love-with-greater-fort.html">Fall in Love with Greater Fort Lauderdale</a></div>
+                                                </div>
+                                                <div style="clear: both;"></div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div></div>
+
+                        </div>
+                    </div>
+                </div>
+                <div id="footerfix">
+                    <div class="copyleft">
+                        Copyright © 2018
+                        <a href="{{path_for('home', {'lang': lang})}}">News16</a> All Rights Reserved - <div id="mscontent" style="display: inline-block;"><a href="http://www.templatemark.com/">Blogger Templates</a> Created with <i style="color:#ff695d;" class="fa fa-heart"></i> by Templatemark</div>
+                    </div>
+                </div>
+            </footer>
+            <div class="clear"></div>
+        </div>
+        <div class="smoothscroll-top">
+            <span class="scroll-top-inner">
+                <i class="material-icons">arrow_upward</i>
+            </span>
+        </div>
+
+
+        {% block scripts %}
+
+            <!-- jQuery 3 -->
+            <script src="{{ base_url() }}/assets/jquery/dist/jquery.min.js?ver={{ version }}"></script>
+            <!-- Bootstrap 3.3.7 -->
+            <script src="{{ base_url() }}/assets/bootstrap/dist/js/bootstrap.min.js?ver={{ version }}"></script>
+
+            <script type="text/javascript">
+		        //<![CDATA[
+		        $(function(){
+			        $(document).on( 'scroll', function(){
+				        if ($(window).scrollTop() > 100) {
+					        $('.smoothscroll-top').addClass('show');
+				        } else {
+					        $('.smoothscroll-top').removeClass('show');
+				        }
+			        });
+			        $('.smoothscroll-top').on('click', scrollToTop);
+		        });
+
+		        function scrollToTop() {
+			        verticalOffset = typeof(verticalOffset) != 'undefined' ? verticalOffset : 0;
+			        element = $('body');
+			        offset = element.offset();
+			        offsetTop = offset.top;
+			        $('html, body').animate({scrollTop: offsetTop}, 600, 'linear').animate({scrollTop:25},200).animate({scrollTop:0},150) .animate({scrollTop:0},50);
+		        }
+		        //]]>
+            </script>
+
+
+        <script type="text/javascript">
+			//<![CDATA[
+
+			// Popular Post Snippet
+			$(".popular-posts ul li .item-snippet").each(function(){var t=$(this).text().substr(0,60),s=t.lastIndexOf(" ");s>52&&$(this).text(t.substr(0,s).replace(/[?,!\.-:;]*$/,"..."))});
+			$(".item-thumbnail img").each(function(){$(this).attr("src",$(this).attr("src").replace(/\/s[0-9]+(\-c)?\//,"/w100-h80-c/"))});
+			$("#recent-posts img").each(function(){$(this).attr("src",$(this).attr("src").replace(/\/s[0-9]+(\-c)?\//,"/w100-h80-c/"))});
+			$(".avatar-image-container img").each(function(){$(this).attr("src",$(this).attr("src").replace(/\/s[0-9]+(\-c)?\//,"/w70-h70-c/"))});
+			$("ul#relpost_img_sum li img").each(function(){$(this).attr("src",$(this).attr("src").replace(/\/s[0-9]+(\-c)?\//,"/w120-h110-c/"))});
+
+
+			jQuery(document).ready(function($){
+				"use strict";
+
+				// Attach + To Top Menu
+				$('#top-nav .menu-item-has-children > a, #main-nav ul li ul .menu-item-has-children > a').append(' +');
+
+				// Attach Arrow To Main Menu
+				$('#main-nav .menu-item-has-children > a').append('<span class="menu-arrow"></span>');
+
+				// Prepend Menu Icons
+				$('#logo').after('<div id="menu-icon"></div>');
+
+				$('#top-nav .wrapper').append('<div id="top-menu-icon"></div>');
+
+				// Toggle Nav
+				$('#menu-icon').on('click', function(){
+					$('#main-nav').slideToggle(250);
+					$(this).toggleClass('active');
+				});
+
+				$(window).resize(function(){
+					var w = $(window).width();
+					var navDisplay = $('#main-nav');
+					if(w > 1000 && navDisplay.is(':hidden')) {
+						navDisplay.removeAttr('style');
+					}
+				});
+
+				$('#top-menu-icon').on('click', function(){
+					$('#top-nav ul').slideToggle(250);
+					$(this).toggleClass('active');
+				});
+
+				$(window).resize(function(){
+					var w = $(window).width();
+					var navDisplay = $('#top-nav ul');
+					if(w > 1000 && navDisplay.is(':hidden')) {
+						navDisplay.removeAttr('style');
+					}
+				});
+			});
+
+			(function(e){e.fn.resizeToParent=function(t){function r(e){e.css({width:"",height:"","margin-left":"","margin-top":""});var n=e.parents(t.parent).width();var r=e.parents(t.parent).height();var i=e.width();var s=e.height();var o=i/n;if(s/o<r){e.css({width:"auto",height:r});i=i/(s/r);s=r}else{e.css({height:"auto",width:n});i=n;s=s/o}var u=(i-n)/-2;var a=(s-r)/-2;e.css({"margin-left":u,"margin-top":a})}var n={parent:"div",delay:100};var t=e.extend(n,t);var i;var s=this;e(window).on("resize",function(){clearTimeout(i);i=setTimeout(function(){s.each(function(){r(e(this))})},t.delay)});return this.each(function(){var t=e(this);t.attr("src",t.attr("src"));t.on('load',function(){r(t)});if(this.complete){r(t)}})}})(jQuery);$(".imageContainer img").resizeToParent();
+			//]]>
+        </script>
         {% endblock %}
     </body>
 </html>

@@ -1,0 +1,30 @@
+body#layout div.section {background-color:transparent;border:0;font-family:sans-serif;margin:0;overflow:visible;padding:0;position:relative}
+body#layout .top-tab-widget-menu ul,body#layout ul,#layout ul,body#layout div.section h4,#layout div.section h4 {display:none;}
+body#layout .draggable-widget .widget-wrap2 {background: #27ae60 url(https://www.blogger.com/img/widgets/draggable.png) no-repeat 4px 50%;}
+body#layout .add_widget {background-color:#27ae60;border: 1px dashed #3a3a3a!important;}
+body#layout .add_widget a {color: white}
+body#layout .editlink {color: #fff !important; background-color: #27ae60; padding: 0px 20px; border-radius: 50px;}
+body#layout #header {width:30%;margin:4px;float:left;background-color: #fff; padding:10px!important; border: 1px solid #27ae60; margin-bottom: 10px;}
+body#layout #header:before {content: "Header"; font-size: 14px; color: #484848; display: inline-block; font-family: sans-serif; font-weight: 600;margin-bottom: 10px;}
+body#layout #header-right {width:62%;margin:4px;background-color: #fff; padding:10px!important; border: 1px solid #27ae60; margin-bottom: 10px;float:right;}
+body#layout #header-right:before {content: "Header ad slot (728x90 px )";font-size: 14px; color: #484848; display: inline-block; font-family: sans-serif; font-weight: 600;margin-bottom: 10px;}
+body#layout #adpost {width: 95%;margin:4px;float:left;background-color: #fff; padding:10px!important; border: 1px solid #27ae60; margin-bottom: 10px;}
+body#layout #adpost:before {content: "Homepage only ad slot (728x90 px )"; font-size: 14px; color: #484848; display: inline-block; font-family: sans-serif; font-weight: 600;margin-bottom: 10px;}
+body#layout #adpost2 {width: 95%;margin:4px;float:left;background-color: #fff; padding:10px!important; border: 1px solid #27ae60; margin-bottom: 10px;}
+body#layout #adpost2:before {content: "Top Header Ad (728x90 px )"; font-size: 14px; color: #484848; display: inline-block; font-family: sans-serif; font-weight: 600;margin-bottom: 10px;}
+body#layout #adpost3 {width: 98%;margin:4px;float:left;background-color: #fff; padding:10px!important; border: 1px solid #27ae60; margin-bottom: 10px;}
+body#layout #adpost3:before {content: "Homepage only ad slot (728x90 px )"; font-size: 14px; color: #484848; display: inline-block; font-family: sans-serif; font-weight: 600;margin-bottom: 10px;}
+body#layout #featuredposts {width: 96.2%;margin:4px;background-color: #fff; padding:10px!important; border: 1px solid #27ae60; margin-bottom: 10px;}
+body#layout #featuredposts:before {content: "Featured Posts"; font-size: 14px; color: #484848; display: inline-block; font-family: sans-serif; font-weight: 600;margin-bottom: 10px;}
+body#layout .mag-wrapper {width: 95%;margin:4px;background-color: #fff; padding:10px!important; border: 1px solid #27ae60; margin-bottom: 10px;}
+body#layout .mag-wrapper:before {content: "Mag Wrapper"; font-size: 14px; color: #484848; display: inline-block; font-family: sans-serif; font-weight: 600;margin-bottom: 10px;}
+body#layout #recent3 {width: 43.94%;margin:4px;float:left;background-color: #fff; padding:10px!important; border: 1px solid #27ae60; margin-bottom: 10px;}
+body#layout #recent3:before {content: "Mag Wrapper"; font-size: 14px; color: #484848; display: inline-block; font-family: sans-serif; font-weight: 600;margin-bottom: 10px;t: 700;}
+body#layout #banner160 {width: 45%;margin:4px;float:left;background-color: #fff; padding:10px!important; border: 1px solid #27ae60; margin-bottom: 10px;}
+body#layout #banner160:before {content: "Ad slot 160x600px"; font-size: 14px; color: #484848; display: inline-block; font-family: sans-serif; font-weight: 600;margin-bottom: 10px;}
+body#layout #sidebar {margin:4px;float:right;background-color: #fff; padding:10px!important; border: 1px solid #27ae60; margin-bottom: 10px;}
+body#layout #sidebar:before {content: "Sidebar";font-size: 14px; color: #484848; display: inline-block; font-family: sans-serif; font-weight: 600;margin-bottom: 10px;}
+body#layout #Blog1 {margin:4px;background-color: #fff; padding:10px!important; border: 1px solid #27ae60; margin-bottom: 10px;width:95%;}
+body#layout #Blog1:before {content: "Main Blog";font-size: 14px; color: #484848; display: inline-block; font-family: sans-serif; font-weight: 600;margin-bottom: 1}
+body#layout #footer-wrapper {width:96.2%;margin:4px;background-color: #fff; padding:10px!important; border: 1px solid #27ae60; margin-bottom: 10px;}
+body#layout #footer-wrapper:before {content: "Footer Wrapper";  font-size: 14px; color: #484848; display: inline-block; font-family: sans-serif; font-weight: 600;margin-bottom: 10px;}
