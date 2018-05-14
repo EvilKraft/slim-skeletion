@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Май 12 2018 г., 16:11
+-- Время создания: Май 14 2018 г., 16:10
 -- Версия сервера: 5.7.19
 -- Версия PHP: 7.1.7
 
@@ -21,28 +21,6 @@ SET time_zone = "+00:00";
 --
 -- База данных: `slimDB`
 --
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `billingOptions`
---
-
-CREATE TABLE `billingOptions` (
-  `optionId` int(10) UNSIGNED NOT NULL,
-  `groupId` int(10) UNSIGNED NOT NULL,
-  `fullAccessTrial` int(11) NOT NULL DEFAULT '0',
-  `periodicPayment` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `aperiodicPayment` decimal(10,2) NOT NULL DEFAULT '0.00'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `billingOptions`
---
-
-INSERT INTO `billingOptions` (`optionId`, `groupId`, `fullAccessTrial`, `periodicPayment`, `aperiodicPayment`) VALUES
-(1, 2, 0, '0.00', '0.00'),
-(2, 3, 0, '0.00', '0.00');
 
 -- --------------------------------------------------------
 
@@ -697,7 +675,8 @@ INSERT INTO `tenderAccess` (`tenderAccessId`, `userId`, `tenderId`, `participate
 (130, 1, 65, 1),
 (131, 1, 66, 1),
 (132, 104, 66, 0),
-(133, 144, 64, 0);
+(133, 144, 64, 0),
+(134, 3, 66, 0);
 
 -- --------------------------------------------------------
 
@@ -1135,12 +1114,6 @@ INSERT INTO `votes` (`voter`, `votedFor`, `stars`) VALUES
 --
 
 --
--- Индексы таблицы `billingOptions`
---
-ALTER TABLE `billingOptions`
-  ADD PRIMARY KEY (`optionId`);
-
---
 -- Индексы таблицы `blog`
 --
 ALTER TABLE `blog`
@@ -1279,11 +1252,6 @@ ALTER TABLE `votes`
 --
 
 --
--- AUTO_INCREMENT для таблицы `billingOptions`
---
-ALTER TABLE `billingOptions`
-  MODIFY `optionId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
---
 -- AUTO_INCREMENT для таблицы `blog`
 --
 ALTER TABLE `blog`
@@ -1337,7 +1305,7 @@ ALTER TABLE `pages_lang`
 -- AUTO_INCREMENT для таблицы `tenderAccess`
 --
 ALTER TABLE `tenderAccess`
-  MODIFY `tenderAccessId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=134;
+  MODIFY `tenderAccessId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=135;
 --
 -- AUTO_INCREMENT для таблицы `tenderFiles`
 --
