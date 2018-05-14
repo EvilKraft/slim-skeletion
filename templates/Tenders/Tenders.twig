@@ -29,7 +29,7 @@
                                     <select id="industry" name="industry" class="form-control select2" required="" data-error="{{ 'Select an industry'|trans }}">
                                         <option value="" {{ (item.industry|default('') == '') ? 'selected' }} disabled>{{ 'Select an industry'|trans }}</option>
                                         {% for industry in industries %}
-                                            <option value="{{ industry.id }}" {{ (industry.id == item.industry|default('')) ? 'selected' }}>{{ industry.name }}</option>
+                                            <option value="{{ industry.industryId }}" {{ (industry.industryId == item.industry|default('')) ? 'selected' }}>{{ industry.name }}</option>
                                         {% endfor %}
                                     </select>
                                     <div class="help-block with-errors"></div>
@@ -66,7 +66,7 @@
                                         <option value="" {{ (item.conmact|default('') == '') ? 'selected' }} disabled></option>
 
                                         {% for contact in contacts %}
-                                            <option value="{{ contact.id }}" {{ (contact.id == item.contact|default('')) ? 'selected' }}>{{ contact.name }}</option>
+                                            <option value="{{ contact.userContactId }}" {{ (contact.userContactId == item.contact|default('')) ? 'selected' }}>{{ contact.name }}</option>
                                         {% endfor %}
                                     </select>
                                     <div class="help-block with-errors"></div>
@@ -83,7 +83,7 @@
                     <div class="box-footer">
                         <div class="form-group">
                             <button class="btn btn-primary" type="submit" form="updateForm">{{ (item.id|default('') == '' ? 'Create' : 'Update')|trans }}</button>
-                            {% if item.id|default('') != '' and (session.user.groupId == 1 or session.user.id == item.userId) %}
+                            {% if item.id|default('') != '' and (session.user.groupId == 1 or session.user.userId == item.userId) %}
                                 <a class="btn btn-danger" href="{{ path_for('tenders_finish', {'lang': lang, 'id': item.id}) }}" onclick="return confirm('{{ 'Are you sure, you want to finish tender?'|trans }}')">{{ 'Finish'|trans }}</a>
                             {% endif %}
                             <a class="btn btn-default pull-right" href="{{ path_for('tenders', {'lang': lang}) }}">{{ 'Cancel'|trans }}</a>

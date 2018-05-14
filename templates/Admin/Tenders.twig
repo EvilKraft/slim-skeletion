@@ -88,7 +88,7 @@
                                 <button class="btn btn-primary" type="submit" form="updateForm">{{ 'Submit'|trans }}</button>
                                 <a class="btn btn-default pull-right" href="{{ path_for('admin_tenders', {'lang': lang}) }}">{{ 'Cancel'|trans }}</a>
                             {% endif %}
-                            {% if (session.user.groupId == 1 or session.user.id == item.userId) and item is defined %}
+                            {% if (session.user.groupId == 1 or session.user.userId == item.userId) and item is defined %}
                                 <a class="btn btn-danger" href="{{ path_for('tenders_finish', {'lang': lang, 'id': item.tenderId}) }}" onclick="return confirm('{{ 'Are you sure, you want to finish tender?'|trans }}')">{{ 'Finish'|trans }}</a>
                             {% endif %}
                         </div>

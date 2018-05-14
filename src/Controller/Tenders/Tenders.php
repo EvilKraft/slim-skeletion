@@ -21,8 +21,6 @@ class Tenders extends \Controller\BaseController
             'pageTitle' => $this->trans('Tenders')
         );
 
-        echo '<pre>'.print_r($user, true).'</pre>';
-
         // if buyer
         if($user['groupId'] == 2){
             $bindVals = [$this->lang, $user['userId'], $user['userId']];
@@ -85,7 +83,7 @@ class Tenders extends \Controller\BaseController
                     INNER JOIN userIndustries UI ON T.industryId = UI.industryId AND UI.userId = ?
                     
                     LEFT JOIN industries I ON I.industryId = T.industryId
-                    LEFT JOIN industries_lang IL ON I.industryId IL.industryId AND lang=?
+                    LEFT JOIN industries_lang IL ON I.industryId = IL.industryId AND lang=?
                     LEFT JOIN tenderAccess TA ON TA.tenderId = T.tenderId AND TA.userId = ?
                     LEFT JOIN tenderMsgs TM ON TM.tenderId = T.tenderId AND TM.tenderAccessId = TA.tenderAccessId AND TM.userId != ? AND TM.readedAt IS NULL
     
@@ -169,7 +167,7 @@ class Tenders extends \Controller\BaseController
                         break;
 
                     case 'suppliers' :
-                        $tableRow[] = '<div class="text-center"><a class="magnificPopup" href="'.$this->router->pathFor('tenders_suppliers', ['lang' => $this->lang, 'id' => $row['id']]).'"><span class="label label-primary">'.$row[$field].'</span></a></div>';
+                        $tableRow[] = '<div class="text-center"><a class="magnificPopup" href="'.$this->router->pathFor('tenders_suppliers', ['lang' => $this->lang, 'id' => $row['tenderId']]).'"><span class="label label-primary">'.$row[$field].'</span></a></div>';
                         break;
 
                     default : $tableRow[] = $row[$field];
@@ -181,7 +179,7 @@ class Tenders extends \Controller\BaseController
 
                 if($row['status'] == 1 && ($user['userId'] == $row['userId'] || $row['participate'] == 1)) {
                     $newMsgsStr = $row['msgs'] > 0 ? '<span class="label label-warning" style="font-size: 10px; padding: 1px 4px 3px 4px; vertical-align: top; position: absolute;">' . $row['msgs'] . '</span>' : '';
-                    $btns .= '<a href="'.$this->router->pathFor('tenders_msgs', ['lang' => $this->lang, 'id' => $row['id']]).'"><i class="fa fa-envelope-o fa-lg"></i>'.$newMsgsStr.'</a>';
+                    $btns .= '<a href="'.$this->router->pathFor('tenders_msgs', ['lang' => $this->lang, 'id' => $row['tenderId']]).'"><i class="fa fa-envelope-o fa-lg"></i>'.$newMsgsStr.'</a>';
                 }else{
                     $btns .= '<span style="padding:0 10px 0 9px"></span>';
                 }
@@ -189,20 +187,20 @@ class Tenders extends \Controller\BaseController
 
                 if($user['userId'] == $row['userId']){
                     $icon = $row['status'] == 0 ? 'fa fa-edit fa-lg' : 'fa fa-info-circle fa-lg';
-                    $btns .= '<a href="'.$this->router->pathFor('tenders_get', ['lang' => $this->lang, 'id' => $row['id']]).'"><i class="'.$icon.'"></i></a>';
+                    $btns .= '<a href="'.$this->router->pathFor('tenders_get', ['lang' => $this->lang, 'id' => $row['tenderId']]).'"><i class="'.$icon.'"></i></a>';
                 }elseif(!is_null($row['TA_Id'])){
-                    $btns .= '<a href="'.$this->router->pathFor('tenders_get', ['lang' => $this->lang, 'id' => $row['id']]).'"><i class="fa fa-info-circle fa-lg"></i></a>';
+                    $btns .= '<a href="'.$this->router->pathFor('tenders_get', ['lang' => $this->lang, 'id' => $row['tenderId']]).'"><i class="fa fa-info-circle fa-lg"></i></a>';
                 }else{
                     $fullAccessTo = new \DateTime($user['fullAccessTo']);
                     $today        = (new \DateTime())->setTime(23, 59, 59);
 
                     if($fullAccessTo > $today){
-                        $btns .= '<a href="'.$this->router->pathFor('tenders_access', ['lang' => $this->lang, 'id' => $row['id']]).'"><i class="fa fa-unlock fa-lg"></i></a>';
+                        $btns .= '<a href="'.$this->router->pathFor('tenders_access', ['lang' => $this->lang, 'id' => $row['tenderId']]).'"><i class="fa fa-unlock fa-lg"></i></a>';
                     }else{
 
                         $title = $this->trans('Buy access to this tender').'<br>'.$this->trans('The cost of participation in a tender: %money% AZN', ['%money%' => 0]).$this->trans('promo action');
 
-                        $btns .= '<a href="'.$this->router->pathFor('tenders_buy_access', ['lang' => $this->lang, 'id' => $row['id']]).'" class="magnificPopup" data-toggle="tooltip" title="" data-html="true" data-original-title="'.$title.'"><i class="fa fa-lock fa-lg"></i></a>';
+                        $btns .= '<a href="'.$this->router->pathFor('tenders_buy_access', ['lang' => $this->lang, 'id' => $row['tenderId']]).'" class="magnificPopup" data-toggle="tooltip" title="" data-html="true" data-original-title="'.$title.'"><i class="fa fa-lock fa-lg"></i></a>';
                     }
                 }
 
@@ -662,19 +660,19 @@ class Tenders extends \Controller\BaseController
 
             $this->db->beginTransaction();
 
-            $stmt = $this->db->prepare("UPDATE tenderAccess SET participate=1 WHERE id = ?");
-            $stmt->execute([$item['id']]);
+            $stmt = $this->db->prepare("UPDATE tenderAccess SET participate=1 WHERE tenderAccessId = ?");
+            $stmt->execute([$item['tenderAccessId']]);
 
             $stmt = $this->db->prepare("INSERT INTO tenderMsgs SET tenderAccessId=?, userId=?, tenderId=?, text=?");
             $stmt->execute(array(
-                $item['id'],
+                $item['tenderAccessId'],
                 1,
                 $args['id'],
                 $this->trans('New supplier')
             ));
             if(strlen($data['my_text']) > 0){
                 $stmt->execute(array(
-                    $item['id'],
+                    $item['tenderAccessId'],
                     $_SESSION['user']['userId'],
                     $args['id'],
                     $data['my_text']
@@ -698,7 +696,7 @@ class Tenders extends \Controller\BaseController
             return $response->withStatus(302)->withHeader('Location', $this->router->pathFor('tenders', ['lang' => $this->lang]));
         }
 
-        $stmt = $this->db->query("SELECT * FROM tenders WHERE id = ".(int) $args['id']);
+        $stmt = $this->db->query("SELECT * FROM tenders WHERE tenderId = ".(int) $args['id']);
         if (!$item = $stmt->fetch()) {
             $this->flash->addMessage('error', $this->trans('Tender %item_id% not found', ['%item_id%' => $args['id']]));
             return $response->withStatus(302)->withHeader('Location', $this->router->pathFor('tenders', ['lang' => $this->lang]));
@@ -714,20 +712,20 @@ class Tenders extends \Controller\BaseController
             return $response->withStatus(302)->withHeader('Location', $this->router->pathFor('tenders', ['lang' => $this->lang]));
         }
 
-        $stmt = $this->db->query("SELECT * FROM tenders WHERE id = ".(int) $args['id']);
+        $stmt = $this->db->query("SELECT * FROM tenders WHERE tenderId = ".(int) $args['id']);
         if (!$item = $stmt->fetch()) {
             $this->flash->addMessage('error', $this->trans('Tender %item_id% not found', ['%item_id%' => $args['id']]));
             return $response->withStatus(302)->withHeader('Location', $this->router->pathFor('tenders', ['lang' => $this->lang]));
         }
 
         $stmt = $this->db->prepare("INSERT INTO tenderAccess SET userId=?, tenderId=?");
-        $stmt->execute(array($_SESSION['user']['userId'], $item['id']));
+        $stmt->execute(array($_SESSION['user']['userId'], $item['tenderId']));
 
         return $response->withStatus(302)->withHeader('Location', $this->router->pathFor('tenders', ['lang' => $this->lang]));
     }
 
     public function finish(Request $request, Response $response, Array $args) {
-        $stmt = $this->db->query("SELECT * FROM tenders WHERE id = ".(int) $args['id']);
+        $stmt = $this->db->query("SELECT * FROM tenders WHERE tenderId = ".(int) $args['id']);
         if (!$item = $stmt->fetch()) {
             $this->flash->addMessage('error', $this->trans('Tender %item_id% not found', ['%item_id%' => $args['id']]));
             return $response->withStatus(302)->withHeader('Location', $this->router->pathFor('tenders', ['lang' => $this->lang]));
@@ -738,8 +736,8 @@ class Tenders extends \Controller\BaseController
             return $response->withStatus(302)->withHeader('Location', $this->router->pathFor('tenders', ['lang' => $this->lang]));
         }
 
-        $stmt = $this->db->prepare("UPDATE tenders SET status=-1 WHERE id=?");
-        $stmt->execute(array($item['id']));
+        $stmt = $this->db->prepare("UPDATE tenders SET status=-1 WHERE tenderId=?");
+        $stmt->execute(array($item['tenderId']));
 
         if($_SESSION['user']['groupId'] == 1){
             $path = $this->router->pathFor('admin_tenders', ['lang' => $this->lang]);
@@ -755,7 +753,7 @@ class Tenders extends \Controller\BaseController
             'pageTitle' => $this->trans('Tenders').' / '.$this->trans('Messages'),
         );
 
-        $stmt = $this->db->query("SELECT * FROM tenders WHERE id = ".(int) $args['id']);
+        $stmt = $this->db->query("SELECT * FROM tenders WHERE tenderId = ".(int) $args['id']);
         if (!$item = $stmt->fetch()) {
             $this->flash->addMessage('error', $this->trans('Tender %item_id% not found', ['%item_id%' => $args['id']]));
             return $response->withStatus(302)->withHeader('Location', $this->router->pathFor('tenders', ['lang' => $this->lang]));

@@ -22,10 +22,10 @@
                                 <div class="panel box box-info">
                                     <div class="box-header with-border">
                                         <h4 class="box-title">
-                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ item.id }}">{{ item.title }}</a>
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ item.helpId }}">{{ item.title }}</a>
                                         </h4>
                                     </div>
-                                    <div id="collapse{{ item.id }}" class="panel-collapse collapse {{ loop.first ? 'in' }}">
+                                    <div id="collapse{{ item.helpId }}" class="panel-collapse collapse {{ loop.first ? 'in' }}">
                                         <div class="box-body">{{ item.text|raw }}</div>
                                     </div>
                                 </div>

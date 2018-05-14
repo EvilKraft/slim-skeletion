@@ -36,7 +36,7 @@
                                         <select id="city" name="city" class="form-control select2" required="" data-error="{{ 'Select a city'|trans }}">
                                             <option value="" {{ (item.city|default('') == '') ? 'selected' }} disabled>{{ 'Select a city'|trans }}</option>
                                             {% for city in cities %}
-                                                <option value="{{ city.id }}" {{ (city.id == item.city|default('')) ? 'selected' }}>{{ city.name }}</option>
+                                                <option value="{{ city.cityId }}" {{ (city.cityId == item.city|default('')) ? 'selected' }}>{{ city.name }}</option>
                                             {% endfor %}
                                         </select>
                                         <div class="help-block with-errors"></div>
@@ -93,7 +93,7 @@
                                         <label for="industry">{{ 'Industry'|trans }} <span class="text-red">*</span></label>
                                         <select id="industry" name="industry[]" class="form-control select2" multiple="multiple" required="" data-error="{{ 'Select an industry'|trans }}" data-validate="{{ item.groupId|default('') == 3 ? 'true' : "false" }}">
                                             {% for industry in industries %}
-                                                <option value="{{ industry.id }}" {{ (industry.userId is not null) ? 'selected' }}>{{ industry.name }}</option>
+                                                <option value="{{ industry.industryId }}" {{ (industry.userId is not null) ? 'selected' }}>{{ industry.name }}</option>
                                             {% endfor %}
                                         </select>
                                         <div class="help-block with-errors"></div>
@@ -116,7 +116,7 @@
                                                 {% if contacts|length > 0 %}
                                                     {% for contact in contacts %}
                                                         <div class="row fields-to-add">
-                                                            <input type="hidden" name="contact_id[]" value="{{ contact.id }}" />
+                                                            <input type="hidden" name="contact_id[]" value="{{ contact.userContactId }}" />
 
                                                             <div class="col-xs-11">
                                                                 <div class="form-group">

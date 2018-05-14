@@ -58,7 +58,6 @@ $app->group('/{lang:'.$langRegExp.'}', function () use ($app) {
         $this->post('/upload-file', \Controller\Tenders\Tenders::class.':uploadFile')->setName('tenders_upload_file');
         $this->post('/delete-file', \Controller\Tenders\Tenders::class.':deleteFile')->setName('tenders_delete_file');
     })
-    ->add(\Middleware\UserMessagesMiddleware::class)
     ->add(\Controller\Auth::class.':checkAuth');
 
     $this->group('/chat', function () use ($app) {
@@ -67,7 +66,6 @@ $app->group('/{lang:'.$langRegExp.'}', function () use ($app) {
 
         $this->post('/vote', \Controller\Tenders\Chat::class.':vote')->setName('chat_vote');
     })
-    ->add(\Middleware\UserMessagesMiddleware::class)
     ->add(\Middleware\XhrMiddleware::class)
     ->add(\Controller\Auth::class.':checkAuth');
 
@@ -75,10 +73,8 @@ $app->group('/{lang:'.$langRegExp.'}', function () use ($app) {
     $this->group('/user', function () use ($app) {
         $this->map(['GET', 'PUT'],  '',         \Controller\User::class.':profile')->setName('profile');
         $this->map(['GET', 'POST'], '/support', \Controller\User::class.':support')->setName('support');
-        $this->get('/mailbox',                  \Controller\User::class.':mailbox')->setName('mailbox');
         $this->get('/help',                     \Controller\User::class.':help')->setName('help');
     })
-    ->add(\Middleware\UserMessagesMiddleware::class)
     ->add(\Controller\Auth::class.':checkAuth');
 
 
@@ -93,7 +89,6 @@ $app->group('/{lang:'.$langRegExp.'}', function () use ($app) {
 
         $this->group('/test',       \Controller\RESTController::class.'::registerRoutes');
     })
-    ->add(\Middleware\UserMessagesMiddleware::class)
     ->add(\Controller\Auth::class.':checkIsAdmin')
     ->add(\Controller\Auth::class.':checkAuth');
 
