@@ -184,7 +184,7 @@ class Tenders extends \Controller\RESTController
                     TA.*, 
                     1 as status,
                     T.name         AS tender_name,
-                    U.id           AS user_id,
+                    U.userId           AS user_id,
                     U.groupId      AS user_group,
                     U.name         AS user_name,
                     U.address      AS user_address,
@@ -200,9 +200,9 @@ class Tenders extends \Controller\RESTController
                     UC.email       AS contact_email
                     
                 FROM tenderAccess TA
-                INNER JOIN tenders T ON TA.tenderId = T.id
-                INNER JOIN userContacts UC ON T.contact = UC.id
-                INNER JOIN users U ON U.id = T.userId
+                INNER JOIN tenders T ON TA.tenderId = T.tenderId
+                INNER JOIN userContacts UC ON T.contact = UC.userContactId
+                INNER JOIN users U ON U.userId = T.userId
                 WHERE TA.tenderId = ?";
         $bindParams = array($args['id']);
         $stmt = $this->db->prepare($sql);
@@ -283,7 +283,7 @@ class Tenders extends \Controller\RESTController
             if($sendMail){
                 $sql = "SELECT U.* 
                         FROM users U
-                        INNER JOIN userIndustries UI ON U.id = UI.userId AND UI.industryId=?
+                        INNER JOIN userIndustries UI ON U.userId = UI.userId AND UI.industryId=?
                         WHERE U.groupId = 3 AND U.status = 1";
                 $stmt = $this->db->prepare($sql);
                 $stmt->execute([$vars['industry']]);

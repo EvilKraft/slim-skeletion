@@ -134,10 +134,6 @@
                                 <ul class="dropdown-menu">
                                     <li class="user-footer">
                                         <a href="{{ path_for('profile', {'lang': lang}) }}"><i class="fa fa-address-card-o"></i>{{ 'Profile'|trans }}</a>
-                                        {% if session.user.groupId in [2, 3] %}
-                                            <a href="{{ path_for('billing', {'lang': lang}) }}"><i class="fa fa-credit-card"></i>{{ 'Billing options'|trans }}</a>
-                                            {#<a href="{{ path_for('referals', {'lang': lang}) }}"><i class="fa fa-users"></i>{{ 'Referals'|trans }}</a>#}
-                                        {% endif %}
                                         <hr>
                                         <a href="{{ path_for('logout', {'lang': lang}) }}"><i class="fa fa-power-off"></i>{{ 'Sign out'|trans }}</a>
                                     </li>
@@ -186,9 +182,6 @@
 
                             <li {{ currentRoute == 'admin_pages' ? 'class="active"' }}>
                                 <a href="{{ path_for('admin_pages', {'lang': lang}) }}"><i class="fa fa-pencil-square-o"></i> <span>{{ 'REST.Pages.pageTitle'|trans }}</span></a>
-                            </li>
-                            <li {{ currentRoute == 'admin_billingoptions' ? 'class="active"' }}>
-                                <a href="{{ path_for('admin_billingoptions', {'lang': lang}) }}"><i class="fa fa-credit-card"></i> <span>{{ 'REST.BillingOptions.pageTitle'|trans }}</span></a>
                             </li>
                             <li {{ currentRoute == 'admin_help' ? 'class="active"' }}>
                                 <a href="{{ path_for('admin_help', {'lang': lang}) }}"><i class="fa fa-question-circle"></i> <span>{{ 'REST.Help.pageTitle'|trans }}</span></a>
@@ -245,10 +238,6 @@
                             </a>
                             <ul class="treeview-menu">
                                 <li {{ currentRoute == 'profile'  ? 'class="active"' }}><a href="{{ path_for('profile', {'lang': lang}) }}"><i class="fa fa-address-card-o"></i>{{ 'Profile'|trans }}</a></li>
-                                {% if session.user.groupId in [2, 3] %}
-                                    <li {{ currentRoute == 'billing'  ? 'class="active"' }}><a href="{{ path_for('billing', {'lang': lang}) }}"><i class="fa fa-credit-card"></i>{{ 'Billing options'|trans }}</a></li>
-                                    {#<li {{ currentRoute == 'referals' ? 'class="active"' }}><a href="{{ path_for('referals', {'lang': lang}) }}"><i class="fa fa-users"></i>{{ 'Referals'|trans }}</a></li>#}
-                                {% endif %}
                             </ul>
                         </li>
                         {% if session.user.groupId in [2, 3] %}

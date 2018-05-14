@@ -236,29 +236,6 @@ class User extends BaseController
         return $this->renderer->render($response, 'User/mailbox.twig', $this->data);
     }
 
-    public function billing(Request $request, Response $response, Array $args) {
-
-        if($request->isPost()){
-
-            $result = 1;
-
-            if($result == 1){
-                $this->flash->addMessage('success', $this->trans('OK'));
-            }else{
-                $this->flash->addMessage('error', $this->trans('An error occurred. Please contact administrator'));
-            }
-            return $response->withStatus(302)->withHeader('Location', $this->router->pathFor('tenders', ['lang' => $this->lang]));
-        }
-
-        $this->data['pageTitle'] = $this->trans('Billing options');
-
-        $stmt = $this->db->prepare("SELECT * FROM billingOptions WHERE groupId=?");
-        $stmt->execute([$_SESSION['user']['groupId']]);
-        $this->data['billingOptions'] = $stmt->fetch();
-
-        return $this->renderer->render($response, 'User/billing.twig', $this->data);
-    }
-
     public function help(Request $request, Response $response, Array $args) {
 
         $sql = "SELECT H.*, L.title, L.text

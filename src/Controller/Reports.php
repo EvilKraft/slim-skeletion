@@ -42,12 +42,12 @@ class Reports extends BaseController
                         0 AS paid,
                         U.status
                     FROM users U
-                    INNER JOIN userGroups G ON U.groupId = G.id
+                    INNER JOIN userGroups G ON U.groupId = G.userGroupId
                     LEFT JOIN (
                         SELECT userId, COUNT(*) AS tenders
                         FROM tenders
                         GROUP BY userId
-                    ) T ON U.id = T.userId
+                    ) T ON U.userId = T.userId
                     WHERE U.groupId != 1
                     ORDER BY U.name
                 ) T1;";
@@ -79,9 +79,9 @@ class Reports extends BaseController
 
         $sql = "SELECT IL.name, COUNT(*) AS users
                 FROM userIndustries UI
-                INNER JOIN industries I ON I.id = UI.industryId
-                INNER JOIN industries_lang IL ON I.id = IL.industryId AND lang=?
-                INNER JOIN users U ON U.id = UI.userId AND U.status = 1
+                INNER JOIN industries I ON I.industryId = UI.industryId
+                INNER JOIN industries_lang IL ON I.industryId = IL.industryId AND lang=?
+                INNER JOIN users U ON U.userId = UI.userId AND U.status = 1
                 GROUP BY IL.name
                 ORDER BY 1";
         $stmt = $this->db->prepare($sql);
@@ -155,7 +155,7 @@ class Reports extends BaseController
             if(is_array($actionBtns)){
                 $btns = '';
 
-                if($row['status'] == 1 && ($user['id'] == $row['userId'] || $row['participate'] == 1)) {
+                if($row['status'] == 1 && ($user['userId'] == $row['userId'] || $row['participate'] == 1)) {
                     $newMsgsStr = $row['msgs'] > 0 ? '<span class="label label-warning" style="font-size: 10px; padding: 1px 4px 3px 4px; vertical-align: top; position: absolute;">' . $row['msgs'] . '</span>' : '';
                     $btns .= '<a href="'.$this->router->pathFor('tenders_msgs', ['lang' => $this->lang, 'id' => $row['id']]).'"><i class="fa fa-envelope-o fa-lg"></i>'.$newMsgsStr.'</a>';
                 }else{
@@ -163,7 +163,7 @@ class Reports extends BaseController
                 }
 
 
-                if($user['id'] == $row['userId']){
+                if($user['userId'] == $row['userId']){
                     $icon = $row['status'] == 0 ? 'fa fa-edit fa-lg' : 'fa fa-info-circle fa-lg';
                     $btns .= '<a href="'.$this->router->pathFor('tenders_get', ['lang' => $this->lang, 'id' => $row['id']]).'"><i class="'.$icon.'"></i></a>';
                 }elseif(!is_null($row['TA_Id'])){

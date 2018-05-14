@@ -88,10 +88,10 @@ class Users extends \Controller\RESTController
             return $response->withStatus(302)->withHeader('Location', $this->getListUrl());
         }
 
-        $sql = "SELECT I.id, IL.name, UI.id AS UI_Id, UI.userId
+        $sql = "SELECT I.industryId, IL.name, UI.userIndustryId AS UI_Id, UI.userId
                 FROM industries I
-                INNER JOIN industries_lang IL ON I.id = IL.industryId AND lang=?
-                LEFT JOIN userIndustries UI ON UI.industryId = I.id AND userId=?";
+                INNER JOIN industries_lang IL ON I.industryId = IL.industryId AND lang=?
+                LEFT JOIN userIndustries UI ON UI.industryId = I.industryId AND userId=?";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$this->lang, $item['id']]);
         $industries = $stmt->fetchAll();
@@ -197,10 +197,10 @@ class Users extends \Controller\RESTController
         $stmt->execute();
         $this->data['cities'] = $stmt->fetchAll();
 
-        $sql = "SELECT I.id, IL.name, UI.id AS UI_Id, UI.userId
+        $sql = "SELECT I.industryId, IL.name, UI.userIndustryId AS UI_Id, UI.userId
                 FROM industries I
-                INNER JOIN industries_lang IL ON I.id = IL.industryId AND lang=?
-                LEFT JOIN userIndustries UI ON UI.industryId = I.id AND userId=?";
+                INNER JOIN industries_lang IL ON I.industryId = IL.industryId AND lang=?
+                LEFT JOIN userIndustries UI ON UI.industryId = I.industryId AND userId=?";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$this->lang, $this->data['item']['id']]);
         $this->data['industries'] = $stmt->fetchAll();

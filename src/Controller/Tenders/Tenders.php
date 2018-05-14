@@ -21,31 +21,33 @@ class Tenders extends \Controller\BaseController
             'pageTitle' => $this->trans('Tenders')
         );
 
+        echo '<pre>'.print_r($user, true).'</pre>';
+
         // if buyer
         if($user['groupId'] == 2){
-            $bindVals = [$this->lang, $user['id'], $user['id']];
+            $bindVals = [$this->lang, $user['userId'], $user['userId']];
 
             $sql = "SELECT 
-                        T.id, T.userId, IL.name AS industry, T.name, T.description, T.createdAt, 
+                        T.tenderId, T.userId, IL.name AS industry, T.name, T.description, T.createdAt, 
                         TA.suppliers, 
                         T.status,
                         TM.msgs
                     FROM tenders T
-                    INNER JOIN industries I ON I.id = T.industry
-                    INNER JOIN industries_lang IL ON I.id = IL.industryId AND lang=?
+                    INNER JOIN industries I ON I.industryId = T.industryId
+                    INNER JOIN industries_lang IL ON I.industryId = IL.industryId AND lang=?
                     LEFT JOIN (
                         SELECT TA.tenderId, COUNT(*) AS suppliers 
                         FROM tenderAccess TA 
-                        INNER JOIN users U ON TA.userId = U.id AND U.groupId = 3
+                        INNER JOIN users U ON TA.userId = U.userId AND U.groupId = 3
                         WHERE TA.participate = 1 
                         GROUP BY TA.tenderId
-                    ) TA ON TA.tenderId = T.id
+                    ) TA ON TA.tenderId = T.tenderId
                     LEFT JOIN (
                         SELECT tenderId, COUNT(*) AS msgs 
                         FROM tenderMsgs
                         WHERE userId != ? AND readedAt IS NULL 
                         GROUP BY tenderId
-                    ) TM ON TM.tenderId = T.id
+                    ) TM ON TM.tenderId = T.tenderId
                     
                     WHERE T.userId = ?
                     ORDER BY T.status DESC, T.createdAt DESC";
@@ -72,25 +74,25 @@ class Tenders extends \Controller\BaseController
 
         // if supplier
         if($user['groupId'] == 3){
-            $bindVals = [$user['id'], $this->lang, $user['id'], $user['id'], $user['id']];
+            $bindVals = [$user['userId'], $this->lang, $user['userId'], $user['userId'], $user['userId']];
 
             $sql = "SELECT 
-                        T.id, T.userId, IL.name AS industry, T.name, T.description, T.createdAt, T.status, 
-                        TA.id AS TA_Id, TA.participate,
-                        COUNT(TM.id) AS msgs
+                        T.tenderId, T.userId, IL.name AS industry, T.name, T.description, T.createdAt, T.status, 
+                        TA.tenderAccessId AS TA_Id, TA.participate,
+                        COUNT(TM.tenderMsgId) AS msgs
                     FROM tenders T
                     
-                    INNER JOIN userIndustries UI ON T.industry = UI.industryId AND UI.userId = ?
+                    INNER JOIN userIndustries UI ON T.industryId = UI.industryId AND UI.userId = ?
                     
-                    LEFT JOIN industries I ON I.id = T.industry
-                    LEFT JOIN industries_lang IL ON I.id = IL.industryId AND lang=?
-                    LEFT JOIN tenderAccess TA ON TA.tenderId = T.id AND TA.userId = ?
-                    LEFT JOIN tenderMsgs TM ON TM.tenderId = T.id AND TM.tenderAccessId = TA.id AND TM.userId != ? AND TM.readedAt IS NULL
+                    LEFT JOIN industries I ON I.industryId = T.industryId
+                    LEFT JOIN industries_lang IL ON I.industryId IL.industryId AND lang=?
+                    LEFT JOIN tenderAccess TA ON TA.tenderId = T.tenderId AND TA.userId = ?
+                    LEFT JOIN tenderMsgs TM ON TM.tenderId = T.tenderId AND TM.tenderAccessId = TA.tenderAccessId AND TM.userId != ? AND TM.readedAt IS NULL
     
                     WHERE 
                         T.userId != ? 
                     AND T.status = 1
-                    GROUP BY T.id, T.userId, IL.name, T.name, T.createdAt, T.status, TA.id
+                    GROUP BY T.tenderId, T.userId, IL.name, T.name, T.createdAt, T.status, TA.tenderAccessId
                     ORDER BY T.createdAt DESC";
 
             $stmt = $this->db->prepare($sql);
@@ -112,21 +114,12 @@ class Tenders extends \Controller\BaseController
             $data['activeTenders'] = $this->getTableData($rows, $fieldsToDisplay, array('edit'));
         }
 
-        $stmt = $this->db->prepare("SELECT * FROM billingOptions WHERE groupId=?");
-        $stmt->execute(array($user['groupId']));
-        $billingOptions = $stmt->fetch();
-        $data['aperiodicPayment'] = $billingOptions['aperiodicPayment'];
-
         return $this->renderer->render($response, 'Tenders/index.twig', $data);
     }
 
     protected function getTableData(Array $rows = null, Array $fieldsToDisplay = [], Array $actionBtns = null){
 
         $user = $_SESSION['user'];
-
-        $stmt = $this->db->prepare("SELECT * FROM billingOptions WHERE groupId=3");
-        $stmt->execute();
-        $billingOptions = $stmt->fetch();
 
         if(is_null($rows) || count($rows) == 0){
             return array(
@@ -186,7 +179,7 @@ class Tenders extends \Controller\BaseController
             if(is_array($actionBtns)){
                 $btns = '';
 
-                if($row['status'] == 1 && ($user['id'] == $row['userId'] || $row['participate'] == 1)) {
+                if($row['status'] == 1 && ($user['userId'] == $row['userId'] || $row['participate'] == 1)) {
                     $newMsgsStr = $row['msgs'] > 0 ? '<span class="label label-warning" style="font-size: 10px; padding: 1px 4px 3px 4px; vertical-align: top; position: absolute;">' . $row['msgs'] . '</span>' : '';
                     $btns .= '<a href="'.$this->router->pathFor('tenders_msgs', ['lang' => $this->lang, 'id' => $row['id']]).'"><i class="fa fa-envelope-o fa-lg"></i>'.$newMsgsStr.'</a>';
                 }else{
@@ -194,7 +187,7 @@ class Tenders extends \Controller\BaseController
                 }
 
 
-                if($user['id'] == $row['userId']){
+                if($user['userId'] == $row['userId']){
                     $icon = $row['status'] == 0 ? 'fa fa-edit fa-lg' : 'fa fa-info-circle fa-lg';
                     $btns .= '<a href="'.$this->router->pathFor('tenders_get', ['lang' => $this->lang, 'id' => $row['id']]).'"><i class="'.$icon.'"></i></a>';
                 }elseif(!is_null($row['TA_Id'])){
@@ -207,7 +200,7 @@ class Tenders extends \Controller\BaseController
                         $btns .= '<a href="'.$this->router->pathFor('tenders_access', ['lang' => $this->lang, 'id' => $row['id']]).'"><i class="fa fa-unlock fa-lg"></i></a>';
                     }else{
 
-                        $title = $this->trans('Buy access to this tender').'<br>'.$this->trans('The cost of participation in a tender: %money% AZN', ['%money%' => $billingOptions['aperiodicPayment']]).$this->trans('promo action');
+                        $title = $this->trans('Buy access to this tender').'<br>'.$this->trans('The cost of participation in a tender: %money% AZN', ['%money%' => 0]).$this->trans('promo action');
 
                         $btns .= '<a href="'.$this->router->pathFor('tenders_buy_access', ['lang' => $this->lang, 'id' => $row['id']]).'" class="magnificPopup" data-toggle="tooltip" title="" data-html="true" data-original-title="'.$title.'"><i class="fa fa-lock fa-lg"></i></a>';
                     }
@@ -238,7 +231,7 @@ class Tenders extends \Controller\BaseController
                     U.phone,
                     U.email
                 FROM tenderAccess TA
-                INNER JOIN users U ON U.id = TA.userId AND U.groupId = 3
+                INNER JOIN users U ON U.userId = TA.userId AND U.groupId = 3
                 WHERE TA.participate = 1 AND TA.tenderId = ?";
         $stmt = $this->db->prepare($sql);
         $stmt->execute(array($args['id']));
@@ -296,7 +289,7 @@ class Tenders extends \Controller\BaseController
             'secret'    => uniqid('', true),
         );
 
-        $stmt = $this->db->prepare("SELECT I.id, IL.name FROM industries I INNER JOIN industries_lang IL ON I.id = IL.industryId AND lang=?");
+        $stmt = $this->db->prepare("SELECT I.industryId, IL.name FROM industries I INNER JOIN industries_lang IL ON I.industryId = IL.industryId AND lang=?");
         $stmt->execute([$this->lang]);
         $data['industries'] = $stmt->fetchAll();
 
@@ -318,7 +311,7 @@ class Tenders extends \Controller\BaseController
                     T.*,
                     IL.name AS industry_name,
 
-                    U.id          AS user_id,
+                    U.userId      AS user_id,
                     U.groupId     AS user_group,
                     U.name        AS user_name,
                     U.voen        AS user_voen,
@@ -337,14 +330,14 @@ class Tenders extends \Controller\BaseController
                     UC.position   AS contact_position
 
                 FROM tenders T
-                INNER JOIN users U ON U.id = T.userId
-                INNER JOIN industries I ON I.id = T.industry
-                INNER JOIN industries_lang IL ON I.id = IL.industryId AND lang=?
-                INNER JOIN userContacts UC ON UC.id = T.contact
+                INNER JOIN users U ON U.userId = T.userId
+                INNER JOIN industries I ON I.industryId = T.industryId
+                INNER JOIN industries_lang IL ON I.industryId = IL.industryId AND lang=?
+                INNER JOIN userContacts UC ON UC.userContactId = T.contact
                 
-                LEFT JOIN votes V ON V.votedFor = U.id AND voter = ?
+                LEFT JOIN votes V ON V.votedFor = U.userId AND voter = ?
                 
-                WHERE T.id = ?";
+                WHERE T.tenderId = ?";
         $stmt = $this->db->prepare($sql);
         $stmt->execute(array($this->lang, $_SESSION['user']['userId'], $args['id']));
 
@@ -376,7 +369,7 @@ class Tenders extends \Controller\BaseController
                         TA.*, 
                         T.status,
                         T.name         AS tender_name, 
-                        U.id           AS user_id,
+                        U.userId       AS user_id,
                         U.groupId      AS user_group,
                         U.name         AS user_name,
                         U.address      AS user_address,
@@ -386,10 +379,10 @@ class Tenders extends \Controller\BaseController
                         U.stars        AS user_stars,
                         (CASE WHEN V.stars IS NULL THEN 0 ELSE 1 END) AS voted
                     FROM tenderAccess TA
-                    INNER JOIN tenders T ON TA.tenderId = T.id
-                    INNER JOIN users U ON U.id = TA.userId
+                    INNER JOIN tenders T ON TA.tenderId = T.tenderId
+                    INNER JOIN users U ON U.userId = TA.userId
                     
-                    LEFT JOIN votes V ON V.votedFor = U.id AND voter = ?
+                    LEFT JOIN votes V ON V.votedFor = U.userId AND voter = ?
                     
                     WHERE TA.tenderId = ?";
             $bindParams = array($_SESSION['user']['userId'], $args['id']);
@@ -398,7 +391,7 @@ class Tenders extends \Controller\BaseController
                         TA.*, 
                         1 as status,
                         T.name         AS tender_name,
-                        U.id           AS user_id,
+                        U.userId       AS user_id,
                         U.groupId      AS user_group,
                         U.name         AS user_name,
                         U.address      AS user_address,
@@ -412,9 +405,9 @@ class Tenders extends \Controller\BaseController
                         UC.phone       AS contact_phone,
                         UC.email       AS contact_email
                     FROM tenderAccess TA
-                    INNER JOIN tenders T ON TA.tenderId = T.id
-                    INNER JOIN userContacts UC ON T.contact = UC.id
-                    INNER JOIN users U ON U.id = T.userId
+                    INNER JOIN tenders T ON TA.tenderId = T.tenderId
+                    INNER JOIN userContacts UC ON T.contact = UC.userContactId
+                    INNER JOIN users U ON U.userId = T.userId
                     WHERE TA.tenderId = ?";
             $bindParams = array($args['id']);
         }else{
@@ -422,7 +415,7 @@ class Tenders extends \Controller\BaseController
                         TA.*, 
                         T.status,
                         T.name         AS tender_name, 
-                        U.id           AS user_id,
+                        U.userId       AS user_id,
                         U.groupId      AS user_group,
                         U.name         AS user_name,
                         U.address      AS user_address,
@@ -436,10 +429,10 @@ class Tenders extends \Controller\BaseController
                         UC.phone       AS contact_phone,
                         UC.email       AS contact_email
                     FROM tenderAccess TA
-                    INNER JOIN tenders T ON TA.tenderId = T.id
-                    INNER JOIN userContacts UC ON T.contact = UC.id
-                    INNER JOIN users U ON U.id = T.userId
-                    LEFT JOIN votes V ON V.votedFor = U.id AND voter = ?
+                    INNER JOIN tenders T ON TA.tenderId = T.tenderId
+                    INNER JOIN userContacts UC ON T.contact = UC.userContactId
+                    INNER JOIN users U ON U.userId = T.userId
+                    LEFT JOIN votes V ON V.votedFor = U.userId AND voter = ?
                     WHERE T.status = 1 AND TA.participate = 1 AND TA.tenderId = ? AND TA.userId = ?";
             $bindParams = array($_SESSION['user']['userId'], $args['id'], $_SESSION['user']['userId']);
         }
@@ -449,7 +442,7 @@ class Tenders extends \Controller\BaseController
 
         if($data['item']['status'] == 0){
 
-            $stmt = $this->db->prepare("SELECT I.id, IL.name FROM industries I INNER JOIN industries_lang IL ON I.id = IL.industryId AND lang=?");
+            $stmt = $this->db->prepare("SELECT I.industryId, IL.name FROM industries I INNER JOIN industries_lang IL ON I.industryId = IL.industryId AND lang=?");
             $stmt->execute([$this->lang]);
             $data['industries'] = $stmt->fetchAll();
 
@@ -617,8 +610,8 @@ class Tenders extends \Controller\BaseController
                     U.name  AS user_name,
                     U.email AS user_email
                 FROM tenders T
-                INNER JOIN users U ON T.userId = U.id
-                WHERE T.id=?";
+                INNER JOIN users U ON T.userId = U.userId
+                WHERE T.tenderId=?";
         $stmt = $this->db->prepare($sql);
         $stmt->execute(array($args['id']));
         if (!$tender = $stmt->fetch()) {
@@ -772,7 +765,7 @@ class Tenders extends \Controller\BaseController
             $sql = "SELECT 
                         TA.*, 
                         T.status,
-                        U.id           AS user_id,
+                        U.userId       AS user_id,
                         U.groupId      AS user_group,
                         T.name         AS tender_name, 
                         U.name         AS user_name,
@@ -783,16 +776,16 @@ class Tenders extends \Controller\BaseController
                         U.stars        AS user_stars,
                         (CASE WHEN V.stars IS NULL THEN 0 ELSE 1 END) AS voted
                     FROM tenderAccess TA
-                    INNER JOIN tenders T ON TA.tenderId = T.id
-                    INNER JOIN users U ON U.id = TA.userId
+                    INNER JOIN tenders T ON TA.tenderId = T.tenderId
+                    INNER JOIN users U ON U.userId = TA.userId
                     
-                    LEFT JOIN votes V ON V.votedFor = U.id AND voter = ?
+                    LEFT JOIN votes V ON V.votedFor = U.userId AND voter = ?
                     
                     WHERE TA.participate = 1 AND TA.tenderId = ?";
             $bindParams = array($_SESSION['user']['userId'], $args['id']);
 
             if (isset($args['accessId'])) {
-                $sql .= " AND TA.id = ?";
+                $sql .= " AND TA.tenderAccessId = ?";
                 $bindParams[] = $args['accessId'];
             }
         }elseif($_SESSION['user']['groupId'] == 1){
@@ -801,7 +794,7 @@ class Tenders extends \Controller\BaseController
                         TA.*, 
                         1 as status,
                         T.name         AS tender_name,
-                        U.id           AS user_id,
+                        U.userId       AS user_id,
                         U.groupId      AS user_group,
                         U.name         AS user_name,
                         U.address      AS user_address,
@@ -817,9 +810,9 @@ class Tenders extends \Controller\BaseController
                         UC.email       AS contact_email
                         
                     FROM tenderAccess TA
-                    INNER JOIN tenders T ON TA.tenderId = T.id
-                    INNER JOIN userContacts UC ON T.contact = UC.id
-                    INNER JOIN users U ON U.id = T.userId
+                    INNER JOIN tenders T ON TA.tenderId = T.tenderId
+                    INNER JOIN userContacts UC ON T.contact = UC.userContactId
+                    INNER JOIN users U ON U.userId = T.userId
                     WHERE TA.tenderId = ?";
 
             $bindParams = array($args['id']);
@@ -828,7 +821,7 @@ class Tenders extends \Controller\BaseController
                         TA.*, 
                         T.status,
                         T.name         AS tender_name,
-                        U.id           AS user_id,
+                        U.userId       AS user_id,
                         U.groupId      AS user_group, 
                         U.name         AS user_name,
                         U.address      AS user_address,
@@ -843,11 +836,11 @@ class Tenders extends \Controller\BaseController
                         UC.phone       AS contact_phone,
                         UC.email       AS contact_email
                     FROM tenderAccess TA
-                    INNER JOIN tenders T ON TA.tenderId = T.id
-                    INNER JOIN userContacts UC ON T.contact = UC.id
-                    INNER JOIN users U ON U.id = T.userId
+                    INNER JOIN tenders T ON TA.tenderId = T.tenderId
+                    INNER JOIN userContacts UC ON T.contact = UC.userContactId
+                    INNER JOIN users U ON U.userId = T.userId
                     
-                    LEFT JOIN votes V ON V.votedFor = U.id AND voter = ?
+                    LEFT JOIN votes V ON V.votedFor = U.userId AND voter = ?
                     
                     WHERE T.status = 1 AND TA.participate = 1 AND TA.tenderId = ? AND TA.userId = ?";
             $bindParams = array($_SESSION['user']['userId'], $args['id'], $_SESSION['user']['userId']);

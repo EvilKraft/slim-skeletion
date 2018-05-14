@@ -75,7 +75,6 @@ $app->group('/{lang:'.$langRegExp.'}', function () use ($app) {
     $this->group('/user', function () use ($app) {
         $this->map(['GET', 'PUT'],  '',         \Controller\User::class.':profile')->setName('profile');
         $this->map(['GET', 'POST'], '/support', \Controller\User::class.':support')->setName('support');
-        $this->map(['GET', 'POST'], '/billing', \Controller\User::class.':billing')->setName('billing');
         $this->get('/mailbox',                  \Controller\User::class.':mailbox')->setName('mailbox');
         $this->get('/help',                     \Controller\User::class.':help')->setName('help');
     })
@@ -89,7 +88,6 @@ $app->group('/{lang:'.$langRegExp.'}', function () use ($app) {
         $this->group('/industries', \Controller\Admin\Industries::class.'::registerRoutes');
         $this->group('/blog',       \Controller\Admin\Blog::class.'::registerRoutes');
         $this->group('/pages',      \Controller\Admin\Pages::class.'::registerRoutes');
-        $this->group('/billing',    \Controller\Admin\BillingOptions::class.'::registerRoutes');
         $this->group('/help',       \Controller\Admin\Help::class.'::registerRoutes');
         $this->group('/reports',    \Controller\Reports::class.'::registerRoutes');
 

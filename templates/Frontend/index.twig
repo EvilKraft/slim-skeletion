@@ -1,44 +1,6 @@
 {% extends 'frontend_layout.twig' %}
 
 {% block content %}
-    {#
-    <!--========== SLIDER ==========-->
-    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-        <div class="container">
-            <!-- Indicators -->
-            <ol class="carousel-indicators">
-                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-            </ol>
-        </div>
-
-        <!-- Wrapper for slides -->
-        <div class="carousel-inner" role="listbox">
-            <div class="item active">
-                <img class="img-responsive" src="{{ base_url() }}/resources/img/1920x1080/01.jpg" alt="Slider Image">
-                <div class="container">
-                    <div class="carousel-centered">
-                        <a href="{{ path_for('login',    {'lang': lang}) }}" class="btn-theme btn-theme-sm btn-white-brd text-uppercase">{{ 'Sign in'|trans }}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <a href="{{ path_for('register', {'lang': lang}) }}" class="btn-theme btn-theme-sm btn-white-brd text-uppercase">{{ 'Sign up'|trans }}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <a href="{{ path_for('why_reg',  {'lang': lang}) }}" class="btn-theme btn-theme-sm btn-white-brd text-uppercase">{{ 'Why?'|trans }}</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--========== SLIDER ==========-->
-
-    <!--========== PAGE LAYOUT ==========-->
-    {{ about_tpl|raw }}
-    {{ partners_tpl|raw }}
-    {{ service_tpl|raw }}
-    {{ contact_tpl|raw }}
-    <!--========== END PAGE LAYOUT ==========-->
-    #}
-
-
-
-
-
 
 
 
@@ -93,7 +55,8 @@
     <div class="content-area" id="primarybwrap">
         <div class="bwrapsite-main" id="mainbwrap" role="main">
             <div class="mag-wrapper">
-                <div class="mag section section" id="magstyle4"><div class="widget HTML" data-version="1" id="HTML920">
+                <div class="mag section section" id="magstyle4">
+                    <div class="widget HTML" data-version="1" id="HTML920">
                         <div class="widget-content">
                             <div class="title">
                                 <a href="https://news16-templatemark.blogspot.com/search/label/News">Trending News</a>
@@ -173,6 +136,7 @@
                 </div>
             </div>
             #}
+
             <div class="animated fadeInUp section" id="adpost"><div class="widget HTML" data-version="1" id="HTML6">
                     <div class="post-ad">
                         <div class="widget-content">
@@ -320,7 +284,8 @@
             #}
 
 
-            <div class="banner section section" id="recent3"><div class="widget HTML" data-version="1" id="HTML106">
+            <div class="banner section section" id="recent3">
+                <div class="widget HTML" data-version="1" id="HTML106">
                     <div class="mag-wrapper">
                         <div class="widget-content">
                             <div class="title"><span></span><a href="https://news16-templatemark.blogspot.com/search/label/Tips%20and%20Tricks">Tips and Tricks</a><div class="viewall"><a href="https://news16-templatemark.blogspot.com/search/label/Tips%20and%20Tricks"><i aria-hidden="true" class="fa fa-list-ul"></i> All News</a></div></div>
@@ -328,10 +293,12 @@
                             <ul id="label_with_thumbs"><li class="recent-box"><div class="imageContainer"><a href="https://news16-templatemark.blogspot.com/2017/10/new-resources-critical-for-stroke.html" target="_top"><img class="label_thumb" src="/News16_files/spring_2298279_960_7_0acWE_002.jpg" title="New Resources Critical for Stroke Recovery" alt="New Resources Critical for Stroke Recovery" style="width: auto; height: 120px; margin-left: -39.0909px; margin-top: 0px;"></a></div><a class="label_title" href="https://news16-templatemark.blogspot.com/2017/10/new-resources-critical-for-stroke.html" target="_top">New Resources Critical for Stroke Recovery</a><div class="toe"><a href="https://news16-templatemark.blogspot.com/2017/10/new-resources-critical-for-stroke.html" class="post-date">23 Oct 2017</a><a class="recent-com" href="https://news16-templatemark.blogspot.com/2017/10/new-resources-critical-for-stroke.html#comment-form" target="_top">1 Comment</a></div><p class="post-summary">The American Heart Association/American Stroke Association (AHA/ASA), the world’s leading voluntary organization...</p></li><li class="recent-box"><div class="imageContainer"><a href="https://news16-templatemark.blogspot.com/2017/10/help-for-homeowners-on-hook-for.html" target="_top"><img class="label_thumb" src="/News16_files/girl_97433_960_720_002.jpg" title="Help for Homeowners On the Hook for Billions in Hurricane Damages" alt="Help for Homeowners On the Hook for Billions in Hurricane Damages" style="width: auto; height: 120px; margin-left: -39.0909px; margin-top: 0px;"></a></div><a class="label_title" href="https://news16-templatemark.blogspot.com/2017/10/help-for-homeowners-on-hook-for.html" target="_top">Help for Homeowners On the Hook for Billions in Hurricane Damages</a><div class="toe"><a href="https://news16-templatemark.blogspot.com/2017/10/help-for-homeowners-on-hook-for.html" class="post-date">23 Oct 2017</a><a class="recent-com" href="https://news16-templatemark.blogspot.com/2017/10/help-for-homeowners-on-hook-for.html#comment-form" target="_top">No Comments</a></div><p class="post-summary">And now comes the arduous task of rebuilding hundreds of thousands of houses destroyed or damaged by Hurricanes Harvey...</p></li><li class="recent-box"><div class="imageContainer"><a href="https://news16-templatemark.blogspot.com/2017/10/solving-major-problem-in-additive.html" target="_top"><img class="label_thumb" src="/News16_files/child_817373_960_720_002.jpg" title="Solving A Major Problem in Additive Manufacturing" alt="Solving A Major Problem in Additive Manufacturing" style="width: auto; height: 120px; margin-left: -39.0909px; margin-top: 0px;"></a></div><a class="label_title" href="https://news16-templatemark.blogspot.com/2017/10/solving-major-problem-in-additive.html" target="_top">Solving A Major Problem in Additive Manufacturing</a><div class="toe"><a href="https://news16-templatemark.blogspot.com/2017/10/solving-major-problem-in-additive.html" class="post-date">23 Oct 2017</a><a class="recent-com" href="https://news16-templatemark.blogspot.com/2017/10/solving-major-problem-in-additive.html#comment-form" target="_top">No Comments</a></div><p class="post-summary">A new approach to making everything from jet engines to toys, called 3D printing, is creating a revolution in...</p></li><li class="recent-box"><div class="imageContainer"><a href="https://news16-templatemark.blogspot.com/2017/10/how-to-increase-your-savings-on-your.html" target="_top"><img class="label_thumb" src="/News16_files/blue_69762_960_720.jpg" title="How to Increase Your Savings on Your Terms" alt="How to Increase Your Savings on Your Terms" style="width: auto; height: 120px; margin-left: -39.0909px; margin-top: 0px;"></a></div><a class="label_title" href="https://news16-templatemark.blogspot.com/2017/10/how-to-increase-your-savings-on-your.html" target="_top">How to Increase Your Savings on Your Terms</a><div class="toe"><a href="https://news16-templatemark.blogspot.com/2017/10/how-to-increase-your-savings-on-your.html" class="post-date">23 Oct 2017</a><a class="recent-com" href="https://news16-templatemark.blogspot.com/2017/10/how-to-increase-your-savings-on-your.html#comment-form" target="_top">No Comments</a></div><p class="post-summary">"You need to save money." You tell yourself this. Others tell you this too. However, according to the 2015 FDIC...</p></li></ul>
                         </div>
                     </div>
-                </div></div>
+                </div>
+            </div>
             <div class="clear"></div>
             <div class="mag-wrapper">
-                <div class="mag section section" id="recent1"><div class="widget HTML" data-version="1" id="HTML923">
+                <div class="mag section section" id="recent1">
+                    <div class="widget HTML" data-version="1" id="HTML923">
                         <div class="widget-content">
                             <div class="title"><span></span><a href="https://news16-templatemark.blogspot.com/search/label/Gadgets">Gadgets</a><div class="viewall"><a href="https://news16-templatemark.blogspot.com/search/label/Gadgets"><i aria-hidden="true" class="fa fa-list-ul"></i> All News</a></div></div>
                             <div class="clear"></div>

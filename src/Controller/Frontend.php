@@ -18,10 +18,10 @@ class Frontend extends BaseController
 
         $data = array();
 
-        $data['about_tpl']    = $this->renderer->fetch('Frontend/index_about.twig',    $this->getPage('about'));
-        $data['partners_tpl'] = $this->renderer->fetch('Frontend/index_partners.twig', $this->getPage('partners'));
-        $data['service_tpl']  = $this->renderer->fetch('Frontend/index_service.twig',  $this->getPage('services'));
-        $data['contact_tpl']  = $this->renderer->fetch('Frontend/index_contact.twig',  $this->getPage('contacts'));
+    //    $data['about_tpl']    = $this->renderer->fetch('Frontend/index_about.twig',    $this->getPage('about'));
+    //    $data['partners_tpl'] = $this->renderer->fetch('Frontend/index_partners.twig', $this->getPage('partners'));
+    //    $data['service_tpl']  = $this->renderer->fetch('Frontend/index_service.twig',  $this->getPage('services'));
+    //    $data['contact_tpl']  = $this->renderer->fetch('Frontend/index_contact.twig',  $this->getPage('contacts'));
 
         return $this->renderer->render($response, 'Frontend/index.twig', $data);
     }
@@ -108,13 +108,13 @@ class Frontend extends BaseController
 
         $countSQL = "SELECT COUNT(*) total
                      FROM blog B
-                     INNER JOIN blog_lang L ON L.blogId = B.id AND L.lang = '".$this->lang."'
-                     INNER JOIN users U ON B.userId = U.id";
+                     INNER JOIN blog_lang L ON L.blogId = B.blogId AND L.lang = '".$this->lang."'
+                     INNER JOIN users U ON B.userId = U.userId";
 
         $dataSQL  = "SELECT B.*, L.*, U.name
                      FROM blog B
-                     INNER JOIN blog_lang L ON L.blogId = B.id AND L.lang = '".$this->lang."'
-                     INNER JOIN users U ON B.userId = U.id
+                     INNER JOIN blog_lang L ON L.blogId = B.blogId AND L.lang = '".$this->lang."'
+                     INNER JOIN users U ON B.userId = U.userId
                      ORDER BY B.createdAt DESC
                      LIMIT :limit OFFSET :offset";
 
@@ -154,4 +154,7 @@ class Frontend extends BaseController
 
         return $data;
     }
+
+
+   // protected function get
 }

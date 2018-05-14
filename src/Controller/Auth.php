@@ -35,7 +35,6 @@ class Auth extends BaseController
                     session_start();
                 }
 
-                session_start();
                 $_SESSION['user']   = $user;
 
                 $url = ($user['groupId'] == 1)
@@ -75,17 +74,6 @@ class Auth extends BaseController
                 return $response->withStatus(302)->withHeader('Location', $this->router->pathFor('register', ['lang' => $this->lang]));
             }
 
-            $stmt = $this->db->prepare("SELECT * FROM billingOptions WHERE groupId=?");
-            $stmt->execute([$data['group']]);
-            $options = $stmt->fetch();
-
-            $fullAccessTo = ($options['fullAccessTrial'] > 0)
-                          ? (new \DateTime())
-                                ->setTime(23, 59, 59)
-                                ->add(new \DateInterval('P'.$options['fullAccessTrial'].'D'))
-                                ->format('Y-m-d H:i:s')
-                          : NULL;
-
             $hashpass = password_hash((string)$data['password'], PASSWORD_DEFAULT);
             $activationCode = md5($data['email']);
 
@@ -104,7 +92,6 @@ class Auth extends BaseController
                 $data['site'],
                 $data['facebook'],
                 $data['description'],
-                $fullAccessTo,
             );
 
             try {

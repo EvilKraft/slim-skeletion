@@ -88,72 +88,12 @@
                                 <button class="btn btn-primary" type="submit" form="updateForm">{{ 'Submit'|trans }}</button>
                                 <a class="btn btn-default pull-right" href="{{ path_for('admin_tenders', {'lang': lang}) }}">{{ 'Cancel'|trans }}</a>
                             {% endif %}
-                            {% if (session.user.groupId == 1 or session.user.id == item.userId) and item.status|default('') in [0, 1] %}
+                            {% if (session.user.groupId == 1 or session.user.id == item.userId) and item is defined %}
                                 <a class="btn btn-danger" href="{{ path_for('tenders_finish', {'lang': lang, 'id': item.tenderId}) }}" onclick="return confirm('{{ 'Are you sure, you want to finish tender?'|trans }}')">{{ 'Finish'|trans }}</a>
                             {% endif %}
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="col-lg-6">
-                {% for chat in chats %}
-                    <div class="box box-primary direct-chat direct-chat-primary collapsed-box" data-chatid="{{ chat.id }}">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">
-                                {% set tender_link = (item is not defined) ? '<a href="'~path_for('tenders_get', {'lang': lang, 'id': chat.tenderId})~'">'~chat.tender_name~'</a> - ' %}
-                                {{ tender_link|raw }}{{ chat.contact_name is defined ? chat.contact_name~' ('~chat.user_name~')' : chat.user_name }}
-                            </h3>
-                            <div class="box-tools pull-right">
-                                <span data-toggle="tooltip" data-original-title="0 new messages" class="badge bg-light-blue">0</span>
-                                <button type="button" class="btn btn-box-tool" data-toggle="tooltip" data-original-title="{{ 'Contact info'|trans }}" data-widget="chat-pane-toggle"><i class="fa fa-id-card-o fa-lg"></i></button>
-                                <button type="button" class="btn btn-box-tool chat-collapser" data-widget="collapse"><i class="fa fa-plus fa-lg"></i></button>
-                            </div>
-                        </div>
-                        <div class="box-body">
-                            <div class="direct-chat-messages"></div>
-                            <div class="direct-chat-contacts">
-                                <ul class="contacts-list">
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-user-circle-o fa-3x direct-chat-img text-muted"></i>
-                                            <div class="contacts-list-info">
-                                                {% if chat.contact_name is defined %}
-                                                    <span class="contacts-list-name">{{ chat.contact_name }} ({{ chat.user_name }})</span>
-                                                    <p class="contacts-list-msg">{{ chat.contact_position }}</p>
-                                                    <p class="contacts-list-msg"><i class="glyphicon glyphicon-phone-alt text-light-blue"></i> : {{ chat.contact_phone }}</p>
-                                                    <p class="contacts-list-msg"><i class="glyphicon glyphicon-envelope text-light-blue"></i> : <a href="mailto:{{ chat.contact_email }}">{{ chat.contact_email }}</a></p>
-                                                {% else %}
-                                                    <span class="contacts-list-name">{{ chat.user_name }}</span>
-                                                    <p class="contacts-list-msg">{{ chat.user_description }}</p>
-                                                    <p class="contacts-list-msg"><i class="glyphicon glyphicon-phone-alt text-light-blue"></i> : {{ chat.user_phone }}</p>
-                                                    <p class="contacts-list-msg"><i class="glyphicon glyphicon-envelope text-light-blue"></i> : <a href="mailto:{{ chat.user_email }}">{{ chat.user_email }}</a></p>
-                                                {% endif %}
-
-                                                {% if chat.user_group != 1 %}
-                                                    <p>
-                                                        {#{% set display_stars = (session.user.groupId == 1 or chat.voted == 1) ? 'data-display-only="true"' : '' %}#}
-                                                        {% set display_stars = (session.user.groupId == 1) ? 'data-display-only="true"' : '' %}
-
-                                                        <input type="text" class="star-rating" value="{{ chat.user_stars }}" {{ display_stars|default('') }} data-vote-for="{{ chat.user_id }}" >
-                                                    </p>
-                                                {% endif %}
-                                            </div>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="box-footer">
-                            <div class="input-group">
-                                <input type="text" name="chat-message" placeholder="{{ 'Type Message ...'|trans }}" class="form-control" data-chat-id="{{ chat.id }}">
-                                <span class="input-group-btn">
-                                    <button id="chat_send_{{ chat.id }}" type="button" class="btn btn-primary btn-flat" onclick="myChat{{ chat.id }}.save();">{{ 'Send'|trans }}</button>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
             </div>
         </div>
     </section>
@@ -211,15 +151,6 @@
     <script src="{{ base_url() }}/resources/js/TenderChat.js?ver={{ version }}"></script>
 
     <script type="text/javascript">
-	    chatConfig = {
-		    update_path : "{{ path_for('chat_update', {'lang': lang}) }}",
-		    save_path   : "{{ path_for('chat_save', {'lang': lang}) }}",
-	    };
-        {% for chat in chats %}
-            myChat{{ chat.id }} = new TenderChat({{ chat.id }}, {{ chat.status }}, chatConfig);
-            myChat{{ chat.id }}.update();
-        {% endfor %}
-
         $(document).ready(function(){
             $('[data-toggle="tooltip"]').on('click', function () {
                 var icon = $(this).find('i.fa');

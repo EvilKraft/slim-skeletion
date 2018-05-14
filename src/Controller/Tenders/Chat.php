@@ -57,10 +57,10 @@ class Chat extends \Controller\BaseController
                     TM.*,
                     U.name
                 FROM tenderMsgs TM
-                LEFT JOIN users U ON U.id = TM.userId
+                LEFT JOIN users U ON U.userId = TM.userId
                 WHERE
                     TM.tenderAccessId = ?
-                AND TM.id > ?
+                AND TM.tenderMsgId > ?
                 ORDER BY TM.createdAt";
         $stmt = $this->db->prepare($sql);
         $stmt->execute(array(
@@ -135,8 +135,8 @@ class Chat extends \Controller\BaseController
             case 2 :    //if buyer
                 $sql = "SELECT TM.*, U.name AS user_name
                     FROM tenderMsgs TM
-                    INNER JOIN tenders T ON T.id = TM.tenderId AND T.userId = ?
-                    INNER JOIN users U ON TM.userId = U.id
+                    INNER JOIN tenders T ON T.tenderId = TM.tenderId AND T.userId = ?
+                    INNER JOIN users U ON TM.userId = U.userId
                     WHERE TM.userId != T.userId AND TM.readedAt IS NULL";
                 break;
 
