@@ -23,7 +23,7 @@ $app->add(function (Request $request, Response $response, callable $next) {
 //    $this->get('renderer')->getEnvironment()->addGlobal('trans_catalogue',    json_encode($translator->getCatalogue()->all('messages'), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK));
 
     $this->get('renderer')->getEnvironment()->addGlobal('lang',               $this->lang);
-    $this->get('renderer')->getEnvironment()->addGlobal('site_langs',         $this->get('settings')['i18n']['langs']);
+    $this->get('renderer')->getEnvironment()->addGlobal('langs',              $this->get('settings')['i18n']['langs']);
 
     $this->get('renderer')->getEnvironment()->addGlobal('session',            $_SESSION);
     $this->get('renderer')->getEnvironment()->addGlobal('session_id',         session_id());

@@ -63,7 +63,7 @@
                     <div class="box-footer">
                         <div class="form-group">
                             <button class="btn btn-primary" type="submit" form="updateForm">{{ 'Submit'|trans }}</button>
-                            <a class="btn btn-default pull-right" href="{{ path_for('admin_pages', {'lang': lang}) }}">{{ 'Cancel'|trans }}</a>
+                            <a class="btn btn-default pull-right" href="{{ path_for(indexRoute, {'lang': lang}) }}">{{ 'Cancel'|trans }}</a>
                         </div>
                     </div>
                 </div>
@@ -93,7 +93,7 @@
 
     <script type="text/javascript">
         $(document).ready(function(){
-            CKEDITOR.replaceClass = 'ckeditor';
+//	        CKEDITOR.replaceClass = 'ckeditor';
         });
     </script>
 

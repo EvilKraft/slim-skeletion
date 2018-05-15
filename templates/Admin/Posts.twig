@@ -30,27 +30,30 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label for="finishedAt">{{ 'Tender ends at'|trans }} <span class="text-red">*</span></label>
-                                <div class="input-group date">
-                                    <div class="input-group-addon">
-                                        <i class="fa fa-calendar"></i>
-                                    </div>
-                                    <input type="text" id="finishedAt" name="finishedAt" class="form-control pull-right datetimepicker" value="{{ item.finishedAt|default('') == '' ? "" : item.finishedAt|date("d.m.Y H:i") }}" required="" pattern="^\d\d\.\d\d\.\d\d\d\d \d\d:\d\d$" data-error="{{ 'Invalid value'|trans }}">
+                            <div class="nav-tabs-custom">
+                                <ul class="nav nav-tabs">
+                                    {% for lang in langs %}
+                                        <li {{ loop.first ? 'class="active"' }}><a data-toggle="tab" href="#tab_{{ lang }}">{{ lang|upper }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                                <div class="tab-content">
+                                    {% for lang in langs %}
+                                        <div id="tab_{{ lang }}" class="tab-pane {{ loop.first ? 'in active' }}">
+                                            <input type="hidden" name="id[{{ lang }}]" value="{{ item_langs[lang].langId|default('') }}" />
+
+                                            <div class="form-group">
+                                                <label for="title">{{ 'Title'|trans }} <span class="text-red">*</span></label>
+                                                <input id="title_{{ lang }}" name="title[{{ lang }}]" class="form-control" placeholder="{{ 'Title'|trans }}" value="{{ item_langs[lang].title|default('') }}" required="" type="text" data-error="{{ 'Invalid value'|trans }}">
+                                                <div class="help-block with-errors"></div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="text">{{ 'Text'|trans }} <span class="text-red">*</span></label>
+                                                <textarea id="text_{{ lang }}" name="text[{{ lang }}]" class="form-control ckeditor" placeholder="{{ 'Text'|trans }}" required="" data-error="{{ 'Invalid value'|trans }}">{{ item_langs[lang].text|default('') }}</textarea>
+                                                <div class="help-block with-errors"></div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
                                 </div>
-                                <div class="help-block with-errors"></div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="description">{{ 'Short description'|trans }} <span class="text-red">*</span></label>
-                                <input id="description" name="description" class="form-control" placeholder="{{ 'Short description'|trans }}" value="{{ item.description|default('') }}" required="" type="text" data-error="{{ 'Invalid value'|trans }}">
-                                <div class="help-block with-errors"></div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="description_full">{{ 'Full description'|trans }}</label>
-                                <textarea id="description_full" name="description_full" class="form-control" placeholder="{{ 'Full description'|trans }}">{{ item.description_full|default('') }}</textarea>
-                                <div class="help-block with-errors"></div>
                             </div>
 
                             <div class="form-group">
@@ -61,12 +64,12 @@
                     </div>
                     <div class="box-footer">
                         <div class="form-group">
-                            {% if item.status|default('') == 0 %}
+                            {% if item.status|default('') is same as(0) %}
                                 <button class="btn btn-success" type="submit" form="updateForm">{{ 'Moderate'|trans }}</button>
                                 <a class="btn btn-default pull-right" href="{{ path_for('admin_tenders_moderate', {'lang': lang}) }}">{{ 'Cancel'|trans }}</a>
                             {% else %}
                                 <button class="btn btn-primary" type="submit" form="updateForm">{{ 'Submit'|trans }}</button>
-                                <a class="btn btn-default pull-right" href="{{ path_for('admin_tenders', {'lang': lang}) }}">{{ 'Cancel'|trans }}</a>
+                                <a class="btn btn-default pull-right" href="{{ path_for(indexRoute, {'lang': lang}) }}">{{ 'Cancel'|trans }}</a>
                             {% endif %}
                             {% if (session.user.groupId == 1 or session.user.userId == item.userId) and item is defined %}
                                 <a class="btn btn-danger" href="{{ path_for('tenders_finish', {'lang': lang, 'id': item.tenderId}) }}" onclick="return confirm('{{ 'Are you sure, you want to finish tender?'|trans }}')">{{ 'Finish'|trans }}</a>
@@ -84,7 +87,7 @@
     {{ parent() }}
 
     <link type="text/css" rel="stylesheet" href="{{ base_url() }}/assets/select2/dist/css/select2.min.css?ver={{ version }}">
-    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/assets/select2/dist/css/select2-bootstrap.min.css?ver={{ version }}">
+    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/assets/select2-bootstrap-theme-dist/dist/select2-bootstrap.min.css?ver={{ version }}">
 
     <link type="text/css" rel="stylesheet" href="{{ base_url() }}/assets/adminlte/plugins/ckeditor/skins/moono/editor_gecko.css?t=H5SE&ver={{ version }}">
     <link type="text/css" rel="stylesheet" href="{{ base_url() }}/assets/adminlte/plugins/ckeditor/skins/moono/dialog.css?t=H5SE&ver={{ version }}">
@@ -173,7 +176,7 @@
                 width: '100%',
             });
 
-            CKEDITOR.replace('description_full');
+//	        CKEDITOR.replaceClass = 'ckeditor';
 
             var btns = '<button type="button" class="kv-cust-btn btn btn-xs btn-default" title="{{ 'Download'|trans }}" {dataKey}>'
                         + '<i class="glyphicon glyphicon-download"></i>'

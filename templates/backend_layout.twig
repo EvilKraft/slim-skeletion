@@ -71,7 +71,7 @@
                                 </a>
                                 <ul class="dropdown-menu" style="width: auto; min-width: 40px">
                                     <li>
-                                        {% for site_lang in site_langs %}
+                                        {% for site_lang in langs %}
                                             {% if site_lang != lang %}
                                                 {% set currentRouteArgs = currentRouteArgs|merge({'lang': site_lang}) %}
 
@@ -149,10 +149,6 @@
                             </li>
                             <li {{ currentRoute == 'admin_industries' ? 'class="active"' }}>
                                 <a href="{{ path_for('admin_industries', {'lang': lang}) }}"><i class="fa fa-industry"></i> <span>{{ 'REST.Industries.pageTitle'|trans }}</span></a>
-                            </li>
-
-                            <li {{ currentRoute == 'admin_blog' ? 'class="active"' }}>
-                                <a href="{{ path_for('admin_blog', {'lang': lang}) }}"><i class="fa fa-bold"></i> <span>{{ 'REST.Blog.pageTitle'|trans }}</span></a>
                             </li>
 
                             <li {{ currentRoute == 'admin_pages' ? 'class="active"' }}>

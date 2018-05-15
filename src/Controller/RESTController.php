@@ -43,6 +43,8 @@ class RESTController extends BaseController implements RESTInterface
         if(empty($this->template)){
           $this->template = implode('/', array_slice(explode('\\', get_called_class()), 1)).'.twig';
         }
+
+        $this->renderer->getEnvironment()->addGlobal('indexRoute', self::routePrefix());
     }
 
     public static function registerRoutes($app){
@@ -329,9 +331,7 @@ class RESTController extends BaseController implements RESTInterface
     protected function extraFormData(){
 
         // Add langs data to form
-        if(!empty($this->idxFieldLang)){
-            $this->data['langs'] = $this->settings['i18n']['langs'];
-
+        if(!empty($this->idxFieldLang) && isset($this->data['item'])){
             $stmt = $this->db->prepare("SELECT * FROM ".$this->table."_lang WHERE ".$this->idxField." = ?");
             $stmt->execute(array($this->data['item'][$this->idxField]));
             while ($row = $stmt->fetch()){

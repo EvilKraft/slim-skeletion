@@ -99,7 +99,7 @@
                             </ul>
                         </div>
 						<div class="logo2 navbar-nav-right" style="margin:12px;">
-                            {% for site_lang in site_langs %}
+                            {% for site_lang in langs %}
                                 {% if site_lang != lang %}
                                     {% set currentRouteArgs = currentRouteArgs|merge({'lang': site_lang}) %}
 

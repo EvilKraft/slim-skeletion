@@ -67,7 +67,6 @@ $app->group('/{lang:'.$langRegExp.'}', function () use ($app) {
 
         $this->group('/users',      \Controller\Admin\Users::class.'::registerRoutes');
         $this->group('/industries', \Controller\Admin\Industries::class.'::registerRoutes');
-        $this->group('/blog',       \Controller\Admin\Blog::class.'::registerRoutes');
         $this->group('/pages',      \Controller\Admin\Pages::class.'::registerRoutes');
         $this->group('/help',       \Controller\Admin\Help::class.'::registerRoutes');
         $this->group('/reports',    \Controller\Reports::class.'::registerRoutes');

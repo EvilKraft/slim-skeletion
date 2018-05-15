@@ -16,7 +16,7 @@ class Posts extends \Controller\RESTController
 {
     protected $table        = 'posts';
     protected $idxField     = 'postId';
-  //  protected $template    = 'Admin\Blog.twig';
+  //  protected $template    = 'Admin\Posts.twig';
 
     protected $columns      = ['title', 'createdAt'];
     protected $actions      = ['create', 'update', 'delete'];
@@ -31,20 +31,23 @@ class Posts extends \Controller\RESTController
         $stmt->execute([$this->lang]);
         $this->data['industries'] = $stmt->fetchAll();
 
-        $stmt = $this->db->prepare("SELECT * FROM tenderFiles WHERE tenderId = ?");
-        $stmt->execute(array($this->data['item']['id']));
-        $this->data['files'] = $stmt->fetchAll();
+        $this->data['files'] = array();
+        if(isset($this->data['item'])){
+            $stmt = $this->db->prepare("SELECT * FROM postFiles WHERE ".$this->idxField." = ?");
+            $stmt->execute(array($this->data['item'][$this->idxField]));
+            $this->data['files'] = $stmt->fetchAll();
 
-        foreach($this->data['files'] as $key => $file){
+            foreach($this->data['files'] as $key => $file){
 
-            switch ($file['type']) {
-                case (preg_match('/image.*/',                   $file['type']) ? true : false) : $this->data['files'][$key]['type'] = 'image'; break;
-                case 'text/html'                                                                       : $this->data['files'][$key]['type'] = 'html'; break;
-                case (preg_match('/text.*/',                    $file['type']) ? true : false) : $this->data['files'][$key]['type'] = 'text'; break;
-                case (preg_match('/\.video\/(ogg|mp4|webm)$/i', $file['type']) ? true : false) : $this->data['files'][$key]['type'] = 'video'; break;
-                case (preg_match('/\.audio\/(ogg|mp3|wav)$/i',  $file['type']) ? true : false) : $this->data['files'][$key]['type'] = 'audio'; break;
-                case 'application/x-shockwave-flash'                                                   : $this->data['files'][$key]['type'] = 'flash'; break;
-                default                                                                                : $this->data['files'][$key]['type'] = 'object'; break;
+                switch ($file['type']) {
+                    case (preg_match('/image.*/',                   $file['type']) ? true : false) : $this->data['files'][$key]['type'] = 'image';  break;
+                    case 'text/html'                                                                       : $this->data['files'][$key]['type'] = 'html';   break;
+                    case (preg_match('/text.*/',                    $file['type']) ? true : false) : $this->data['files'][$key]['type'] = 'text';   break;
+                    case (preg_match('/\.video\/(ogg|mp4|webm)$/i', $file['type']) ? true : false) : $this->data['files'][$key]['type'] = 'video';  break;
+                    case (preg_match('/\.audio\/(ogg|mp3|wav)$/i',  $file['type']) ? true : false) : $this->data['files'][$key]['type'] = 'audio';  break;
+                    case 'application/x-shockwave-flash'                                                   : $this->data['files'][$key]['type'] = 'flash';  break;
+                    default                                                                                : $this->data['files'][$key]['type'] = 'object'; break;
+                }
             }
         }
     }
