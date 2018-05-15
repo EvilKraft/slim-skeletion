@@ -137,6 +137,13 @@
                                     <i class="fa fa-th-list"></i> <span>{{ 'REST.Tenders.pageTitle'|trans }}</span>
                                 </a>
                             </li>
+
+                            <li {{ currentRoute == 'admin_posts' ? 'class="active"' }}>
+                                <a href="{{ path_for('admin_posts', {'lang': lang}) }}">
+                                    <i class="fa fa-th-list"></i> <span>{{ 'REST.Posts.pageTitle'|trans }}</span>
+                                </a>
+                            </li>
+
                             <li {{ currentRoute == 'admin_users' ? 'class="active"' }}>
                                 <a href="{{ path_for('admin_users', {'lang': lang}) }}"><i class="fa fa-users"></i> <span>{{ 'REST.Users.pageTitle'|trans }}</span></a>
                             </li>

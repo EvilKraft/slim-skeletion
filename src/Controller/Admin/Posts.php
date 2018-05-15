@@ -12,37 +12,59 @@ use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
-class Help extends \Controller\RESTController
+class Posts extends \Controller\RESTController
 {
-    protected $table        = 'help';
-    protected $idxField     = 'helpId';
-    protected $template     = 'Admin\Help.twig';
+    protected $table        = 'posts';
+    protected $idxField     = 'postId';
+  //  protected $template    = 'Admin\Blog.twig';
 
-    protected $columns      = ['title'];
-    protected $actions      = ['create', 'update', 'delete', 'move'];
+    protected $columns      = ['title', 'createdAt'];
+    protected $actions      = ['create', 'update', 'delete'];
 
     protected $idxFieldLang = 'langId';
+
+    protected function extraFormData()
+    {
+        parent::extraFormData();
+
+        $stmt = $this->db->prepare("SELECT I.industryId, IL.name FROM industries I INNER JOIN industries_lang IL ON I.industryId = IL.industryId AND lang=?");
+        $stmt->execute([$this->lang]);
+        $this->data['industries'] = $stmt->fetchAll();
+
+        $stmt = $this->db->prepare("SELECT * FROM tenderFiles WHERE tenderId = ?");
+        $stmt->execute(array($this->data['item']['id']));
+        $this->data['files'] = $stmt->fetchAll();
+
+        foreach($this->data['files'] as $key => $file){
+
+            switch ($file['type']) {
+                case (preg_match('/image.*/',                   $file['type']) ? true : false) : $this->data['files'][$key]['type'] = 'image'; break;
+                case 'text/html'                                                                       : $this->data['files'][$key]['type'] = 'html'; break;
+                case (preg_match('/text.*/',                    $file['type']) ? true : false) : $this->data['files'][$key]['type'] = 'text'; break;
+                case (preg_match('/\.video\/(ogg|mp4|webm)$/i', $file['type']) ? true : false) : $this->data['files'][$key]['type'] = 'video'; break;
+                case (preg_match('/\.audio\/(ogg|mp3|wav)$/i',  $file['type']) ? true : false) : $this->data['files'][$key]['type'] = 'audio'; break;
+                case 'application/x-shockwave-flash'                                                   : $this->data['files'][$key]['type'] = 'flash'; break;
+                default                                                                                : $this->data['files'][$key]['type'] = 'object'; break;
+            }
+        }
+    }
 
     protected function doCreate(Request $request, Response $response)
     {
         $vars = $request->getParsedBody();
 
-        $stmt = $this->db->prepare("SELECT IFNULL(MAX(sort), 0) + 1 AS next_sort FROM ".$this->table);
-        $stmt->execute();
-        $sort = $stmt->fetch()['next_sort'];
-
         try {
             $this->db->beginTransaction();
 
-            $stmt = $this->db->prepare("INSERT INTO ".$this->table." SET sort=?");
-            $stmt->execute([$sort]);
+            $stmt = $this->db->prepare("INSERT INTO ".$this->table." SET userId=?");
+            $stmt->execute([$_SESSION['user']['userId']]);
 
-            $pageId = $this->db->lastInsertId();
+            $blogId = $this->db->lastInsertId();
 
-            $stmt = $this->db->prepare("INSERT INTO ".$this->table."_lang SET pageId=?, lang=?, title=?, text=?");
+            $stmt = $this->db->prepare("INSERT INTO ".$this->table."_lang SET blogId=?, lang=?, title=?, text=?");
             foreach ($vars['id'] as $lang => $val){
                 $stmt->execute(array(
-                    $pageId,
+                    $blogId,
                     $lang,
                     $vars['title'][$lang],
                     $vars['text'][$lang],
@@ -79,7 +101,7 @@ class Help extends \Controller\RESTController
             foreach ($vars['id'] as $lang => $lang_id){
                 $stmt->execute(array(
                     $vars['title'][$lang],
-                        $vars['text'][$lang],
+                    $vars['text'][$lang],
                     $lang_id
                 ));
             }
@@ -95,4 +117,5 @@ class Help extends \Controller\RESTController
 
         return $response->withStatus(302)->withHeader('Location', $this->getListUrl());
     }
+
 }

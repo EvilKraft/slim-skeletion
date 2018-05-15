@@ -23,29 +23,14 @@ class Tenders extends \Controller\BaseController
 
         // if buyer
         if($user['groupId'] == 2){
-            $bindVals = [$this->lang, $user['userId'], $user['userId']];
+            $bindVals = [$this->lang, $user['userId']];
 
             $sql = "SELECT 
                         T.tenderId, T.userId, IL.name AS industry, T.name, T.description, T.createdAt, 
-                        TA.suppliers, 
-                        T.status,
-                        TM.msgs
+                        T.status
                     FROM tenders T
                     INNER JOIN industries I ON I.industryId = T.industryId
                     INNER JOIN industries_lang IL ON I.industryId = IL.industryId AND lang=?
-                    LEFT JOIN (
-                        SELECT TA.tenderId, COUNT(*) AS suppliers 
-                        FROM tenderAccess TA 
-                        INNER JOIN users U ON TA.userId = U.userId AND U.groupId = 3
-                        WHERE TA.participate = 1 
-                        GROUP BY TA.tenderId
-                    ) TA ON TA.tenderId = T.tenderId
-                    LEFT JOIN (
-                        SELECT tenderId, COUNT(*) AS msgs 
-                        FROM tenderMsgs
-                        WHERE userId != ? AND readedAt IS NULL 
-                        GROUP BY tenderId
-                    ) TM ON TM.tenderId = T.tenderId
                     
                     WHERE T.userId = ?
                     ORDER BY T.status DESC, T.createdAt DESC";
@@ -63,7 +48,6 @@ class Tenders extends \Controller\BaseController
                 'T.name'        => 'Tender',
                 'T.description' => 'Description',
                 'T.createdAt'   => 'Created AT',
-                'suppliers'     => 'Suppliers',
                 'status'        => 'Status',
             );
 
@@ -76,8 +60,7 @@ class Tenders extends \Controller\BaseController
 
             $sql = "SELECT 
                         T.tenderId, T.userId, IL.name AS industry, T.name, T.description, T.createdAt, T.status, 
-                        TA.tenderAccessId AS TA_Id, TA.participate,
-                        COUNT(TM.tenderMsgId) AS msgs
+                        TA.tenderAccessId AS TA_Id, TA.participate
                     FROM tenders T
                     
                     INNER JOIN userIndustries UI ON T.industryId = UI.industryId AND UI.userId = ?
@@ -85,7 +68,6 @@ class Tenders extends \Controller\BaseController
                     LEFT JOIN industries I ON I.industryId = T.industryId
                     LEFT JOIN industries_lang IL ON I.industryId = IL.industryId AND lang=?
                     LEFT JOIN tenderAccess TA ON TA.tenderId = T.tenderId AND TA.userId = ?
-                    LEFT JOIN tenderMsgs TM ON TM.tenderId = T.tenderId AND TM.tenderAccessId = TA.tenderAccessId AND TM.userId != ? AND TM.readedAt IS NULL
     
                     WHERE 
                         T.userId != ? 
@@ -166,10 +148,6 @@ class Tenders extends \Controller\BaseController
 
                         break;
 
-                    case 'suppliers' :
-                        $tableRow[] = '<div class="text-center"><a class="magnificPopup" href="'.$this->router->pathFor('tenders_suppliers', ['lang' => $this->lang, 'id' => $row['tenderId']]).'"><span class="label label-primary">'.$row[$field].'</span></a></div>';
-                        break;
-
                     default : $tableRow[] = $row[$field];
                 }
             }
@@ -177,13 +155,7 @@ class Tenders extends \Controller\BaseController
             if(is_array($actionBtns)){
                 $btns = '';
 
-                if($row['status'] == 1 && ($user['userId'] == $row['userId'] || $row['participate'] == 1)) {
-                    $newMsgsStr = $row['msgs'] > 0 ? '<span class="label label-warning" style="font-size: 10px; padding: 1px 4px 3px 4px; vertical-align: top; position: absolute;">' . $row['msgs'] . '</span>' : '';
-                    $btns .= '<a href="'.$this->router->pathFor('tenders_msgs', ['lang' => $this->lang, 'id' => $row['tenderId']]).'"><i class="fa fa-envelope-o fa-lg"></i>'.$newMsgsStr.'</a>';
-                }else{
-                    $btns .= '<span style="padding:0 10px 0 9px"></span>';
-                }
-
+                $btns .= '<span style="padding:0 10px 0 9px"></span>';
 
                 if($user['userId'] == $row['userId']){
                     $icon = $row['status'] == 0 ? 'fa fa-edit fa-lg' : 'fa fa-info-circle fa-lg';
@@ -283,7 +255,6 @@ class Tenders extends \Controller\BaseController
         $data = array(
             'pageTitle' => $this->trans('Tenders').' / '.$this->trans('New'),
             'files'     => [],
-            'chats'     => [],
             'secret'    => uniqid('', true),
         );
 
@@ -362,81 +333,6 @@ class Tenders extends \Controller\BaseController
         $stmt->execute(array($args['id']));
         $data['files'] = $stmt->fetchAll();
 
-        if($data['item']['userId'] == $_SESSION['user']['userId']) {
-            $sql = "SELECT 
-                        TA.*, 
-                        T.status,
-                        T.name         AS tender_name, 
-                        U.userId       AS user_id,
-                        U.groupId      AS user_group,
-                        U.name         AS user_name,
-                        U.address      AS user_address,
-                        U.phone        AS user_phone,
-                        U.email        AS user_email,
-                        U.description  AS user_description,
-                        U.stars        AS user_stars,
-                        (CASE WHEN V.stars IS NULL THEN 0 ELSE 1 END) AS voted
-                    FROM tenderAccess TA
-                    INNER JOIN tenders T ON TA.tenderId = T.tenderId
-                    INNER JOIN users U ON U.userId = TA.userId
-                    
-                    LEFT JOIN votes V ON V.votedFor = U.userId AND voter = ?
-                    
-                    WHERE TA.tenderId = ?";
-            $bindParams = array($_SESSION['user']['userId'], $args['id']);
-        }elseif($_SESSION['user']['groupId'] == 1){
-            $sql = "SELECT 
-                        TA.*, 
-                        1 as status,
-                        T.name         AS tender_name,
-                        U.userId       AS user_id,
-                        U.groupId      AS user_group,
-                        U.name         AS user_name,
-                        U.address      AS user_address,
-                        U.phone        AS user_phone,
-                        U.email        AS user_email,
-                        U.description  AS user_description,
-                        U.stars        AS user_stars,
-                        1              AS voted,
-                        UC.name        AS contact_name,
-                        UC.position    AS contact_position,
-                        UC.phone       AS contact_phone,
-                        UC.email       AS contact_email
-                    FROM tenderAccess TA
-                    INNER JOIN tenders T ON TA.tenderId = T.tenderId
-                    INNER JOIN userContacts UC ON T.contact = UC.userContactId
-                    INNER JOIN users U ON U.userId = T.userId
-                    WHERE TA.tenderId = ?";
-            $bindParams = array($args['id']);
-        }else{
-            $sql = "SELECT
-                        TA.*, 
-                        T.status,
-                        T.name         AS tender_name, 
-                        U.userId       AS user_id,
-                        U.groupId      AS user_group,
-                        U.name         AS user_name,
-                        U.address      AS user_address,
-                        U.phone        AS user_phone,
-                        U.email        AS user_email,
-                        U.description  AS user_description,
-                        U.stars        AS user_stars,
-                        (CASE WHEN V.stars IS NULL THEN 0 ELSE 1 END) AS voted,
-                        UC.name        AS contact_name,
-                        UC.position    AS contact_position,
-                        UC.phone       AS contact_phone,
-                        UC.email       AS contact_email
-                    FROM tenderAccess TA
-                    INNER JOIN tenders T ON TA.tenderId = T.tenderId
-                    INNER JOIN userContacts UC ON T.contact = UC.userContactId
-                    INNER JOIN users U ON U.userId = T.userId
-                    LEFT JOIN votes V ON V.votedFor = U.userId AND voter = ?
-                    WHERE T.status = 1 AND TA.participate = 1 AND TA.tenderId = ? AND TA.userId = ?";
-            $bindParams = array($_SESSION['user']['userId'], $args['id'], $_SESSION['user']['userId']);
-        }
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute($bindParams);
-        $data['chats'] = $stmt->fetchAll();
 
         if($data['item']['status'] == 0){
 
@@ -663,13 +559,6 @@ class Tenders extends \Controller\BaseController
             $stmt = $this->db->prepare("UPDATE tenderAccess SET participate=1 WHERE tenderAccessId = ?");
             $stmt->execute([$item['tenderAccessId']]);
 
-            $stmt = $this->db->prepare("INSERT INTO tenderMsgs SET tenderAccessId=?, userId=?, tenderId=?, text=?");
-            $stmt->execute(array(
-                $item['tenderAccessId'],
-                1,
-                $args['id'],
-                $this->trans('New supplier')
-            ));
             if(strlen($data['my_text']) > 0){
                 $stmt->execute(array(
                     $item['tenderAccessId'],
@@ -759,93 +648,6 @@ class Tenders extends \Controller\BaseController
             return $response->withStatus(302)->withHeader('Location', $this->router->pathFor('tenders', ['lang' => $this->lang]));
         }
 
-        if($item['userId'] == $_SESSION['user']['userId']) {
-            $sql = "SELECT 
-                        TA.*, 
-                        T.status,
-                        U.userId       AS user_id,
-                        U.groupId      AS user_group,
-                        T.name         AS tender_name, 
-                        U.name         AS user_name,
-                        U.address      AS user_address,
-                        U.phone        AS user_phone,
-                        U.email        AS user_email,
-                        U.description  AS user_description,
-                        U.stars        AS user_stars,
-                        (CASE WHEN V.stars IS NULL THEN 0 ELSE 1 END) AS voted
-                    FROM tenderAccess TA
-                    INNER JOIN tenders T ON TA.tenderId = T.tenderId
-                    INNER JOIN users U ON U.userId = TA.userId
-                    
-                    LEFT JOIN votes V ON V.votedFor = U.userId AND voter = ?
-                    
-                    WHERE TA.participate = 1 AND TA.tenderId = ?";
-            $bindParams = array($_SESSION['user']['userId'], $args['id']);
-
-            if (isset($args['accessId'])) {
-                $sql .= " AND TA.tenderAccessId = ?";
-                $bindParams[] = $args['accessId'];
-            }
-        }elseif($_SESSION['user']['groupId'] == 1){
-
-            $sql = "SELECT 
-                        TA.*, 
-                        1 as status,
-                        T.name         AS tender_name,
-                        U.userId       AS user_id,
-                        U.groupId      AS user_group,
-                        U.name         AS user_name,
-                        U.address      AS user_address,
-                        U.phone        AS user_phone,
-                        U.email        AS user_email,
-                        U.description  AS user_description,
-                        U.stars        AS user_stars,
-                        1              AS voted,
-                        
-                        UC.name        AS contact_name,
-                        UC.position    AS contact_position,
-                        UC.phone       AS contact_phone,
-                        UC.email       AS contact_email
-                        
-                    FROM tenderAccess TA
-                    INNER JOIN tenders T ON TA.tenderId = T.tenderId
-                    INNER JOIN userContacts UC ON T.contact = UC.userContactId
-                    INNER JOIN users U ON U.userId = T.userId
-                    WHERE TA.tenderId = ?";
-
-            $bindParams = array($args['id']);
-        }else{
-            $sql = "SELECT
-                        TA.*, 
-                        T.status,
-                        T.name         AS tender_name,
-                        U.userId       AS user_id,
-                        U.groupId      AS user_group, 
-                        U.name         AS user_name,
-                        U.address      AS user_address,
-                        U.phone        AS user_phone,
-                        U.email        AS user_email,
-                        U.description  AS user_description,
-                        U.stars        AS user_stars,
-                        (CASE WHEN V.stars IS NULL THEN 0 ELSE 1 END) AS voted,
-                        
-                        UC.name        AS contact_name,
-                        UC.position    AS contact_position,
-                        UC.phone       AS contact_phone,
-                        UC.email       AS contact_email
-                    FROM tenderAccess TA
-                    INNER JOIN tenders T ON TA.tenderId = T.tenderId
-                    INNER JOIN userContacts UC ON T.contact = UC.userContactId
-                    INNER JOIN users U ON U.userId = T.userId
-                    
-                    LEFT JOIN votes V ON V.votedFor = U.userId AND voter = ?
-                    
-                    WHERE T.status = 1 AND TA.participate = 1 AND TA.tenderId = ? AND TA.userId = ?";
-            $bindParams = array($_SESSION['user']['userId'], $args['id'], $_SESSION['user']['userId']);
-        }
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute($bindParams);
-        $data['chats'] = $stmt->fetchAll();
 
         return $this->renderer->render($response, 'Tenders/get.twig', $data);
     }

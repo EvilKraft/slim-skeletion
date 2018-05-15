@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Май 14 2018 г., 16:10
+-- Время создания: Май 15 2018 г., 16:57
 -- Версия сервера: 5.7.19
 -- Версия PHP: 7.1.7
 
@@ -388,152 +388,6 @@ INSERT INTO `industries_lang` (`langId`, `industryId`, `lang`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `mailerQueue`
---
-
-CREATE TABLE `mailerQueue` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `mail_from` varchar(255) NOT NULL,
-  `name_from` varchar(255) NOT NULL,
-  `mail_to` varchar(255) NOT NULL,
-  `name_to` varchar(255) NOT NULL,
-  `subject` varchar(255) NOT NULL,
-  `text` text NOT NULL,
-  `status` tinyint(4) NOT NULL DEFAULT '0',
-  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `sendAt` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `mailerQueue`
---
-
-INSERT INTO `mailerQueue` (`id`, `mail_from`, `name_from`, `mail_to`, `name_to`, `subject`, `text`, `status`, `createdAt`, `sendAt`) VALUES
-(1, 'noreply@example.com', 'tenders.az', 'zzzxx@zz.com', 'qqqqqqqqqqqqq', 'Новые тендены', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>Tenders</title>\n    </head>\n    <body>\n        <h3>Новые тендены</h3>\n        <br>\n        <p>\n            Тендер:\n            <a href=\"http://tend.netant.az/az/tenders/6\">New Tender 21.08.17 11:35</a>\n        </p>\n        <br>\n        <p>Описание: Tender1</p>\n    </body>\n</html>', 1, '2017-08-28 08:34:35', '2017-10-30 13:49:45'),
-(2, 'noreply@example.com', 'tenders.az', 'r.c.rustam@gmail.com', 'Pro100', 'Новые тендены', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>Tenders</title>\n    </head>\n    <body>\n        <h3>Новые тендены</h3>\n        <br>\n        <p>\n            Тендер:\n            <a href=\"http://tend.netant.az/az/tenders/6\">New Tender 21.08.17 11:35</a>\n        </p>\n        <br>\n        <p>Описание: Tender1</p>\n    </body>\n</html>', 1, '2017-08-28 08:34:35', '2017-10-30 13:49:46'),
-(3, 'noreply@example.com', 'tenders.az', 'evilkraft@gmail.com', 'Test suplier', 'Новые тендены', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>Tenders</title>\n    </head>\n    <body>\n        <h3>Новые тендены</h3>\n        <br>\n        <p>\n            Тендер:\n            <a href=\"http://tend.netant.az/az/tenders/9\">Router </a>\n        </p>\n        <br>\n        <p>Описание: Router </p>\n    </body>\n</html>', 1, '2017-08-29 06:09:42', '2017-10-30 13:49:46'),
-(4, 'noreply@example.com', 'tenders.az', 'zzzxx@zz.com', 'qqqqqqqqqqqqq', 'Новые тендены', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>Tenders</title>\n    </head>\n    <body>\n        <h3>Новые тендены</h3>\n        <br>\n        <p>\n            Тендер:\n            <a href=\"http://tend.netant.az/az/tenders/10\">new tender</a>\n        </p>\n        <br>\n        <p>Описание: new tender</p>\n    </body>\n</html>', 1, '2017-08-29 11:26:57', '2017-10-30 13:49:46'),
-(5, 'noreply@example.com', 'tenders.az', 'r.c.rustam@gmail.com', 'Pro100', 'Новые тендены', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>Tenders</title>\n    </head>\n    <body>\n        <h3>Новые тендены</h3>\n        <br>\n        <p>\n            Тендер:\n            <a href=\"http://tend.netant.az/az/tenders/10\">new tender</a>\n        </p>\n        <br>\n        <p>Описание: new tender</p>\n    </body>\n</html>', 1, '2017-08-29 11:26:57', '2017-10-30 13:49:46'),
-(6, 'noreply@example.com', 'tenders.az', 'evilkraft@gmail.com', 'Test suplier', 'Новые тендены', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>Tenders</title>\n    </head>\n    <body>\n        <h3>Новые тендены</h3>\n        <br>\n        <p>\n            Тендер:\n            <a href=\"http://tend.netant.az/az/tenders/11\">еще один тендер</a>\n        </p>\n        <br>\n        <p>Описание: еще один раз</p>\n    </body>\n</html>', 1, '2017-08-29 11:38:08', '2017-10-30 13:49:46'),
-(7, 'noreply@example.com', 'tenders.az', 'zzzxx@zz.com', 'qqqqqqqqqqqqq', 'Новые тендены', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>Tenders</title>\n    </head>\n    <body>\n        <h3>Новые тендены</h3>\n        <br>\n        <p>\n            Тендер:\n            <a href=\"http://tend.netant.az/az/tenders/12\">тендер 2</a>\n        </p>\n        <br>\n        <p>Описание: тендер 2</p>\n    </body>\n</html>', 1, '2017-08-29 11:40:20', '2017-10-30 13:49:46'),
-(8, 'noreply@example.com', 'tenders.az', 'r.c.rustam@gmail.com', 'Pro100', 'Новые тендены', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>Tenders</title>\n    </head>\n    <body>\n        <h3>Новые тендены</h3>\n        <br>\n        <p>\n            Тендер:\n            <a href=\"http://tend.netant.az/az/tenders/12\">тендер 2</a>\n        </p>\n        <br>\n        <p>Описание: тендер 2</p>\n    </body>\n</html>', 1, '2017-08-29 11:40:20', '2017-10-30 13:49:46'),
-(9, 'noreply@example.com', 'tenders.az', 'rustam.rustamov@pmdgroup.az', 'IdbI Group', 'Новые тендены', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>Tenders</title>\n    </head>\n    <body>\n        <h3>Новые тендены</h3>\n        <br>\n        <p>\n            Тендер:\n            <a href=\"http://tend.netant.az/az/tenders/12\">тендер 2</a>\n        </p>\n        <br>\n        <p>Описание: тендер 2</p>\n    </body>\n</html>', 1, '2017-08-29 11:40:20', '2017-10-30 13:49:46'),
-(10, 'noreply@example.com', 'tenders.az', 'evilkraft@gmail.com', 'Test suplier', 'Новые тендены', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>Tenders</title>\n    </head>\n    <body>\n        <h3>Новые тендены</h3>\n        <br>\n        <p>\n            Тендер:\n            <a href=\"http://tend.netant.az/az/tenders/13\">Компьютеры</a>\n        </p>\n        <br>\n        <p>Описание: Компьютеры</p>\n    </body>\n</html>', 1, '2017-08-30 08:34:34', '2017-10-30 13:49:46'),
-(11, 'noreply@example.com', 'tenders.az', 'zeuz1@list.ru', 'Test suplier 2', 'Новые тендены', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>Tenders</title>\n    </head>\n    <body>\n        <h3>Новые тендены</h3>\n        <br>\n        <p>\n            Тендер:\n            <a href=\"http://tend.netant.az/az/tenders/15\">test</a>\n        </p>\n        <br>\n        <p>Описание: test</p>\n    </body>\n</html>', 1, '2017-09-06 09:44:08', '2017-10-30 14:30:01'),
-(12, 'noreply@example.com', 'tenders.az', 'evilkraft@gmail.com', 'Test suplier', 'Новые тендены', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>Tenders</title>\n    </head>\n    <body>\n        <h3>Новые тендены</h3>\n        <br>\n        <p>\n            Тендер:\n            <a href=\"http://tend.netant.az/az/tenders/14\">Для модерации</a>\n        </p>\n        <br>\n        <p>Описание: проверить</p>\n    </body>\n</html>', 1, '2017-09-12 09:56:23', '2017-10-30 14:30:01'),
-(13, 'noreply@example.com', 'tenders.az', 'evilkraft@gmail.com', 'Test suplier', 'Новые тендены', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>Tenders</title>\n    </head>\n    <body>\n        <h3>Новые тендены</h3>\n        <br>\n        <p>\n            Тендер:\n            <a href=\"http://tend.netant.az/ru/tenders/18\">tender test</a>\n        </p>\n        <br>\n        <p>Описание: test</p>\n    </body>\n</html>', 1, '2017-09-25 10:25:25', '2017-10-30 14:30:01'),
-(14, 'noreply@example.com', 'tenders.az', 'evilkraft@gmail.com', 'Test suplier', 'Новые тендены', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>Tenders</title>\n    </head>\n    <body>\n        <h3>Новые тендены</h3>\n        <br>\n        <p>\n            Тендер:\n            <a href=\"http://tend.netant.az/az/tenders/16\">Для еды и питья компании</a>\n        </p>\n        <br>\n        <p>Описание: Для еды и питья компании ------------ краткое описание-------------без деталей</p>\n    </body>\n</html>', 1, '2017-10-02 05:35:30', '2017-10-30 14:30:01'),
-(15, 'noreply@example.com', 'tenders.az', 'evilkraft@gmail.com', 'Test suplier', 'Новые тендены', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>Tenders</title>\n    </head>\n    <body>\n        <h3>Новые тендены</h3>\n        <br>\n        <p>\n            Тендер:\n            <a href=\"http://tend.netant.az/ru/tenders/20\">покупка домена и создание сайта</a>\n        </p>\n        <br>\n        <p>Описание: покупка домена и создание сайта ----- короткое описание</p>\n    </body>\n</html>', 1, '2017-10-13 07:41:13', '2017-10-30 14:30:02'),
-(16, 'noreply@example.com', 'tenders.az', 'evilkraft@gmail.com', 'Test suplier', 'Новые тендеры', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>Tenders</title>\n    </head>\n    <body>\n        <h3>Новые тендеры</h3>\n        <br>\n        <p>\n            Тендер:\n            <a href=\"http://mytender.az/ru/tenders/19\">Test foot and Beverage</a>\n        </p>\n        <br>\n        <p>Описание: Test foot and Beverage -------- short description</p>\n    </body>\n</html>', 1, '2017-10-20 12:39:25', '2017-10-30 14:30:02'),
-(17, 'noreply@example.com', 'tenders.az', 'evilkraft@gmail.com', 'Test suplier', 'Новые тендеры', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>mytender</title>\n    </head>\n    <body>\n        <h3>Новые тендеры</h3>\n        <br>\n        <p>\n            Тендер:\n            <a href=\"http://mytender.az/ru/tenders/22\">RR</a>\n        </p>\n        <br>\n        <p>Описание: Kkkd</p>\n    </body>\n</html>', 1, '2017-10-21 18:01:21', '2017-10-30 14:30:02'),
-(18, 'noreply@example.com', 'tenders.az', 'evilkraft@gmail.com', 'Test suplier', 'Новые тендеры', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>mytender</title>\n    </head>\n    <body>\n        <h3>Новые тендеры</h3>\n        <br>\n        <p>\n            Тендер:\n            <a href=\"http://mytender.az/ru/tenders/17\">TV</a>\n        </p>\n        <br>\n        <p>Описание: TV</p>\n    </body>\n</html>', 1, '2017-10-21 18:02:37', '2017-10-30 14:30:02'),
-(19, 'noreply@example.com', 'tenders.az', 'evilkraft@gmail.com', 'Test suplier', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>mytender</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"http://mytender.az/az/tenders/21\">üefrtyui</a>\n        </p>\n        <br>\n        <p>Təsvir: Test foot and Beverage -------- short description</p>\n    </body>\n</html>', 1, '2017-10-22 10:28:22', '2017-10-30 14:30:02'),
-(20, 'noreply@example.com', 'tenders.az', 'rustam.rustamov@pmdgroup.az', 'IdbI Group', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>mytender</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"http://mytender.az/az/tenders/21\">üefrtyui</a>\n        </p>\n        <br>\n        <p>Təsvir: Test foot and Beverage -------- short description</p>\n    </body>\n</html>', 1, '2017-10-22 10:28:22', '2017-10-30 14:30:02'),
-(21, 'noreply@example.com', 'mytenders.az', 'evilkraft@gmail.com', 'Test suplier', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDERS</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"http://mytender.az/az/tenders/28\">Test</a>\n        </p>\n        <br>\n        <p>Təsvir: qqqqqq</p>\n    </body>\n</html>', 1, '2017-10-25 06:55:50', '2017-10-30 15:30:01'),
-(22, 'noreply@example.com', 'mytenders.az', 'rustam.rustamov@pmdgroup.az', 'IdbI Group', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDERS</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"http://mytender.az/az/tenders/28\">Test</a>\n        </p>\n        <br>\n        <p>Təsvir: qqqqqq</p>\n    </body>\n</html>', 1, '2017-10-25 06:55:50', '2017-10-30 15:30:01'),
-(23, 'noreply@mytender.az', 'mytender.az', 'evilkraft@gmail.com', 'Test suplier', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/26\">mail.mytender.az</a>\n        </p>\n        <br>\n        <p>Təsvir: xdcfgv</p>\n    </body>\n</html>', 1, '2017-10-26 08:01:26', '2017-10-30 15:30:01'),
-(24, 'noreply@mytender.az', 'mytender.az', 'taleh@pooltech.az', 'Pooltech MMC', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/26\">mail.mytender.az</a>\n        </p>\n        <br>\n        <p>Təsvir: xdcfgv</p>\n    </body>\n</html>', 1, '2017-10-26 08:01:26', '2017-10-30 15:30:01'),
-(25, 'noreply@mytender.az', 'mytender.az', 'evilkraft@gmail.com', 'Test suplier', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/27\">züxeri</a>\n        </p>\n        <br>\n        <p>Təsvir: erytuyiuiopöcfgvbhjn</p>\n    </body>\n</html>', 1, '2017-10-26 08:09:55', '2017-10-30 15:30:02'),
-(26, 'noreply@mytender.az', 'mytender.az', 'taleh@pooltech.az', 'Pooltech MMC', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/27\">züxeri</a>\n        </p>\n        <br>\n        <p>Təsvir: erytuyiuiopöcfgvbhjn</p>\n    </body>\n</html>', 1, '2017-10-26 08:09:55', '2017-10-30 15:30:02'),
-(27, 'noreply@mytender.az', 'mytender.az', 'evilkraft@gmail.com', 'Test suplier', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/29\">Test</a>\n        </p>\n        <br>\n        <p>Təsvir: Test</p>\n    </body>\n</html>', 1, '2017-10-26 08:10:26', '2017-10-30 15:30:02'),
-(28, 'noreply@mytender.az', 'mytender.az', 'taleh@pooltech.az', 'Pooltech MMC', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/29\">Test</a>\n        </p>\n        <br>\n        <p>Təsvir: Test</p>\n    </body>\n</html>', 1, '2017-10-26 08:10:26', '2017-10-30 15:30:02'),
-(29, 'noreply@mytender.az', 'mytender.az', 'evilkraft@gmail.com', 'Test suplier', 'Новые тендеры', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Новые тендеры</h3>\n        <br>\n        <p>\n            Тендер:\n            <a href=\"https://mytender.az/ru/tenders/31\">Anty Boss</a>\n        </p>\n        <br>\n        <p>Описание: Нефтехимическое состовляющее</p>\n    </body>\n</html>', 1, '2017-10-27 19:20:17', '2017-10-30 15:30:02'),
-(30, 'noreply@mytender.az', 'mytender.az', 'taleh@pooltech.az', 'Pooltech MMC', 'Новые тендеры', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Новые тендеры</h3>\n        <br>\n        <p>\n            Тендер:\n            <a href=\"https://mytender.az/ru/tenders/31\">Anty Boss</a>\n        </p>\n        <br>\n        <p>Описание: Нефтехимическое состовляющее</p>\n    </body>\n</html>', 1, '2017-10-27 19:20:17', '2017-10-30 15:30:02'),
-(31, 'noreply@mytender.az', 'mytender.az', 'evilkraft@gmail.com', 'Test suplier', 'New tenders', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>New tenders</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/en/tenders/32\">Transport Tender</a>\n        </p>\n        <br>\n        <p>Description: Transport Tender -------- short description</p>\n    </body>\n</html>', 1, '2017-10-30 08:27:35', '2017-10-30 16:30:01'),
-(32, 'noreply@mytender.az', 'mytender.az', 'evilkraft@gmail.com', 'Test suplier', 'New tenders', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>New tenders</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/en/tenders/33\">Transport Tender 2</a>\n        </p>\n        <br>\n        <p>Description: Test foot and Beverage -------- short description</p>\n    </body>\n</html>', 1, '2017-10-30 08:30:38', '2017-10-30 16:30:01'),
-(33, 'noreply@mytender.az', 'mytender.az', 'evilkraft@gmail.com', 'Test suplier', 'Новые тендеры', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Новые тендеры</h3>\n        <br>\n        <p>\n            Тендер:\n            <a href=\"https://mytender.az/ru/tenders/34\">IT </a>\n        </p>\n        <br>\n        <p>Описание: Computers and ups</p>\n    </body>\n</html>', 1, '2017-10-30 14:23:44', '2017-10-30 16:30:02'),
-(34, 'noreply@mytender.az', 'mytender.az', 'rustam.rustamov@pmdgroup.az', 'INNEXIM', 'Новые тендеры', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Новые тендеры</h3>\n        <br>\n        <p>\n            Тендер:\n            <a href=\"https://mytender.az/ru/tenders/34\">IT </a>\n        </p>\n        <br>\n        <p>Описание: Computers and ups</p>\n    </body>\n</html>', 1, '2017-10-30 14:23:44', '2017-10-30 16:30:02'),
-(35, 'noreply@mytender.az', 'mytender.az', 'evilkraft@gmail.com', 'Test suplier', 'Новые тендеры', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Новые тендеры</h3>\n        <br>\n        <p>\n            Тендер:\n            <a href=\"https://mytender.az/ru/tenders/35\">Кабельные коммуникации</a>\n        </p>\n        <br>\n        <p>Описание: Кабельные коммуникации</p>\n    </body>\n</html>', 1, '2017-10-30 16:03:49', '2017-10-30 16:30:02'),
-(36, 'noreply@mytender.az', 'mytender.az', 'rustam.rustamov@pmdgroup.az', 'INNEXIM', 'Новые тендеры', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Новые тендеры</h3>\n        <br>\n        <p>\n            Тендер:\n            <a href=\"https://mytender.az/ru/tenders/35\">Кабельные коммуникации</a>\n        </p>\n        <br>\n        <p>Описание: Кабельные коммуникации</p>\n    </body>\n</html>', 1, '2017-10-30 16:03:49', '2017-10-30 16:30:02'),
-(37, 'noreply@mytender.az', 'mytender.az', 'evilkraft@gmail.com', 'Test suplier', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/36\">HUB installing</a>\n        </p>\n        <br>\n        <p>Təsvir: HUBS and SWITCHS</p>\n    </body>\n</html>', 1, '2017-10-31 06:28:35', '2017-10-31 06:30:01'),
-(38, 'noreply@mytender.az', 'mytender.az', 'rustam.rustamov@pmdgroup.az', 'INNEXIM', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/36\">HUB installing</a>\n        </p>\n        <br>\n        <p>Təsvir: HUBS and SWITCHS</p>\n    </body>\n</html>', 1, '2017-10-31 06:28:35', '2017-10-31 06:30:01'),
-(39, 'noreply@mytender.az', 'mytender.az', 'evilkraft@gmail.com', 'Test suplier', 'New tenders', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>New tenders</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/en/tenders/37\">Storages</a>\n        </p>\n        <br>\n        <p>Description: Implementing data storages</p>\n    </body>\n</html>', 1, '2017-10-31 13:43:52', '2017-10-31 14:30:02'),
-(40, 'noreply@mytender.az', 'mytender.az', 'rustam.rustamov@pmdgroup.az', 'INNEXIM', 'New tenders', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>New tenders</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/en/tenders/37\">Storages</a>\n        </p>\n        <br>\n        <p>Description: Implementing data storages</p>\n    </body>\n</html>', 1, '2017-10-31 13:43:52', '2017-10-31 14:30:02'),
-(41, 'noreply@mytender.az', 'mytender.az', 'ryabchenko@jet.msk.su', '«Jet İnformasiya Sistemləri» ММC', 'New tenders', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>New tenders</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/en/tenders/37\">Storages</a>\n        </p>\n        <br>\n        <p>Description: Implementing data storages</p>\n    </body>\n</html>', 1, '2017-10-31 13:43:52', '2017-10-31 14:30:02'),
-(42, 'noreply@mytender.az', 'mytender.az', 'evilkraft@gmail.com', 'Test suplier', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/38\">Roof purchasing</a>\n        </p>\n        <br>\n        <p>Təsvir: Roofs</p>\n    </body>\n</html>', 1, '2017-11-01 11:37:29', '2017-11-01 12:30:02'),
-(43, 'noreply@mytender.az', 'mytender.az', 'taleh@pooltech.az', 'Pooltech MMC', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/38\">Roof purchasing</a>\n        </p>\n        <br>\n        <p>Təsvir: Roofs</p>\n    </body>\n</html>', 1, '2017-11-01 11:37:29', '2017-11-01 12:30:02'),
-(44, 'noreply@mytender.az', 'mytender.az', 'rustam.rustamov@pmdgroup.az', 'INNEXIM', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/38\">Roof purchasing</a>\n        </p>\n        <br>\n        <p>Təsvir: Roofs</p>\n    </body>\n</html>', 1, '2017-11-01 11:37:29', '2017-11-01 12:30:02'),
-(45, 'noreply@mytender.az', 'mytender.az', 'evilkraft@gmail.com', 'Test suplier', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/46\">Comps</a>\n        </p>\n        <br>\n        <p>Təsvir: Computers purchase</p>\n    </body>\n</html>', 1, '2017-11-01 19:47:34', '2017-11-01 23:30:01'),
-(46, 'noreply@mytender.az', 'mytender.az', 'rustam.rustamov@pmdgroup.az', 'INNEXIM', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/46\">Comps</a>\n        </p>\n        <br>\n        <p>Təsvir: Computers purchase</p>\n    </body>\n</html>', 1, '2017-11-01 19:47:34', '2017-11-01 23:30:02'),
-(47, 'noreply@mytender.az', 'mytender.az', 'ryabchenko@jet.msk.su', '«Jet İnformasiya Sistemləri» ММC', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/46\">Comps</a>\n        </p>\n        <br>\n        <p>Təsvir: Computers purchase</p>\n    </body>\n</html>', 1, '2017-11-01 19:47:34', '2017-11-01 23:30:02'),
-(48, 'noreply@mytender.az', 'mytender.az', 'vusal@smartit.az', 'Smart IT MMC', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/46\">Comps</a>\n        </p>\n        <br>\n        <p>Təsvir: Computers purchase</p>\n    </body>\n</html>', 1, '2017-11-01 19:47:34', '2017-11-01 23:30:02'),
-(49, 'noreply@mytender.az', 'mytender.az', 'jamila.aliyeva@yahoo.com', 'SINAM', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/46\">Comps</a>\n        </p>\n        <br>\n        <p>Təsvir: Computers purchase</p>\n    </body>\n</html>', 1, '2017-11-01 19:47:34', '2017-11-01 23:30:02'),
-(50, 'noreply@mytender.az', 'mytender.az', 'evilkraft@gmail.com', 'Test suplier', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/50\">nigar.salimova--------------wdefrgthyji</a>\n        </p>\n        <br>\n        <p>Təsvir: nigar.salimova--------------wdefrgthyji</p>\n    </body>\n</html>', 1, '2017-11-02 06:40:00', '2017-11-02 07:30:02'),
-(51, 'noreply@mytender.az', 'mytender.az', 'taleh@pooltech.az', 'Pooltech MMC', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/50\">nigar.salimova--------------wdefrgthyji</a>\n        </p>\n        <br>\n        <p>Təsvir: nigar.salimova--------------wdefrgthyji</p>\n    </body>\n</html>', 1, '2017-11-02 06:40:00', '2017-11-02 07:30:02'),
-(52, 'noreply@mytender.az', 'mytender.az', 'rustam.rustamov@pmdgroup.az', 'INNEXIM', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/50\">nigar.salimova--------------wdefrgthyji</a>\n        </p>\n        <br>\n        <p>Təsvir: nigar.salimova--------------wdefrgthyji</p>\n    </body>\n</html>', 1, '2017-11-02 06:40:00', '2017-11-02 07:30:03'),
-(53, 'noreply@mytender.az', 'mytender.az', 'evilkraft@gmail.com', 'Test suplier', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/52\">Testing systems</a>\n        </p>\n        <br>\n        <p>Təsvir: Testing syst</p>\n    </body>\n</html>', 1, '2017-11-02 13:28:51', '2017-11-02 13:30:02'),
-(54, 'noreply@mytender.az', 'mytender.az', 'rustam.rustamov@pmdgroup.az', 'INNEXIM', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/52\">Testing systems</a>\n        </p>\n        <br>\n        <p>Təsvir: Testing syst</p>\n    </body>\n</html>', 1, '2017-11-02 13:28:51', '2017-11-02 13:30:02'),
-(55, 'noreply@mytender.az', 'mytender.az', 'ryabchenko@jet.msk.su', '«Jet İnformasiya Sistemləri» ММC', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/52\">Testing systems</a>\n        </p>\n        <br>\n        <p>Təsvir: Testing syst</p>\n    </body>\n</html>', 1, '2017-11-02 13:28:51', '2017-11-02 13:30:02'),
-(56, 'noreply@mytender.az', 'mytender.az', 'vusal@smartit.az', 'Smart IT MMC', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/52\">Testing systems</a>\n        </p>\n        <br>\n        <p>Təsvir: Testing syst</p>\n    </body>\n</html>', 1, '2017-11-02 13:28:51', '2017-11-02 13:30:02'),
-(57, 'noreply@mytender.az', 'mytender.az', 'jamila.aliyeva@yahoo.com', 'SINAM', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/52\">Testing systems</a>\n        </p>\n        <br>\n        <p>Təsvir: Testing syst</p>\n    </body>\n</html>', 1, '2017-11-02 13:28:51', '2017-11-02 13:30:02'),
-(58, 'noreply@mytender.az', 'mytender.az', 'evilkraft@gmail.com', 'Test suplier', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/51\">Test</a>\n        </p>\n        <br>\n        <p>Təsvir: Test</p>\n    </body>\n</html>', 1, '2017-11-06 06:20:36', '2017-11-06 06:30:01'),
-(59, 'noreply@mytender.az', 'mytender.az', 'taleh@pooltech.az', 'Pooltech MMC', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/51\">Test</a>\n        </p>\n        <br>\n        <p>Təsvir: Test</p>\n    </body>\n</html>', 1, '2017-11-06 06:20:36', '2017-11-06 06:30:01'),
-(60, 'noreply@mytender.az', 'mytender.az', 'rustam.rustamov@pmdgroup.az', 'INNEXIM', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/51\">Test</a>\n        </p>\n        <br>\n        <p>Təsvir: Test</p>\n    </body>\n</html>', 1, '2017-11-06 06:20:36', '2017-11-06 06:30:01'),
-(61, 'noreply@mytender.az', 'mytender.az', 'e.k@asbc.az', 'ASBC', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/51\">Test</a>\n        </p>\n        <br>\n        <p>Təsvir: Test</p>\n    </body>\n</html>', 1, '2017-11-06 06:20:36', '2017-11-06 06:30:01'),
-(62, 'noreply@mytender.az', 'mytender.az', 'ryabchenko@jet.msk.su', '«Jet İnformasiya Sistemləri» ММC', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/51\">Test</a>\n        </p>\n        <br>\n        <p>Təsvir: Test</p>\n    </body>\n</html>', 1, '2017-11-06 06:20:36', '2017-11-06 06:30:02'),
-(63, 'noreply@mytender.az', 'mytender.az', 'jamila.aliyeva@yahoo.com', 'SINAM', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/51\">Test</a>\n        </p>\n        <br>\n        <p>Təsvir: Test</p>\n    </body>\n</html>', 1, '2017-11-06 06:20:36', '2017-11-06 06:30:02'),
-(64, 'noreply@mytender.az', 'mytender.az', 'farid@meridianhifi.az', 'Meridian HIFI', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/51\">Test</a>\n        </p>\n        <br>\n        <p>Təsvir: Test</p>\n    </body>\n</html>', 1, '2017-11-06 06:20:36', '2017-11-06 06:30:02'),
-(65, 'noreply@mytender.az', 'mytender.az', 'azersis@mail.ru', 'AZERSIS', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/51\">Test</a>\n        </p>\n        <br>\n        <p>Təsvir: Test</p>\n    </body>\n</html>', 1, '2017-11-06 06:20:36', '2017-11-06 06:30:02'),
-(66, 'noreply@mytender.az', 'mytender.az', 'info@azeri-design.az', 'Azeri-Dizayn firmasi', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/53\">Печать полиграфической продукции</a>\n        </p>\n        <br>\n        <p>Təsvir: Услуги по полиграфии</p>\n    </body>\n</html>', 1, '2017-11-10 07:11:32', '2017-11-10 07:30:01'),
-(67, 'noreply@mytender.az', 'mytender.az', 'evilkraft@gmail.com', 'Test suplier', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/54\">Программный софт/фильтр данных</a>\n        </p>\n        <br>\n        <p>Təsvir: Приобретение и создание программного софта </p>\n    </body>\n</html>', 1, '2017-11-10 07:11:37', '2017-11-10 07:30:01'),
-(68, 'noreply@mytender.az', 'mytender.az', 'rustam.rustamov@pmdgroup.az', 'INNEXIM', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/54\">Программный софт/фильтр данных</a>\n        </p>\n        <br>\n        <p>Təsvir: Приобретение и создание программного софта </p>\n    </body>\n</html>', 1, '2017-11-10 07:11:37', '2017-11-10 07:30:02'),
-(69, 'noreply@mytender.az', 'mytender.az', 'ryabchenko@jet.msk.su', '«Jet İnformasiya Sistemləri» ММC', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/54\">Программный софт/фильтр данных</a>\n        </p>\n        <br>\n        <p>Təsvir: Приобретение и создание программного софта </p>\n    </body>\n</html>', 1, '2017-11-10 07:11:37', '2017-11-10 07:30:02'),
-(70, 'noreply@mytender.az', 'mytender.az', 'vusal@smartit.az', 'Smart IT MMC', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/54\">Программный софт/фильтр данных</a>\n        </p>\n        <br>\n        <p>Təsvir: Приобретение и создание программного софта </p>\n    </body>\n</html>', 1, '2017-11-10 07:11:37', '2017-11-10 07:30:02'),
-(71, 'noreply@mytender.az', 'mytender.az', 'jamila.aliyeva@yahoo.com', 'SINAM', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/54\">Программный софт/фильтр данных</a>\n        </p>\n        <br>\n        <p>Təsvir: Приобретение и создание программного софта </p>\n    </body>\n</html>', 1, '2017-11-10 07:11:37', '2017-11-10 07:30:02'),
-(72, 'noreply@mytender.az', 'mytender.az', 'info@az.vostok.ru', 'Vostok Service', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/55\">Smart parking system</a>\n        </p>\n        <br>\n        <p>Təsvir: Rotary parking system</p>\n    </body>\n</html>', 1, '2017-11-10 07:11:41', '2017-11-10 07:30:02'),
-(73, 'noreply@mytender.az', 'mytender.az', 'infoplyusservis@gmail.com', 'Infoplusservis MMC', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/55\">Smart parking system</a>\n        </p>\n        <br>\n        <p>Təsvir: Rotary parking system</p>\n    </body>\n</html>', 1, '2017-11-10 07:11:41', '2017-11-10 07:30:02'),
-(74, 'noreply@mytender.az', 'mytender.az', 'ryabchenko@jet.msk.su', '«Jet İnformasiya Sistemləri» ММC', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/56\">Удаленное виделнаблюдение</a>\n        </p>\n        <br>\n        <p>Təsvir: Удаленное и беспроводное видеонаблюдение.</p>\n    </body>\n</html>', 1, '2017-11-10 07:11:46', '2017-11-10 07:30:02'),
-(75, 'noreply@mytender.az', 'mytender.az', 'info@az.vostok.ru', 'Vostok Service', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/56\">Удаленное виделнаблюдение</a>\n        </p>\n        <br>\n        <p>Təsvir: Удаленное и беспроводное видеонаблюдение.</p>\n    </body>\n</html>', 1, '2017-11-10 07:11:46', '2017-11-10 07:30:02'),
-(76, 'noreply@mytender.az', 'mytender.az', 'evilkraft@gmail.com', 'Test suplier', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/57\">Purchasing of data storages</a>\n        </p>\n        <br>\n        <p>Təsvir: Purchasing of data storages</p>\n    </body>\n</html>', 1, '2017-11-16 07:23:36', '2017-11-16 07:30:01'),
-(77, 'noreply@mytender.az', 'mytender.az', 'rustam.rustamov@pmdgroup.az', 'INNEXIM', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/57\">Purchasing of data storages</a>\n        </p>\n        <br>\n        <p>Təsvir: Purchasing of data storages</p>\n    </body>\n</html>', 1, '2017-11-16 07:23:36', '2017-11-16 07:30:01'),
-(78, 'noreply@mytender.az', 'mytender.az', 'ryabchenko@jet.msk.su', '«Jet İnformasiya Sistemləri» ММC', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/57\">Purchasing of data storages</a>\n        </p>\n        <br>\n        <p>Təsvir: Purchasing of data storages</p>\n    </body>\n</html>', 1, '2017-11-16 07:23:36', '2017-11-16 07:30:01'),
-(79, 'noreply@mytender.az', 'mytender.az', 'vusal@smartit.az', 'Smart IT MMC', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/57\">Purchasing of data storages</a>\n        </p>\n        <br>\n        <p>Təsvir: Purchasing of data storages</p>\n    </body>\n</html>', 1, '2017-11-16 07:23:36', '2017-11-16 07:30:01'),
-(80, 'noreply@mytender.az', 'mytender.az', 'jamila.aliyeva@yahoo.com', 'SINAM', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/57\">Purchasing of data storages</a>\n        </p>\n        <br>\n        <p>Təsvir: Purchasing of data storages</p>\n    </body>\n</html>', 1, '2017-11-16 07:23:36', '2017-11-16 07:30:01'),
-(81, 'noreply@mytender.az', 'mytender.az', 'evilkraft@gmail.com', 'Test suplier', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/58\">установка и подключение умных ИП-камер</a>\n        </p>\n        <br>\n        <p>Təsvir: Установка и подключение умных ИП-камер</p>\n    </body>\n</html>', 1, '2017-11-16 07:23:41', '2017-11-16 07:30:01'),
-(82, 'noreply@mytender.az', 'mytender.az', 'taleh@pooltech.az', 'Pooltech MMC', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/58\">установка и подключение умных ИП-камер</a>\n        </p>\n        <br>\n        <p>Təsvir: Установка и подключение умных ИП-камер</p>\n    </body>\n</html>', 1, '2017-11-16 07:23:41', '2017-11-16 07:30:02'),
-(83, 'noreply@mytender.az', 'mytender.az', 'rustam.rustamov@pmdgroup.az', 'INNEXIM', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/58\">установка и подключение умных ИП-камер</a>\n        </p>\n        <br>\n        <p>Təsvir: Установка и подключение умных ИП-камер</p>\n    </body>\n</html>', 1, '2017-11-16 07:23:41', '2017-11-16 07:30:02'),
-(84, 'noreply@mytender.az', 'mytender.az', 'e.k@asbc.az', 'ASBC', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/58\">установка и подключение умных ИП-камер</a>\n        </p>\n        <br>\n        <p>Təsvir: Установка и подключение умных ИП-камер</p>\n    </body>\n</html>', 1, '2017-11-16 07:23:41', '2017-11-16 07:30:02'),
-(85, 'noreply@mytender.az', 'mytender.az', 'ryabchenko@jet.msk.su', '«Jet İnformasiya Sistemləri» ММC', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/58\">установка и подключение умных ИП-камер</a>\n        </p>\n        <br>\n        <p>Təsvir: Установка и подключение умных ИП-камер</p>\n    </body>\n</html>', 1, '2017-11-16 07:23:41', '2017-11-16 07:30:02'),
-(86, 'noreply@mytender.az', 'mytender.az', 'jamila.aliyeva@yahoo.com', 'SINAM', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/58\">установка и подключение умных ИП-камер</a>\n        </p>\n        <br>\n        <p>Təsvir: Установка и подключение умных ИП-камер</p>\n    </body>\n</html>', 1, '2017-11-16 07:23:41', '2017-11-16 08:30:01'),
-(87, 'noreply@mytender.az', 'mytender.az', 'farid@meridianhifi.az', 'Meridian HIFI', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/58\">установка и подключение умных ИП-камер</a>\n        </p>\n        <br>\n        <p>Təsvir: Установка и подключение умных ИП-камер</p>\n    </body>\n</html>', 1, '2017-11-16 07:23:41', '2017-11-16 08:30:01'),
-(88, 'noreply@mytender.az', 'mytender.az', 'azersis@mail.ru', 'AZERSIS', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/58\">установка и подключение умных ИП-камер</a>\n        </p>\n        <br>\n        <p>Təsvir: Установка и подключение умных ИП-камер</p>\n    </body>\n</html>', 1, '2017-11-16 07:23:41', '2017-11-16 08:30:02'),
-(89, 'noreply@mytender.az', 'mytender.az', 'ryabchenko@jet.msk.su', '«Jet İnformasiya Sistemləri» ММC', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/59\">установка и подключение умных ИП-камер </a>\n        </p>\n        <br>\n        <p>Təsvir: Установка и подключение умных ИП-камер </p>\n    </body>\n</html>', 1, '2017-11-16 07:23:45', '2017-11-16 08:30:02'),
-(90, 'noreply@mytender.az', 'mytender.az', 'info@az.vostok.ru', 'Vostok Service', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/59\">установка и подключение умных ИП-камер </a>\n        </p>\n        <br>\n        <p>Təsvir: Установка и подключение умных ИП-камер </p>\n    </body>\n</html>', 1, '2017-11-16 07:23:45', '2017-11-16 08:30:02'),
-(91, 'noreply@mytender.az', 'mytender.az', 'evilkraft@gmail.com', 'Test suplier', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/60\">TV and TV sets</a>\n        </p>\n        <br>\n        <p>Təsvir: Purchasing of TV&#039;s and TV sets for office</p>\n    </body>\n</html>', 1, '2017-11-17 12:40:19', '2017-11-17 13:30:02'),
-(92, 'noreply@mytender.az', 'mytender.az', 'taleh@pooltech.az', 'Pooltech MMC', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/60\">TV and TV sets</a>\n        </p>\n        <br>\n        <p>Təsvir: Purchasing of TV&#039;s and TV sets for office</p>\n    </body>\n</html>', 1, '2017-11-17 12:40:19', '2017-11-17 13:30:02'),
-(93, 'noreply@mytender.az', 'mytender.az', 'rustam.rustamov@pmdgroup.az', 'INNEXIM', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/60\">TV and TV sets</a>\n        </p>\n        <br>\n        <p>Təsvir: Purchasing of TV&#039;s and TV sets for office</p>\n    </body>\n</html>', 1, '2017-11-17 12:40:19', '2017-11-17 13:30:02'),
-(94, 'noreply@mytender.az', 'mytender.az', 'e.k@asbc.az', 'ASBC', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/60\">TV and TV sets</a>\n        </p>\n        <br>\n        <p>Təsvir: Purchasing of TV&#039;s and TV sets for office</p>\n    </body>\n</html>', 1, '2017-11-17 12:40:19', '2017-11-17 13:30:02'),
-(95, 'noreply@mytender.az', 'mytender.az', 'ryabchenko@jet.msk.su', '«Jet İnformasiya Sistemləri» ММC', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/60\">TV and TV sets</a>\n        </p>\n        <br>\n        <p>Təsvir: Purchasing of TV&#039;s and TV sets for office</p>\n    </body>\n</html>', 1, '2017-11-17 12:40:19', '2017-11-17 13:30:02'),
-(96, 'noreply@mytender.az', 'mytender.az', 'jamila.aliyeva@yahoo.com', 'SINAM', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/60\">TV and TV sets</a>\n        </p>\n        <br>\n        <p>Təsvir: Purchasing of TV&#039;s and TV sets for office</p>\n    </body>\n</html>', 1, '2017-11-17 12:40:19', '2017-11-17 13:30:02');
-INSERT INTO `mailerQueue` (`id`, `mail_from`, `name_from`, `mail_to`, `name_to`, `subject`, `text`, `status`, `createdAt`, `sendAt`) VALUES
-(97, 'noreply@mytender.az', 'mytender.az', 'farid@meridianhifi.az', 'Meridian HIFI', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/60\">TV and TV sets</a>\n        </p>\n        <br>\n        <p>Təsvir: Purchasing of TV&#039;s and TV sets for office</p>\n    </body>\n</html>', 1, '2017-11-17 12:40:19', '2017-11-17 13:30:03'),
-(98, 'noreply@mytender.az', 'mytender.az', 'azersis@mail.ru', 'AZERSIS', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/60\">TV and TV sets</a>\n        </p>\n        <br>\n        <p>Təsvir: Purchasing of TV&#039;s and TV sets for office</p>\n    </body>\n</html>', 1, '2017-11-17 12:40:19', '2017-11-17 13:30:03'),
-(99, 'noreply@mytender.az', 'mytender.az', 'evilkraft@gmail.com', 'Test suplier', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/62\">air conditions</a>\n        </p>\n        <br>\n        <p>Təsvir: Purchasing air conditions</p>\n    </body>\n</html>', 1, '2017-11-27 10:54:15', '2017-11-27 11:30:02'),
-(100, 'noreply@mytender.az', 'mytender.az', 'taleh@pooltech.az', 'Pooltech MMC', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/62\">air conditions</a>\n        </p>\n        <br>\n        <p>Təsvir: Purchasing air conditions</p>\n    </body>\n</html>', 1, '2017-11-27 10:54:15', '2017-11-27 11:30:02'),
-(101, 'noreply@mytender.az', 'mytender.az', 'rustam.rustamov@pmdgroup.az', 'INNEXIM', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/62\">air conditions</a>\n        </p>\n        <br>\n        <p>Təsvir: Purchasing air conditions</p>\n    </body>\n</html>', 1, '2017-11-27 10:54:15', '2017-11-27 11:30:02'),
-(102, 'noreply@mytender.az', 'mytender.az', 'e.k@asbc.az', 'ASBC', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/62\">air conditions</a>\n        </p>\n        <br>\n        <p>Təsvir: Purchasing air conditions</p>\n    </body>\n</html>', 1, '2017-11-27 10:54:15', '2017-11-27 11:30:02'),
-(103, 'noreply@mytender.az', 'mytender.az', 'ryabchenko@jet.msk.su', '«Jet İnformasiya Sistemləri» ММC', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/62\">air conditions</a>\n        </p>\n        <br>\n        <p>Təsvir: Purchasing air conditions</p>\n    </body>\n</html>', 1, '2017-11-27 10:54:15', '2017-11-27 11:30:02'),
-(104, 'noreply@mytender.az', 'mytender.az', 'jamila.aliyeva@yahoo.com', 'SINAM', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/62\">air conditions</a>\n        </p>\n        <br>\n        <p>Təsvir: Purchasing air conditions</p>\n    </body>\n</html>', 1, '2017-11-27 10:54:15', '2017-11-27 11:30:02'),
-(105, 'noreply@mytender.az', 'mytender.az', 'farid@meridianhifi.az', 'Meridian HIFI', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/62\">air conditions</a>\n        </p>\n        <br>\n        <p>Təsvir: Purchasing air conditions</p>\n    </body>\n</html>', 1, '2017-11-27 10:54:15', '2017-11-27 11:30:02'),
-(106, 'noreply@mytender.az', 'mytender.az', 'azersis@mail.ru', 'AZERSIS', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/62\">air conditions</a>\n        </p>\n        <br>\n        <p>Təsvir: Purchasing air conditions</p>\n    </body>\n</html>', 1, '2017-11-27 10:54:15', '2017-11-27 11:30:02'),
-(107, 'noreply@mytender.az', 'mytender.az', 'evilkraft@gmail.com', 'Test suplier', 'Новые тендеры', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Новые тендеры</h3>\n        <br>\n        <p>\n            Тендер:\n            <a href=\"https://mytender.az/ru/tenders/63\">Ip telefonia</a>\n        </p>\n        <br>\n        <p>Описание: Purchasing Ip</p>\n    </body>\n</html>', 1, '2017-12-12 10:59:32', '2017-12-12 11:30:01'),
-(108, 'noreply@mytender.az', 'mytender.az', 'rustam.rustamov@pmdgroup.az', 'INNEXIM', 'Новые тендеры', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Новые тендеры</h3>\n        <br>\n        <p>\n            Тендер:\n            <a href=\"https://mytender.az/ru/tenders/63\">Ip telefonia</a>\n        </p>\n        <br>\n        <p>Описание: Purchasing Ip</p>\n    </body>\n</html>', 1, '2017-12-12 10:59:32', '2017-12-12 11:30:01'),
-(109, 'noreply@mytender.az', 'mytender.az', 'ryabchenko@jet.msk.su', '«Jet İnformasiya Sistemləri» ММC', 'Новые тендеры', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Новые тендеры</h3>\n        <br>\n        <p>\n            Тендер:\n            <a href=\"https://mytender.az/ru/tenders/63\">Ip telefonia</a>\n        </p>\n        <br>\n        <p>Описание: Purchasing Ip</p>\n    </body>\n</html>', 1, '2017-12-12 10:59:32', '2017-12-12 11:30:01'),
-(110, 'noreply@mytender.az', 'mytender.az', 'vusal@smartit.az', 'Smart IT MMC', 'Новые тендеры', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Новые тендеры</h3>\n        <br>\n        <p>\n            Тендер:\n            <a href=\"https://mytender.az/ru/tenders/63\">Ip telefonia</a>\n        </p>\n        <br>\n        <p>Описание: Purchasing Ip</p>\n    </body>\n</html>', 1, '2017-12-12 10:59:32', '2017-12-12 11:30:02'),
-(111, 'noreply@mytender.az', 'mytender.az', 'jamila.aliyeva@yahoo.com', 'SINAM', 'Новые тендеры', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Новые тендеры</h3>\n        <br>\n        <p>\n            Тендер:\n            <a href=\"https://mytender.az/ru/tenders/63\">Ip telefonia</a>\n        </p>\n        <br>\n        <p>Описание: Purchasing Ip</p>\n    </body>\n</html>', 1, '2017-12-12 10:59:32', '2017-12-12 11:30:02'),
-(112, 'noreply@mytender.az', 'mytender.az', 'info@azeri-design.az', 'Azeri-Dizayn firmasi', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/64\">Полиграфические услуги</a>\n        </p>\n        <br>\n        <p>Təsvir: Печать и полиграфия</p>\n    </body>\n</html>', 1, '2017-12-22 06:00:15', '2017-12-22 06:30:02'),
-(113, 'noreply@mytender.az', 'mytender.az', 'evilkraft@gmail.com', 'Test suplier', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/66\">Телевизоры для отеля</a>\n        </p>\n        <br>\n        <p>Təsvir: Приобретение телевизоров</p>\n    </body>\n</html>', 1, '2017-12-22 06:00:26', '2017-12-22 06:30:02'),
-(114, 'noreply@mytender.az', 'mytender.az', 'taleh@pooltech.az', 'Pooltech MMC', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/66\">Телевизоры для отеля</a>\n        </p>\n        <br>\n        <p>Təsvir: Приобретение телевизоров</p>\n    </body>\n</html>', 1, '2017-12-22 06:00:26', '2017-12-22 06:30:02'),
-(115, 'noreply@mytender.az', 'mytender.az', 'rustam.rustamov@pmdgroup.az', 'INNEXIM', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/66\">Телевизоры для отеля</a>\n        </p>\n        <br>\n        <p>Təsvir: Приобретение телевизоров</p>\n    </body>\n</html>', 1, '2017-12-22 06:00:26', '2017-12-22 06:30:02'),
-(116, 'noreply@mytender.az', 'mytender.az', 'e.k@asbc.az', 'ASBC', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/66\">Телевизоры для отеля</a>\n        </p>\n        <br>\n        <p>Təsvir: Приобретение телевизоров</p>\n    </body>\n</html>', 1, '2017-12-22 06:00:26', '2017-12-22 06:30:02'),
-(117, 'noreply@mytender.az', 'mytender.az', 'ryabchenko@jet.msk.su', '«Jet İnformasiya Sistemləri» ММC', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/66\">Телевизоры для отеля</a>\n        </p>\n        <br>\n        <p>Təsvir: Приобретение телевизоров</p>\n    </body>\n</html>', 1, '2017-12-22 06:00:26', '2017-12-22 06:30:03'),
-(118, 'noreply@mytender.az', 'mytender.az', 'jamila.aliyeva@yahoo.com', 'SINAM', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/66\">Телевизоры для отеля</a>\n        </p>\n        <br>\n        <p>Təsvir: Приобретение телевизоров</p>\n    </body>\n</html>', 1, '2017-12-22 06:00:26', '2017-12-22 06:30:03'),
-(119, 'noreply@mytender.az', 'mytender.az', 'farid@meridianhifi.az', 'Meridian HIFI', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/66\">Телевизоры для отеля</a>\n        </p>\n        <br>\n        <p>Təsvir: Приобретение телевизоров</p>\n    </body>\n</html>', 1, '2017-12-22 06:00:26', '2017-12-22 06:30:03'),
-(120, 'noreply@mytender.az', 'mytender.az', 'azersis@mail.ru', 'AZERSIS', 'Yeni tenderlər', '<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <title>MYTENDER</title>\n    </head>\n    <body>\n        <h3>Yeni tenderlər</h3>\n        <br>\n        <p>\n            Tender:\n            <a href=\"https://mytender.az/az/tenders/66\">Телевизоры для отеля</a>\n        </p>\n        <br>\n        <p>Təsvir: Приобретение телевизоров</p>\n    </body>\n</html>', 1, '2017-12-22 06:00:26', '2017-12-22 06:30:03');
-
--- --------------------------------------------------------
-
---
 -- Структура таблицы `pages`
 --
 
@@ -601,82 +455,60 @@ INSERT INTO `pages_lang` (`langId`, `pageId`, `lang`, `title`, `keywords`, `desc
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `tenderAccess`
+-- Структура таблицы `postFiles`
 --
 
-CREATE TABLE `tenderAccess` (
-  `tenderAccessId` int(10) UNSIGNED NOT NULL,
+CREATE TABLE `postFiles` (
+  `fileId` int(11) NOT NULL,
   `userId` int(10) UNSIGNED NOT NULL,
-  `tenderId` int(10) UNSIGNED NOT NULL,
-  `participate` tinyint(1) NOT NULL DEFAULT '0'
+  `tenderId` int(10) UNSIGNED DEFAULT NULL,
+  `file` varchar(255) NOT NULL,
+  `caption` varchar(255) NOT NULL,
+  `type` varchar(255) NOT NULL,
+  `size` int(10) UNSIGNED NOT NULL,
+  `secret` varchar(30) DEFAULT NULL,
+  `uploadedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
 --
--- Дамп данных таблицы `tenderAccess`
+-- Структура таблицы `postIndustries`
 --
 
-INSERT INTO `tenderAccess` (`tenderAccessId`, `userId`, `tenderId`, `participate`) VALUES
-(56, 1, 27, 1),
-(61, 1, 30, 1),
-(62, 1, 31, 1),
-(64, 3, 30, 1),
-(65, 1, 32, 1),
-(66, 1, 33, 1),
-(67, 1, 34, 1),
-(68, 1, 35, 1),
-(69, 1, 36, 1),
-(70, 70, 36, 0),
-(71, 70, 34, 0),
-(72, 1, 37, 1),
-(73, 91, 37, 0),
-(74, 91, 36, 0),
-(75, 85, 30, 0),
-(76, 1, 38, 1),
-(84, 95, 37, 0),
-(86, 95, 34, 0),
-(87, 1, 46, 1),
-(88, 95, 46, 0),
-(90, 91, 46, 0),
-(94, 1, 51, 1),
-(95, 1, 52, 1),
-(96, 86, 52, 0),
-(97, 86, 37, 0),
-(98, 104, 27, 0),
-(100, 117, 30, 0),
-(101, 3, 52, 1),
-(102, 1, 53, 1),
-(103, 1, 54, 1),
-(104, 1, 55, 1),
-(105, 1, 56, 1),
-(106, 86, 54, 0),
-(107, 120, 55, 0),
-(108, 120, 56, 0),
-(109, 1, 57, 1),
-(110, 1, 58, 1),
-(111, 1, 59, 1),
-(112, 1, 60, 1),
-(113, 1, 61, 1),
-(114, 104, 58, 0),
-(115, 104, 60, 0),
-(116, 137, 55, 0),
-(117, 137, 31, 0),
-(118, 1, 62, 1),
-(119, 3, 60, 1),
-(120, 3, 62, 1),
-(121, 104, 62, 0),
-(122, 3, 58, 0),
-(123, 3, 57, 1),
-(124, 3, 38, 0),
-(125, 1, 63, 1),
-(126, 3, 54, 1),
-(127, 3, 31, 0),
-(128, 3, 31, 0),
-(129, 1, 64, 1),
-(130, 1, 65, 1),
-(131, 1, 66, 1),
-(132, 104, 66, 0),
-(133, 144, 64, 0),
-(134, 3, 66, 0);
+CREATE TABLE `postIndustries` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `postId` int(10) UNSIGNED NOT NULL,
+  `industryId` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `posts`
+--
+
+CREATE TABLE `posts` (
+  `postId` int(10) UNSIGNED NOT NULL,
+  `userId` int(10) UNSIGNED NOT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `status` tinyint(1) NOT NULL DEFAULT '0',
+  `finishedAt` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `posts_lang`
+--
+
+CREATE TABLE `posts_lang` (
+  `langId` int(10) UNSIGNED NOT NULL,
+  `postId` int(10) UNSIGNED NOT NULL,
+  `lang` char(2) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `text` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -712,63 +544,6 @@ INSERT INTO `tenderFiles` (`fileId`, `userId`, `tenderId`, `file`, `caption`, `t
 (30, 55, 33, 'tender_59f6e31dad00c8.81060829.txt', 'resume.txt', 'text/plain', 1332, '59f6e2eb1cda25.12418156', '2017-10-30 08:30:21'),
 (33, 65, NULL, 'tender_59fac07464d782.16007099.docx', '111.docx', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 12676, '59fabfd16d2a80.05180220', '2017-11-02 06:51:32'),
 (34, 65, 52, 'tender_59fae470302e74.50839824.docx', 'Testin.docx', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 11365, '59fae3e17b0518.58028254', '2017-11-02 09:25:04');
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `tenderMsgs`
---
-
-CREATE TABLE `tenderMsgs` (
-  `tenderMsgId` int(11) UNSIGNED NOT NULL,
-  `tenderAccessId` int(10) UNSIGNED NOT NULL,
-  `userId` int(10) UNSIGNED NOT NULL,
-  `tenderId` int(10) UNSIGNED NOT NULL,
-  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `readedAt` timestamp NULL DEFAULT NULL,
-  `text` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `tenderMsgs`
---
-
-INSERT INTO `tenderMsgs` (`tenderMsgId`, `tenderAccessId`, `userId`, `tenderId`, `createdAt`, `readedAt`, `text`) VALUES
-(100, 64, 1, 30, '2017-10-30 08:03:05', '2017-10-30 07:04:22', 'New supplier'),
-(101, 64, 3, 30, '2017-10-30 08:03:05', '2017-10-30 07:04:22', '<p>Хочу участвовать!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</p>\r\n'),
-(102, 101, 1, 52, '2017-11-06 11:04:12', '2017-11-06 11:04:32', 'New supplier'),
-(103, 101, 3, 52, '2017-11-06 11:04:12', '2017-11-06 11:21:36', '<p>Хочу участвовать!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</p>\r\n\r\n<p>Хочу участвовать!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</p>\r\n\r\n<p>Хочу участвовать!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</p>\r\n\r\n<p>Хочу участвовать!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</p>\r\n\r\n<p>Хочу участвовать!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</p>\r\n\r\n<p>&nbsp;</p>\r\n'),
-(104, 119, 1, 60, '2017-11-27 10:51:42', '2017-11-27 10:52:18', 'Yeni təchizatçılar'),
-(105, 119, 3, 60, '2017-11-27 10:51:42', NULL, '<p>test-s</p>\r\n'),
-(106, 120, 1, 62, '2017-11-27 10:58:58', '2017-11-27 10:59:33', 'Yeni təchizatçılar'),
-(107, 120, 3, 62, '2017-11-27 10:58:58', '2017-11-27 11:01:34', '<p>test</p>\r\n'),
-(108, 123, 1, 57, '2017-11-27 11:43:45', NULL, 'Yeni təchizatçılar'),
-(109, 126, 1, 54, '2017-12-11 11:35:54', '2017-12-11 11:36:05', 'Yeni təchizatçılar'),
-(110, 126, 3, 54, '2017-12-11 11:36:49', '2017-12-22 05:37:50', 'Salam'),
-(111, 126, 3, 54, '2017-12-11 11:36:50', '2017-12-22 05:37:50', 'Salam'),
-(112, 126, 3, 54, '2017-12-11 11:36:51', '2017-12-22 05:37:50', 'Salam'),
-(113, 126, 3, 54, '2017-12-20 07:45:18', '2017-12-22 05:37:50', 'test'),
-(114, 126, 3, 54, '2017-12-20 07:45:23', '2017-12-22 05:37:50', 'test'),
-(115, 123, 55, 57, '2017-12-22 05:47:24', NULL, 'щл'),
-(116, 123, 55, 57, '2017-12-22 05:47:29', NULL, 'ок'),
-(117, 123, 55, 57, '2017-12-22 05:47:31', NULL, 'ок'),
-(118, 123, 55, 57, '2017-12-22 05:47:32', NULL, 'ок'),
-(119, 123, 55, 57, '2017-12-22 05:47:33', NULL, 'ок'),
-(120, 123, 55, 57, '2017-12-22 05:47:33', NULL, 'ок'),
-(121, 123, 55, 57, '2017-12-22 05:47:34', NULL, 'ок'),
-(122, 123, 55, 57, '2017-12-22 05:47:39', NULL, 'ок'),
-(123, 123, 55, 57, '2017-12-22 05:47:39', NULL, 'ок'),
-(124, 123, 55, 57, '2017-12-22 05:47:45', NULL, 'ok'),
-(125, 123, 55, 57, '2017-12-22 05:47:45', NULL, 'ok'),
-(126, 123, 55, 57, '2017-12-22 05:47:47', NULL, 'ok'),
-(127, 123, 55, 57, '2017-12-22 05:47:48', NULL, 'ok'),
-(128, 123, 55, 57, '2017-12-22 05:47:48', NULL, 'ok'),
-(129, 123, 55, 57, '2017-12-22 05:47:49', NULL, 'ok'),
-(130, 123, 55, 57, '2017-12-22 05:48:06', NULL, 'ok'),
-(131, 123, 55, 57, '2017-12-22 05:48:08', NULL, 'ok'),
-(132, 119, 65, 60, '2017-12-22 11:47:16', '2018-01-11 05:29:51', 'fsd'),
-(133, 119, 65, 60, '2017-12-22 11:47:17', '2018-01-11 05:29:51', 'fsd'),
-(134, 119, 65, 60, '2017-12-22 11:47:19', '2018-01-11 05:29:51', 'fsd');
 
 -- --------------------------------------------------------
 
@@ -825,61 +600,6 @@ INSERT INTO `tenders` (`tenderId`, `userId`, `name`, `createdAt`, `industryId`, 
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `userContacts`
---
-
-CREATE TABLE `userContacts` (
-  `userContactId` int(10) UNSIGNED NOT NULL,
-  `userId` int(10) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `position` varchar(255) NOT NULL,
-  `phone` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `status` tinyint(4) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `userContacts`
---
-
-INSERT INTO `userContacts` (`userContactId`, `userId`, `name`, `position`, `phone`, `email`, `status`) VALUES
-(3, 2, 'My Contact 1', 'My Position 2', '0555555555', 'zz@zz.com', 0),
-(4, 2, 'My Contact 2', 'My Position 2', '0553333333', 'zz2@zz.com', 0),
-(5, 2, 'My Contact 3', 'My Position 3', '0558878787', 'zz3@zz.com', 0),
-(14, 21, 'Rustam', 'Manager', '0502884460', 'r.c.rustam@icloud.com', 0),
-(15, 24, 'kam', 'as', '0124352323', 'k.agasi@gmail.com', 1),
-(34, 43, 'Zaur', 'Direktor', '0502636700', 'zeynalov.zaur@gmail.com', 1),
-(39, 21, 'RR', 'Manager', '122233337', 'r.c.rustam@icloud.com', 1),
-(40, 2, 'ertyuio', 'ertyuiop', '0505036634', 'tem@tem.az', 0),
-(41, 2, 'ZA', 'Manager', '0505050505', 'tem2@tem.az', 1),
-(44, 55, 'R.C.', 'Manager', '0522003123', 'r.c.rustam@gmail.com', 1),
-(45, 56, 'Farid', 'Logistic Manager', '0502780210', 'farid.rustamov@originalmotors.az', 1),
-(46, 57, 'Gunay Tender', 'Accaunt manager', '4518978789', 'gunayhuseyn@gmail.com', 1),
-(47, 58, 'Rustem Sharipov', 'Menecer', '0505036634', 'office@saf-pencere.az', 1),
-(48, 65, 'Arty Boss', 'Owner', '00718945509598686', 'fashionarea@hotmail.com', 1),
-(49, 66, 'Chase', 'WY', 'ZW', 'chaseoshaughnessy@gmail.com', 1),
-(50, 67, 'Christopher', 'YL', '0388 2177223', 'christopheraspinall@arcor.de', 1),
-(54, 74, 'Viktor Qabluxov', 'satış müdiri', '0553393234', 'viktor@printi.az', 1),
-(55, 76, 'Jamal Khasayev', 'General Director', '+994502557044', 'jk@frazex.com', 1),
-(56, 78, 'Sapida Farzalieva', 'Office Manager', '012 4971914/15', 'info@bmlawaz.com', 1),
-(57, 80, 'Ravil Saidov', 'Direktor', '+994 50 2106044', 'ravil.saidov@organic.az', 1),
-(58, 83, 'Elcin', 'Təsisci', '+994503000228', 'elcin@me.com', 1),
-(59, 84, 'Tarlan Zakaryayev', 'Director', '+994505033005', 'tarlanzakaryayev@gmail.com', 1),
-(63, 92, 'Adil', 'Satiş meneceri', '012-495-57-21', 'nano2017@gmail.com', 1),
-(80, 112, 'rrrrrrrr', 'rr rvtvtvtv', '0505036634', 'sharipov.rustam@gmail.com', 1),
-(82, 116, 'Eldar Ələsgərov', 'Direktor', '+994702200981', 'eldar394@gmail.com', 1),
-(83, 118, 'Jeyhun Nuraliyev', 'Business Development Manager', '+994552589181', 'n.jeyhun@sadoil.com', 1),
-(90, 130, 'Shaiq Xudayev', 'Director', '+994502459294', 'info@factory-tents.az', 1),
-(91, 131, 'Raifa Jalilova', 'General manager ', '+994 55 600 26 66', 'raifa.jalilova@mail.ru', 1),
-(92, 134, 'Dmitrakovich', 'Директор', '+375298561515', 'www.evgenijdmitrakovich@mail.ru', 1),
-(95, 138, 'Tural  Ahmadov', 'Project manager', '+994503515149', 'tural@gobay.az', 1),
-(96, 139, 'İlyas Vəlixanov', 'Marketing Menecer', '+994 50 333 42 38', 'baku@ces-az.com', 1),
-(97, 140, 'Vusal Abbasov ', 'Business Development Manager ', '+994125101100 (271) ', 'elchin.aliyev@sinam.net', 1),
-(98, 145, 'Ruslan Ramazanov', 'General Director', '+99412 347 95 55 ', 'office@inter0technics.az', 1);
-
--- --------------------------------------------------------
-
---
 -- Структура таблицы `userGroups`
 --
 
@@ -894,101 +614,7 @@ CREATE TABLE `userGroups` (
 
 INSERT INTO `userGroups` (`userGroupId`, `name`) VALUES
 (1, 'Administrators'),
-(2, 'Buyers'),
-(3, 'Suppliers');
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `userIndustries`
---
-
-CREATE TABLE `userIndustries` (
-  `userIndustryId` int(10) UNSIGNED NOT NULL,
-  `userId` int(10) UNSIGNED NOT NULL,
-  `industryId` int(10) UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `userIndustries`
---
-
-INSERT INTO `userIndustries` (`userIndustryId`, `userId`, `industryId`) VALUES
-(7, 3, 1),
-(2, 3, 2),
-(1, 3, 3),
-(3, 3, 4),
-(8, 3, 5),
-(22, 3, 6),
-(27, 3, 7),
-(28, 3, 8),
-(16, 3, 9),
-(29, 3, 10),
-(30, 3, 11),
-(31, 3, 12),
-(14, 4, 2),
-(26, 64, 0),
-(23, 64, 5),
-(24, 64, 6),
-(25, 64, 9),
-(33, 70, 5),
-(34, 70, 6),
-(35, 70, 7),
-(36, 70, 9),
-(37, 70, 10),
-(38, 70, 12),
-(39, 71, 28),
-(40, 72, 6),
-(42, 77, 27),
-(43, 79, 19),
-(46, 85, 7),
-(47, 86, 6),
-(48, 86, 12),
-(49, 86, 20),
-(50, 86, 24),
-(53, 91, 12),
-(54, 95, 6),
-(55, 95, 12),
-(56, 97, 8),
-(57, 97, 10),
-(58, 97, 19),
-(59, 97, 25),
-(60, 97, 27),
-(62, 104, 5),
-(63, 104, 6),
-(64, 104, 27),
-(67, 115, 6),
-(69, 116, 15),
-(68, 117, 7),
-(70, 120, 24),
-(71, 120, 29),
-(73, 127, 19),
-(74, 127, 27),
-(75, 127, 29),
-(78, 129, 16),
-(77, 129, 21),
-(80, 133, 14),
-(81, 137, 7),
-(82, 137, 9),
-(83, 137, 10),
-(84, 137, 19),
-(85, 137, 27),
-(86, 137, 29),
-(87, 141, 12),
-(88, 141, 24),
-(89, 141, 25),
-(90, 141, 27),
-(91, 142, 16),
-(92, 143, 15),
-(93, 143, 20),
-(94, 143, 21),
-(95, 143, 29),
-(96, 144, 15),
-(102, 146, 6),
-(98, 146, 10),
-(99, 146, 19),
-(100, 146, 27),
-(103, 147, 5);
+(2, 'Buyers');
 
 -- --------------------------------------------------------
 
@@ -1161,12 +787,6 @@ ALTER TABLE `industries_lang`
   ADD KEY `lang` (`lang`);
 
 --
--- Индексы таблицы `mailerQueue`
---
-ALTER TABLE `mailerQueue`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Индексы таблицы `pages`
 --
 ALTER TABLE `pages`
@@ -1181,12 +801,33 @@ ALTER TABLE `pages_lang`
   ADD KEY `pageId` (`pageId`);
 
 --
--- Индексы таблицы `tenderAccess`
+-- Индексы таблицы `postFiles`
 --
-ALTER TABLE `tenderAccess`
-  ADD PRIMARY KEY (`tenderAccessId`),
+ALTER TABLE `postFiles`
+  ADD PRIMARY KEY (`fileId`),
   ADD KEY `userId` (`userId`),
   ADD KEY `tenderId` (`tenderId`);
+
+--
+-- Индексы таблицы `postIndustries`
+--
+ALTER TABLE `postIndustries`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `user_indust_idx` (`postId`,`industryId`);
+
+--
+-- Индексы таблицы `posts`
+--
+ALTER TABLE `posts`
+  ADD PRIMARY KEY (`postId`),
+  ADD KEY `userId` (`userId`);
+
+--
+-- Индексы таблицы `posts_lang`
+--
+ALTER TABLE `posts_lang`
+  ADD PRIMARY KEY (`langId`),
+  ADD KEY `blogId` (`postId`);
 
 --
 -- Индексы таблицы `tenderFiles`
@@ -1197,15 +838,6 @@ ALTER TABLE `tenderFiles`
   ADD KEY `tenderId` (`tenderId`);
 
 --
--- Индексы таблицы `tenderMsgs`
---
-ALTER TABLE `tenderMsgs`
-  ADD PRIMARY KEY (`tenderMsgId`),
-  ADD KEY `userId` (`userId`),
-  ADD KEY `tenderId` (`tenderId`),
-  ADD KEY `tenderAccessId` (`tenderAccessId`);
-
---
 -- Индексы таблицы `tenders`
 --
 ALTER TABLE `tenders`
@@ -1213,24 +845,10 @@ ALTER TABLE `tenders`
   ADD KEY `userId` (`userId`);
 
 --
--- Индексы таблицы `userContacts`
---
-ALTER TABLE `userContacts`
-  ADD PRIMARY KEY (`userContactId`),
-  ADD KEY `userId` (`userId`);
-
---
 -- Индексы таблицы `userGroups`
 --
 ALTER TABLE `userGroups`
   ADD PRIMARY KEY (`userGroupId`);
-
---
--- Индексы таблицы `userIndustries`
---
-ALTER TABLE `userIndustries`
-  ADD PRIMARY KEY (`userIndustryId`),
-  ADD UNIQUE KEY `user_indust_idx` (`userId`,`industryId`);
 
 --
 -- Индексы таблицы `users`
@@ -1287,11 +905,6 @@ ALTER TABLE `industries`
 ALTER TABLE `industries_lang`
   MODIFY `langId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
 --
--- AUTO_INCREMENT для таблицы `mailerQueue`
---
-ALTER TABLE `mailerQueue`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
---
 -- AUTO_INCREMENT для таблицы `pages`
 --
 ALTER TABLE `pages`
@@ -1302,40 +915,40 @@ ALTER TABLE `pages`
 ALTER TABLE `pages_lang`
   MODIFY `langId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 --
--- AUTO_INCREMENT для таблицы `tenderAccess`
+-- AUTO_INCREMENT для таблицы `postFiles`
 --
-ALTER TABLE `tenderAccess`
-  MODIFY `tenderAccessId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=135;
+ALTER TABLE `postFiles`
+  MODIFY `fileId` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT для таблицы `postIndustries`
+--
+ALTER TABLE `postIndustries`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT для таблицы `posts`
+--
+ALTER TABLE `posts`
+  MODIFY `postId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT для таблицы `posts_lang`
+--
+ALTER TABLE `posts_lang`
+  MODIFY `langId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT для таблицы `tenderFiles`
 --
 ALTER TABLE `tenderFiles`
   MODIFY `fileId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 --
--- AUTO_INCREMENT для таблицы `tenderMsgs`
---
-ALTER TABLE `tenderMsgs`
-  MODIFY `tenderMsgId` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=135;
---
 -- AUTO_INCREMENT для таблицы `tenders`
 --
 ALTER TABLE `tenders`
   MODIFY `tenderId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 --
--- AUTO_INCREMENT для таблицы `userContacts`
---
-ALTER TABLE `userContacts`
-  MODIFY `userContactId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
---
 -- AUTO_INCREMENT для таблицы `userGroups`
 --
 ALTER TABLE `userGroups`
   MODIFY `userGroupId` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
---
--- AUTO_INCREMENT для таблицы `userIndustries`
---
-ALTER TABLE `userIndustries`
-  MODIFY `userIndustryId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
 --
 -- AUTO_INCREMENT для таблицы `users`
 --
@@ -1376,13 +989,6 @@ ALTER TABLE `pages_lang`
   ADD CONSTRAINT `pages_lang_ibfk_1` FOREIGN KEY (`pageId`) REFERENCES `pages` (`pageId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Ограничения внешнего ключа таблицы `tenderAccess`
---
-ALTER TABLE `tenderAccess`
-  ADD CONSTRAINT `tenderaccess_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `tenderaccess_ibfk_2` FOREIGN KEY (`tenderId`) REFERENCES `tenders` (`tenderId`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
 -- Ограничения внешнего ключа таблицы `tenderFiles`
 --
 ALTER TABLE `tenderFiles`
@@ -1390,30 +996,10 @@ ALTER TABLE `tenderFiles`
   ADD CONSTRAINT `tenderfiles_ibfk_2` FOREIGN KEY (`userId`) REFERENCES `users` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Ограничения внешнего ключа таблицы `tenderMsgs`
---
-ALTER TABLE `tenderMsgs`
-  ADD CONSTRAINT `tendermsgs_ibfk_1` FOREIGN KEY (`tenderAccessId`) REFERENCES `tenderAccess` (`tenderAccessId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `tendermsgs_ibfk_2` FOREIGN KEY (`userId`) REFERENCES `users` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `tendermsgs_ibfk_3` FOREIGN KEY (`tenderId`) REFERENCES `tenders` (`tenderId`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
 -- Ограничения внешнего ключа таблицы `tenders`
 --
 ALTER TABLE `tenders`
   ADD CONSTRAINT `tenders_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Ограничения внешнего ключа таблицы `userContacts`
---
-ALTER TABLE `userContacts`
-  ADD CONSTRAINT `usercontacts_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Ограничения внешнего ключа таблицы `userIndustries`
---
-ALTER TABLE `userIndustries`
-  ADD CONSTRAINT `userIndustries_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

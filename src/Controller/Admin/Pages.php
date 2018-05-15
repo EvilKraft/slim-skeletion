@@ -41,18 +41,6 @@ class Pages extends \Controller\RESTController
         $app->get('/getTable',    $class.':dtServerProcessing')->setName($prefix.'_getTable');
     }
 
-    protected function extraFormData()
-    {
-        $this->data['langs'] = $this->settings['i18n']['langs'];
-
-        $stmt = $this->db->prepare("SELECT * FROM ".$this->table."_lang WHERE pageId = ?");
-        $stmt->execute(array($this->data['item']['id']));
-        while ($row = $stmt->fetch()){
-            $this->data['item_langs'][$row['lang']] = $row;
-        }
-
-    }
-
     protected function doCreate(Request $request, Response $response)
     {
         $vars = $request->getParsedBody();

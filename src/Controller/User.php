@@ -24,16 +24,11 @@ class User extends BaseController
         }
         $this->data['item'] = $item;
 
-        $stmt = $this->db->prepare("SELECT * FROM userContacts WHERE userId = ? AND status = 1");
-        $stmt->execute(array($this->data['item']['userId']));
-        $this->data['contacts'] = $stmt->fetchAll();
-
-        $sql = "SELECT I.industryId, IL.name, UI.industryId AS UI_Id, UI.userId
+        $sql = "SELECT I.industryId, IL.name
                 FROM industries I
-                INNER JOIN industries_lang IL ON I.industryId = IL.industryId AND lang=?
-                LEFT JOIN userIndustries UI ON UI.industryId = I.industryId AND userId=?";
+                INNER JOIN industries_lang IL ON I.industryId = IL.industryId AND lang=?";
         $stmt = $this->db->prepare($sql);
-        $stmt->execute([$this->lang, $this->data['item']['userId']]);
+        $stmt->execute([$this->lang]);
         $this->data['industries'] = $stmt->fetchAll();
 
         if($request->isPut()){

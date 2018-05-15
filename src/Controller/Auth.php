@@ -309,6 +309,12 @@ class Auth extends BaseController
             throw new \Slim\Exception\NotFoundException($request, $response);
         }
 
+        $sql = "SELECT COUNT(*) AS to_moderate FROM tenders T WHERE T.status = 0";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        $toModerate = $stmt->fetch()['to_moderate'];
+        $this->renderer->getEnvironment()->addGlobal('toModerate', $toModerate);
+
         return $next($request, $response, $next);
     }
 

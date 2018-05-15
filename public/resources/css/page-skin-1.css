@@ -285,9 +285,9 @@ h2.date-header{margin:10px 0;display:none}
 #menu input{display:none;margin:0 0;padding:0 0;width:80px;height:30px;opacity:0;cursor:pointer}
 #menu label{font:bold 30px Arial;display:none;width:35px;height:36px;line-height:36px;text-align:center}
 #menu label span{font-size:16px;position:absolute;left:35px}
-#menu ul.menus{ height: auto; overflow: hidden; width: 170px; background:#3e454c; position: absolute; z-index: 99; display: none; }
+#menu ul.menus{ height: auto; overflow: hidden; width: auto; background:#3e454c; position: absolute; z-index: 99; display: none; }
 #menu ul.menus li{ display: block; width: 100%; text-transform: none; text-shadow: none; }
-#menu ul.menus a{ color: #fff; line-height: 50px; }
+#menu ul.menus a{ color: #fff; line-height: 50px; white-space:nowrap }
 #menu li:hover ul.menus{display:block}
 #menu ul.menus a:hover{ background:#2574A9; color: #fff; -webkit-transition: all .1s ease-in-out; -moz-transition: all .1s ease-in-out; -ms-transition: all .1s ease-in-out; -o-transition: all .1s ease-in-out; transition: all .1s ease-in-out; }
 

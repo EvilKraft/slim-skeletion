@@ -29,13 +29,13 @@ $app->group('/locales', function () use ($app, $langRegExp) {
 $app->group('/{lang:'.$langRegExp.'}', function () use ($app) {
     $this->get('', \Controller\Frontend::class.':index')->setName('home');
 
-    $this->get('/blog[/{page:\d+}]',        \Controller\Frontend::class.':blog')->setName('blog');
     $this->get('/about',                    \Controller\Frontend::class.':about')->setName('about');
-    $this->get('/services',                 \Controller\Frontend::class.':services')->setName('services');
-    $this->get('/partners',                 \Controller\Frontend::class.':partners')->setName('partners');
-    $this->get('/rules',                    \Controller\Frontend::class.':rules')->setName('rules');
     $this->map(['GET', 'POST'], '/contact', \Controller\Frontend::class.':contact')->setName('contact');
 
+    $this->get('/industries/',                            \Controller\Frontend::class.':industries')->setName('industries');
+    $this->get('/industry/{id:[0-9]+}[/page/{page:\d+}]', \Controller\Frontend::class.':industry')->setName('industry');
+
+    $this->get('/post/{id:[0-9]+}',                       \Controller\Frontend::class.':post')->setName('post');
 
     $this->group('/tenders', function () use ($app) {
         $this->get('',                      \Controller\Tenders\Tenders::class.':index')->setName('tenders');
@@ -44,29 +44,11 @@ $app->group('/{lang:'.$langRegExp.'}', function () use ($app) {
         $this->group('/{id:[0-9]+}', function () {
             $this->get('',              \Controller\Tenders\Tenders::class.':get')->setName('tenders_get');
             $this->put('',              \Controller\Tenders\Tenders::class.':update')->setName('tenders_update');
-
-            $this->get('/suppliers',    \Controller\Tenders\Tenders::class.':suppliers')->setName('tenders_suppliers');
-
-            $this->get('/buy-access',   \Controller\Tenders\Tenders::class.':buyAccess')->setName('tenders_buy_access');
-            $this->get('/access',       \Controller\Tenders\Tenders::class.':access')->setName('tenders_access');
-            $this->post('/participate', \Controller\Tenders\Tenders::class.':participate')->setName('tenders_participate');
-            $this->get('/finish',       \Controller\Tenders\Tenders::class.':finish')->setName('tenders_finish');
-
-            $this->map(['GET', 'POST'], '/messages[/{accessId:[0-9]+}]', \Controller\Tenders\Tenders::class.':messages')->setName('tenders_msgs');
         });
 
         $this->post('/upload-file', \Controller\Tenders\Tenders::class.':uploadFile')->setName('tenders_upload_file');
         $this->post('/delete-file', \Controller\Tenders\Tenders::class.':deleteFile')->setName('tenders_delete_file');
     })
-    ->add(\Controller\Auth::class.':checkAuth');
-
-    $this->group('/chat', function () use ($app) {
-        $this->post('/save',   \Controller\Tenders\Chat::class.':save')->setName('chat_save');
-        $this->post('/update', \Controller\Tenders\Chat::class.':getUnreaded')->setName('chat_update');
-
-        $this->post('/vote', \Controller\Tenders\Chat::class.':vote')->setName('chat_vote');
-    })
-    ->add(\Middleware\XhrMiddleware::class)
     ->add(\Controller\Auth::class.':checkAuth');
 
 
@@ -80,6 +62,9 @@ $app->group('/{lang:'.$langRegExp.'}', function () use ($app) {
 
     $this->group('/admin', function () use ($app) {
         $this->group('/tenders',    \Controller\Admin\Tenders::class.'::registerRoutes');
+
+        $this->group('/posts',    \Controller\Admin\Posts::class.'::registerRoutes');
+
         $this->group('/users',      \Controller\Admin\Users::class.'::registerRoutes');
         $this->group('/industries', \Controller\Admin\Industries::class.'::registerRoutes');
         $this->group('/blog',       \Controller\Admin\Blog::class.'::registerRoutes');

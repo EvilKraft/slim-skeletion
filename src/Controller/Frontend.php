@@ -23,6 +23,11 @@ class Frontend extends BaseController
     //    $data['service_tpl']  = $this->renderer->fetch('Frontend/index_service.twig',  $this->getPage('services'));
     //    $data['contact_tpl']  = $this->renderer->fetch('Frontend/index_contact.twig',  $this->getPage('contacts'));
 
+
+        $stmt = $this->db->prepare("SELECT I.industryId, IL.name FROM industries I INNER JOIN industries_lang IL ON I.industryId = IL.industryId AND lang=?");
+        $stmt->execute([$this->lang]);
+        $data['industries'] = $stmt->fetchAll();
+
         return $this->renderer->render($response, 'Frontend/index.twig', $data);
     }
 

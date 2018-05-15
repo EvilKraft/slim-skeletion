@@ -38,19 +38,12 @@ class Tenders extends \Controller\RESTController
             SELECT 
                     T.*,
                     IL.name AS industryname,
-                    U.name AS username,
-                    TM.msgs
+                    U.name AS username
+                    
                 FROM ".$this->table." T
                 LEFT JOIN industries I ON T.industryId = I.industryId
                 LEFT JOIN industries_lang IL ON I.industryId = IL.industryId AND lang='".$this->lang."'
                 LEFT JOIN users U ON T.userId = U.userId
-                LEFT JOIN (
-                    SELECT TM.tenderId, COUNT(TM.tenderMsgId) AS msgs
-                    FROM tenderMsgs TM
-                    INNER JOIN tenderAccess TA ON TA.tenderAccessId = TM.tenderAccessId AND TA.userId = ".$_SESSION['user']['userId']."
-                    WHERE TM.userId != TA.userId AND TM.readedAt IS NULL
-                    GROUP BY TM.tenderId
-                ) TM ON T.tenderId = TM.tenderId
                 
                 ORDER BY T.".$this->idxField." ASC
         ) temp";
@@ -77,19 +70,11 @@ class Tenders extends \Controller\RESTController
             SELECT 
                     T.*,
                     IL.name AS industryname,
-                    U.name AS username,
-                    TM.msgs
+                    U.name AS username
                 FROM ".$this->table." T
                 LEFT JOIN industries I ON T.industryId = I.industryId
                 LEFT JOIN industries_lang IL ON I.industryId = IL.industryId AND lang='".$this->lang."'
                 LEFT JOIN users U ON T.userId = U.userId
-                LEFT JOIN (
-                    SELECT TM.tenderId, COUNT(TM.tenderMsgId) AS msgs
-                    FROM tenderMsgs TM
-                    INNER JOIN tenderAccess TA ON TA.tenderAccessId = TM.tenderAccessId AND TA.userId = ".$_SESSION['user']['userId']."
-                    WHERE TM.userId != TA.userId AND TM.readedAt IS NULL
-                    GROUP BY TM.tenderId
-                ) TM ON T.tenderId = TM.tenderId
                 WHERE T.status = 0
                 ORDER BY T.".$this->idxField." ASC
         ) temp";
@@ -178,36 +163,6 @@ class Tenders extends \Controller\RESTController
             return $response->withStatus(302)->withHeader('Location', $this->getListUrl());
         }
         $this->data['item'] = $item;
-
-
-        $sql = "SELECT 
-                    TA.*, 
-                    1 as status,
-                    T.name         AS tender_name,
-                    U.userId           AS user_id,
-                    U.groupId      AS user_group,
-                    U.name         AS user_name,
-                    U.address      AS user_address,
-                    U.phone        AS user_phone,
-                    U.email        AS user_email,
-                    U.description  AS user_description,
-                    U.stars        AS user_stars,
-                    1              AS voted,
-                    
-                    UC.name        AS contact_name,
-                    UC.position    AS contact_position,
-                    UC.phone       AS contact_phone,
-                    UC.email       AS contact_email
-                    
-                FROM tenderAccess TA
-                INNER JOIN tenders T ON TA.tenderId = T.tenderId
-                INNER JOIN userContacts UC ON T.contact = UC.userContactId
-                INNER JOIN users U ON U.userId = T.userId
-                WHERE TA.tenderId = ?";
-        $bindParams = array($args['id']);
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute($bindParams);
-        $this->data['chats'] = $stmt->fetchAll();
 
 
         $this->extraFormData();
