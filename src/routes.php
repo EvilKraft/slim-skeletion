@@ -30,6 +30,9 @@ $app->group('/{lang:'.$langRegExp.'}', function () use ($app) {
     $this->get('', \Controller\Frontend::class.':index')->setName('home');
 
     $this->get('/about',                    \Controller\Frontend::class.':about')->setName('about');
+    $this->get('/privacy',                  \Controller\Frontend::class.':privacy')->setName('privacy');
+    $this->get('/rules',                    \Controller\Frontend::class.':rules')->setName('rules');
+    $this->get('/sitemap',                  \Controller\Frontend::class.':sitemap')->setName('sitemap');
     $this->map(['GET', 'POST'], '/contact', \Controller\Frontend::class.':contact')->setName('contact');
 
     $this->get('/industries/',                            \Controller\Frontend::class.':industries')->setName('industries');
@@ -53,17 +56,34 @@ $app->group('/{lang:'.$langRegExp.'}', function () use ($app) {
 
 
     $this->group('/user', function () use ($app) {
-        $this->map(['GET', 'PUT'],  '',         \Controller\User::class.':profile')->setName('profile');
+        $this->get('',                          \Controller\User::class.':dashboard')->setName('dashboard');
+
+        $this->map(['GET', 'PUT'],  '/profile', \Controller\User::class.':profile')->setName('profile');
         $this->map(['GET', 'POST'], '/support', \Controller\User::class.':support')->setName('support');
         $this->get('/help',                     \Controller\User::class.':help')->setName('help');
+
+        $this->group('/posts', function () use ($app) {
+            $this->get('',                      \Controller\Posts::class.':index')->setName('posts');
+            $this->map(['GET', 'POST'], '/new', \Controller\Posts::class.':create')->setName('posts_create');
+
+            $this->group('/{id:[0-9]+}', function () {
+                $this->get('', \Controller\Posts::class.':get')->setName('posts_get');
+                $this->put('', \Controller\Posts::class.':update')->setName('posts_update');
+            });
+
+            $this->post('/upload-file', \Controller\Posts::class.':uploadFile')->setName('posts_upload_file');
+            $this->post('/delete-file', \Controller\Posts::class.':deleteFile')->setName('posts_delete_file');
+        });
     })
     ->add(\Controller\Auth::class.':checkAuth');
 
 
     $this->group('/admin', function () use ($app) {
+        $this->get('',              \Controller\Admin\Dashboard::class.':index')->setName('admin_dashboard');
+
         $this->group('/tenders',    \Controller\Admin\Tenders::class.'::registerRoutes');
 
-        $this->group('/posts',    \Controller\Admin\Posts::class.'::registerRoutes');
+        $this->group('/posts',      \Controller\Admin\Posts::class.'::registerRoutes');
 
         $this->group('/users',      \Controller\Admin\Users::class.'::registerRoutes');
         $this->group('/industries', \Controller\Admin\Industries::class.'::registerRoutes');

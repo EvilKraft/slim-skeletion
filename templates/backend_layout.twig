@@ -50,7 +50,7 @@
 
             <header class="main-header">
                 <!-- Logo -->
-                <a href="{{ path_for((session.user.groupId == 1)? 'admin_tenders_moderate' : 'tenders', {'lang': lang}) }}" class="logo">
+                <a href="{{ path_for((session.user.groupId == 1)? 'admin_dashboard' : 'dashboard', {'lang': lang}) }}" class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
                     <span class="logo-mini"><b>A</b>LT</span>
                     <!-- logo for regular state and mobile devices -->
@@ -93,9 +93,6 @@
 										{% if session.user.groupId in [2] %}
                                             <p> {{'Buyers'|trans}} </p>                                        
 										{% endif %}
-										{% if session.user.groupId in [3] %}
-											<p> {{'Suppliers'|trans}} </p>  
-										{% endif %}
 									</i>
                                 </a>
 
@@ -122,6 +119,11 @@
                     <ul class="sidebar-menu">
                         {% if session.user.groupId == 1 %}
                             <li class="header">{{ 'ADMINISTRATIVE TOOLS'|trans }}</li>
+                            <li {{ currentRoute == 'admin_dashboard' ? 'class="active"' }}>
+                                <a href="{{ path_for('admin_dashboard', {'lang': lang}) }}">
+                                    <i class="fa fa-dashboard"></i> <span>{{ 'REST.Dashboard.pageTitle'|trans }}</span>
+                                </a>
+                            </li>
                             <li {{ currentRoute == 'admin_tenders_moderate' ? 'class="active"' }}>
                                 <a href="{{ path_for('admin_tenders_moderate', {'lang': lang}) }}">
                                     <i class="fa fa-th-list"></i> <span>{{ 'New tenders'|trans }}</span>
@@ -183,6 +185,18 @@
                             </li>
                         {% endif %}
 
+                        {% if session.user.groupId == 2 %}
+                            <li {{ currentRoute == 'posts' ? 'class="active"' }}>
+                                <a href="{{ path_for('posts', {'lang': lang}) }}"><i class="fa fa-edit"></i> <span>{{ 'Posts'|trans }}</span></a>
+                            </li>
+                            <li {{ currentRoute == 'help' ? 'class="active"' }}>
+                                <a href="{{ path_for('help', {'lang': lang}) }}"><i class="fa fa-question-circle"></i> <span>{{ 'Help'|trans }}</span></a>
+                            </li>
+                            <li {{ currentRoute == 'support' ? 'class="active"' }}>
+                                <a href="{{ path_for('support', {'lang': lang}) }}"><i class="fa fa-wrench"></i> <span>{{ 'Support'|trans }}</span></a>
+                            </li>
+                        {% endif %}
+
                         <li class="treeview">
                             <a href="#">
                                 <i class="fa fa-gears"></i>
@@ -195,14 +209,6 @@
                                 <li {{ currentRoute == 'profile'  ? 'class="active"' }}><a href="{{ path_for('profile', {'lang': lang}) }}"><i class="fa fa-address-card-o"></i>{{ 'Profile'|trans }}</a></li>
                             </ul>
                         </li>
-                        {% if session.user.groupId in [2, 3] %}
-                            <li {{ currentRoute == 'help' ? 'class="active"' }}>
-                                <a href="{{ path_for('help', {'lang': lang}) }}"><i class="fa fa-question-circle"></i> <span>{{ 'Help'|trans }}</span></a>
-                            </li>
-                            <li {{ currentRoute == 'support' ? 'class="active"' }}>
-                                <a href="{{ path_for('support', {'lang': lang}) }}"><i class="fa fa-wrench"></i> <span>{{ 'Support'|trans }}</span></a>
-                            </li>
-                        {% endif %}
                     </ul>
                 </section>
                 <!-- /.sidebar -->

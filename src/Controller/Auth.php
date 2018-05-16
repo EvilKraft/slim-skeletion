@@ -38,8 +38,8 @@ class Auth extends BaseController
                 $_SESSION['user']   = $user;
 
                 $url = ($user['groupId'] == 1)
-                     ? $this->router->pathFor('admin_tenders_moderate', ['lang' => $this->lang])
-                     : $this->router->pathFor('tenders', ['lang' => $this->lang]);
+                     ? $this->router->pathFor('admin_dashboard', ['lang' => $this->lang])
+                     : $this->router->pathFor('dashboard', ['lang' => $this->lang]);
                 return $response->withStatus(302)->withHeader('Location', $url);
             }
 

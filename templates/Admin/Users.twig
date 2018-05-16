@@ -19,7 +19,7 @@
                                 <input type="hidden" name="_METHOD" value="PUT" />
                             {% endif %}
 
-                            {% if item.groupId|default('') in ['', '2', '3'] %}
+                            {% if item.groupId|default('') in ['', '2'] %}
                                 <div class="form-group">
                                     <label for="groupId">{{ 'Group'|trans }} <span class="text-red">*</span></label>
                                     <select id="groupId" name="groupId" class="form-control select2" required="" data-error="{{ 'Select a group'|trans }}">
@@ -38,7 +38,7 @@
                                 <div class="help-block with-errors"></div>
                             </div>
 
-                            {% if item.groupId|default('') in ['', '2', '3'] %}
+                            {% if item.groupId|default('') in ['', '2'] %}
 
                                 {% if item.country == 'AZ' %}
                                     <div class="form-group">
@@ -90,7 +90,7 @@
                                 <div class="help-block with-errors"></div>
                             </div>
 
-                            {% if item.groupId|default('') in ['', '2', '3'] %}
+                            {% if item.groupId|default('') in ['', '2'] %}
 
                                 <div class="form-group has-feedback">
                                     <label for="site">{{ 'Site'|trans }}</label>

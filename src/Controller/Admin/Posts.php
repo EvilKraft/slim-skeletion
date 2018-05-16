@@ -31,6 +31,10 @@ class Posts extends \Controller\RESTController
         $stmt->execute([$this->lang]);
         $this->data['industries'] = $stmt->fetchAll();
 
+        $stmt = $this->db->prepare("SELECT * FROM cities");
+        $stmt->execute();
+        $this->data['cities'] = $stmt->fetchAll();
+
         $this->data['files'] = array();
         if(isset($this->data['item'])){
             $stmt = $this->db->prepare("SELECT * FROM postFiles WHERE ".$this->idxField." = ?");

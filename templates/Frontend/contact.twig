@@ -1,35 +1,39 @@
 {% extends 'frontend_layout.twig' %}
 
 {% block content %}
-    <div class="content-lg container margin-t-40">
-        <div class="page-header">
-            <h2>{{ title }}</h2>
-        </div>
-        {{ text|raw }}
+    <div class="content-area" id="primarybwrap">
+        <div class="bwrapsite-main" id="mainbwrap" role="main">
+            <div class="container">
+                <div class="page-header">
+                    <h2>{{ title }}</h2>
+                </div>
+                {{ text|raw }}
 
-        <div class="row">
-            <div class="col-sm-8 col-sm-offset-2" >
-                <form id="myForm" method="POST" data-toggle="validator" action="{{ path_for('contact', {'lang': lang}) }}">
-                    <div class="form-group has-feedback">
-                        <label class="sr-only" for="name">{{ 'Name'|trans }}</label>
-                        <input id="name" name="name" class="form-control" placeholder="{{ 'Name'|trans }}" required="" autofocus="" type="text" data-error="{{ 'Invalid value'|trans }}">
-                        <span class="glyphicon glyphicon-user form-control-feedback"></span>
-                        <div class="help-block with-errors"></div>
+                <div class="row">
+                    <div class="col-sm-8 col-sm-offset-2" >
+                        <form id="myForm" method="POST" data-toggle="validator" action="{{ path_for('contact', {'lang': lang}) }}">
+                            <div class="form-group has-feedback">
+                                <label class="sr-only" for="name">{{ 'Name'|trans }}</label>
+                                <input id="name" name="name" class="form-control" placeholder="{{ 'Name'|trans }}" required="" autofocus="" type="text" data-error="{{ 'Invalid value'|trans }}">
+                                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="form-group has-feedback">
+                                <label class="sr-only" for="auth_login">Email</label>
+                                <input id="email" name="email" class="form-control" placeholder="Email" required="" type="text" data-error="{{ 'Invalid value'|trans }}">
+                                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="form-group">
+                                <textarea id="text" name="text" class="form-control" placeholder="{{ 'Write a massage'|trans }}" rows="10" required="" data-error="{{ 'Write a massage'|trans }}"></textarea>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-lg btn-primary" type="submit">{{ 'Submit'|trans }}</button>
+                            </div>
+                        </form>
                     </div>
-                    <div class="form-group has-feedback">
-                        <label class="sr-only" for="auth_login">Email</label>
-                        <input id="email" name="email" class="form-control" placeholder="Email" required="" type="text" data-error="{{ 'Invalid value'|trans }}">
-                        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-                        <div class="help-block with-errors"></div>
-                    </div>
-                    <div class="form-group">
-                        <textarea id="text" name="text" class="form-control" placeholder="{{ 'Write a massage'|trans }}" rows="10" required="" data-error="{{ 'Write a massage'|trans }}"></textarea>
-                        <div class="help-block with-errors"></div>
-                    </div>
-                    <div class="form-group">
-                        <button class="btn btn-lg btn-primary" type="submit">{{ 'Submit'|trans }}</button>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>

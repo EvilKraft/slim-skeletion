@@ -30,6 +30,49 @@
                                 </div>
                             </div>
 
+                            <div class="collapse in" id="collapsible">
+                                <div class="form-group">
+                                    <label for="city">{{ 'City'|trans }} <span class="text-red">*</span></label>
+                                    <select id="city" name="city" class="form-control select2" required="" data-error="{{ 'Select a city'|trans }}">
+                                        <option value="" {{ (item.cityId|default('') == '') ? 'selected' }} disabled>{{ 'Select a city'|trans }}</option>
+                                        {% for city in cities %}
+                                            <option value="{{ city.cityId }}" {{ (city.cityId == item.cityId|default('')) ? 'selected' }}>{{ city.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="workers">{{ 'Workers'|trans }} <span class="text-red">*</span></label>
+                                <input id="workers" name="workers" class="form-control" placeholder="{{ 'Workers'|trans }}" value="{{ item.workers|default('') }}" required="" type="text" data-error="{{ 'Invalid value'|trans }}">
+                                <div class="help-block with-errors"></div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="workers">{{ 'Workers'|trans }} <span class="text-red">*</span></label>
+                                <input id="workers" name="workers" class="form-control" placeholder="{{ 'Workers'|trans }}" value="{{ item.workers|default('') }}" required="" type="text" data-error="{{ 'Invalid value'|trans }}">
+                                <div class="help-block with-errors"></div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="workers">{{ 'Workers'|trans }} <span class="text-red">*</span></label>
+                                <input id="workers" name="workers" class="form-control" placeholder="{{ 'Workers'|trans }}" value="{{ item.workers|default('') }}" required="" type="text" data-error="{{ 'Invalid value'|trans }}">
+                                <div class="help-block with-errors"></div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="workers">{{ 'Workers'|trans }} <span class="text-red">*</span></label>
+                                <input id="workers" name="workers" class="form-control" placeholder="{{ 'Workers'|trans }}" value="{{ item.workers|default('') }}" required="" type="text" data-error="{{ 'Invalid value'|trans }}">
+                                <div class="help-block with-errors"></div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="workers">{{ 'Workers'|trans }} <span class="text-red">*</span></label>
+                                <input id="workers" name="workers" class="form-control" placeholder="{{ 'Workers'|trans }}" value="{{ item.workers|default('') }}" required="" type="text" data-error="{{ 'Invalid value'|trans }}">
+                                <div class="help-block with-errors"></div>
+                            </div>
+
                             <div class="nav-tabs-custom">
                                 <ul class="nav nav-tabs">
                                     {% for lang in langs %}

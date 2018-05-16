@@ -15,6 +15,13 @@ class User extends BaseController
 {
     protected  $data = [];
 
+    public function dashboard(Request $request, Response $response, Array $args) {
+        $this->data['pageTitle'] = $this->trans('Dashboard');
+
+
+        return $this->renderer->render($response, 'User/dashboard.twig', $this->data);
+    }
+
     public function profile(Request $request, Response $response, Array $args) {
 
         $stmt = $this->db->query("SELECT * FROM users WHERE userId=".(int) $_SESSION['user']['userId']);

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Май 15 2018 г., 16:57
+-- Время создания: Май 16 2018 г., 19:18
 -- Версия сервера: 5.7.19
 -- Версия PHP: 7.1.7
 
@@ -21,48 +21,6 @@ SET time_zone = "+00:00";
 --
 -- База данных: `slimDB`
 --
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `blog`
---
-
-CREATE TABLE `blog` (
-  `blogId` int(10) UNSIGNED NOT NULL,
-  `userId` int(10) UNSIGNED NOT NULL,
-  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `blog`
---
-
-INSERT INTO `blog` (`blogId`, `userId`, `createdAt`) VALUES
-(1, 1, '2017-08-23 09:23:12');
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `blog_lang`
---
-
-CREATE TABLE `blog_lang` (
-  `langId` int(10) UNSIGNED NOT NULL,
-  `blogId` int(10) UNSIGNED NOT NULL,
-  `lang` char(2) NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `text` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `blog_lang`
---
-
-INSERT INTO `blog_lang` (`langId`, `blogId`, `lang`, `title`, `text`) VALUES
-(1, 1, 'en', 'пкпкпкп', '<p>кпкпкпк</p>\r\n'),
-(2, 1, 'ru', 'кпкпкп', '<p>кпкпкпкп</p>\r\n'),
-(3, 1, 'az', 'уакапка', '<p>ькпкпьщкп</p>\r\n\r\n<p>кпклтпкшопшокпо</p>\r\n\r\n<p>кпдпькщпокп</p>\r\n');
 
 -- --------------------------------------------------------
 
@@ -461,7 +419,7 @@ INSERT INTO `pages_lang` (`langId`, `pageId`, `lang`, `title`, `keywords`, `desc
 CREATE TABLE `postFiles` (
   `fileId` int(11) NOT NULL,
   `userId` int(10) UNSIGNED NOT NULL,
-  `tenderId` int(10) UNSIGNED DEFAULT NULL,
+  `postId` int(10) UNSIGNED DEFAULT NULL,
   `file` varchar(255) NOT NULL,
   `caption` varchar(255) NOT NULL,
   `type` varchar(255) NOT NULL,
@@ -493,7 +451,13 @@ CREATE TABLE `posts` (
   `userId` int(10) UNSIGNED NOT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `status` tinyint(1) NOT NULL DEFAULT '0',
-  `finishedAt` timestamp NULL DEFAULT NULL
+  `finishedAt` timestamp NULL DEFAULT NULL,
+  `cityId` int(10) UNSIGNED DEFAULT NULL,
+  `workers` int(10) UNSIGNED NOT NULL,
+  `buildedAt` date NOT NULL,
+  `income` decimal(10,0) UNSIGNED NOT NULL,
+  `price` decimal(10,0) UNSIGNED NOT NULL,
+  `site` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -614,7 +578,7 @@ CREATE TABLE `userGroups` (
 
 INSERT INTO `userGroups` (`userGroupId`, `name`) VALUES
 (1, 'Administrators'),
-(2, 'Buyers');
+(2, 'User');
 
 -- --------------------------------------------------------
 
@@ -629,82 +593,77 @@ CREATE TABLE `users` (
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `groupId` int(10) UNSIGNED NOT NULL,
   `name` varchar(255) NOT NULL,
-  `voen` int(10) UNSIGNED DEFAULT NULL,
   `country` char(3) DEFAULT NULL,
   `city` int(10) UNSIGNED DEFAULT NULL,
-  `address` varchar(255) DEFAULT NULL,
   `phone` varchar(255) DEFAULT NULL,
   `email` varchar(255) NOT NULL,
   `site` varchar(255) DEFAULT NULL,
   `facebook` varchar(255) DEFAULT NULL,
-  `description` text,
   `status` tinyint(4) NOT NULL DEFAULT '0',
-  `activationCode` varchar(255) DEFAULT NULL,
-  `fullAccessTo` date DEFAULT NULL,
-  `stars` tinyint(3) UNSIGNED NOT NULL
+  `activationCode` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `users`
 --
 
-INSERT INTO `users` (`userId`, `login`, `password`, `createdAt`, `groupId`, `name`, `voen`, `country`, `city`, `address`, `phone`, `email`, `site`, `facebook`, `description`, `status`, `activationCode`, `fullAccessTo`, `stars`) VALUES
-(1, 'admin', '$2y$10$WShDEA5s.Em0VNZYVpPaKeVTLtYMc2d7KHdchvWRLFhB5LYRmhUmW', '2017-07-28 08:02:27', 1, 'Admin', 0, NULL, 0, '', '', 'k.kaluzhnikov@gmail.com', '', '', '', 1, 'eeef80f7660b283a3b799938a84416cc', NULL, 0),
-(2, 'test-b', '$2y$10$6Ic.8Twc9D0lrd6E88DAQezbUqZHGj59qjn8gGwuCm9MGWhZpvcUu', '2017-08-04 06:41:42', 2, 'Test Buyer', 1234567898, 'AZ', 1, 'ZA', '0555555555', 'zeuz@list.ru', '', '', 'Test', 1, '3f6b8a99b77a42b247003aa4e2563b23', NULL, 5),
-(3, 'test-s', '$2y$10$t1O0Er5Sln7xIyfrjLYByuJJzBtueP0rj.bKpz/.3zEBNQ/nW5upi', '2017-08-04 06:43:36', 3, 'Test suplier', 1212121212, 'AZ', 1, 'ZD', '0552222222', 'evilkraft@gmail.com', '', '', 'Test and test', 1, '2ef8e52d8794260dccf2eb3c40a042ef', NULL, 4),
-(4, 'test-s2', '$2y$10$vsB9/tuFvDTmwoaQTTVHeuSAk8uygoVER4Q1CniV.nM2IGs0Sxze2', '2017-08-09 11:30:22', 3, 'Test suplier 2', 3434343434, 'AZ', 2, 'test', '0552222222', 'zeuz1@list.ru', '', '', 'test test test', 1, '3f6b8a99b77a42b247003aa4e2563b23', NULL, 0),
-(21, 'Guest', '$2y$10$rtZe3fZNTI7E2JKez0tJoO77dHtmaUy8qCMitTE2eGscVvxQOieEa', '2017-08-22 06:11:24', 2, 'Best Solutions', 1700322123, 'AZ', 1, 'S.Badalbeyli', '0502884460', 'r.c.rustam@icloud.com', '', '', '', 1, '5829fa1e492fe8863f558d8e9a25ca0e', '2017-08-24', 4),
-(24, 'innovation', '$2y$10$UavGg5wLhL2ZA36fuFREjOQnt8yUF8RAZv5W/BIh8Qhnjup4mXMkC', '2017-08-22 08:22:42', 2, 'k&A', 1235438761, 'AZ', 1, 'hasan aliyev 35', '0124445555', 'k.agasi@gmail.com', '', '', '', 1, '91e343c820489d4ffa63cebcfa2dc44a', '2017-08-24', 0),
-(43, 'zaur', '$2y$10$Va0Yz8kpYDS75KNCacrqDemWXLksPYors6Wx589ju.Xj358lKlkGq', '2017-08-28 08:58:50', 2, '3Z MMC', 1700170000, 'AZ', 1, 'A.Aliyev 1', '0502636700', 'zeynalov.zaur@gmail.com', 'http://1415.az', '', '', 1, 'ba20d010dab1a2b1cd477ae670366934', '2017-08-30', 0),
-(55, 'innexim', '$2y$10$.VIOGrHTue92Qz1zCg7mju15VJhCaznTFuLiYyE3bRvICQosGc7uG', '2017-10-24 11:44:09', 2, 'INNEXIM', 0, 'CA', 0, '-', '0502186173', 'r.c.rustam@gmail.com', 'http://innexim.com', '', '', 1, 'c9fc98c061b0abd5304c2c3d192416ed', NULL, 5),
-(56, 'Farid', '$2y$10$NjWg45B25rZIZ1JxRLV2Y.oANYGUUyvhcGT5jvIhJSAS/ZYZ9hQ/q', '2017-10-25 07:07:50', 2, 'Original Motors', 1701299101, 'AZ', 1, 'Aliyar Aliyev 52A', '0502780210', 'rustamof@hotmail.com', 'http://originalmotors.com', '', '', 1, '83d95a5965ad83b3201cf06d892633fc', NULL, 0),
-(57, 'gunay', '$2y$10$TV9w8oFyoaL9yIy0Pfb50ewmHYDti00G8e5ZN0bhddNk968CHwsXK', '2017-10-25 08:01:23', 2, 'Netant', 1239876540, 'AZ', 1, 'gfjgjtdm', '4969696', 'gunayhuseyn@gmail.com', '', '', '', 1, '75cd10ebbdb74046329e61bb64e862db', NULL, 0),
-(58, 'rustam-saf', '$2y$10$94wh18bKb23Y.c6r032jf.qjA4/xOB4CE1F2w7uY93wrckRmAsCeS', '2017-10-25 08:56:10', 2, 'Saf pencere', 1111111111, 'AZ', 1, 'Nobel Prospekti', '0124092835', 'office@saf-pencere.az', 'http://www.saf-pencere.az', 'https://www.facebook.com/saf.pencere/', '', 1, 'f25d8851517d80059bed61c91cb2c9c8', NULL, 0),
-(64, 'Pooltech', '$2y$10$i2ffpLVOZT4qTQHnuEYQyexnHf.b2UvEZvHwLKozvgej5fK38d1.u', '2017-10-25 16:09:18', 3, 'Pooltech MMC', 1201778181, 'AZ', 1, 'Nərimanov rayonu, Hacı Murad 1', '+994552049422', 'taleh@pooltech.az', 'http://www.pooltech.az', '', '', 1, '4c596a0d8c4fb752b40a6bb688b62778', NULL, 0),
-(65, 'Fashion', '$2y$10$XJdTeKm3YtmJKCL5MnA0N.XS3wjD1tnD37f1Ql/A1Oy.EvKVlrHi.', '2017-10-27 18:53:31', 2, 'IDBI', 1111111111, 'AZ', 1, 'Centralnaya', '0071895786996999', 'fashionarea@hotmail.com', '', '', '', 1, '691401df2a0e858b368ee0119dd6d39e', NULL, 5),
-(66, 'Chase', '$2y$10$WXl04J7Hd1MlqrrEvGvgLu/KGvYwgydfkUBH66YliLIFMPD1Fmd6u', '2017-10-30 01:57:27', 2, 'site signs', 0, 'CA', 0, '', 'LR', 'chaseoshaughnessy@gmail.com', 'http://www.signsavers.co.uk/', '', 'We are a group of volunteers and opening a brand new scheme in our community.\r\nYour web site provided us with useful information to work on. You\'ve \r\nperformed a formidable job and our entire community will likely be thankful to you.', 0, '5e37afb0d1949d8546743662ec66efb5', NULL, 0),
-(67, 'Christopher', '$2y$10$MAkGOR3VT95DKhXy6K5e4.H6.n87sN3ieWrryVDEW1BQvgFrfb.DS', '2017-10-30 01:58:22', 2, 'safety signs', 0, 'CA', 0, '', '0388 2177223', 'christopheraspinall@arcor.de', 'http://www.signsavers.co.uk/', '', 'Just want to say your article is as amazing. The clearness in your publish is simply cool and i could suppose you\'re a professional on this subject.\r\nWell along with your permission allow me to grab your feed to keep updated with coming near near post.\r\n\r\nThanks 1,000,000 and please continue the gratifying work.', 0, '4b9fcd11f8b26c3006e671ba38557e0e', NULL, 0),
-(70, 'innexim1', '$2y$10$Ya8F/Gy3Y2YA1ARYGnf3EeNDRRx7sbU4LWCO9YsT5sQNOpmsS7Fr.', '2017-10-30 14:18:16', 3, 'INNEXIM', 0, 'CA', 0, 'SDAF', '09230120100', 'rustam.rustamov@pmdgroup.az', '', '', '', 1, 'fd44db8237425423b7a4e5d6db3a21a1', NULL, 0),
-(71, 'bagirzade', '$2y$10$w5Af4Spsk9yL/f6XLE4jseb1DzYAjgJB0L4CtNaoSa3/EH.YDgDtC', '2017-10-31 07:44:43', 3, 'Totoo', 1004662452, NULL, 1, 'Bakı ş., Yasamal rayonu, Yeni Yasamal qəsəbəsi, Məhəmməd Xiyabani küçəsi bina 10c', '+994503220104', 'bagirzade@gmail.com', 'http://www.totoo.az', 'http://www.facebook.com/totoobebe', 'Uşaq geyimləri istehsalı', 1, 'd35058d276c08286cfd5ab3f5dc0c022', NULL, 0),
-(72, 'ASBC', '$2y$10$1quMzyz4dm.SD5q1V/5x9OvDMeAfriAB8oQVgpZYwelEsoiCis29e', '2017-10-31 08:25:05', 3, 'ASBC', 1403779711, NULL, 1, 'Bakı ş, Nəsimi rayonu, R.Behbudov ev. 18 m. 9', '+994124932888', 'e.k@asbc.az', 'http://www.almastore.az', '', '', 1, '9d527e0da89baf4a3a17d6f39f936c21', NULL, 0),
-(74, 'printi', '$2y$10$u2WtkTniGos0KWH9lHaQduhk6YN9Qq8HxwKqO51VENB2SgAywjnJS', '2017-10-31 09:00:00', 2, 'Printi Studio MMC', 2003409561, 'AZ', 1, 'Babək pr. 72/58', '0553393234', 'elina@printi.az', '', '', '', 1, '1fbde010f1c3c0b014a1a7b76561dada', NULL, 0),
-(76, 'Khasayev', '$2y$10$5L6Y9tVH6VwScHdQIQtVbeGbs53PHVuZbIO.tTvrszqh5.9CF6.x2', '2017-10-31 09:10:52', 2, 'Frazex', 1403064411, 'AZ', 1, 'Inshaatchilar ave. 20A', '+994502557044', 'info@frazex.com', 'http://frazex.com', '', '', 1, '2acdce6bbea59d55d27e5cbc46974ef5', NULL, 0),
-(77, 'kvazar.office@bk.ru', '$2y$10$sWkdZcN3rq9l3RJO4HAJpOYW8HVvNcgxLFsHWmKVbbxmaVXEyH9qW', '2017-10-31 09:34:43', 3, 'kvazar', 1700342951, 'AZ', 1, 'maksud-ali-zade18m40', '+994502204032', 'kvazar.office@bk.ru', '', '', 'калибровка резервуаров', 1, '8ca540fe1eb290051ee281e215964e5a', NULL, 0),
-(78, 'bmlawaz', '$2y$10$4.MySv5HHtRv5t/io.qIIeijuwJmKXW/K4dSNPaDouAkxGCtfTZTW', '2017-10-31 10:02:19', 2, 'BM Morrison Partners LLC', 1300010161, 'AZ', 1, '43 Mammad Araz st., English Yard b.c., Villa 9', '012 4971914/15', 'info@bmlawaz.com', 'http://www.bmlawaz.com/', '', 'BM Morrison Partners (BM) is the first private law firm established in the independent Azerbaijan. Today, we combine best examples of legal knowledge, expertise, and professional experience', 1, '006c774dbea5671f00204690fde1096b', NULL, 0),
-(79, 'izotar', '$2y$10$6uCh5k8dV/2bzSqC6hDTg.fsTcd6vsUS9B9W0B9gVJVlRzByJdjdO', '2017-10-31 10:17:44', 3, '\"AZTOL-ALAT\" MMC', 2003359301, 'AZ', 1, 'AZ1025, A.Cəlilov küç., 20/86', '+994124890146; +994502125378', 'f.alishanov@gmail.com', 'https://www.izotar.az', 'https://www.facebook.com/Izotar/', 'Müasir hidroizolyasiya materialları (rulon tipli dam ortüklər- ruberoidlər və bitum mastikası)\r\nГидроизоляционные материалы- рубероиды и битумная мастика', 1, '41c8ec0a9bf29cfef984404e811785e9', NULL, 0),
-(80, 'organic', '$2y$10$BUH6n0O0tx7IhLxn.YCr0Oz1Lj6G9xr.4K4M6MjDcpniRGoRnID6m', '2017-10-31 10:23:16', 2, 'Organic Communications MMC', 1701422611, 'AZ', 1, '8, Gurbanov Xalilov st., ', '+994 12 4971781; 4971782; 4971783', 'office@organic.az', '', '', 'Reklam ve marketing xidmetleri', 0, 'dbe18ad993cdd087ced5d41e5dd94e08', NULL, 0),
-(83, 'Fibromet', '$2y$10$7okQZgq.kULs70yolo43Z.6ignivYqp0kIang8Rul2lkkPNBXt/uq', '2017-10-31 10:59:29', 2, 'Fibromet MMC', 1701089361, 'AZ', 1, 'Biladjari , 16', '+994502145736', 'elcin@fibromet.az', 'https://www.fibromet.az', 'https://www.facebook.com/Fibromet-156172524473002/', 'Yük avtomobillərinə kuzov və soyuducu quraşdırılması', 1, '3deaac4b98ce2b1b34bc2b9e1f0af164', NULL, 0),
-(84, 'tatiw', '$2y$10$tSBs7d6HRnq2j.2vukOp/eawz6b/rte4y7B87nkdTPdOwxCfe07ca', '2017-10-31 11:33:51', 2, 'TaZak', 1702136252, 'AZ', 5, 'Baş-Şabalıd kəndi', '+994505033005', 'tarlanzakaryayev@gmail.com', '', '', '', 1, '6f5de001126a585db39614a9d05eb728', NULL, 0),
-(85, 'Office_Nawinia', '$2y$10$HKojmSDLkGKXeI45vsXRx.98YnhbIJLJ.HZtVBYo13fZ1Qbukcdqq', '2017-10-31 11:59:03', 3, 'NAWINIA BAKU MMC', 1401607211, 'AZ', 1, 'AZ 1025  Baki, 55 Khojali, AGA centre', '+994124644046', 'oletov@nawinia.com', 'http://www.nawinia.com', '', 'Логистическая семья NAWINIA в Баку оказывает все виды логистических услуг, включающих: импортное/экспортное/временное/транзитное таможенное оформление авто/авиа/жд/мультимодальных грузов; оказывает экспедиторские услуги по любым направлениям, видам транспорта и габаритам груза; оказывает услуги по Внешней Экономической Деятельности с территорий Европы, России, Турции и Китая. \r\nNAWINIA Baku входит в группу компаний Nawinia с офисами по всему миру и штаб-квартирой в Москве.', 1, '436d8c2be663d2cd3f44a69ed017a327', NULL, 0),
-(86, 'JetBaku', '$2y$10$wusDwCcwJFr/opmoRmfmLOdeKsvK0za/Rz1J2ZDgo.OmSSeRFuFs.', '2017-10-31 12:06:37', 3, '«Jet İnformasiya Sistemləri» ММC', 1401388061, 'AZ', 1, 'АZ 1014 Bakı ş., S.Vurgun küç., 34, office 7', '+994125964362', 'ryabchenko@jet.msk.su', 'http://www.jetinfosys.az', '', '«Jet İnformasiya Sistemləri» şirkəti informasiya texnologiyaları (İT) bazarında 2008-ci ildən Azərbaycanda  fəaliyyət göstərir. Bizim fəaliyyətimiz, kommersiya təşkilatlarının və dövlət qurumlarının inkişafının güvənli əsasını təmin etmək, onların fəaliyyətinin effektivliyinin artırılmasına yönəldilmişdir.', 1, '19312e1c54ce53d290385deca9261630', NULL, 0),
-(91, 'vusal@smartit.az', '$2y$10$t0Sf85zUzCxlQ6YsVRg/wOcRj0XwJbVJ.jfOt1mALbFURqyG6jEqW', '2017-10-31 19:21:47', 3, 'Smart IT MMC', 2003634151, 'AZ', 1, 'Nəsib bəy Yusifbəyli küçəsi 88', '+994123103335, 204', 'vusal@smartit.az', '', '', '', 1, 'efac3b4c80ec835417af01464b60b2fc', NULL, 0),
-(92, 'nano2017', '$2y$10$nNjONQzrVwoj4kZBqyjtUeXXkTYoBEpEESuEF7W3A8bc/.GN8V/2S', '2017-11-01 09:13:16', 2, 'Nano2017', 1701201581, 'AZ', 1, 'Huseyn Cavid pr. 14', '012-495-57-21', 'nano2017@gmail.com', '', '', '', 0, 'f237ce69e0cf4333bebbe2f2a7bec5b2', NULL, 0),
-(95, 'Jamila', '$2y$10$NRM9vdeSMcOZ68XiwQVOT.58YyXLuyAswmooNC4oxGRaoYqRuBI4a', '2017-11-01 19:33:42', 3, 'SINAM', 1786543457, 'AZ', 1, '9, B.Vakhabzade', '+994125101100', 'jamila.aliyeva@yahoo.com', 'https://sinam.net', '', '', 1, '70da8192fd6766d84039ed365ebc6b9e', NULL, 0),
-(97, 'valid', '$2y$10$7Vnpn/.JX9aqR4.CAE4eCuOpchVHTGwtdRyXh21mHUDDlZCj8hEhe', '2017-11-02 07:56:52', 3, ' Sumqayıt Texnologiyalar Parkı', 2002283071, 'AZ', 3, 'H.Zeynalabdin Tağıyev qəsəbəsi', '+994502465699', 'vmammadli@stp.az', 'https:www.stp.az', 'https://www.facebook.com/www.stp.az/', 'Sumqayıt Texnologiyalar Parkı Qafqzın ən böyük sənaye müəssisə olmaqla yanaşı, müasir texnologiya avadanlıqların köməyi ilə ən müxtəlif məhsul və xidmətlərin təchizatını təmin edir. Müəssisəmiz polimer və kabel məhsulları, ən müxtəlif elektrik avadanlıqları, havalandırma sistemləri, sendviç panellər, profinastil, alüminium profillər, PVC qapı pəncərələr, ağırmaşınqayırma, metal-konstruksiyalar, sinkləmə və s məhsul və xidmətlər təklif edir. Bütün məhsullarımız yüksək standartlara cavab verir və müvafaiq sertifikatlarla təmin edilir. Əlavə suallar və təkliflər üçün, 050 246 56 99 nömrəsi ilə əlaqə saxlamağınız xahiş olunur. ', 1, '86a6451e4d5abde5e9d5b35b2a53b444', NULL, 0),
-(104, 'Meridian', '$2y$10$m0PUTU0fhkuQI0kKtpNeeusl8stl3cbL/xl1Gead6i.0oLrG2Ry9u', '2017-11-03 06:41:09', 3, 'Meridian HIFI', 2002225771, 'AZ', 1, 'Abdulrahman bey Haqverdiev st. Residential quarter 574, building 5 AZ1138 Baku Azerbaijan Republic', '+994502042446', 'farid@meridianhifi.az', '', '', 'Мы предоставляем услуги по проектированию и  поставкам всех видов наружного и внутреннего освещения от европейских производителей по приемлемым ценам. Также нашими инженерами предоставляется решение по таким дисциплинам, как HVAC, Electrical Installation, Low Voltage& High Voltage Solutions.', 1, 'fe881cab92a93ab381291e861978d0bb', NULL, 0),
-(112, 'sharipov', '$2y$10$jR3YwgZaY7xt5a2YPNm25OIPiIeK.cIlMtBpR6/VGviB9hU5aKUU.', '2017-11-03 13:05:32', 2, 'mytender.az1', 555555551, 'AZ', 1, 'Nobel Prospekti eede', '0124092838', 'sharipov.rustam@gmail.com', '', '', '', 1, '30c13711ee532afab0cf7eec209f88ad', NULL, 0),
-(115, 'azersis', '$2y$10$J6/RNxG5u9oRjJQjixI41.a2MT5dEymFam8zhcg7qoWW2yuae3cr6', '2017-11-04 11:26:58', 3, 'AZERSIS', 1902437271, 'AZ', 1, '28 Мая 71', '+99505824930', 'azersis@mail.ru', '', '', '', 1, 'c50ca4d7835e45845d77f874f134d692', NULL, 0),
-(116, 'azeridizayn', '$2y$10$KQERlMDLb6NnfXwes1LcxeRzWQM4aflfxS4UODjzHGCRrAoPlOGta', '2017-11-05 06:06:37', 3, 'Azeri-Dizayn firmasi', 1000058971, 'AZ', 1, 'Nizami küç.196', '+994125110587, +994124928722, +994552200981', 'info@azeri-design.az', '', '', '', 1, 'ca0bfe7e52afddc89b41d613ce5a83e6', NULL, 0),
-(117, 'foresight', '$2y$10$Q/eEUi/aSbYt5s6nevwkpeADH0w0FJKuwzs4/vBFtzckF66dCEciS', '2017-11-05 07:20:32', 3, 'FORESIGHT', 2900515731, 'AZ', 3, '1-ci mkr, 45A/19, 48', '(+99450) 3343689', 'foresight.adil@gmail.com', '', '', 'Logistika və konsaltinq xidmətləri', 1, '95aace9655bb88d32f432bd9103805b9', NULL, 0),
-(118, 'office@sadoil.com', '$2y$10$VcqosXR0oysqRaIBZIJC/euCZf/Qi8jZLCE3niOtlMogFTHboL6n.', '2017-11-06 05:40:58', 3, 'SADOIL MMC', 1201064361, 'AZ', 1, 'Dalga Plaza, 24 Neftchilar avenue.', '+994124375300', 'office@sadoil.com', 'https://www.sadoil.com', '', 'Sadoil LLC is privately held company in Azerbaijan. As a consultancy, supply and services providing enterprise we work with energy partners, investors, contractors, proactively assessing their needs, portfolios, investment strategies and develop business synergies where our resources and skills enable them both meet demands and maximize value.\r\n\r\nWith years of experience in connecting international Oil & Gas Industry Suppliers with Local Demand we offer complete project consultancy, procurement, construction, and maintenance services all over Caspian, particularly in Turkmenistan and Azerbaijan.\r\n\r\nAs a part of our expansion we have established offices in Ashgabat, Beijing and Abu Dhabi to support our continued growth and sourcing requirement. Other than our aforementioned offices, we have formed strategic business partnerships with   manufacturers and supply houses in EU, China and UAE to broaden our geographical reach. Sadoil’s broad supply range of renowned manudacturers lets it offer the highest quality  equipement for Oil and Gas Upstream Industry.\r\n\r\nDirectors of Sadoil LLC are well-experienced professionals with leading edge expertise in Energy and associate sectors over 15 years. We strive to forge lasting relationships with our customers based on consistent performance. This we achieve by assuring utmost attention with best services, quality products, competitive pricing and prompt delivery.', 1, 'b04c7f71d44d470bd2419920624ea44e', NULL, 0),
-(120, 'Vostok ', '$2y$10$trrodfRIwTTB8tQOpOc0humhNsrRk3WZeR2lBhD3jzaBnGR5E4Sre', '2017-11-06 08:18:18', 3, 'Vostok Service', 1401000981, 'AZ', 1, 'Ahmed Rajabli 1/53', '012 465 81 85', 'info@az.vostok.ru', 'https://az.vostok.ru/', 'https://www.facebook.com/vostokbaku/', 'ГРУППА КОМПАНИЙ «ВОСТОК-СЕРВИС» — КРУПНЕЙШИЙ В РОССИИ И ЕВРОПЕ РАЗРАБОТЧИК, ПРОИЗВОДИТЕЛЬ И ПОСТАВЩИК СПЕЦОДЕЖДЫ, СПЕЦОБУВИ И СРЕДСТВ ИНДИВИДУАЛЬНОЙ ЗАЩИТЫ (СИЗ). ОСНОВАНА В 1992 ГОДУ. ПО МНЕНИЮ ЭКСПЕРТОВ, ЗАНИМАЕМАЯ КОМПАНИЕЙ ДОЛЯ РОССИЙСКОГО РЫНКА СПЕЦОДЕЖДЫ И СИЗ — 28%.\r\nГК «Восток-Сервис» — международная компания, имеющая зарубежные активы в Чехии (компания Cerva Export Import a.s.), Словакии (Cerva Slovakia), Польше (Cerva Poland), Венгрии (компания Vektor Kft.), Италии (обувная компания Panda Sport srl.), Турция, Бельгии, Голландии, Дании, ЮАР, Финляндии. В 56 регионах России, Украине, Беларуси, Казахстане, Азербайджане работают более 120 филиалов компании. Розничная сеть «Восток-Сервис» в России и странах СНГ представлена 280 фирменными магазинами, расположенными в 170 городах с численностью населения 100 тыс. человек.\r\nМиссия компании\r\nПоставляя на предприятия современную качественную спецодежду, спецобувь и сиз, мы создаем в высшей степени безопасные и комфортные условия труда для работников любого предприятия, защищаем здоровье и жизнь человека от агрессивного воздействия неблагоприятных факторов производства и окружающей среды, сохраняем трудовой потенциал и здоровье нации.\r\nПроизводственная база и ассортиментный портфель\r\nСобственная производственная база ГК «Восток-Сервис» — 12 швейных и 4 обувные фабрики, расположенные в Липецкой, Рязанской, Брянской, Белгородской. Тверской, Тульской, Кемеровской областях России; Гомельской, Гродненской и Минской областях Беларуси, в г. Бари (Италия). Все фабрики оснащены современным оборудованием, позволяющим выпускать продукцию высокого качества. Ежегодные капиталовложения в модернизацию производственных мощностей составляют 150 млн. руб.\r\nГК «Восток-Сервис» поставляет как традиционные, так и специализированные средства охраны труда для предприятий различных отраслей промышленности: энергетической, нефтяной, газовой, угольной, химической и нефтехимической, черной и цветной металлургии, машиностроения и металлообработки, и др. Ассортимент поставляемых ГК «Восток-Сервис» товаров — 12000 наименований спецодежды, специальной обуви, СИЗ, инструмента, сопутствующих товаров.\r\nРазработкой новых моделей спецодежды, обуви и СИЗ занимается собственный Центр разработки и развития ассортимента новой продукции компании. Ежегодное обновление ассортимента (10 — 15%) происходит за счет производства новых, разработанных с применением инновационных материалов и технологий продуктов, а также рестайлинга известных на рынке и пользующихся популярностью моделей. Система менеджмента качества компании соответствует стандарту ГОСТ ISO 9001-2011.', 1, '4f086b127cbecdd3a9ca1d86aeb34511', NULL, 0),
-(127, 'Infoplusservis', '$2y$10$FARn87dAawEuSdIwYyelseaeZeYubmTrc.SRof1NvSLsB49p.ho8a', '2017-11-08 07:19:34', 3, 'Infoplusservis MMC', 1403285831, 'AZ', 1, 'Nasimi r., Dilara Aliyeva str. 239/8, M19', '+994123102616', 'infoplyusservis@gmail.com', '', '', '', 1, '27393c143ea90d6a4a40819386a42643', NULL, 0),
-(129, 'ss.qrup', '$2y$10$l4ZOo6P2bo0bMk10dUjhjenJheZyS3wd5CtlEzWSCWFbG99p0UMcu', '2017-11-10 07:26:57', 3, 'SS group', 1501801601, 'AZ', 1, 'Həsən Əliyev, 125', '0125647149', 'ss.qrup.125@gmail.com', '', '', 'Продажа, покупка и управление недвижимостью и другими активами. ', 1, 'a757efc4f385d188d54135fa67257df0', NULL, 0),
-(130, 'info@factory-tents.az', '$2y$10$JbTKY4HVFvMvyQQmdwsWoefCs9mjO/4I6qdISyEKkhHGg7mMpAVx6', '2017-11-10 08:37:23', 2, 'Megapolis Group-Factory Tents', 1403810201, 'AZ', 1, 'Azərbaycan, Bakı, Nərimanov, 10Q Ələsgər Qayıbov, AZ1029, SDN Biznes Mərkəzi', '+994124044398', 'info@factory-tents.az', 'http://www.factory-tents.az', '', 'Karkas-tent qurğuları (tentlər, çadırlar) - sənaye və kənd təsərrüfatı müəssisələri, idman təşkilatları, mədəni və sosial təyinatlı müəssisələrin tələblərinə tam həcmdə cavab verən, tez təmir olunan, qənaətli qurğulardır. Tent çadırların quruluşu sərfəli olması, yığılışın sadəliyi, etibarlılığı və praktik olması ilə fərqlənir. İstehsalçıdan tent çadırı əldə etmək fikirinə gəlmisinizsə, sizi şirkətimizdə görməyə şadıq!\r\nŞirkətin ixtisası - bütün növ karkas-tent qurğularının layihələşdirilməsi, istehsalı, satışı, icarəsi və onlara aşağı qiymətlərlə keyfiyyətli qulluğun göstərilməsidir (Bakıda və Azərbaycanın digər regionlarında).', 1, 'bbf115e53ef27b29d39aab79a1eab6c5', NULL, 0),
-(131, 'RaifaJalilova', '$2y$10$VVzfJw/LXWNx04oCAuhHGOPiEo.BLMpFPlcJuXAgdSV1wWqbRDC9.', '2017-11-13 10:20:37', 2, 'Baku Consulting Group', 1305116941, 'AZ', 1, 'Z.Khalilov 523, house 11A, flat 12', '+994 55 600 26 66', 'marinarenaldi@yandex.ru', '', '', '', 1, '8547c8c6117af58bff4f5604595b9a6c', NULL, 0),
-(133, 'Dmitrakovich87', '$2y$10$W.ZkV3foQsSJ0TkHix9Psur.MR6cuLsf/DjVOgITcWGS.s/0TJrBu', '2017-11-15 11:10:12', 3, 'IPhone Dmitrakovich', 0, 'BY', 0, 'g.Vitebsk,st.Gagarina,d.224/57', '+375298561515', 'evgenijdmitrakovich@mail.ru', '', '', '', 0, '190723ee383cf9c9327697bf193c40b8', NULL, 0),
-(134, 'www.evgenijdmitrakovich@mail.ru', '$2y$10$azpX5MoYIMz1icnlIg1ZW.Y2oLAseRUfJf2oYWJoCL5NkmX1CmPQW', '2017-11-15 13:46:59', 2, 'Ip Dmitrakovich', 0, 'BY', 0, 'g.Vitebsk,st.Gagarin,d224/57', '+375298561515', 'www.evgenijdmitrakovich@mail.ru', '', '', '', 0, '190723ee383cf9c9327697bf193c40b8', NULL, 0),
-(137, 'VugarHydroserv', '$2y$10$sD9dNAi30BErSdNK95t4w.aJdcesIodCrUUCybB8np4AAq2OUvWey', '2017-11-23 05:18:07', 3, 'Hydroserv Caspian LTD', 1700095541, 'AZ', 1, '15th KM, Salyan Highway ', '+994 50 246 89 92', 'vugar.mirzayev@hydroserv.az', '', '', 'HYDROSERV GROUP – это широко известный и признанный лидер рынка в проектировании, разработке применений и решений для гидравлических систем для нефтегазовой промышленности , Hydroserv Group имеет хорошо структурированную, опытную инфраструктуру продаж и сервиса с новейшими оборудованиями и технологиями, с более 80 сотрудниками. Специализированные инженеры и технические специалисты обладают углубленными знаниями о продуктах и услугах компании, предоставляемыми нашим клиентам.\r\n \r\nРемонт и Испытание\r\n \r\nРемонт и тестирование насосов, моторов, цилиндров, аккумуляторов, клапанов и крупных запчастей нефтегазовых, морских и промышленных гидравлических систем.\r\n    \r\nПри проведении осмотра, функционального тестирования, тестирования эффективности и обеспечения отчетами тестирования на каждый отремонтированный гидравлический компонент, мы работаем напрямую с крупнейшими поставщиками по всему миру. \r\n \r\n \r\nУ нас имеется широкий ассортимент гидравлических и промышленных рукавов с размерами, начинающимися от ¼ до  6 дюймов в местных складах с изготовлением с учетом пожелания клиентов. Также на нашем складе имеются различные виды рукавных соединений, подходящие для наших рукавов.\r\n \r\n \r\nВосстановление гидравлического оборудования\r\nВ Hydroserv все восстановительные работы осуществляются по самым высоким стандартам в полностью оборудованных мастерских и испытательных станках высокого давления. Начиная от замены уплотнителя и до капитального ремонта, по завершению работ предоставляются  сертификаты по функциональному тесту и опрессовке. Мы поставляем насосы и клапана всех производителей. \r\n \r\n    \r\n \r\nБолее детальную информацию можете найти в вложении \r\nMore detail information available on attachments \r\n\r\n\r\nDear Customer\r\n\r\nI’d like get chance to present our company ability and looking forward for further partnership with you. \r\n\r\nWith ISO9001:2015certification from TUV we specialize in design, manufacturing, flushing & refurbishment of hydraulic power systems and associated motion control, handling systems and components in conformance with international quality and safety standards. \r\n\r\nAlso like to inform that Hydroserv Group expanded service & Supply capability on wide range construction machinery\r\nWe are dealers of the world leading manufacturers of machinery, such as JCB, HYSTER, JLG, Magni, Combilift  in Azerbaijan. We also operate big fleet of rental equipment, consisting of the following machinery: \r\n\r\n1.            Traditional forklift trucks: 1.5-25Te capacity; \r\n2.            Telehandlers: 7-30MTR boom;\r\n3.            MEWP – 8-50 MTR boom; \r\n4.            Generators / Lighting Towers;\r\n5.            Other small plant equipment; \r\n \r\nI’m attaching our brochure for more information about our capabilities. \r\nLooking forward to get chance for further meeting and more detail presentation\r\n\r\nBest Regards\r\n \r\n \r\nVugar Mirzayev\r\nSales engineer \r\nHydroserv Caspian LTD\r\n15th KM, Salyan Highway | Baku|AZ1063 | Azerbaijan\r\nMob: +994 50 246 89 92\r\nTel: +994 12 448 2872 / 74\r\nFax: +994 12 448 2871\r\nWebsite: www.hydroservgroup.com  \r\n', 1, '41e5bcce49bc3fe097475cb494b2011e', NULL, 0),
-(138, 'tural', '$2y$10$33/wWcbN1y6hoCLrlbfbxONQdrayPup8yvWJxcmyv4Tip4w8H.tka', '2017-11-27 12:22:20', 2, 'Gobay', 4294967295, 'AZ', 1, 'Mireli seidov 19 A', '+994503515149', 'tural@gobay.az', '', '', '', 1, 'a2c62c8b90f12f04d89928a30b383f96', NULL, 0),
-(139, 'ces1999', '$2y$10$fHnYJBuqwtss0yJN55KEeOeTEa7E3Eja3lqqMTCJsOd/GSYtQdb5K', '2017-11-28 10:43:10', 2, 'Qafqazenergoservis', 3100019251, 'AZ', 1, 'Nesimi rayonu, S.Vurğun 34 küçəsi, AF Mall binası 4-cü mərtəbə', '+994 12 498 67 71', 'baku@ces-az.com', 'http://ces-az.com', '', '         «Qafqazenergoservis» - öz fəaliyyətini sənaye istesalatı sahəsində həyata keçirilən Azərbaycan Respublikasında mövcud olan özəl şirkətdir. Şirkətin istehsalat fəaliyyət sahəsini müxtəlif tipli elektrik avadanlıqlarının təmiri, sazlanması təşkil edir. \r\n         Respublika daxilində və onun hüdudlarından kənarda qarşıya qoyulmuş tapşırıqların yerinə yetirilməsi üçün «Qafqazenergoservis» şirkətinin yüksək ixtisaslı mütəxəssislərindən ibarət mobil briqadaları vardır.\r\n         Bir çox mürəkkəb hallarda elektrik avadanlıqlarının təmiri «Qafqazenergoservis»  şirkətinə məxsus olan və Bakı şəhərində, Dağıstan, Gürcüstan Respublikasında yerləşən bazalar əsasında həyata keçirilir.\r\n         «Qafqazenergoservis» şirkəti beynalxalq layihələrin işlənməsi cəlb edilmişdir. «Qafqazenergoservis»  şirkətinin aktivinə «WIER PUMPS LTD», «FIELD SYSTEMS DESIGN LTD» (Böyük Britaniya) «TECHFINA SA», «STUCKY CE» (İsveçrə), «MKT» (Türkiyə) şirkətləri ilə birgə işlər də aiddir.\r\n          Şirkətin yeni istiqamətini həmçinin onun tərəfindən metallurgiya sahəsinin uğurla mənimsənilməsi təşkil edir. Hal-hazırda bir DSP elektrik sobasında hazırlanan kvadrat pəstahlardan «Yayma dəzgah 400» -də müxtəlif növlü metal-yayma məhsullarının istehsal edirik. Metal ərintilərindən həmçinin müxtəlif çeşidli metal tökmə məhsullarını istehsal edirik. \r\n', 1, 'e95da7af0b06c503956370dbfd459e52', NULL, 0),
-(140, 'sinam ', '$2y$10$O.01U884Hlo2fF2q7DDRcO4UQ3rpwvNZMyjD/.J5Tb.BEPnkDIHje', '2017-11-30 06:07:21', 2, 'SINAM  ', 1010010001, 'AZ', 1, '9, B.Vakhabzadeh ', '+994125101100 ', 'elchin.aliyev@sinam.net', 'https://sinam.net ', '', 'IT System Integration', 0, 'e2e22dc2ba03dbad2d1567e854840a76', NULL, 0),
-(141, 'smartagro', '$2y$10$RY5UB8QvGXMUhZlggvw7zuZmgiV9vrNOEpVCmEKblA3Bo6NmT1k.G', '2017-12-14 07:23:37', 3, 'Smart Agro MMC', 1503755281, 'AZ', 1, 'Əhməd Rəcəbli küç., 222, Royal Plaza, 5-ci mərtəbə', '+994125648683', 'kamal.abdulrahimov@smartagro.az', 'http://smartagro.az', '', '•	Suvarma sistemləri:\r\n        -  Genişəhatəli çiləmə maşınları \r\n        -  Damla suvarma sistemləri\r\n        -  Sprinkler suvarma sistemləri\r\n•	Sənaye istixana kompleksləri\r\n•	Nasos və süzgəcləmə stansiyaları\r\n•	Suvarma sistemləri üçün su anbarları \r\n•	Suvarma sistemləri və istixana kompleksləri üçün avtomatlaşdırma sistemləri\r\n•	Yarımavtomat və avtonom enerji sistemləri \r\n•	Təhlükəsizlik və rabitə sistemləri\r\n•	Boyük suvarma sahələri və istixana təsərrüfatları üçün monitorinq sistemləri\r\n', 1, '77158cbfa0b6805c0ae62d4b7140e9b4', NULL, 0),
-(142, 'shekitour', '$2y$10$XoHqlwYSagscLFaUpB8cV.U6IOm/Bt4VSc25bUrxT7xh/GI2i7uuC', '2017-12-18 18:40:10', 3, 'sheki tour', 1234567890, 'AZ', 5, 'sheki ', '+994554060688', 'hamidlimurad@gmail.com', '', '', '', 1, '7b24c12a75db870a9d8d6ac02189292b', NULL, 0),
-(143, 'Stampel', '$2y$10$NeUUwXp0g9KNxiORh/hB0uHuzd2yNx79Lq82pdJ01vLD2V17MGzXG', '2017-12-23 15:32:51', 3, 'STAMPEL', 1603047291, 'AZ', 1, 'Nizami Rayonu Cəmşid Naxçıvanski 18 mənzil 14', '+994502015253', 'info@stampel.az', 'https://www.stampel.az/', 'https://m.facebook.com/stampel.az/?ref=bookmarks', 'Bütün növ möhür ştampların istehsalı və satışı.', 0, '17fb97950b8e253a7922f4c1249015b8', NULL, 0),
-(144, 'Vitam', '$2y$10$Vvh2PN6X./6ouVJLangcDOoJZsR8QYWZM/vrpISQbn2CywnSu1mni', '2017-12-23 19:01:07', 3, 'Vitam Reklam', 1000096931, 'AZ', 1, 'F.Əliyev 2', '0124378060', 'tehran@vitam.az', 'http://vitam.az/', 'https://m.facebook.com/vitam.az', '- çöl və iç məkan adasqıların istehsalı\r\n- genişformatlı UV çap\r\n- vitrin istehsalı\r\n- reklam stendləri istehsalı\r\n- sərgi stendi istehsalı\r\n- yönləndirmə sistemləri\r\n- dizayn və layihələndirmə\r\n- texniki konsultasiya', 1, '61b549c48d7d2786874de6e4ddb3dff4', NULL, 0),
-(145, 'intertechnics', '$2y$10$T441Hh5LbN2TOObv2B7l1uoJv7GrVbELCLbHFbdeqL16X57afAHeW', '2017-12-25 06:40:59', 3, 'Inter-Technics', 1800185631, 'AZ', 1, 'BAKU-QUBA Highway 12 A. KHIRDALAN ', '+99412 347 95 55', 'office@inter-technics.az', 'https://inter-technics.com ', '', '', 1, 'fdba2ea99e557925283c9c2d8f8c4190', NULL, 0),
-(146, 'complectpromm', '$2y$10$TETZfpSZspnm8uV81/u7JOk7DroaGdBz0KnwoHAEZrm1aH3.cvDmK', '2017-12-26 13:30:02', 3, 'ООО \"КПМ\"', 0, 'RU', 0, '195279, г. Санкт-Петербург, шоссе Революции, д. 69, лит. А, пом. 22Н, оф. 310', '+79112693365', 'manager15@complectprom.ru', 'http://www.complectprom.ru/', '', ' ООО \"КПМ\" — один из ведущих российских производителей электротехнического оборудования. По наращиванию производства и темпам модернизации предприятие — одно из наиболее динамично развивающихся в отрасли. Сотрудничество ООО \"КПМ\" с ключевыми российскими предприятиями позволяет эффективно реализовывать правительственную программу импортозамещения.\r\nК числу важнейших направлений модернизации предприятия относится внедрение энергосберегающих технологий. Разработки специалистов ООО \"КПМ\" позволяют уже сейчас производить оборудование, способствующее снижению энергозатрат предприятий до 50%.\r\n\r\nООО \"КПМ\" располагает производственными площадками в г. Санкт-Петербург и выпускает следующую продукцию:\r\n\r\n- Cухие трансформаторы с полимерной воздушно-барьерной изоляцией мощностью до 6300кВА, напряжением до 35кВ;\r\n- Токоограничивающие реакторы на токи до 10000А, на классы напряжения до 330кВ, индуктивным сопротивлением до 3,3Ом;\r\n- Устройства энергосбережения и компенсации реактивной мощности;\r\n- Преобразовательные сухие трансформаторы для различных отраслей промышленности мощностью до 6300кВА, на классы напряжения до 35кВ;\r\n- Комплектные распределительные устройства КРУ на класс напряжения 6 (10)кВ;\r\n- Комплектные трансформаторные подстанции КТП промышленные на класс напряжения 6(10)кВ ;\r\n- Комплектные трансформаторные подстанции наружной установки КТПН в блочно-модульном здании БМЗ на класс напряжения 6(10), 35, 110, 220кВ;\r\n- Комплектные трансформаторные подстанции блочные КТПБ на класс напряжения 35, 110, 220кВ;', 1, '89e905c853248fd08e59cd69149f9945', NULL, 0),
-(147, 'hellshan', '$2y$10$wHjYtUJQ9R5eKdC5cWD2E.HU0HzCyjtVb1Lg9/9VyGLFiRfVEb6Uu', '2018-01-05 06:22:25', 2, 'Test1', 1234567890, 'AZ', 1, 'Bakı şəhəri', '0505555555', 'elsan.hasanov@gmail.com', '', '', '', 1, 'd707862fed9a734112c9f960f629bf3a', NULL, 0);
+INSERT INTO `users` (`userId`, `login`, `password`, `createdAt`, `groupId`, `name`, `country`, `city`, `phone`, `email`, `site`, `facebook`, `status`, `activationCode`) VALUES
+(1, 'admin', '$2y$10$WShDEA5s.Em0VNZYVpPaKeVTLtYMc2d7KHdchvWRLFhB5LYRmhUmW', '2017-07-28 08:02:27', 1, 'Admin', NULL, 0, '', 'k.kaluzhnikov@gmail.com', '', '', 1, 'eeef80f7660b283a3b799938a84416cc'),
+(2, 'test-b', '$2y$10$6Ic.8Twc9D0lrd6E88DAQezbUqZHGj59qjn8gGwuCm9MGWhZpvcUu', '2017-08-04 06:41:42', 2, 'Test Buyer', 'AZ', 1, '0555555555', 'zeuz@list.ru', '', '', 1, '3f6b8a99b77a42b247003aa4e2563b23'),
+(3, 'test-s', '$2y$10$t1O0Er5Sln7xIyfrjLYByuJJzBtueP0rj.bKpz/.3zEBNQ/nW5upi', '2017-08-04 06:43:36', 3, 'Test suplier', 'AZ', 1, '0552222222', 'evilkraft@gmail.com', '', '', 1, '2ef8e52d8794260dccf2eb3c40a042ef'),
+(4, 'test-s2', '$2y$10$vsB9/tuFvDTmwoaQTTVHeuSAk8uygoVER4Q1CniV.nM2IGs0Sxze2', '2017-08-09 11:30:22', 3, 'Test suplier 2', 'AZ', 2, '0552222222', 'zeuz1@list.ru', '', '', 1, '3f6b8a99b77a42b247003aa4e2563b23'),
+(21, 'Guest', '$2y$10$rtZe3fZNTI7E2JKez0tJoO77dHtmaUy8qCMitTE2eGscVvxQOieEa', '2017-08-22 06:11:24', 2, 'Best Solutions', 'AZ', 1, '0502884460', 'r.c.rustam@icloud.com', '', '', 1, '5829fa1e492fe8863f558d8e9a25ca0e'),
+(24, 'innovation', '$2y$10$UavGg5wLhL2ZA36fuFREjOQnt8yUF8RAZv5W/BIh8Qhnjup4mXMkC', '2017-08-22 08:22:42', 2, 'k&A', 'AZ', 1, '0124445555', 'k.agasi@gmail.com', '', '', 1, '91e343c820489d4ffa63cebcfa2dc44a'),
+(43, 'zaur', '$2y$10$Va0Yz8kpYDS75KNCacrqDemWXLksPYors6Wx589ju.Xj358lKlkGq', '2017-08-28 08:58:50', 2, '3Z MMC', 'AZ', 1, '0502636700', 'zeynalov.zaur@gmail.com', 'http://1415.az', '', 1, 'ba20d010dab1a2b1cd477ae670366934'),
+(55, 'innexim', '$2y$10$.VIOGrHTue92Qz1zCg7mju15VJhCaznTFuLiYyE3bRvICQosGc7uG', '2017-10-24 11:44:09', 2, 'INNEXIM', 'CA', 0, '0502186173', 'r.c.rustam@gmail.com', 'http://innexim.com', '', 1, 'c9fc98c061b0abd5304c2c3d192416ed'),
+(56, 'Farid', '$2y$10$NjWg45B25rZIZ1JxRLV2Y.oANYGUUyvhcGT5jvIhJSAS/ZYZ9hQ/q', '2017-10-25 07:07:50', 2, 'Original Motors', 'AZ', 1, '0502780210', 'rustamof@hotmail.com', 'http://originalmotors.com', '', 1, '83d95a5965ad83b3201cf06d892633fc'),
+(57, 'gunay', '$2y$10$TV9w8oFyoaL9yIy0Pfb50ewmHYDti00G8e5ZN0bhddNk968CHwsXK', '2017-10-25 08:01:23', 2, 'Netant', 'AZ', 1, '4969696', 'gunayhuseyn@gmail.com', '', '', 1, '75cd10ebbdb74046329e61bb64e862db'),
+(58, 'rustam-saf', '$2y$10$94wh18bKb23Y.c6r032jf.qjA4/xOB4CE1F2w7uY93wrckRmAsCeS', '2017-10-25 08:56:10', 2, 'Saf pencere', 'AZ', 1, '0124092835', 'office@saf-pencere.az', 'http://www.saf-pencere.az', 'https://www.facebook.com/saf.pencere/', 1, 'f25d8851517d80059bed61c91cb2c9c8'),
+(64, 'Pooltech', '$2y$10$i2ffpLVOZT4qTQHnuEYQyexnHf.b2UvEZvHwLKozvgej5fK38d1.u', '2017-10-25 16:09:18', 3, 'Pooltech MMC', 'AZ', 1, '+994552049422', 'taleh@pooltech.az', 'http://www.pooltech.az', '', 1, '4c596a0d8c4fb752b40a6bb688b62778'),
+(65, 'Fashion', '$2y$10$XJdTeKm3YtmJKCL5MnA0N.XS3wjD1tnD37f1Ql/A1Oy.EvKVlrHi.', '2017-10-27 18:53:31', 2, 'IDBI', 'AZ', 1, '0071895786996999', 'fashionarea@hotmail.com', '', '', 1, '691401df2a0e858b368ee0119dd6d39e'),
+(66, 'Chase', '$2y$10$WXl04J7Hd1MlqrrEvGvgLu/KGvYwgydfkUBH66YliLIFMPD1Fmd6u', '2017-10-30 01:57:27', 2, 'site signs', 'CA', 0, 'LR', 'chaseoshaughnessy@gmail.com', 'http://www.signsavers.co.uk/', '', 0, '5e37afb0d1949d8546743662ec66efb5'),
+(67, 'Christopher', '$2y$10$MAkGOR3VT95DKhXy6K5e4.H6.n87sN3ieWrryVDEW1BQvgFrfb.DS', '2017-10-30 01:58:22', 2, 'safety signs', 'CA', 0, '0388 2177223', 'christopheraspinall@arcor.de', 'http://www.signsavers.co.uk/', '', 0, '4b9fcd11f8b26c3006e671ba38557e0e'),
+(70, 'innexim1', '$2y$10$Ya8F/Gy3Y2YA1ARYGnf3EeNDRRx7sbU4LWCO9YsT5sQNOpmsS7Fr.', '2017-10-30 14:18:16', 3, 'INNEXIM', 'CA', 0, '09230120100', 'rustam.rustamov@pmdgroup.az', '', '', 1, 'fd44db8237425423b7a4e5d6db3a21a1'),
+(71, 'bagirzade', '$2y$10$w5Af4Spsk9yL/f6XLE4jseb1DzYAjgJB0L4CtNaoSa3/EH.YDgDtC', '2017-10-31 07:44:43', 3, 'Totoo', NULL, 1, '+994503220104', 'bagirzade@gmail.com', 'http://www.totoo.az', 'http://www.facebook.com/totoobebe', 1, 'd35058d276c08286cfd5ab3f5dc0c022'),
+(72, 'ASBC', '$2y$10$1quMzyz4dm.SD5q1V/5x9OvDMeAfriAB8oQVgpZYwelEsoiCis29e', '2017-10-31 08:25:05', 3, 'ASBC', NULL, 1, '+994124932888', 'e.k@asbc.az', 'http://www.almastore.az', '', 1, '9d527e0da89baf4a3a17d6f39f936c21'),
+(74, 'printi', '$2y$10$u2WtkTniGos0KWH9lHaQduhk6YN9Qq8HxwKqO51VENB2SgAywjnJS', '2017-10-31 09:00:00', 2, 'Printi Studio MMC', 'AZ', 1, '0553393234', 'elina@printi.az', '', '', 1, '1fbde010f1c3c0b014a1a7b76561dada'),
+(76, 'Khasayev', '$2y$10$5L6Y9tVH6VwScHdQIQtVbeGbs53PHVuZbIO.tTvrszqh5.9CF6.x2', '2017-10-31 09:10:52', 2, 'Frazex', 'AZ', 1, '+994502557044', 'info@frazex.com', 'http://frazex.com', '', 1, '2acdce6bbea59d55d27e5cbc46974ef5'),
+(77, 'kvazar.office@bk.ru', '$2y$10$sWkdZcN3rq9l3RJO4HAJpOYW8HVvNcgxLFsHWmKVbbxmaVXEyH9qW', '2017-10-31 09:34:43', 3, 'kvazar', 'AZ', 1, '+994502204032', 'kvazar.office@bk.ru', '', '', 1, '8ca540fe1eb290051ee281e215964e5a'),
+(78, 'bmlawaz', '$2y$10$4.MySv5HHtRv5t/io.qIIeijuwJmKXW/K4dSNPaDouAkxGCtfTZTW', '2017-10-31 10:02:19', 2, 'BM Morrison Partners LLC', 'AZ', 1, '012 4971914/15', 'info@bmlawaz.com', 'http://www.bmlawaz.com/', '', 1, '006c774dbea5671f00204690fde1096b'),
+(79, 'izotar', '$2y$10$6uCh5k8dV/2bzSqC6hDTg.fsTcd6vsUS9B9W0B9gVJVlRzByJdjdO', '2017-10-31 10:17:44', 3, '\"AZTOL-ALAT\" MMC', 'AZ', 1, '+994124890146; +994502125378', 'f.alishanov@gmail.com', 'https://www.izotar.az', 'https://www.facebook.com/Izotar/', 1, '41c8ec0a9bf29cfef984404e811785e9'),
+(80, 'organic', '$2y$10$BUH6n0O0tx7IhLxn.YCr0Oz1Lj6G9xr.4K4M6MjDcpniRGoRnID6m', '2017-10-31 10:23:16', 2, 'Organic Communications MMC', 'AZ', 1, '+994 12 4971781; 4971782; 4971783', 'office@organic.az', '', '', 0, 'dbe18ad993cdd087ced5d41e5dd94e08'),
+(83, 'Fibromet', '$2y$10$7okQZgq.kULs70yolo43Z.6ignivYqp0kIang8Rul2lkkPNBXt/uq', '2017-10-31 10:59:29', 2, 'Fibromet MMC', 'AZ', 1, '+994502145736', 'elcin@fibromet.az', 'https://www.fibromet.az', 'https://www.facebook.com/Fibromet-156172524473002/', 1, '3deaac4b98ce2b1b34bc2b9e1f0af164'),
+(84, 'tatiw', '$2y$10$tSBs7d6HRnq2j.2vukOp/eawz6b/rte4y7B87nkdTPdOwxCfe07ca', '2017-10-31 11:33:51', 2, 'TaZak', 'AZ', 5, '+994505033005', 'tarlanzakaryayev@gmail.com', '', '', 1, '6f5de001126a585db39614a9d05eb728'),
+(85, 'Office_Nawinia', '$2y$10$HKojmSDLkGKXeI45vsXRx.98YnhbIJLJ.HZtVBYo13fZ1Qbukcdqq', '2017-10-31 11:59:03', 3, 'NAWINIA BAKU MMC', 'AZ', 1, '+994124644046', 'oletov@nawinia.com', 'http://www.nawinia.com', '', 1, '436d8c2be663d2cd3f44a69ed017a327'),
+(86, 'JetBaku', '$2y$10$wusDwCcwJFr/opmoRmfmLOdeKsvK0za/Rz1J2ZDgo.OmSSeRFuFs.', '2017-10-31 12:06:37', 3, '«Jet İnformasiya Sistemləri» ММC', 'AZ', 1, '+994125964362', 'ryabchenko@jet.msk.su', 'http://www.jetinfosys.az', '', 1, '19312e1c54ce53d290385deca9261630'),
+(91, 'vusal@smartit.az', '$2y$10$t0Sf85zUzCxlQ6YsVRg/wOcRj0XwJbVJ.jfOt1mALbFURqyG6jEqW', '2017-10-31 19:21:47', 3, 'Smart IT MMC', 'AZ', 1, '+994123103335, 204', 'vusal@smartit.az', '', '', 1, 'efac3b4c80ec835417af01464b60b2fc'),
+(92, 'nano2017', '$2y$10$nNjONQzrVwoj4kZBqyjtUeXXkTYoBEpEESuEF7W3A8bc/.GN8V/2S', '2017-11-01 09:13:16', 2, 'Nano2017', 'AZ', 1, '012-495-57-21', 'nano2017@gmail.com', '', '', 0, 'f237ce69e0cf4333bebbe2f2a7bec5b2'),
+(95, 'Jamila', '$2y$10$NRM9vdeSMcOZ68XiwQVOT.58YyXLuyAswmooNC4oxGRaoYqRuBI4a', '2017-11-01 19:33:42', 3, 'SINAM', 'AZ', 1, '+994125101100', 'jamila.aliyeva@yahoo.com', 'https://sinam.net', '', 1, '70da8192fd6766d84039ed365ebc6b9e'),
+(97, 'valid', '$2y$10$7Vnpn/.JX9aqR4.CAE4eCuOpchVHTGwtdRyXh21mHUDDlZCj8hEhe', '2017-11-02 07:56:52', 3, ' Sumqayıt Texnologiyalar Parkı', 'AZ', 3, '+994502465699', 'vmammadli@stp.az', 'https:www.stp.az', 'https://www.facebook.com/www.stp.az/', 1, '86a6451e4d5abde5e9d5b35b2a53b444'),
+(104, 'Meridian', '$2y$10$m0PUTU0fhkuQI0kKtpNeeusl8stl3cbL/xl1Gead6i.0oLrG2Ry9u', '2017-11-03 06:41:09', 3, 'Meridian HIFI', 'AZ', 1, '+994502042446', 'farid@meridianhifi.az', '', '', 1, 'fe881cab92a93ab381291e861978d0bb'),
+(112, 'sharipov', '$2y$10$jR3YwgZaY7xt5a2YPNm25OIPiIeK.cIlMtBpR6/VGviB9hU5aKUU.', '2017-11-03 13:05:32', 2, 'mytender.az1', 'AZ', 1, '0124092838', 'sharipov.rustam@gmail.com', '', '', 1, '30c13711ee532afab0cf7eec209f88ad'),
+(115, 'azersis', '$2y$10$J6/RNxG5u9oRjJQjixI41.a2MT5dEymFam8zhcg7qoWW2yuae3cr6', '2017-11-04 11:26:58', 3, 'AZERSIS', 'AZ', 1, '+99505824930', 'azersis@mail.ru', '', '', 1, 'c50ca4d7835e45845d77f874f134d692'),
+(116, 'azeridizayn', '$2y$10$KQERlMDLb6NnfXwes1LcxeRzWQM4aflfxS4UODjzHGCRrAoPlOGta', '2017-11-05 06:06:37', 3, 'Azeri-Dizayn firmasi', 'AZ', 1, '+994125110587, +994124928722, +994552200981', 'info@azeri-design.az', '', '', 1, 'ca0bfe7e52afddc89b41d613ce5a83e6'),
+(117, 'foresight', '$2y$10$Q/eEUi/aSbYt5s6nevwkpeADH0w0FJKuwzs4/vBFtzckF66dCEciS', '2017-11-05 07:20:32', 3, 'FORESIGHT', 'AZ', 3, '(+99450) 3343689', 'foresight.adil@gmail.com', '', '', 1, '95aace9655bb88d32f432bd9103805b9'),
+(118, 'office@sadoil.com', '$2y$10$VcqosXR0oysqRaIBZIJC/euCZf/Qi8jZLCE3niOtlMogFTHboL6n.', '2017-11-06 05:40:58', 3, 'SADOIL MMC', 'AZ', 1, '+994124375300', 'office@sadoil.com', 'https://www.sadoil.com', '', 1, 'b04c7f71d44d470bd2419920624ea44e'),
+(120, 'Vostok ', '$2y$10$trrodfRIwTTB8tQOpOc0humhNsrRk3WZeR2lBhD3jzaBnGR5E4Sre', '2017-11-06 08:18:18', 3, 'Vostok Service', 'AZ', 1, '012 465 81 85', 'info@az.vostok.ru', 'https://az.vostok.ru/', 'https://www.facebook.com/vostokbaku/', 1, '4f086b127cbecdd3a9ca1d86aeb34511'),
+(127, 'Infoplusservis', '$2y$10$FARn87dAawEuSdIwYyelseaeZeYubmTrc.SRof1NvSLsB49p.ho8a', '2017-11-08 07:19:34', 3, 'Infoplusservis MMC', 'AZ', 1, '+994123102616', 'infoplyusservis@gmail.com', '', '', 1, '27393c143ea90d6a4a40819386a42643'),
+(129, 'ss.qrup', '$2y$10$l4ZOo6P2bo0bMk10dUjhjenJheZyS3wd5CtlEzWSCWFbG99p0UMcu', '2017-11-10 07:26:57', 3, 'SS group', 'AZ', 1, '0125647149', 'ss.qrup.125@gmail.com', '', '', 1, 'a757efc4f385d188d54135fa67257df0'),
+(130, 'info@factory-tents.az', '$2y$10$JbTKY4HVFvMvyQQmdwsWoefCs9mjO/4I6qdISyEKkhHGg7mMpAVx6', '2017-11-10 08:37:23', 2, 'Megapolis Group-Factory Tents', 'AZ', 1, '+994124044398', 'info@factory-tents.az', 'http://www.factory-tents.az', '', 1, 'bbf115e53ef27b29d39aab79a1eab6c5'),
+(131, 'RaifaJalilova', '$2y$10$VVzfJw/LXWNx04oCAuhHGOPiEo.BLMpFPlcJuXAgdSV1wWqbRDC9.', '2017-11-13 10:20:37', 2, 'Baku Consulting Group', 'AZ', 1, '+994 55 600 26 66', 'marinarenaldi@yandex.ru', '', '', 1, '8547c8c6117af58bff4f5604595b9a6c'),
+(133, 'Dmitrakovich87', '$2y$10$W.ZkV3foQsSJ0TkHix9Psur.MR6cuLsf/DjVOgITcWGS.s/0TJrBu', '2017-11-15 11:10:12', 3, 'IPhone Dmitrakovich', 'BY', 0, '+375298561515', 'evgenijdmitrakovich@mail.ru', '', '', 0, '190723ee383cf9c9327697bf193c40b8'),
+(134, 'www.evgenijdmitrakovich@mail.ru', '$2y$10$azpX5MoYIMz1icnlIg1ZW.Y2oLAseRUfJf2oYWJoCL5NkmX1CmPQW', '2017-11-15 13:46:59', 2, 'Ip Dmitrakovich', 'BY', 0, '+375298561515', 'www.evgenijdmitrakovich@mail.ru', '', '', 0, '190723ee383cf9c9327697bf193c40b8'),
+(137, 'VugarHydroserv', '$2y$10$sD9dNAi30BErSdNK95t4w.aJdcesIodCrUUCybB8np4AAq2OUvWey', '2017-11-23 05:18:07', 3, 'Hydroserv Caspian LTD', 'AZ', 1, '+994 50 246 89 92', 'vugar.mirzayev@hydroserv.az', '', '', 1, '41e5bcce49bc3fe097475cb494b2011e'),
+(138, 'tural', '$2y$10$33/wWcbN1y6hoCLrlbfbxONQdrayPup8yvWJxcmyv4Tip4w8H.tka', '2017-11-27 12:22:20', 2, 'Gobay', 'AZ', 1, '+994503515149', 'tural@gobay.az', '', '', 1, 'a2c62c8b90f12f04d89928a30b383f96'),
+(139, 'ces1999', '$2y$10$fHnYJBuqwtss0yJN55KEeOeTEa7E3Eja3lqqMTCJsOd/GSYtQdb5K', '2017-11-28 10:43:10', 2, 'Qafqazenergoservis', 'AZ', 1, '+994 12 498 67 71', 'baku@ces-az.com', 'http://ces-az.com', '', 1, 'e95da7af0b06c503956370dbfd459e52'),
+(140, 'sinam ', '$2y$10$O.01U884Hlo2fF2q7DDRcO4UQ3rpwvNZMyjD/.J5Tb.BEPnkDIHje', '2017-11-30 06:07:21', 2, 'SINAM  ', 'AZ', 1, '+994125101100 ', 'elchin.aliyev@sinam.net', 'https://sinam.net ', '', 0, 'e2e22dc2ba03dbad2d1567e854840a76'),
+(141, 'smartagro', '$2y$10$RY5UB8QvGXMUhZlggvw7zuZmgiV9vrNOEpVCmEKblA3Bo6NmT1k.G', '2017-12-14 07:23:37', 3, 'Smart Agro MMC', 'AZ', 1, '+994125648683', 'kamal.abdulrahimov@smartagro.az', 'http://smartagro.az', '', 1, '77158cbfa0b6805c0ae62d4b7140e9b4'),
+(142, 'shekitour', '$2y$10$XoHqlwYSagscLFaUpB8cV.U6IOm/Bt4VSc25bUrxT7xh/GI2i7uuC', '2017-12-18 18:40:10', 3, 'sheki tour', 'AZ', 5, '+994554060688', 'hamidlimurad@gmail.com', '', '', 1, '7b24c12a75db870a9d8d6ac02189292b'),
+(143, 'Stampel', '$2y$10$NeUUwXp0g9KNxiORh/hB0uHuzd2yNx79Lq82pdJ01vLD2V17MGzXG', '2017-12-23 15:32:51', 3, 'STAMPEL', 'AZ', 1, '+994502015253', 'info@stampel.az', 'https://www.stampel.az/', 'https://m.facebook.com/stampel.az/?ref=bookmarks', 0, '17fb97950b8e253a7922f4c1249015b8'),
+(144, 'Vitam', '$2y$10$Vvh2PN6X./6ouVJLangcDOoJZsR8QYWZM/vrpISQbn2CywnSu1mni', '2017-12-23 19:01:07', 3, 'Vitam Reklam', 'AZ', 1, '0124378060', 'tehran@vitam.az', 'http://vitam.az/', 'https://m.facebook.com/vitam.az', 1, '61b549c48d7d2786874de6e4ddb3dff4'),
+(145, 'intertechnics', '$2y$10$T441Hh5LbN2TOObv2B7l1uoJv7GrVbELCLbHFbdeqL16X57afAHeW', '2017-12-25 06:40:59', 3, 'Inter-Technics', 'AZ', 1, '+99412 347 95 55', 'office@inter-technics.az', 'https://inter-technics.com ', '', 1, 'fdba2ea99e557925283c9c2d8f8c4190'),
+(146, 'complectpromm', '$2y$10$TETZfpSZspnm8uV81/u7JOk7DroaGdBz0KnwoHAEZrm1aH3.cvDmK', '2017-12-26 13:30:02', 3, 'ООО \"КПМ\"', 'RU', 0, '+79112693365', 'manager15@complectprom.ru', 'http://www.complectprom.ru/', '', 1, '89e905c853248fd08e59cd69149f9945'),
+(147, 'hellshan', '$2y$10$wHjYtUJQ9R5eKdC5cWD2E.HU0HzCyjtVb1Lg9/9VyGLFiRfVEb6Uu', '2018-01-05 06:22:25', 2, 'Test1', 'AZ', 1, '0505555555', 'elsan.hasanov@gmail.com', '', '', 1, 'd707862fed9a734112c9f960f629bf3a');
 
 -- --------------------------------------------------------
 
@@ -738,20 +697,6 @@ INSERT INTO `votes` (`voter`, `votedFor`, `stars`) VALUES
 --
 -- Индексы сохранённых таблиц
 --
-
---
--- Индексы таблицы `blog`
---
-ALTER TABLE `blog`
-  ADD PRIMARY KEY (`blogId`),
-  ADD KEY `userId` (`userId`);
-
---
--- Индексы таблицы `blog_lang`
---
-ALTER TABLE `blog_lang`
-  ADD PRIMARY KEY (`langId`),
-  ADD KEY `blogId` (`blogId`);
 
 --
 -- Индексы таблицы `cities`
@@ -806,7 +751,7 @@ ALTER TABLE `pages_lang`
 ALTER TABLE `postFiles`
   ADD PRIMARY KEY (`fileId`),
   ADD KEY `userId` (`userId`),
-  ADD KEY `tenderId` (`tenderId`);
+  ADD KEY `postId` (`postId`);
 
 --
 -- Индексы таблицы `postIndustries`
@@ -869,16 +814,6 @@ ALTER TABLE `votes`
 -- AUTO_INCREMENT для сохранённых таблиц
 --
 
---
--- AUTO_INCREMENT для таблицы `blog`
---
-ALTER TABLE `blog`
-  MODIFY `blogId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT для таблицы `blog_lang`
---
-ALTER TABLE `blog_lang`
-  MODIFY `langId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT для таблицы `cities`
 --
@@ -957,18 +892,6 @@ ALTER TABLE `users`
 --
 -- Ограничения внешнего ключа сохраненных таблиц
 --
-
---
--- Ограничения внешнего ключа таблицы `blog`
---
-ALTER TABLE `blog`
-  ADD CONSTRAINT `blog_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Ограничения внешнего ключа таблицы `blog_lang`
---
-ALTER TABLE `blog_lang`
-  ADD CONSTRAINT `blog_lang_ibfk_1` FOREIGN KEY (`blogId`) REFERENCES `blog` (`blogId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ограничения внешнего ключа таблицы `help_lang`

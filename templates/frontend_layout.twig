@@ -1,200 +1,3 @@
-{#
-
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-        <meta name="keywords" content="{{ keywords|default('') }}">
-        <meta name="description" content="{{ description|default('') }}">
-        <meta name="author" content="Konstantin Kaluzhnikov, k.kaluzhnikov@gmail.com">
-        <link rel="icon" href="{{ base_url() }}/favicon.ico">
-
-        <title>{{ page_title|default('site_name'|trans) }}</title>
-
-        {% block head %}
-
-            <!-- Bootstrap core CSS -->
-            <link rel="stylesheet" href="{{ base_url() }}/assets/bootstrap/dist/css/bootstrap.min.css?ver={{ version }}">
-            <!-- Font Awesome -->
-            <link rel="stylesheet" href="{{ base_url() }}/assets/font-awesome/css/font-awesome.min.css?ver={{ version }}">
-            <!-- Ionicons -->
-            <link rel="stylesheet" href="{{ base_url() }}/assets/ionicons/css/ionicons.min.css?ver={{ version }}">
-
-            <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Arial+bold&subset=cyrillic:300,400,500,600,700" type="text/css" >
-
-            <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/css/ie10-viewport-bug-workaround.css?ver={{ version }}">
-
-            <link rel="stylesheet" href="{{ base_url() }}/assets/jquery-toast-plugin/dist/jquery.toast.min.css">
-
-            <link type="text/css" rel="stylesheet" href="{{ base_url() }}/assets/flag-icon-css/css/flag-icon.min.css?ver={{ version }}">
-            <style>
-                .flag-icon-en {
-                    background-image: url({{ base_url() }}/assets/flag-icon-css/flags/4x3/gb.svg);
-                }
-                .flag-icon-en.flag-icon-squared {
-                    background-image: url({{ base_url() }}/assets/flag-icon-css/flags/1x1/gb.svg);
-                }
-            </style>
-
-            <!-- THEME STYLES -->
-            <link rel="stylesheet" href="{{ base_url() }}/resources/css/frontend_layout.min.css"  type="text/css"/>
-            <!-- Custom styles for this template -->
-            <link rel="stylesheet" href="{{ base_url() }}/resources/css/frontend_custom.css?ver={{ version }}">
-        {% endblock %}
-
-        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-        <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->
-    </head>
-    <body id="body" data-spy="scroll" data-target=".header">
-			<!-- Global site tag (gtag.js) - Google Analytics -->
-			<script async src="https://www.googletagmanager.com/gtag/js?id=UA-108866014-1"></script>
-				<script>
-						window.dataLayer = window.dataLayer || [];
-						function gtag(){dataLayer.push(arguments);}
-						gtag('js', new Date());
-						gtag('config', 'UA-108866014-1');
-				</script>
-
-        <!--========== HEADER ==========-->
-        <header class="header navbar-fixed-top">
-            <!-- Navbar -->
-            <nav class="navbar" role="navigation">
-                <div class="container">
-                    <!-- Brand and toggle get grouped for better mobile display -->
-                    <div class="menu-container js_nav-item">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
-                          
-                            <span class="toggle-icon"></span>
-                        </button>
-
-                        <!-- Logo -->
-                        <div class="logo">
-                            <a class="logo-wrap" href="{{ path_for('home', {'lang': lang}) }}">
-                                <img class="logo-img logo-img-main img-responsive" src="{{ base_url() }}/resources/img/logo.png" alt="MyTender">
-                                <img class="logo-img logo-img-active img-responsive" src="{{ base_url() }}/resources/img/logo-dark.png" alt="MyTender">
-                            </a>
-                        </div>
-                        <!-- End Logo -->
-
-                        
-                    </div>
-
-
-
-                    <!-- Collect the nav links, forms, and other content for toggling -->
-                    <div class="collapse navbar-collapse nav-collapse">
-					
-                        <div class="menu-container">
-                            <ul class="nav navbar-nav navbar-nav-right">
-                                <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover" href="{{ path_for('home',     {'lang': lang}) }}#body">{{ 'Home'|trans }}</a></li>
-                                <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover" href="{{ path_for('home',     {'lang': lang}) }}#about">{{ 'About'|trans }}</a></li>
-                                <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover" href="{{ path_for('home',     {'lang': lang}) }}#products">{{ 'Partners'|trans }} </a></li>
-                                <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover" href="{{ path_for('home',     {'lang': lang}) }}#service">{{ 'Services'|trans }}</a></li>
-                                <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover" href="{{ path_for('home',     {'lang': lang}) }}#contact">{{ 'Contact'|trans }}</a></li>
-                            </ul>
-                        </div>
-						<div class="logo2 navbar-nav-right" style="margin:12px;">
-                            {% for site_lang in langs %}
-                                {% if site_lang != lang %}
-                                    {% set currentRouteArgs = currentRouteArgs|merge({'lang': site_lang}) %}
-
-                                    <a href="{{ path_for(currentRoute, currentRouteArgs) }}" style="padding: 0; margin-right: 10px">
-                                        <i class="flag-icon flag-icon-{{ site_lang }}"></i>
-                                    </a>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                    </div>
-                    <!-- End Navbar Collapse -->
-                </div>
-            </nav>
-            <!-- Navbar -->
-        </header>
-        <!--========== END HEADER ==========-->
-
-        {% block content %}
-        {% endblock %}
-
-        <!--========== FOOTER ==========-->
-        <footer class="footer">
-            <!-- Links -->
-            <!-- Copyright -->
-            <div class="content container">
-                <div class="row">
-                    <div class="col-xs-4">
-                        <a href="{{ path_for('home', {'lang': lang}) }}">
-                            <img class="footer-logo" src="{{ base_url() }}/resources/img/logo-dark.png" alt="MyTender">
-                        </a>
-                    </div>
-                    <div class="col-xs-3 text-left">
-					     <p class="margin-b-0"> Copyright 2017. {{ 'All rights reserved'|trans }}</p>
-                    </div>
-                    <div class="col-xs-5 text-right">
-                        <!--<a href="mailto:k.kaluzhnikov@gmail.com">Konstantin Kaluzhnikov, k.kaluzhnikov@gmail.com</a>.-->
-                        <p class="margin-b-0 foot-copy"> {{'Partial copying'|trans }}<!---Full or partial copying of materials is prohibited, with consistent use of materials from the platform, refer to the resource--></p>
-                    </div>
-                </div>
-                <!--// end row -->
-            </div>
-            <!-- End Copyright -->
-        </footer>
-        <!--========== END FOOTER ==========-->
-
-        <!-- Back To Top -->
-        <a href="javascript:void(0);" class="js-back-to-top back-to-top">Top</a>
-
-        {% block scripts %}
-            <!-- jQuery 3 -->
-            <script src="{{ base_url() }}/assets/jquery/dist/jquery.min.js?ver={{ version }}"></script>
-            <!-- Bootstrap 3.3.7 -->
-            <script src="{{ base_url() }}/assets/bootstrap/dist/js/bootstrap.min.js?ver={{ version }}"></script>
-
-            <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-            <script src="https://maxcdn.bootstrapcdn.com/js/ie10-viewport-bug-workaround.js?ver={{ version }}"></script>
-
-            <script src="https://code.jquery.com/jquery-migrate-3.0.1.js"></script>
-
-            <!-- PAGE LEVEL SCRIPTS -->
-            <script src="{{ base_url() }}/resources/js/layout.min.js" type="text/javascript"></script>
-			<script src="{{ base_url() }}/resources/js/jquery.min.js" type="text/javascript"></script>
-			<script src="{{ base_url() }}/resources/js/bootstrap.min.js" type="text/javascript"></script>
-
-            <script src="{{ base_url() }}/assets/jquery-toast-plugin/dist/jquery.toast.min.js"></script>
-
-            <script src="{{ base_url() }}/resources/js/main.js?ver={{ version }}"></script>
-
-            <script type="text/javascript">
-                $(document).ready(function() {
-                    {% for type, group in flash_messages %}
-                        $.toast({
-                            heading: '{{ type|capitalize }}!',
-                            text: [
-                                {% for msg in group %}
-                                    '{{ msg }}',
-                                {% endfor %}
-                            ],
-                            icon: '{{ type }}',
-                            position: 'bottom-right',
-                            showHideTransition: 'slide',
-                            loader: false
-                        });
-                    {% endfor %}
-                });
-            </script>
-        {% endblock %}
-    </body>
-</html>
-#}
-
-
-
 <!DOCTYPE html>
 <html class="v2" dir="ltr" xmlns="http://www.w3.org/1999/xhtml" >
     <head>
@@ -277,10 +80,10 @@
                     </div>
                     <div class="menu-top-menu-container">
                         <ul class="menu" id="menu-top-menu">
-                            <li class="menu-item"><a href="#">About</a></li>
-                            <li class="menu-item"><a href="#">Contact</a></li>
-                            <li class="menu-item"><a href="#">Privacy</a></li>
-                            <li class="menu-item"><a href="#">Sitemap</a></li>
+                            <li class="menu-item"><a href="{{ path_for('about',   {'lang':lang}) }}">{{ 'About'|trans }}</a></li>
+                            <li class="menu-item"><a href="{{ path_for('contact', {'lang':lang}) }}">{{ 'Contact'|trans }}</a></li>
+                            <li class="menu-item"><a href="{{ path_for('privacy', {'lang':lang}) }}">{{ 'Privacy'|trans }}</a></li>
+                            <li class="menu-item"><a href="{{ path_for('sitemap', {'lang':lang}) }}">{{ 'Sitemap'|trans }}</a></li>
                         </ul>
                     </div>
                     <div id="top-menu-icon"></div>
@@ -291,8 +94,8 @@
                     <div class="header section section" id="header">
                         <div class="widget Header" data-version="1" id="Header1">
                             <div id="header-inner">
-                                <a href="https://news16-templatemark.blogspot.com/" style="display: block">
-                                    <img alt="News16" id="Header1_headerimg" src="/News16_files/news16.png" style="display: block" height="90px; " width="260px; ">
+                                <a href="{{ path_for('home', {'lang':lang}) }}" style="display: block">
+                                    <img alt="News16" id="Header1_headerimg" src="/resources/img/site_logo.png" style="display: block" height="90px; " width="260px; ">
                                 </a>
                             </div>
                         </div>
@@ -311,17 +114,17 @@
                     <label>≡</label>
                     <ul>
                         <li class="homers"><a href="{{ path_for('home', {'lang': lang}) }}"><i class="material-icons" style=" line-height: 2.1; display: block; ">home</i></a></li>
-                        <li><a href="{{ path_for('about', {'lang':lang}) }}">About</a></li>
-                        <li><a href="#">Categories<i class="material-icons" style=" font-size: 14px; ">keyboard_arrow_down</i></a>
+                        <li><a href="{{ path_for('about', {'lang':lang}) }}">{{ 'About'|trans }}</a></li>
+                        <li><a href="{{ path_for('industries', {'lang':lang}) }}">{{ 'Categories'|trans }}<i class="material-icons" style=" font-size: 14px; ">keyboard_arrow_down</i></a>
                             <ul class="menus">
                                 {% for industry in industries %}
                                     <li><a href="{{ path_for('industry', {'lang':lang,'id':industry.industryId}) }}">{{ industry.name }}</a></li>
                                 {% endfor %}
                             </ul>
                         </li>
-                        <li><a href="{{ path_for('contact', {'lang':lang}) }}">Contact</a></li>
+                        <li><a href="{{ path_for('contact', {'lang':lang}) }}">{{ 'Contact'|trans }}</a></li>
 
-                        <li class="navbar-right"><a href="{{ path_for('register', {'lang':lang}) }}">Register</a></li>
+                        <li class="navbar-right"><a href="{{ path_for('register', {'lang':lang}) }}">{{ 'Register'|trans }}</a></li>
                         <li class="navbar-right dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
                                 Sign In<i class="material-icons" style=" font-size: 14px; ">keyboard_arrow_down</i>
@@ -375,83 +178,8 @@
                                 <img alt="Ad 300x250" src="/News16_files/300.png" title="Ad 300x250" border="0">
                             </div>
                         </div>
-                        <div class="widget PopularPosts" data-version="1" id="PopularPosts1">
-                            <h2>Popular Posts</h2>
-                            <div class="widget-content popular-posts">
-                                <ul>
-                                    <li>
-                                        <div class="item-content">
-                                            <div class="item-thumbnail">
-                                                <a href="https://news16-templatemark.blogspot.com/2017/10/new-form-of-farming-revolutionizes-way.html" target="_blank">
-                                                    <img alt="" src="/News16_files/woman_593141_960_720.jpg" height="72" border="0" width="72">
-                                                </a>
-                                            </div>
-                                            <div class="item-title">
-                                                <a href="https://news16-templatemark.blogspot.com/2017/10/new-form-of-farming-revolutionizes-way.html">New Form of Farming Revolutionizes the Way We Eat</a>
-                                            </div>
-                                            <div class="item-snippet">By 2050, the world population will reach almost 10 billion...</div>
-                                        </div>
-                                        <div style="clear: both;"></div>
-                                    </li>
-                                    <li>
-                                        <div class="item-content">
-                                            <div class="item-thumbnail">
-                                                <a href="https://news16-templatemark.blogspot.com/2017/10/new-resources-critical-for-stroke.html" target="_blank">
-                                                    <img alt="" src="/News16_files/spring_2298279_960_7_0acWE_003.jpg" height="72" border="0" width="72">
-                                                </a>
-                                            </div>
-                                            <div class="item-title">
-                                                <a href="https://news16-templatemark.blogspot.com/2017/10/new-resources-critical-for-stroke.html">New Resources Critical for Stroke Recovery</a>
-                                            </div>
-                                            <div class="item-snippet">The American Heart Association/American Stroke Association...</div>
-                                        </div>
-                                        <div style="clear: both;"></div>
-                                    </li>
-                                    <li>
-                                        <div class="item-content">
-                                            <div class="item-thumbnail">
-                                                <a href="https://news16-templatemark.blogspot.com/2017/10/fall-in-love-with-greater-fort.html" target="_blank">
-                                                    <img alt="" src="/News16_files/necklace_518268_960__CTVFi_003.jpg" height="72" border="0" width="72">
-                                                </a>
-                                            </div>
-                                            <div class="item-title">
-                                                <a href="https://news16-templatemark.blogspot.com/2017/10/fall-in-love-with-greater-fort.html">Fall in Love with Greater Fort Lauderdale</a>
-                                            </div>
-                                            <div class="item-snippet">Travelers may think of summer and beach activities when...</div>
-                                        </div>
-                                        <div style="clear: both;"></div>
-                                    </li>
-                                    <li>
-                                        <div class="item-content">
-                                            <div class="item-thumbnail">
-                                                <a href="https://news16-templatemark.blogspot.com/2017/10/solving-major-problem-in-additive.html" target="_blank">
-                                                    <img alt="" src="/News16_files/child_817373_960_720.jpg" height="72" border="0" width="72">
-                                                </a>
-                                            </div>
-                                            <div class="item-title">
-                                                <a href="https://news16-templatemark.blogspot.com/2017/10/solving-major-problem-in-additive.html">Solving A Major Problem in Additive Manufacturing</a>
-                                            </div>
-                                            <div class="item-snippet">A new approach to making everything from jet engines to...</div>
-                                        </div>
-                                        <div style="clear: both;"></div>
-                                    </li>
-                                    <li>
-                                        <div class="item-content">
-                                            <div class="item-thumbnail">
-                                                <a href="https://news16-templatemark.blogspot.com/2017/10/5-mistakes-to-avoid-when-choosing.html" target="_blank">
-                                                    <img alt="" src="/News16_files/blue_2705642_960_720_002.jpg" height="72" border="0" width="72">
-                                                </a>
-                                            </div>
-                                            <div class="item-title">
-                                                <a href="https://news16-templatemark.blogspot.com/2017/10/5-mistakes-to-avoid-when-choosing.html">5 Mistakes to Avoid When Choosing a Medicare Advantage Plan</a>
-                                            </div>
-                                            <div class="item-snippet">The Medicare Annual Election Period takes place this fall...</div>
-                                        </div>
-                                        <div style="clear: both;"></div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+
+                        {% include 'Frontend/Blog/popular_posts.twig' %}
 
                         <div class="widget Label" data-version="1" id="Label1">
                             <h2>All Categories</h2>
@@ -469,84 +197,11 @@
                         <div class="widget HTML" data-version="1" id="HTML1">
                             <h2 class="title">Advertisement</h2>
                             <div class="widget-content">
-                                <img alt="Ad 300x250" n7yr5zew8sdq9jta-lyez-ndee8gigclcbgas="" png="" s1600="" src="/News16_files/300.png" title="Ad 300x250" border="0">
+                                <img alt="Ad 300x250" src="/News16_files/300.png" title="Ad 300x250" border="0">
                             </div>
                         </div>
 
-                        <div class="widget HTML" data-version="1" id="HTML55">
-                            <h2 class="title">Latest Posts</h2>
-                            <div class="widget-content">
-                                <div id="recent-posts">
-                                    <ul>
-                                        <li>
-                                            <img alt="New Form of Farming Revolutionizes the Way We Eat" src="/News16_files/woman_593141_960_720.jpg">
-                                            <div>
-                                                <a href="https://news16-templatemark.blogspot.com/2017/10/new-form-of-farming-revolutionizes-way.html" rel="nofollow" title="By 2050, the world population will reach almost 10 billion people, at least 66 percent of whom will live in urban areas.Water-scarcity issues are…">New Form of Farming Revolutionizes the Way We Eat</a>
-                                            </div>
-                                            <span>23/10/2017 - 3 Comments</span>
-                                            <div style="clear:both"></div>
-                                        </li>
-                                        <li>
-                                            <img alt="Study Suggests Today’s US Students Are Less Efficient Readers" src="/News16_files/sunglasses_635269_96_xlKy3.jpg">
-                                            <div>
-                                                <a href="https://news16-templatemark.blogspot.com/2017/10/study-suggests-todays-us-students-are.html" rel="nofollow" title="Do today’s students perform better than their peers in 1960? Given the advances in education and technology, it would be natural to assume that the…">Study Suggests Today’s US Students Are Less Efficient Readers</a>
-                                            </div>
-                                            <span>23/10/2017 - 2 Comments</span>
-                                            <div style="clear:both"></div>
-                                        </li>
-                                        <li>
-                                            <img alt="New Resources Critical for Stroke Recovery" src="/News16_files/spring_2298279_960_7_0acWE_003.jpg">
-                                            <div>
-                                                <a href="https://news16-templatemark.blogspot.com/2017/10/new-resources-critical-for-stroke.html" rel="nofollow" title="The American Heart Association/American Stroke Association (AHA/ASA), the world’s leading voluntary organization dedicated to building healthier…">New Resources Critical for Stroke Recovery</a>
-                                            </div>
-                                            <span>23/10/2017 - 1 Comments</span>
-                                            <div style="clear:both"></div>
-                                        </li>
-                                        <li>
-                                            <img alt="Fall in Love with Greater Fort Lauderdale" src="/News16_files/necklace_518268_960__CTVFi_003.jpg">
-                                            <div>
-                                                <a href="https://news16-templatemark.blogspot.com/2017/10/fall-in-love-with-greater-fort.html" rel="nofollow" title="Travelers may think of summer and beach activities when they think of Florida, but Greater Fort Lauderdale takes its relaxing vibe into the fall…">Fall in Love with Greater Fort Lauderdale</a>
-                                            </div>
-                                            <span>23/10/2017 - 0 Comments</span>
-                                            <div style="clear:both"></div>
-                                        </li>
-                                        <li>
-                                            <img alt="Football Helmet Safety in Three Simple Steps" src="/News16_files/laugh_536287_960_720.jpg">
-                                            <div>
-                                                <a href="https://news16-templatemark.blogspot.com/2017/10/football-helmet-safety-in-three-simple.html" rel="nofollow" title="As the high school and college football seasons heat up, the National Operating Committee on Standards for Athletic Equipment (NOCSAE) is encouraging…">Football Helmet Safety in Three Simple Steps</a>
-                                            </div>
-                                            <span>23/10/2017 - 0 Comments</span>
-                                            <div style="clear:both"></div>
-                                        </li>
-                                        <li>
-                                            <img alt="Outdoor Living – Bringing the Inside Out" src="/News16_files/kid_1241817_960_720.jpg">
-                                            <div>
-                                                <a href="https://news16-templatemark.blogspot.com/2017/10/outdoor-living-bringing-inside-out.html" rel="nofollow" title="Enjoying your outside space does not have to take place on a dimly lit patio with moderately comfortable furniture devoid of fine furnishings and…">Outdoor Living – Bringing the Inside Out</a>
-                                            </div>
-                                            <span>23/10/2017 - 0 Comments</span>
-                                            <div style="clear:both"></div>
-                                        </li>
-                                        <li>
-                                            <img alt="Help for Homeowners On the Hook for Billions in Hurricane Damages" src="/News16_files/girl_97433_960_720.jpg">
-                                            <div>
-                                                <a href="https://news16-templatemark.blogspot.com/2017/10/help-for-homeowners-on-hook-for.html" rel="nofollow" title="And now comes the arduous task of rebuilding hundreds of thousands of houses destroyed or damaged by Hurricanes Harvey and Irma.And with it, alas,…">Help for Homeowners On the Hook for Billions in Hurricane Damages</a>
-                                            </div>
-                                            <span>23/10/2017 - 0 Comments</span>
-                                            <div style="clear:both"></div>
-                                        </li>
-                                        <li>
-                                            <img alt="Solving A Major Problem in Additive Manufacturing" src="/News16_files/child_817373_960_720.jpg">
-                                            <div>
-                                                <a href="https://news16-templatemark.blogspot.com/2017/10/solving-major-problem-in-additive.html" rel="nofollow" title="A new approach to making everything from jet engines to toys, called 3D printing, is creating a revolution in manufacturing — and a small company…">Solving A Major Problem in Additive Manufacturing</a>
-                                            </div>
-                                            <span>23/10/2017 - 0 Comments</span>
-                                            <div style="clear:both"></div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="clear"></div>
-                        </div>
+                        {% include 'Frontend/Blog/recent_posts.twig' %}
                     </div>
                 </div>
             </div>
@@ -574,7 +229,8 @@
                 <div class="footer-bottom">
                     <div id="footer-widgetfix">
                         <div class="footer-widget" id="footx1">
-                            <div class="footer section" id="footer1"><div class="widget HTML" data-version="1" id="HTML555">
+                            <div class="footer section" id="footer1">
+                                <div class="widget HTML" data-version="1" id="HTML555">
                                     <h2 class="title">About News16</h2>
                                     <div class="widget-content">
                                         Etiam at libero iaculis, mollis justo non, blandit augue. Vestibulum sit
@@ -582,15 +238,18 @@
                                         sem eget, condimentum sem. Pellentesque eu interdum ex, tempus volutpat
                                         massa.
                                     </div>
-                                </div><div class="widget Image" data-version="1" id="Image1">
+                                </div>
+                                <div class="widget Image" data-version="1" id="Image1">
                                     <div class="widget-content">
-                                        <img alt="Logo" id="Image1_img" src="/News16_files/news16-2.png" height="90" width="260">
+                                        <img alt="Logo" id="Image1_img" src="/resources/img/site_logo2.png" height="90" width="260">
                                         <br>
                                     </div>
-                                </div></div>
+                                </div>
+                            </div>
                         </div>
                         <div class="footer-widget" id="footx2">
-                            <div class="footer section" id="footer2"><div class="widget Label" data-version="1" id="Label2">
+                            <div class="footer section" id="footer2">
+                                <div class="widget Label" data-version="1" id="Label2">
                                     <h2>Popular Tags</h2>
                                     <div class="widget-content cloud-label-widget-content">
                                         <span class="label-size label-size-5">
@@ -624,10 +283,12 @@
                                             <a dir="ltr" href="https://news16-templatemark.blogspot.com/search/label/Tips%20and%20Tricks">Tips and Tricks</a>
                                         </span>
                                     </div>
-                                </div></div>
+                                </div>
+                            </div>
                         </div>
                         <div class="footer-widget" id="footx3">
-                            <div class="footer section" id="footer3"><div class="widget PopularPosts" data-version="1" id="PopularPosts2">
+                            <div class="footer section" id="footer3">
+                                <div class="widget PopularPosts" data-version="1" id="PopularPosts2">
                                     <h2>Most Popular</h2>
                                     <div class="widget-content popular-posts">
                                         <ul>
@@ -666,8 +327,8 @@
                                             </li>
                                         </ul>
                                     </div>
-                                </div></div>
-
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -686,9 +347,7 @@
             </span>
         </div>
 
-
         {% block scripts %}
-
             <!-- jQuery 3 -->
             <script src="{{ base_url() }}/assets/jquery/dist/jquery.min.js?ver={{ version }}"></script>
             <!-- Bootstrap 3.3.7 -->
@@ -718,62 +377,62 @@
             </script>
 
 
-        <script type="text/javascript">
-			//<![CDATA[
+            <script type="text/javascript">
+                //<![CDATA[
 
-			// Popular Post Snippet
-			$(".popular-posts ul li .item-snippet").each(function(){var t=$(this).text().substr(0,60),s=t.lastIndexOf(" ");s>52&&$(this).text(t.substr(0,s).replace(/[?,!\.-:;]*$/,"..."))});
-			$(".item-thumbnail img").each(function(){$(this).attr("src",$(this).attr("src").replace(/\/s[0-9]+(\-c)?\//,"/w100-h80-c/"))});
-			$("#recent-posts img").each(function(){$(this).attr("src",$(this).attr("src").replace(/\/s[0-9]+(\-c)?\//,"/w100-h80-c/"))});
-			$(".avatar-image-container img").each(function(){$(this).attr("src",$(this).attr("src").replace(/\/s[0-9]+(\-c)?\//,"/w70-h70-c/"))});
-			$("ul#relpost_img_sum li img").each(function(){$(this).attr("src",$(this).attr("src").replace(/\/s[0-9]+(\-c)?\//,"/w120-h110-c/"))});
+                // Popular Post Snippet
+                $(".popular-posts ul li .item-snippet").each(function(){var t=$(this).text().substr(0,60),s=t.lastIndexOf(" ");s>52&&$(this).text(t.substr(0,s).replace(/[?,!\.-:;]*$/,"..."))});
+                $(".item-thumbnail img").each(function(){$(this).attr("src",$(this).attr("src").replace(/\/s[0-9]+(\-c)?\//,"/w100-h80-c/"))});
+                $("#recent-posts img").each(function(){$(this).attr("src",$(this).attr("src").replace(/\/s[0-9]+(\-c)?\//,"/w100-h80-c/"))});
+                $(".avatar-image-container img").each(function(){$(this).attr("src",$(this).attr("src").replace(/\/s[0-9]+(\-c)?\//,"/w70-h70-c/"))});
+                $("ul#relpost_img_sum li img").each(function(){$(this).attr("src",$(this).attr("src").replace(/\/s[0-9]+(\-c)?\//,"/w120-h110-c/"))});
 
 
-			jQuery(document).ready(function($){
-				"use strict";
+                jQuery(document).ready(function($){
+                    "use strict";
 
-				// Attach + To Top Menu
-				$('#top-nav .menu-item-has-children > a, #main-nav ul li ul .menu-item-has-children > a').append(' +');
+                    // Attach + To Top Menu
+                    $('#top-nav .menu-item-has-children > a, #main-nav ul li ul .menu-item-has-children > a').append(' +');
 
-				// Attach Arrow To Main Menu
-				$('#main-nav .menu-item-has-children > a').append('<span class="menu-arrow"></span>');
+                    // Attach Arrow To Main Menu
+                    $('#main-nav .menu-item-has-children > a').append('<span class="menu-arrow"></span>');
 
-				// Prepend Menu Icons
-				$('#logo').after('<div id="menu-icon"></div>');
+                    // Prepend Menu Icons
+                    $('#logo').after('<div id="menu-icon"></div>');
 
-				$('#top-nav .wrapper').append('<div id="top-menu-icon"></div>');
+                    $('#top-nav .wrapper').append('<div id="top-menu-icon"></div>');
 
-				// Toggle Nav
-				$('#menu-icon').on('click', function(){
-					$('#main-nav').slideToggle(250);
-					$(this).toggleClass('active');
-				});
+                    // Toggle Nav
+                    $('#menu-icon').on('click', function(){
+                        $('#main-nav').slideToggle(250);
+                        $(this).toggleClass('active');
+                    });
 
-				$(window).resize(function(){
-					var w = $(window).width();
-					var navDisplay = $('#main-nav');
-					if(w > 1000 && navDisplay.is(':hidden')) {
-						navDisplay.removeAttr('style');
-					}
-				});
+                    $(window).resize(function(){
+                        var w = $(window).width();
+                        var navDisplay = $('#main-nav');
+                        if(w > 1000 && navDisplay.is(':hidden')) {
+                            navDisplay.removeAttr('style');
+                        }
+                    });
 
-				$('#top-menu-icon').on('click', function(){
-					$('#top-nav ul').slideToggle(250);
-					$(this).toggleClass('active');
-				});
+                    $('#top-menu-icon').on('click', function(){
+                        $('#top-nav ul').slideToggle(250);
+                        $(this).toggleClass('active');
+                    });
 
-				$(window).resize(function(){
-					var w = $(window).width();
-					var navDisplay = $('#top-nav ul');
-					if(w > 1000 && navDisplay.is(':hidden')) {
-						navDisplay.removeAttr('style');
-					}
-				});
-			});
+                    $(window).resize(function(){
+                        var w = $(window).width();
+                        var navDisplay = $('#top-nav ul');
+                        if(w > 1000 && navDisplay.is(':hidden')) {
+                            navDisplay.removeAttr('style');
+                        }
+                    });
+                });
 
-			(function(e){e.fn.resizeToParent=function(t){function r(e){e.css({width:"",height:"","margin-left":"","margin-top":""});var n=e.parents(t.parent).width();var r=e.parents(t.parent).height();var i=e.width();var s=e.height();var o=i/n;if(s/o<r){e.css({width:"auto",height:r});i=i/(s/r);s=r}else{e.css({height:"auto",width:n});i=n;s=s/o}var u=(i-n)/-2;var a=(s-r)/-2;e.css({"margin-left":u,"margin-top":a})}var n={parent:"div",delay:100};var t=e.extend(n,t);var i;var s=this;e(window).on("resize",function(){clearTimeout(i);i=setTimeout(function(){s.each(function(){r(e(this))})},t.delay)});return this.each(function(){var t=e(this);t.attr("src",t.attr("src"));t.on('load',function(){r(t)});if(this.complete){r(t)}})}})(jQuery);$(".imageContainer img").resizeToParent();
-			//]]>
-        </script>
+                (function(e){e.fn.resizeToParent=function(t){function r(e){e.css({width:"",height:"","margin-left":"","margin-top":""});var n=e.parents(t.parent).width();var r=e.parents(t.parent).height();var i=e.width();var s=e.height();var o=i/n;if(s/o<r){e.css({width:"auto",height:r});i=i/(s/r);s=r}else{e.css({height:"auto",width:n});i=n;s=s/o}var u=(i-n)/-2;var a=(s-r)/-2;e.css({"margin-left":u,"margin-top":a})}var n={parent:"div",delay:100};var t=e.extend(n,t);var i;var s=this;e(window).on("resize",function(){clearTimeout(i);i=setTimeout(function(){s.each(function(){r(e(this))})},t.delay)});return this.each(function(){var t=e(this);t.attr("src",t.attr("src"));t.on('load',function(){r(t)});if(this.complete){r(t)}})}})(jQuery);$(".imageContainer img").resizeToParent();
+                //]]>
+            </script>
         {% endblock %}
     </body>
 </html>
