@@ -219,16 +219,8 @@
 		        sideBySide: true,
 	        });
 
-            $('#industry').select2({
-                placeholder: "{{ 'Select an industry'|trans }}",
-                theme: "bootstrap",
-                width: '100%',
-            });
-            $('#city').select2({
-                placeholder: "{{ 'Select a contact'|trans }}",
-                theme: "bootstrap",
-                width: '100%',
-            });
+            $('#industry').select2({ theme: "bootstrap", width: '100%', placeholder: "{{ 'Select an industry'|trans }}" });
+            $('#city').select2({ theme: "bootstrap", width: '100%', placeholder: "{{ 'Select a city'|trans }}" });
 
 //	        CKEDITOR.replaceClass = 'ckeditor';
 
