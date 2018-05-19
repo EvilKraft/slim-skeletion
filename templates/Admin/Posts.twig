@@ -45,12 +45,17 @@
 
                             <div class="form-group">
                                 <label for="workers">{{ 'Workers'|trans }}</label>
-                                <input id="workers" name="workers" class="form-control" placeholder="{{ 'Workers'|trans }}" value="{{ item.workers|default(0) }}" type="text" data-error="{{ 'Invalid value'|trans }}">
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-users"></i>
+                                    </div>
+                                    <input id="workers" name="workers" class="form-control" placeholder="{{ 'Workers'|trans }}" value="{{ item.workers|default(0) }}" type="text" data-error="{{ 'Invalid value'|trans }}">
+                                </div>
                                 <div class="help-block with-errors"></div>
                             </div>
 
                             <div class="form-group">
-                                <label for="buildedAt">{{ 'Tender ends at'|trans }}</label>
+                                <label for="buildedAt">{{ 'builded At'|trans }}</label>
                                 <div class="input-group date">
                                     <div class="input-group-addon">
                                         <i class="fa fa-calendar"></i>
@@ -61,26 +66,31 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="buildedAt">{{ 'builded At'|trans }}</label>
-                                <input id="buildedAt" name="buildedAt" class="form-control" placeholder="{{ 'builded At'|trans }}" value="{{ item.buildedAt|default('') }}" type="text" data-error="{{ 'Invalid value'|trans }}">
-                                <div class="help-block with-errors"></div>
-                            </div>
-
-                            <div class="form-group">
                                 <label for="income">{{ 'Income'|trans }}</label>
-                                <input id="income" name="income" class="form-control" placeholder="{{ 'Income'|trans }}" value="{{ item.income|default(0) }}" type="text" data-error="{{ 'Invalid value'|trans }}">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        &#x20BC;
+                                    </div>
+                                    <input id="income" name="income" class="form-control" placeholder="{{ 'Income'|trans }}" value="{{ item.income|default(0) }}" type="text" data-error="{{ 'Invalid value'|trans }}">
+                                </div>
                                 <div class="help-block with-errors"></div>
                             </div>
 
                             <div class="form-group">
                                 <label for="price">{{ 'Price'|trans }}</label>
-                                <input id="price" name="price" class="form-control" placeholder="{{ 'Price'|trans }}" value="{{ item.price|default(0) }}" type="text" data-error="{{ 'Invalid value'|trans }}">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        &#x20BC;
+                                    </div>
+                                    <input id="price" name="price" class="form-control" placeholder="{{ 'Price'|trans }}" value="{{ item.price|default(0) }}" type="text" data-error="{{ 'Invalid value'|trans }}">
+                                </div>
                                 <div class="help-block with-errors"></div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group has-feedback">
                                 <label for="site">{{ 'Site'|trans }}</label>
-                                <input id="site" name="site" class="form-control" placeholder="{{ 'Site'|trans }}" value="{{ item.site|default('') }}" type="text" data-error="{{ 'Invalid value'|trans }}">
+                                <input id="site" name="site" class="form-control" placeholder="{{ 'Site'|trans }}" type="url" value="{{ item.site|default('') }}" data-error="{{ 'Invalid url'|trans }}">
+                                <span class="glyphicon glyphicon-globe form-control-feedback"></span>
                                 <div class="help-block with-errors"></div>
                             </div>
 
@@ -214,9 +224,10 @@
             });
 
 	        $('.datetimepicker').datetimepicker({
-                format: 'DD.MM.YYYY HH:mm',
+                format: 'DD.MM.YYYY',
 		        locale: '{{ lang }}',
-		        sideBySide: true,
+                maxDate: new Date(),
+                sideBySide: true,
 	        });
 
             $('#industry').select2({ theme: "bootstrap", width: '100%', placeholder: "{{ 'Select an industry'|trans }}" });
