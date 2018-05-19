@@ -7,11 +7,13 @@ cache/*
 logs/*
 public/uploads/*
 public/assets/*
+public/cache/*
 
 !cache/.gitkeep
 !logs/.gitkeep
 !public/uploads/.gitkeep
 !public/assets/.gitkeep
+!public/cache/.gitkeep
 
 /composer.lock
 /*.log

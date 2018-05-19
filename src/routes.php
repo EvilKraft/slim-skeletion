@@ -108,4 +108,16 @@ $app->group('/{lang:'.$langRegExp.'}', function () use ($app) {
 
 });
 
+$app->get('/img[/{params:.*}]', function (Request $request, Response $response, $args) {
+
+    $server = \League\Glide\ServerFactory::create([
+        'source' => DIR.'public/uploads',
+        'cache' => DIR.'public/cache',
+        'response' => new \League\Glide\Responses\SlimResponseFactory(),
+    ]);
+
+    return $server->getImageResponse($request->getAttribute('params'), $request->getQueryParams());
+
+});
+
 
