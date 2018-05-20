@@ -71,7 +71,7 @@ class Pages extends \Controller\RESTController
             $this->db->rollBack();
 
             $flashMsg = ($this->settings['displayErrorDetails']) ? $e->getMessage() : $this->trans('New item not added');
-            $this->flash->addMessage('error', $flashMsg);
+            $this->flash->addMessage('error', json_encode($flashMsg, JSON_PRETTY_PRINT));
         }
 
         return $response->withStatus(302)->withHeader('Location', $this->getListUrl());
@@ -108,7 +108,7 @@ class Pages extends \Controller\RESTController
             $this->db->rollBack();
 
             $flashMsg = ($this->settings['displayErrorDetails']) ? $e->getMessage() : $this->trans('Item %item_id% not updated', ['%item_id%' => $args['id']]);
-            $this->flash->addMessage('error', $flashMsg);
+            $this->flash->addMessage('error', json_encode($flashMsg, JSON_PRETTY_PRINT));
         }
 
         return $response->withStatus(302)->withHeader('Location', $this->getListUrl());

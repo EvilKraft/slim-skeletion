@@ -20,7 +20,7 @@
                             <div class="collapse in" id="collapsible">
                                 <div class="form-group">
                                     <label for="industryId">{{ 'Industry'|trans }} <span class="text-red">*</span></label>
-                                    <select id="industryId" name="industryId" class="form-control select2" required="" data-error="{{ 'Select an industry'|trans }}">
+                                    <select id="industryId" name="industryId[]" class="form-control select2" required="" data-error="{{ 'Select an industry'|trans }}">
                                         <option value="" {{ (item.industry|default('') == '') ? 'selected' }} disabled>{{ 'Select an industry'|trans }}</option>
                                         {% for industry in industries %}
                                             <option value="{{ industry.industryId }}" {{ (industry.industryId == item.industryId|default('')) ? 'selected' }}>{{ industry.name }}</option>

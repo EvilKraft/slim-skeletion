@@ -69,68 +69,18 @@ class Posts extends \Controller\RESTController
             }
         }
     }
-/*
-    public function create(Request $request, Response $response, Array $args) {
 
-        $data = $request->getParsedBody();
-        $files = $request->getUploadedFiles();
-
-        $data['finishedAt'] = (new \DateTime($data['finishedAt']))->format('Y-m-d H:i:s');
-
-        try {
-            $this->db->beginTransaction();
-
-            $sql = "INSERT INTO tenders SET userId=?, name=?, industry=?, description=?, description_full=?, contact=?, finishedAt=?";
-            $stmt = $this->db->prepare($sql);
-            $stmt->execute(array(
-                $_SESSION['user']['userId'],
-                $data['name'],
-                $data['industry'],
-                $data['description'],
-                $data['description_full'],
-                $data['contact'],
-                $data['finishedAt'],
-            ));
-
-            $tenderId = $this->db->lastInsertId();
-
-            $stmt = $this->db->prepare("UPDATE tenderFiles SET tenderId=? WHERE userId=? AND tenderId IS NULL AND secret=?");
-            $stmt->execute(array($tenderId, $_SESSION['user']['userId'], $data['secret']));
-
-            $this->db->commit();
-            $this->flash->addMessage('success', $this->trans('Tender created'));
-        } catch (\Exception $e) {
-            $this->db->rollBack();
-
-            $flashMsg = ($this->settings['displayErrorDetails']) ? $e->getMessage() : $this->trans('Tender was not created');
-            $this->flash->addMessage('error', $flashMsg);
-        }
-        return $response->withStatus(302)->withHeader('Location', $this->router->pathFor('tenders', ['lang' => $this->lang]));
-    }
-*/
     protected function doCreate(Request $request, Response $response)
     {
-        $vars = $request->getParsedBody();
-        $files = $request->getUploadedFiles();
-
-
-        echo '<pre>'.print_r($vars, true).'</pre>';
-     //   echo '<pre>'.print_r($files, true).'</pre>';
-        echo '<pre>'.print_r($this->getPostedVars($request), true).'</pre>';
-        echo '<pre>'.print_r($this->getPostedVars($request, $this->table.'_lang'), true).'</pre>';
-        echo '<pre>'.print_r(array_keys($this->getPostedVars($request, $this->table.'_lang') + array('lang'=>'')), true).'</pre>';
-
-        return;
-
         try {
             $this->db->beginTransaction();
 
             $vars      = $this->getPostedVars($request);
-            $colNames  = implode(',', array_keys($vars));
-            $questions = '?'.str_repeat(',?', (count($vars)-1));
+            $colNames  = implode(', ', array_merge(array_keys($vars), ['userId']));
+            $questions = '?'.str_repeat(', ?', (count($vars)));
 
             $stmt = $this->db->prepare("INSERT INTO ".$this->table." (".$colNames.") VALUES (".$questions.")");
-            $stmt->execute(array_values($vars));
+            $stmt->execute(array_merge(array_values($vars), [$_SESSION['user']['userId']]));
 
             $lastId = $this->db->lastInsertId();
 
@@ -138,18 +88,23 @@ class Posts extends \Controller\RESTController
                 $vars_lang = $this->getPostedVars($request, $this->table.'_lang');
                 $vars_lang[$this->idxField] = $lastId;
 
-                $colNames  = implode(',', array_merge(array_keys($vars_lang) + ['lang']));
-                $questions = '?'.str_repeat(',?', (count($vars_lang)));
+                $colNames  = implode(', ', array_merge(array_keys($vars_lang), ['lang']));
+                $questions = '?'.str_repeat(', ?', (count($vars_lang)));
 
                 $stmt = $this->db->prepare("INSERT INTO ".$this->table."_lang (".$colNames.") VALUES (".$questions.")");
 
                 foreach ($this->settings['i18n']['langs'] as $lang){
-                    $stmt->execute(array_merge(array_values($vars_lang) + [$lang]));
+                    $stmt->execute(array_merge(array_values($vars_lang), [$lang]));
                 }
             }
 
-            $stmt = $this->db->prepare("UPDATE ".$this->table."Files SET $this->idxField=? WHERE userId=? AND $this->idxField IS NULL AND secret=?");
-            $stmt->execute(array($lastId, $_SESSION['user']['userId'], $data['secret']));
+            $stmt = $this->db->prepare("INSERT INTO ".$this->table."_industries SET ".$this->idxField."=?, industryId=?");
+            foreach($request->getParsedBody()['industryId'] as $industryId){
+                $stmt->execute([$lastId, $industryId]);
+            }
+
+            $stmt = $this->db->prepare("UPDATE ".$this->table."_files SET $this->idxField=? WHERE userId=? AND $this->idxField IS NULL AND secret=?");
+            $stmt->execute(array($lastId, $_SESSION['user']['userId'], $request->getParsedBody()['secret']));
 
             $this->db->commit();
             $this->flash->addMessage('success', $this->trans('New item added'));
@@ -157,7 +112,7 @@ class Posts extends \Controller\RESTController
             $this->db->rollBack();
 
             $flashMsg = ($this->settings['displayErrorDetails']) ? $e->getMessage() : $this->trans('New item not added');
-            $this->flash->addMessage('error', $flashMsg);
+            $this->flash->addMessage('error', json_encode($flashMsg, JSON_PRETTY_PRINT));
         }
 
         return $response->withStatus(302)->withHeader('Location', $this->getListUrl());
@@ -171,20 +126,47 @@ class Posts extends \Controller\RESTController
             return $response->withStatus(302)->withHeader('Location', $this->getListUrl());
         }
 
-        $vars = $request->getParsedBody();
+        $sql = "SELECT I.industryId, UI.userIndustryId AS UI_Id, UI.".$this->idxField."
+                FROM industries I
+                LEFT JOIN ".$this->table."_industries UI ON UI.industryId = I.industryId AND ".$this->idxField."=?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$item['id']]);
+        $industries = $stmt->fetchAll();
 
         try {
             $this->db->beginTransaction();
 
-            $stmt = $this->db->prepare("UPDATE ".$this->table."_lang SET title=?, text=? WHERE id=?");
+            $vars     = $this->getPostedVars($request);
+            $colNames = implode(', ', array_map(function($n) {return($n.'=?');}, array_keys($vars)));
 
-            foreach ($vars['lang'] as $lang => $lang_id){
-                $stmt->execute(array(
-                    $vars['title'][$lang],
-                    $vars['text'][$lang],
-                    $lang_id
-                ));
+            $stmt = $this->db->prepare("UPDATE ".$this->table." SET ".$colNames." WHERE ".$this->idxField." = ?");
+            $stmt->execute(array_merge(array_values($vars) + [$args['id']]));
+
+            if(!empty($this->idxFieldLang)){
+
+                $vars_lang = $this->getPostedVars($request, $this->table.'_lang');
+                $colNames  = implode(', ', array_map(function($n) {return($n.'=?');}, array_keys($vars_lang)));
+
+                $stmt = $this->db->prepare("UPDATE ".$this->table."_lang SET ".$colNames." WHERE langId = ?");
+
+                foreach ($request->getParsedBody()['langId'] as $lang){
+                    $stmt->execute(array_merge(array_values($vars_lang) + [$lang]));
+                }
             }
+
+            $insert_stmt = $this->db->prepare("INSERT INTO ".$this->table."_industries SET ".$this->idxField."=?, industryId=?");
+            $delete_stmt = $this->db->prepare("DELETE FROM ".$this->table."_industries WHERE id=?");
+
+            foreach ($industries as $industry){
+                if(!is_null($industry['UI_Id']) && !in_array($industry['industryId'], $request->getParsedBody()['industryId'])){
+                    $delete_stmt->execute([$industry['UI_Id']]);
+                }elseif(is_null($industry['UI_Id']) && in_array($industry['industryId'], $request->getParsedBody()['industryId'])){
+                    $insert_stmt->execute([$args['id'], $industry['industryId']]);
+                }
+            }
+
+            $stmt = $this->db->prepare("UPDATE ".$this->table."_files SET $this->idxField=? WHERE userId=? AND $this->idxField IS NULL AND secret=?");
+            $stmt->execute(array($args['id'], $_SESSION['user']['userId'], $request->getParsedBody()['secret']));
 
             $this->db->commit();
             $this->flash->addMessage('success', $this->trans('Item %item_id% updated', ['%item_id%' => $args['id']]));
@@ -192,7 +174,7 @@ class Posts extends \Controller\RESTController
             $this->db->rollBack();
 
             $flashMsg = ($this->settings['displayErrorDetails']) ? $e->getMessage() : $this->trans('Item %item_id% not updated', ['%item_id%' => $args['id']]);
-            $this->flash->addMessage('error', $flashMsg);
+            $this->flash->addMessage('error', json_encode($flashMsg, JSON_PRETTY_PRINT));
         }
 
         return $response->withStatus(302)->withHeader('Location', $this->getListUrl());
@@ -211,7 +193,7 @@ class Posts extends \Controller\RESTController
         try {
             $this->db->beginTransaction();
 
-            $sql = "INSERT INTO ".$this->table."Files SET userId=?, ".$this->idxField."=?, file=?, caption=?, `type`=?, `size`=?, secret=?";
+            $sql = "INSERT INTO ".$this->table."_files SET userId=?, ".$this->idxField."=?, file=?, caption=?, `type`=?, `size`=?, secret=?";
             $stmt = $this->db->prepare($sql);
 
             foreach($files['my_file'] as $myFile){
@@ -259,7 +241,7 @@ class Posts extends \Controller\RESTController
 
             unlink('uploads/'.$data['file']);
 
-            $sql = "DELETE FROM ".$this->table."Files WHERE id=?";
+            $sql = "DELETE FROM ".$this->table."_files WHERE fileId=?";
             $stmt = $this->db->prepare($sql);
             $stmt->execute(array($data['key']));
 

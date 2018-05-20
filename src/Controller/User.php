@@ -125,7 +125,7 @@ class User extends BaseController
                 $this->db->rollBack();
 
                 $flashMsg = ($this->settings['displayErrorDetails']) ? $e->getMessage() : $this->trans('Profile not updated');
-                $this->flash->addMessage('error', $flashMsg);
+                $this->flash->addMessage('error', json_encode($flashMsg, JSON_PRETTY_PRINT));
             }
             return $response->withStatus(302)->withHeader('Location', $this->router->pathFor('profile', ['lang' => $this->lang]));
         }

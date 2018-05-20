@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.3
+-- version 4.7.7
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Май 19 2018 г., 07:47
--- Версия сервера: 5.7.19
--- Версия PHP: 7.1.7
+-- Время создания: Май 20 2018 г., 22:53
+-- Версия сервера: 5.7.20
+-- Версия PHP: 7.1.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -413,36 +413,6 @@ INSERT INTO `pages_lang` (`langId`, `pageId`, `lang`, `title`, `keywords`, `desc
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `postFiles`
---
-
-CREATE TABLE `postFiles` (
-  `fileId` int(11) NOT NULL,
-  `userId` int(10) UNSIGNED NOT NULL,
-  `postId` int(10) UNSIGNED DEFAULT NULL,
-  `file` varchar(255) NOT NULL,
-  `caption` varchar(255) NOT NULL,
-  `type` varchar(255) NOT NULL,
-  `size` int(10) UNSIGNED NOT NULL,
-  `secret` varchar(30) DEFAULT NULL,
-  `uploadedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `postIndustries`
---
-
-CREATE TABLE `postIndustries` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `postId` int(10) UNSIGNED NOT NULL,
-  `industryId` int(10) UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
 -- Структура таблицы `posts`
 --
 
@@ -460,6 +430,58 @@ CREATE TABLE `posts` (
   `site` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Дамп данных таблицы `posts`
+--
+
+INSERT INTO `posts` (`postId`, `userId`, `createdAt`, `status`, `finishedAt`, `cityId`, `workers`, `buildedAt`, `income`, `price`, `site`) VALUES
+(1, 1, '2018-05-20 18:43:04', 0, NULL, 3, 0, '2020-05-20', '0', '0', '');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `posts_files`
+--
+
+CREATE TABLE `posts_files` (
+  `fileId` int(11) NOT NULL,
+  `userId` int(10) UNSIGNED NOT NULL,
+  `postId` int(10) UNSIGNED DEFAULT NULL,
+  `file` varchar(255) NOT NULL,
+  `caption` varchar(255) NOT NULL,
+  `type` varchar(255) NOT NULL,
+  `size` int(10) UNSIGNED NOT NULL,
+  `secret` varchar(30) DEFAULT NULL,
+  `uploadedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `posts_files`
+--
+
+INSERT INTO `posts_files` (`fileId`, `userId`, `postId`, `file`, `caption`, `type`, `size`, `secret`, `uploadedAt`) VALUES
+(5, 1, NULL, 'posts_5b01c143439f26.92459059.png', '1.png', 'image/png', 510002, '5b01c129a08692.32969121', '2018-05-20 18:41:07'),
+(6, 1, NULL, 'posts_5b01c143839711.46731011.pdf', '12-rules-to-learn-languages-in-record-time.pdf', 'application/pdf', 259009, '5b01c129a08692.32969121', '2018-05-20 18:41:07');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `posts_industries`
+--
+
+CREATE TABLE `posts_industries` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `postId` int(10) UNSIGNED NOT NULL,
+  `industryId` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `posts_industries`
+--
+
+INSERT INTO `posts_industries` (`id`, `postId`, `industryId`) VALUES
+(1, 1, 5);
+
 -- --------------------------------------------------------
 
 --
@@ -473,6 +495,15 @@ CREATE TABLE `posts_lang` (
   `title` varchar(255) NOT NULL,
   `text` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `posts_lang`
+--
+
+INSERT INTO `posts_lang` (`langId`, `postId`, `lang`, `title`, `text`) VALUES
+(1, 1, 'en', 'Array', 'Array'),
+(2, 1, 'ru', 'Array', 'Array'),
+(3, 1, 'az', 'Array', 'Array');
 
 -- --------------------------------------------------------
 
@@ -746,26 +777,26 @@ ALTER TABLE `pages_lang`
   ADD KEY `pageId` (`pageId`);
 
 --
--- Индексы таблицы `postFiles`
---
-ALTER TABLE `postFiles`
-  ADD PRIMARY KEY (`fileId`),
-  ADD KEY `userId` (`userId`),
-  ADD KEY `postId` (`postId`);
-
---
--- Индексы таблицы `postIndustries`
---
-ALTER TABLE `postIndustries`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `user_indust_idx` (`postId`,`industryId`);
-
---
 -- Индексы таблицы `posts`
 --
 ALTER TABLE `posts`
   ADD PRIMARY KEY (`postId`),
   ADD KEY `userId` (`userId`);
+
+--
+-- Индексы таблицы `posts_files`
+--
+ALTER TABLE `posts_files`
+  ADD PRIMARY KEY (`fileId`),
+  ADD KEY `userId` (`userId`),
+  ADD KEY `postId` (`postId`);
+
+--
+-- Индексы таблицы `posts_industries`
+--
+ALTER TABLE `posts_industries`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `user_indust_idx` (`postId`,`industryId`);
 
 --
 -- Индексы таблицы `posts_lang`
@@ -819,76 +850,91 @@ ALTER TABLE `votes`
 --
 ALTER TABLE `cities`
   MODIFY `cityId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
+
 --
 -- AUTO_INCREMENT для таблицы `help`
 --
 ALTER TABLE `help`
   MODIFY `helpId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
 --
 -- AUTO_INCREMENT для таблицы `help_lang`
 --
 ALTER TABLE `help_lang`
   MODIFY `langId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+
 --
 -- AUTO_INCREMENT для таблицы `industries`
 --
 ALTER TABLE `industries`
   MODIFY `industryId` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+
 --
 -- AUTO_INCREMENT для таблицы `industries_lang`
 --
 ALTER TABLE `industries_lang`
   MODIFY `langId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
+
 --
 -- AUTO_INCREMENT для таблицы `pages`
 --
 ALTER TABLE `pages`
   MODIFY `pageId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
 --
 -- AUTO_INCREMENT для таблицы `pages_lang`
 --
 ALTER TABLE `pages_lang`
   MODIFY `langId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
---
--- AUTO_INCREMENT для таблицы `postFiles`
---
-ALTER TABLE `postFiles`
-  MODIFY `fileId` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT для таблицы `postIndustries`
---
-ALTER TABLE `postIndustries`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT для таблицы `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `postId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `postId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT для таблицы `posts_files`
+--
+ALTER TABLE `posts_files`
+  MODIFY `fileId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT для таблицы `posts_industries`
+--
+ALTER TABLE `posts_industries`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT для таблицы `posts_lang`
 --
 ALTER TABLE `posts_lang`
-  MODIFY `langId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `langId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- AUTO_INCREMENT для таблицы `tenderFiles`
 --
 ALTER TABLE `tenderFiles`
   MODIFY `fileId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+
 --
 -- AUTO_INCREMENT для таблицы `tenders`
 --
 ALTER TABLE `tenders`
   MODIFY `tenderId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
+
 --
 -- AUTO_INCREMENT для таблицы `userGroups`
 --
 ALTER TABLE `userGroups`
   MODIFY `userGroupId` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
   MODIFY `userId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=148;
+
 --
 -- Ограничения внешнего ключа сохраненных таблиц
 --

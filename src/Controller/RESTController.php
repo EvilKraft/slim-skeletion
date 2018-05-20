@@ -205,7 +205,7 @@ class RESTController extends BaseController implements RESTInterface
             $this->db->rollBack();
 
             $flashMsg = ($this->settings['displayErrorDetails']) ? $e->getMessage() : $this->trans('Can not move');
-            $this->flash->addMessage('error', $flashMsg);
+            $this->flash->addMessage('error', json_encode($flashMsg, JSON_PRETTY_PRINT));
         }
 
         return $response->withStatus(302)->withHeader('Location', $this->getListUrl());
@@ -226,8 +226,8 @@ class RESTController extends BaseController implements RESTInterface
             $this->db->beginTransaction();
 
             $vars      = $this->getPostedVars($request);
-            $colNames  = implode(',', array_keys($vars));
-            $questions = '?'.str_repeat(',?', (count($vars)-1));
+            $colNames  = implode(', ', array_keys($vars));
+            $questions = '?'.str_repeat(', ?', (count($vars)-1));
             
             $stmt = $this->db->prepare("INSERT INTO ".$this->table." (".$colNames.") VALUES (".$questions.")");
             $stmt->execute(array_values($vars));
@@ -238,13 +238,13 @@ class RESTController extends BaseController implements RESTInterface
                 $vars_lang = $this->getPostedVars($request, $this->table.'_lang');
                 $vars_lang[$this->idxField] = $lastId;
 
-                $colNames  = implode(',', array_merge(array_keys($vars_lang) + ['lang']));
-                $questions = '?'.str_repeat(',?', (count($vars_lang)));
+                $colNames  = implode(', ', array_merge(array_keys($vars_lang), ['lang']));
+                $questions = '?'.str_repeat(', ?', (count($vars_lang)));
 
                 $stmt = $this->db->prepare("INSERT INTO ".$this->table."_lang (".$colNames.") VALUES (".$questions.")");
 
                 foreach ($this->settings['i18n']['langs'] as $lang){
-                    $stmt->execute(array_merge(array_values($vars_lang) + [$lang]));
+                    $stmt->execute(array_merge(array_values($vars_lang), [$lang]));
                 }
             }
 
@@ -254,7 +254,7 @@ class RESTController extends BaseController implements RESTInterface
             $this->db->rollBack();
 
             $flashMsg = ($this->settings['displayErrorDetails']) ? $e->getMessage() : $this->trans('New item not added');
-            $this->flash->addMessage('error', $flashMsg);
+            $this->flash->addMessage('error', json_encode($flashMsg, JSON_PRETTY_PRINT));
         }
 
         return $response->withStatus(302)->withHeader('Location', $this->getListUrl());
@@ -295,7 +295,7 @@ class RESTController extends BaseController implements RESTInterface
             $this->db->rollBack();
 
             $flashMsg = ($this->settings['displayErrorDetails']) ? $e->getMessage() : $this->trans('Item %item_id% not updated', ['%item_id%' => $args['id']]);
-            $this->flash->addMessage('error', $flashMsg);
+            $this->flash->addMessage('error', json_encode($flashMsg, JSON_PRETTY_PRINT));
         }
 
         return $response->withStatus(302)->withHeader('Location', $this->getListUrl());

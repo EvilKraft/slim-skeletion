@@ -154,7 +154,7 @@ class Auth extends BaseController
             } catch (\Exception $e) {
                 $this->db->rollBack();
                 $flashMsg = ($this->settings['displayErrorDetails']) ? $e->getMessage() : $this->trans('An error occurred. Please contact administrator');
-                $this->flash->addMessage('error', $flashMsg);
+                $this->flash->addMessage('error', json_encode($flashMsg, JSON_PRETTY_PRINT));
                 return $response->withStatus(302)->withHeader('Location', $this->router->pathFor('register', ['lang' => $this->lang]));
             }
         }
@@ -226,7 +226,7 @@ class Auth extends BaseController
         } catch (\Exception $e) {
             $this->db->rollBack();
             $flashMsg = ($this->settings['displayErrorDetails']) ? $e->getMessage() : $this->trans('An error occurred. Please contact administrator');
-            $this->flash->addMessage('error', $flashMsg);
+            $this->flash->addMessage('error', json_encode($flashMsg, JSON_PRETTY_PRINT));
             return $response->withStatus(302)->withHeader('Location', $this->router->pathFor('register', ['lang' => $this->lang]));
         }
     }
@@ -275,7 +275,7 @@ class Auth extends BaseController
                 } catch (\Exception $e) {
                     $this->db->rollBack();
                     $flashMsg = ($this->settings['displayErrorDetails']) ? $e->getMessage() : $this->trans('An error occurred. Please contact administrator');
-                    $this->flash->addMessage('error', $flashMsg);
+                    $this->flash->addMessage('error', json_encode($flashMsg, JSON_PRETTY_PRINT));
                     return $response->withStatus(302)->withHeader('Location', $this->router->pathFor('forgotPassword', ['lang' => $this->lang]));
                 }
             }

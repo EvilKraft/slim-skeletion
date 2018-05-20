@@ -247,7 +247,7 @@ class Tenders extends \Controller\BaseController
                 $this->db->rollBack();
 
                 $flashMsg = ($this->settings['displayErrorDetails']) ? $e->getMessage() : $this->trans('Tender was not created');
-                $this->flash->addMessage('error', $flashMsg);
+                $this->flash->addMessage('error', json_encode($flashMsg, JSON_PRETTY_PRINT));
             }
             return $response->withStatus(302)->withHeader('Location', $this->router->pathFor('tenders', ['lang' => $this->lang]));
         }
@@ -403,7 +403,7 @@ class Tenders extends \Controller\BaseController
             $this->db->rollBack();
 
             $flashMsg = ($this->settings['displayErrorDetails']) ? $e->getMessage() : $this->trans('Tender was not updated');
-            $this->flash->addMessage('error', $flashMsg);
+            $this->flash->addMessage('error', json_encode($flashMsg, JSON_PRETTY_PRINT));
         }
         return $response->withStatus(302)->withHeader('Location', $this->router->pathFor('tenders', ['lang' => $this->lang]));
     }
