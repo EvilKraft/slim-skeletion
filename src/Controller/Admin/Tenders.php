@@ -95,8 +95,8 @@ class Tenders extends \Controller\RESTController
         return $response->withJson($data, 200);
     }
 
-    protected function getTableColumns(){
-        $columns = parent::getTableColumns();
+    protected function getTableColumns($table = null, Array $ids = null){
+        $columns = parent::getTableColumns($table, $ids);
 
         $columns['industryname'] = ['COLUMN_NAME' => 'industryname', 'DATA_TYPE' => 'string'];
         $columns['username']     = ['COLUMN_NAME' => 'username', 'DATA_TYPE' => 'string'];

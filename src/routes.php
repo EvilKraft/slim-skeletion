@@ -108,7 +108,7 @@ $app->group('/{lang:'.$langRegExp.'}', function () use ($app) {
 
 });
 
-$app->get('/img[/{params:.*}]', function (Request $request, Response $response, $args) {
+$app->get('/img[/{image_name:.*}]', function (Request $request, Response $response, Array $args) {
 
     $server = \League\Glide\ServerFactory::create([
         'source' => DIR.'public/uploads',
@@ -116,7 +116,7 @@ $app->get('/img[/{params:.*}]', function (Request $request, Response $response, 
         'response' => new \League\Glide\Responses\SlimResponseFactory(),
     ]);
 
-    return $server->getImageResponse($request->getAttribute('params'), $request->getQueryParams());
+    return $server->getImageResponse($args['image_name'], $request->getQueryParams());
 
 });
 

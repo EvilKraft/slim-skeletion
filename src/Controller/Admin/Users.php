@@ -18,9 +18,9 @@ class Users extends \Controller\RESTController
     protected $idxField    = 'userId';
     protected $template    = 'Admin\Users.twig';
 
-    protected $columns     = ['login', 'name', 'voen', 'country', 'createdAt'];
+    protected $columns     = ['login', 'name', 'country', 'createdAt'];
     protected $actions     = ['create', 'update', 'delete'];
-    protected $col_filters = ['voen', 'country', 'stars'];
+    protected $col_filters = ['country', 'stars'];
 
     protected function doCreate(Request $request, Response $response)
     {

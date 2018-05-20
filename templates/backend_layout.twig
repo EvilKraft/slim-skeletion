@@ -127,7 +127,7 @@
                             <li {{ currentRoute == 'admin_tenders_moderate' ? 'class="active"' }}>
                                 <a href="{{ path_for('admin_tenders_moderate', {'lang': lang}) }}">
                                     <i class="fa fa-th-list"></i> <span>{{ 'New tenders'|trans }}</span>
-                                    {% if toModerate > 0 %}
+                                    {% if toModerate|default(0) > 0 %}
                                         <span class="pull-right-container">
                                             <small class="label label-warning pull-right">{{ toModerate }}</small>
                                         </span>

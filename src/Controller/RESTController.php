@@ -222,16 +222,31 @@ class RESTController extends BaseController implements RESTInterface
 
     protected function doCreate(Request $request, Response $response)
     {
-        $vars = $this->getPostedVars($request);
-
-        $colNames  = implode(',', array_keys($vars));
-        $questions = '?'.str_repeat(',?', (count($vars)-1));
-
         try {
             $this->db->beginTransaction();
+
+            $vars      = $this->getPostedVars($request);
+            $colNames  = implode(',', array_keys($vars));
+            $questions = '?'.str_repeat(',?', (count($vars)-1));
             
             $stmt = $this->db->prepare("INSERT INTO ".$this->table." (".$colNames.") VALUES (".$questions.")");
             $stmt->execute(array_values($vars));
+
+            $lastId = $this->db->lastInsertId();
+
+            if(!empty($this->idxFieldLang)){
+                $vars_lang = $this->getPostedVars($request, $this->table.'_lang');
+                $vars_lang[$this->idxField] = $lastId;
+
+                $colNames  = implode(',', array_merge(array_keys($vars_lang) + ['lang']));
+                $questions = '?'.str_repeat(',?', (count($vars_lang)));
+
+                $stmt = $this->db->prepare("INSERT INTO ".$this->table."_lang (".$colNames.") VALUES (".$questions.")");
+
+                foreach ($this->settings['i18n']['langs'] as $lang){
+                    $stmt->execute(array_merge(array_values($vars_lang) + [$lang]));
+                }
+            }
 
             $this->db->commit();
             $this->flash->addMessage('success', $this->trans('New item added'));
@@ -253,22 +268,26 @@ class RESTController extends BaseController implements RESTInterface
             return $response->withStatus(302)->withHeader('Location', $this->getListUrl());
         }
 
-        $vars = $this->getPostedVars($request);
-
-        $sets = array();
-        foreach($vars as $name => $val){
-            $sets[] = $name.' = ?';
-        }
-        $colNames = implode(' , ', $sets);
-
-        $vals = array_values($vars);
-        $vals[] = $args['id'];
-
         try {
             $this->db->beginTransaction();
+
+            $vars     = $this->getPostedVars($request);
+            $colNames = implode(', ', array_map(function($n) {return($n.'=?');}, array_keys($vars)));
             
             $stmt = $this->db->prepare("UPDATE ".$this->table." SET ".$colNames." WHERE ".$this->idxField." = ?");
-            $stmt->execute($vals);
+            $stmt->execute(array_merge(array_values($vars) + [$args['id']]));
+
+            if(!empty($this->idxFieldLang)){
+
+                $vars_lang = $this->getPostedVars($request, $this->table.'_lang');
+                $colNames  = implode(', ', array_map(function($n) {return($n.'=?');}, array_keys($vars_lang)));
+
+                $stmt = $this->db->prepare("UPDATE ".$this->table."_lang SET ".$colNames." WHERE langId = ?");
+
+                foreach ($request->getParsedBody()['langId'] as $lang){
+                    $stmt->execute(array_merge(array_values($vars_lang) + [$lang]));
+                }
+            }
 
             $this->db->commit();
             $this->flash->addMessage('success', $this->trans('Item %item_id% updated', ['%item_id%' => $args['id']]));
@@ -295,32 +314,25 @@ class RESTController extends BaseController implements RESTInterface
         return $this->router->pathFor(self::routePrefix(), ['lang' => $this->lang]);
     }
 
-    protected function getPostedVars(Request $request){
-        return array_intersect_key($request->getParsedBody(), $this->getTableColumns());
+    protected function getPostedVars(Request $request, $table = null, Array $ids = null){
+        return array_intersect_key($request->getParsedBody(), $this->getTableColumns($table, $ids));
     }
 
-    protected function getTableColumns(){
+    protected function getTableColumns($table = null, Array $ids = null){
         $columns = array();
         $sm      = $this->db->getSchemaManager();
 
-        foreach ($sm->listTableColumns($this->table) as $column) {
-            if($column->getName() != $this->idxField){
-                $columns[$column->getName()] = [
-                    'COLUMN_NAME' => $column->getName(),
+        $table = ($table) ?? $this->table;
+        $ids =   ($ids)   ?? array($this->idxField, $this->idxFieldLang);
+
+        foreach ($sm->listTableColumns($table) as $column) {
+            $colName = $column->getName();
+
+            if(!in_array($colName, $ids)){
+                $columns[$colName] = [
+                    'COLUMN_NAME' => $colName,
                     'DATA_TYPE'   => $column->getType(),
                 ];
-            }
-        }
-
-        if(!empty($this->idxFieldLang)){
-            foreach ($sm->listTableColumns($this->table.'_lang') as $column) {
-                $colName = $column->getName();
-               if($colName != $this->idxField && $colName != $this->idxFieldLang){
-                    $columns[$colName] = [
-                        'COLUMN_NAME' => $colName,
-                        'DATA_TYPE'   => $column->getType(),
-                    ];
-                }
             }
         }
 
@@ -367,7 +379,7 @@ class RESTController extends BaseController implements RESTInterface
 
     // Generate columns for DataTables Server Side Processing class
     protected function getDtColumns(){
-        $tableColumns = $this->getTableColumns();
+        $tableColumns = array_merge($this->getTableColumns(), $this->getTableColumns($this->table.'_lang'));
 
         $dtColumns[] = array(
             'db' => $this->idxField,
@@ -436,7 +448,7 @@ class RESTController extends BaseController implements RESTInterface
         $out = array();
         $catalogue = $this->i18n->getCatalogue($this->lang);
 
-        $tableColumns = $this->getTableColumns();
+        $tableColumns = array_merge($this->getTableColumns(), $this->getTableColumns($this->table.'_lang'));
 
         foreach ($this->columns as $column){
             $trans_id  = 'REST.'.self::getBaseClassName().'.fields.'.$column;

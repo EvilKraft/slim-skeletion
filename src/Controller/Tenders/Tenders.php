@@ -408,6 +408,8 @@ class Tenders extends \Controller\BaseController
         return $response->withStatus(302)->withHeader('Location', $this->router->pathFor('tenders', ['lang' => $this->lang]));
     }
 
+
+
     public function uploadFile(Request $request, Response $response, Array $args) {
 
         $data  = $request->getParsedBody();
@@ -479,6 +481,8 @@ class Tenders extends \Controller\BaseController
             return $response->withJson('File was not deleted', 400);
         }
     }
+
+
 
     public function participate(Request $request, Response $response, Array $args) {
 
