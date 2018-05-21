@@ -72,6 +72,23 @@ class Posts extends \Controller\RESTController
 
     protected function doCreate(Request $request, Response $response)
     {
+        $vars_lang = $this->getPostedVars($request, $this->table.'_lang');
+
+        $new = array();
+        foreach ($vars_lang as $colName => $langs){
+            foreach ($langs as $lang => $value){
+                $new[$lang][$colName] = $value;
+            }
+        }
+
+        $new = array_merge_recursive($new, array_fill_keys(array_keys($new), [$this->idxField => 123]));
+
+        echo '<pre>'.print_r($vars_lang, true).'</pre>';
+        echo '<pre>'.print_r($new, true).'</pre>';
+
+
+        return;
+
         try {
             $this->db->beginTransaction();
 
