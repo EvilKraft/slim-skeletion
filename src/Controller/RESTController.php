@@ -235,16 +235,20 @@ class RESTController extends BaseController implements RESTInterface
             $lastId = $this->db->lastInsertId();
 
             if(!empty($this->idxFieldLang)){
-                $vars_lang = $this->getPostedVars($request, $this->table.'_lang');
-                $vars_lang[$this->idxField] = $lastId;
+                $tableColumns = $this->getTableColumns($this->table.'_lang');
 
-                $colNames  = implode(', ', array_merge(array_keys($vars_lang), ['lang']));
-                $questions = '?'.str_repeat(', ?', (count($vars_lang)));
+                $vars_lang = array();
+                foreach ($this->settings['i18n']['langs'] as $lang){
+                    $vars = array_intersect_key($request->getParsedBody()[$lang], $tableColumns);
+                    $vars_lang[$lang] = array_merge_recursive( [$this->idxField => $lastId, 'lang' => $lang ], $vars);
+                }
+                $colNames  = implode(', ', array_keys(reset($vars_lang)));
+                $questions = '?'.str_repeat(', ?', (count(reset($vars_lang))-1));
 
                 $stmt = $this->db->prepare("INSERT INTO ".$this->table."_lang (".$colNames.") VALUES (".$questions.")");
 
-                foreach ($this->settings['i18n']['langs'] as $lang){
-                    $stmt->execute(array_merge(array_values($vars_lang), [$lang]));
+                foreach ($vars_lang as $lang => $vars){
+                    $stmt->execute(array_values($vars));
                 }
             }
 
@@ -273,19 +277,23 @@ class RESTController extends BaseController implements RESTInterface
 
             $vars     = $this->getPostedVars($request);
             $colNames = implode(', ', array_map(function($n) {return($n.'=?');}, array_keys($vars)));
-            
+
             $stmt = $this->db->prepare("UPDATE ".$this->table." SET ".$colNames." WHERE ".$this->idxField." = ?");
-            $stmt->execute(array_merge(array_values($vars) + [$args['id']]));
+            $stmt->execute(array_merge_recursive(array_values($vars), [$args['id']]));
 
             if(!empty($this->idxFieldLang)){
+                $tableColumns = $this->getTableColumns($this->table.'_lang');
 
-                $vars_lang = $this->getPostedVars($request, $this->table.'_lang');
-                $colNames  = implode(', ', array_map(function($n) {return($n.'=?');}, array_keys($vars_lang)));
+                $vars_lang = array();
+                foreach ($this->settings['i18n']['langs'] as $lang){
+                    $vars_lang[$lang] = array_intersect_key($request->getParsedBody()[$lang], $tableColumns);
+                }
+                $colNames  = implode(', ', array_map(function($n) {return($n.'=?');}, array_keys(reset($vars_lang))));
 
-                $stmt = $this->db->prepare("UPDATE ".$this->table."_lang SET ".$colNames." WHERE langId = ?");
+                $stmt = $this->db->prepare("UPDATE ".$this->table."_lang SET ".$colNames." WHERE ".$this->idxFieldLang." = ?");
 
-                foreach ($request->getParsedBody()['langId'] as $lang){
-                    $stmt->execute(array_merge(array_values($vars_lang) + [$lang]));
+                foreach ($vars_lang as $lang => $vars){
+                    $stmt->execute(array_merge(array_values($vars), [$request->getParsedBody()[$lang][$this->idxFieldLang]]));
                 }
             }
 

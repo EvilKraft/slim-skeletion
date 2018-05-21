@@ -32,17 +32,29 @@ class Posts extends \Controller\RESTController
         $app->get('/to-moderate',        $class.':toModerate')->setName($prefix.'_moderate');
         $app->get('/getToModerateTable', $class.':toModerateServerProcessing')->setName($prefix.'_moderate_getTable');
 
+        $app->get('/{id:[0-9]+}/finish', $class.':toModerate')->setName($prefix.'_finish');
+
         $app->post('/upload-file', $class.':uploadFile')->setName($prefix.'_upload_file');
         $app->post('/delete-file', $class.':deleteFile')->setName($prefix.'_delete_file');
     }
+
 
     protected function extraFormData()
     {
         parent::extraFormData();
 
-        $stmt = $this->db->prepare("SELECT I.industryId, IL.name FROM industries I INNER JOIN industries_lang IL ON I.industryId = IL.industryId AND lang=?");
-        $stmt->execute([$this->lang]);
+      //  $stmt = $this->db->prepare("SELECT I.industryId, IL.name FROM industries I INNER JOIN industries_lang IL ON I.industryId = IL.industryId AND lang=?");
+     //   $stmt->execute([$this->lang]);
+     //   $this->data['industries'] = $stmt->fetchAll();
+
+        $sql = "SELECT I.industryId, IL.name, PI.id AS PI_Id, PI.".$this->idxField."
+                FROM industries I
+                INNER JOIN industries_lang IL ON I.industryId = IL.industryId AND lang=?
+                LEFT JOIN ".$this->table."_industries PI ON PI.industryId = I.industryId AND ".$this->idxField."=?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$this->lang, @$this->data['item'][$this->idxField]]);
         $this->data['industries'] = $stmt->fetchAll();
+
 
         $stmt = $this->db->prepare("SELECT * FROM cities");
         $stmt->execute();
@@ -51,7 +63,7 @@ class Posts extends \Controller\RESTController
         $this->data['secret']= uniqid('', true);
         $this->data['files'] = array();
         if(isset($this->data['item'])){
-            $stmt = $this->db->prepare("SELECT * FROM postFiles WHERE ".$this->idxField." = ?");
+            $stmt = $this->db->prepare("SELECT * FROM ".$this->table."_files WHERE ".$this->idxField." = ?");
             $stmt->execute(array($this->data['item'][$this->idxField]));
             $this->data['files'] = $stmt->fetchAll();
 
@@ -72,22 +84,6 @@ class Posts extends \Controller\RESTController
 
     protected function doCreate(Request $request, Response $response)
     {
-        $vars_lang = $this->getPostedVars($request, $this->table.'_lang');
-
-        $new = array();
-        foreach ($vars_lang as $colName => $langs){
-            foreach ($langs as $lang => $value){
-                $new[$lang][$colName] = $value;
-            }
-        }
-
-        $new = array_merge_recursive($new, array_fill_keys(array_keys($new), [$this->idxField => 123]));
-
-        echo '<pre>'.print_r($vars_lang, true).'</pre>';
-        echo '<pre>'.print_r($new, true).'</pre>';
-
-
-        return;
 
         try {
             $this->db->beginTransaction();
@@ -102,16 +98,20 @@ class Posts extends \Controller\RESTController
             $lastId = $this->db->lastInsertId();
 
             if(!empty($this->idxFieldLang)){
-                $vars_lang = $this->getPostedVars($request, $this->table.'_lang');
-                $vars_lang[$this->idxField] = $lastId;
+                $tableColumns = $this->getTableColumns($this->table.'_lang');
 
-                $colNames  = implode(', ', array_merge(array_keys($vars_lang), ['lang']));
-                $questions = '?'.str_repeat(', ?', (count($vars_lang)));
+                $vars_lang = array();
+                foreach ($this->settings['i18n']['langs'] as $lang){
+                    $vars = array_intersect_key($request->getParsedBody()[$lang], $tableColumns);
+                    $vars_lang[$lang] = array_merge_recursive( [$this->idxField => $lastId, 'lang' => $lang ], $vars);
+                }
+                $colNames  = implode(', ', array_keys(reset($vars_lang)));
+                $questions = '?'.str_repeat(', ?', (count(reset($vars_lang))-1));
 
                 $stmt = $this->db->prepare("INSERT INTO ".$this->table."_lang (".$colNames.") VALUES (".$questions.")");
 
-                foreach ($this->settings['i18n']['langs'] as $lang){
-                    $stmt->execute(array_merge(array_values($vars_lang), [$lang]));
+                foreach ($vars_lang as $lang => $vars){
+                    $stmt->execute(array_values($vars));
                 }
             }
 
@@ -143,11 +143,11 @@ class Posts extends \Controller\RESTController
             return $response->withStatus(302)->withHeader('Location', $this->getListUrl());
         }
 
-        $sql = "SELECT I.industryId, UI.userIndustryId AS UI_Id, UI.".$this->idxField."
+        $sql = "SELECT I.industryId, PI.id AS PI_Id, PI.".$this->idxField."
                 FROM industries I
-                LEFT JOIN ".$this->table."_industries UI ON UI.industryId = I.industryId AND ".$this->idxField."=?";
+                LEFT JOIN ".$this->table."_industries PI ON PI.industryId = I.industryId AND ".$this->idxField."=?";
         $stmt = $this->db->prepare($sql);
-        $stmt->execute([$item['id']]);
+        $stmt->execute([$item[$this->idxField]]);
         $industries = $stmt->fetchAll();
 
         try {
@@ -157,27 +157,38 @@ class Posts extends \Controller\RESTController
             $colNames = implode(', ', array_map(function($n) {return($n.'=?');}, array_keys($vars)));
 
             $stmt = $this->db->prepare("UPDATE ".$this->table." SET ".$colNames." WHERE ".$this->idxField." = ?");
-            $stmt->execute(array_merge(array_values($vars) + [$args['id']]));
+            $stmt->execute(array_merge_recursive(array_values($vars), [$args['id']]));
 
             if(!empty($this->idxFieldLang)){
+                $tableColumns = $this->getTableColumns($this->table.'_lang');
 
-                $vars_lang = $this->getPostedVars($request, $this->table.'_lang');
-                $colNames  = implode(', ', array_map(function($n) {return($n.'=?');}, array_keys($vars_lang)));
+                $vars_lang = array();
+                foreach ($this->settings['i18n']['langs'] as $lang){
+                    $vars_lang[$lang] = array_intersect_key($request->getParsedBody()[$lang], $tableColumns);
+                }
+                $colNames  = implode(', ', array_map(function($n) {return($n.'=?');}, array_keys(reset($vars_lang))));
 
-                $stmt = $this->db->prepare("UPDATE ".$this->table."_lang SET ".$colNames." WHERE langId = ?");
+                $stmt = $this->db->prepare("UPDATE ".$this->table."_lang SET ".$colNames." WHERE ".$this->idxFieldLang." = ?");
 
-                foreach ($request->getParsedBody()['langId'] as $lang){
-                    $stmt->execute(array_merge(array_values($vars_lang) + [$lang]));
+                foreach ($vars_lang as $lang => $vars){
+                    $stmt->execute(array_merge(array_values($vars), [$request->getParsedBody()[$lang][$this->idxFieldLang]]));
                 }
             }
 
             $insert_stmt = $this->db->prepare("INSERT INTO ".$this->table."_industries SET ".$this->idxField."=?, industryId=?");
             $delete_stmt = $this->db->prepare("DELETE FROM ".$this->table."_industries WHERE id=?");
 
+            /*
+            echo '<pre>'.print_r($request->getParsedBody()['industryId'], true).'</pre>';
+            echo '<pre>'.print_r($industries, true).'</pre>';
+
+            $this->db->rollBack();
+            return;
+*/
             foreach ($industries as $industry){
-                if(!is_null($industry['UI_Id']) && !in_array($industry['industryId'], $request->getParsedBody()['industryId'])){
-                    $delete_stmt->execute([$industry['UI_Id']]);
-                }elseif(is_null($industry['UI_Id']) && in_array($industry['industryId'], $request->getParsedBody()['industryId'])){
+                if(!empty($industry['PI_Id']) && !in_array($industry['industryId'], $request->getParsedBody()['industryId'])){
+                    $delete_stmt->execute([$industry['PI_Id']]);
+                }elseif(empty($industry['PI_Id']) && in_array($industry['industryId'], $request->getParsedBody()['industryId'])){
                     $insert_stmt->execute([$args['id'], $industry['industryId']]);
                 }
             }
