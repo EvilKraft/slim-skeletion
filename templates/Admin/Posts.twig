@@ -21,7 +21,7 @@
                                 <div class="form-group">
                                     <label for="industryId">{{ 'Industry'|trans }} <span class="text-red">*</span></label>
                                     <select id="industryId" name="industryId[]" class="form-control select2" required="" data-error="{{ 'Select an industry'|trans }}">
-                                        <option value="" disabled>{{ 'Select an industry'|trans }}</option>
+                                        <option value="" selected disabled>{{ 'Select an industry'|trans }}</option>
                                         {% for industry in industries %}
                                             <option value="{{ industry.industryId }}" {{ (industry.PI_Id is not empty) ? 'selected' }}>{{ industry.name }}</option>
                                         {% endfor %}
@@ -209,6 +209,18 @@
             $('#cityId').select2({ theme: "bootstrap", width: '100%', placeholder: "{{ 'Select a city'|trans }}" });
 
 //	        CKEDITOR.replaceClass = 'ckeditor';
+
+            // Switch tab on validation
+            $('input').on('invalid.bs.validator', function () {
+                var tab = $(this).closest('.tab-pane').attr('id');
+                $('.nav a[href="#' + tab + '"]').tab('show');
+
+                $(this).focus();
+
+                // Only want to do it once
+                return false;
+            });
+
 
 	        var btns = '<button type="button" class="kv-cust-btn btn btn-xs btn-default" title="{{ 'Download'|trans }}" {dataKey}>'
 		        + '<i class="glyphicon glyphicon-download"></i>'
