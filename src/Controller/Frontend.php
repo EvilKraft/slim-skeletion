@@ -18,10 +18,16 @@ class Frontend extends BaseController
 
         $data = array();
 
+        $data['blog_container1'] = $this->renderer->fetch('Frontend/Blog/blog_stile1.twig', $this->getPosts(8, 6));
+        $data['blog_container4'] = $this->renderer->fetch('Frontend/Blog/blog_stile4.twig', $this->getPosts(8, 6));
+        $data['blog_container5'] = $this->renderer->fetch('Frontend/Blog/blog_stile5.twig', $this->getPosts(8, 6));
+;
+
     //    $data['about_tpl']    = $this->renderer->fetch('Frontend/index_about.twig',    $this->getPage('about'));
     //    $data['partners_tpl'] = $this->renderer->fetch('Frontend/index_partners.twig', $this->getPage('partners'));
     //    $data['service_tpl']  = $this->renderer->fetch('Frontend/index_service.twig',  $this->getPage('services'));
     //    $data['contact_tpl']  = $this->renderer->fetch('Frontend/index_contact.twig',  $this->getPage('contacts'));
+
 
 
         $stmt = $this->db->prepare("SELECT I.industryId, IL.name FROM industries I INNER JOIN industries_lang IL ON I.industryId = IL.industryId AND lang=?");
@@ -140,6 +146,8 @@ class Frontend extends BaseController
         return $this->renderer->render($response, 'Frontend/blog.twig', $data);
     }
 
+
+
     protected function getPage($alias){
         $sql = "SELECT P.*, L.title, L.keywords, L.description, L.text
                 FROM pages P
@@ -161,5 +169,44 @@ class Frontend extends BaseController
     }
 
 
-   // protected function get
+    protected function getPosts($industryId, $limit = 10, $offset = 0){
+        $data = array();
+
+        $industryId = (int) $industryId;
+
+        $sql = "SELECT I.industryId, IL.name FROM industries I INNER JOIN industries_lang IL ON I.industryId = IL.industryId WHERE I.industryId = ? AND IL.lang=?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$industryId, $this->lang]);
+
+        $data['industry'] = $stmt->fetch();
+
+        $sql  = "SELECT P.*, L.*, U.name, PF.file
+                 FROM posts P
+                 INNER JOIN posts_lang L ON L.postId = P.postId AND L.lang = '".$this->lang."'
+                 LEFT JOIN (
+                     SELECT A.postId, A.file
+                     FROM posts_files A
+                     INNER JOIN (
+                         SELECT MAX(a.fileId) fileId, a.postId 
+                         FROM posts_files a 
+                         WHERE type LIKE 'image%' 
+                         GROUP BY a.postId
+                     ) B ON A.fileId = B.fileId                 
+                 ) PF ON PF.postId = P.postId
+                 INNER JOIN users U ON P.userId = U.userId
+                 INNER JOIN posts_industries PI ON PI.postId = P.postId AND PI.industryId = :industryId
+                 
+                 ORDER BY P.createdAt DESC
+                 LIMIT :limit OFFSET :offset";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':industryId',  $industryId,  \PDO::PARAM_INT);
+        $stmt->bindValue(':limit',       $limit,       \PDO::PARAM_INT);
+        $stmt->bindValue(':offset',      $offset,      \PDO::PARAM_INT);
+        $stmt->execute();
+
+        $data['items'] = $stmt->fetchAll();
+
+        return $data;
+    }
 }

@@ -118,6 +118,6 @@ $app->get('/img[/{image_name:.*}]', function (Request $request, Response $respon
 
     return $server->getImageResponse($args['image_name'], $request->getQueryParams());
 
-});
+})->setName('image');
 
 

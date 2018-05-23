@@ -45,6 +45,8 @@ if(file_exists(DIR.'src'.DS.'settings.local.php')){
 }
 RunTracy\Helpers\Profiler\Profiler::finish('loadSettings');
 
+date_default_timezone_set($settings['settings']['date_default_timezone']);
+
 RunTracy\Helpers\Profiler\Profiler::start('initApp');
 $app = new \Slim\App($settings);
 RunTracy\Helpers\Profiler\Profiler::finish('initApp');

@@ -1,3 +1,4 @@
+{##}
 <div class="mag-wrapper">
     <div class="mag section section" id="magstyle4">
         <div class="widget HTML" data-version="1" id="HTML920">
@@ -50,6 +51,36 @@
                             hospital faces the challenge of disposing of all the blood, urine, and
                             other fluids...</p>
                     </li>
+                </ul>
+            </div>
+        </div></div>
+    <div class="clear"></div>
+</div>
+
+
+<div class="mag-wrapper">
+    <div class="mag section section" id="magstyle4">
+        <div class="widget HTML" data-version="1" id="HTML920">
+            <div class="widget-content">
+                <div class="title">
+                    <a href="{{ path_for('industry', {'lang':lang, 'id':industry.industryId}) }}">{{ industry.name }}</a>
+                    <div class="viewall"><a href="{{ path_for('industry', {'lang':lang, 'id':industry.industryId}) }}">{{ 'All News'|trans }}</a></div>
+                </div>
+                <div class="clear"></div>
+                <ul id="label_with_thumbs">
+                    {% for item in items %}
+                        <li class="recent-box">
+                            <div class="imageContainer">
+                                <a href="{{ path_for('post', {'lang':lang, 'id':item.postId}) }}" target="_top">
+                                    <img class="label_thumb" src="{{ path_for('image', {'image_name':item.file}) }}" title="{{ item.title }}" alt="{{ item.title }}" style="width: auto; height: 100px; margin-left: -25.9091px; margin-top: 0px;">
+                                </a>
+                            </div>
+                            <a class="label_title" href="{{ path_for('post', {'lang':lang, 'id':item.postId}) }}" target="_top">{{ item.title }}</a>
+                            <div class="toe">
+                                <a href="{{ path_for('post', {'lang':lang, 'id':item.postId}) }}" class="post-date">{{ item.createdAt }}</a>
+                            </div>
+                        </li>
+                    {% endfor %}
                 </ul>
             </div>
         </div></div>

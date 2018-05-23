@@ -16,6 +16,8 @@ return [
         'addContentLengthHeader'            => false,   // Allow the web server to send the content-length header
         'determineRouteBeforeAppMiddleware' => true,    // Only set this if you need access to route within middleware
 
+        'date_default_timezone'             => 'Asia/Tbilisi',
+
         // Renderer settings
         'renderer' => [
             'twig' => [
