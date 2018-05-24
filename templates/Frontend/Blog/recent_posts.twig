@@ -1,5 +1,5 @@
 <div class="widget HTML" data-version="1" id="HTML55">
-    <h2 class="title">Latest Posts</h2>
+    <h2 class="title">{{ recent_posts.title }}</h2>
     <div class="widget-content">
         <div id="recent-posts">
             <ul>
@@ -11,64 +11,20 @@
                     <span>23/10/2017 - 3 Comments</span>
                     <div style="clear:both"></div>
                 </li>
-                <li>
-                    <img alt="Study Suggests Today’s US Students Are Less Efficient Readers" src="/News16_files/sunglasses_635269_96_xlKy3.jpg">
-                    <div>
-                        <a href="https://news16-templatemark.blogspot.com/2017/10/study-suggests-todays-us-students-are.html" rel="nofollow" title="Do today’s students perform better than their peers in 1960? Given the advances in education and technology, it would be natural to assume that the…">Study Suggests Today’s US Students Are Less Efficient Readers</a>
-                    </div>
-                    <span>23/10/2017 - 2 Comments</span>
-                    <div style="clear:both"></div>
-                </li>
-                <li>
-                    <img alt="New Resources Critical for Stroke Recovery" src="/News16_files/spring_2298279_960_7_0acWE_003.jpg">
-                    <div>
-                        <a href="https://news16-templatemark.blogspot.com/2017/10/new-resources-critical-for-stroke.html" rel="nofollow" title="The American Heart Association/American Stroke Association (AHA/ASA), the world’s leading voluntary organization dedicated to building healthier…">New Resources Critical for Stroke Recovery</a>
-                    </div>
-                    <span>23/10/2017 - 1 Comments</span>
-                    <div style="clear:both"></div>
-                </li>
-                <li>
-                    <img alt="Fall in Love with Greater Fort Lauderdale" src="/News16_files/necklace_518268_960__CTVFi_003.jpg">
-                    <div>
-                        <a href="https://news16-templatemark.blogspot.com/2017/10/fall-in-love-with-greater-fort.html" rel="nofollow" title="Travelers may think of summer and beach activities when they think of Florida, but Greater Fort Lauderdale takes its relaxing vibe into the fall…">Fall in Love with Greater Fort Lauderdale</a>
-                    </div>
-                    <span>23/10/2017 - 0 Comments</span>
-                    <div style="clear:both"></div>
-                </li>
-                <li>
-                    <img alt="Football Helmet Safety in Three Simple Steps" src="/News16_files/laugh_536287_960_720.jpg">
-                    <div>
-                        <a href="https://news16-templatemark.blogspot.com/2017/10/football-helmet-safety-in-three-simple.html" rel="nofollow" title="As the high school and college football seasons heat up, the National Operating Committee on Standards for Athletic Equipment (NOCSAE) is encouraging…">Football Helmet Safety in Three Simple Steps</a>
-                    </div>
-                    <span>23/10/2017 - 0 Comments</span>
-                    <div style="clear:both"></div>
-                </li>
-                <li>
-                    <img alt="Outdoor Living – Bringing the Inside Out" src="/News16_files/kid_1241817_960_720.jpg">
-                    <div>
-                        <a href="https://news16-templatemark.blogspot.com/2017/10/outdoor-living-bringing-inside-out.html" rel="nofollow" title="Enjoying your outside space does not have to take place on a dimly lit patio with moderately comfortable furniture devoid of fine furnishings and…">Outdoor Living – Bringing the Inside Out</a>
-                    </div>
-                    <span>23/10/2017 - 0 Comments</span>
-                    <div style="clear:both"></div>
-                </li>
-                <li>
-                    <img alt="Help for Homeowners On the Hook for Billions in Hurricane Damages" src="/News16_files/girl_97433_960_720.jpg">
-                    <div>
-                        <a href="https://news16-templatemark.blogspot.com/2017/10/help-for-homeowners-on-hook-for.html" rel="nofollow" title="And now comes the arduous task of rebuilding hundreds of thousands of houses destroyed or damaged by Hurricanes Harvey and Irma.And with it, alas,…">Help for Homeowners On the Hook for Billions in Hurricane Damages</a>
-                    </div>
-                    <span>23/10/2017 - 0 Comments</span>
-                    <div style="clear:both"></div>
-                </li>
-                <li>
-                    <img alt="Solving A Major Problem in Additive Manufacturing" src="/News16_files/child_817373_960_720.jpg">
-                    <div>
-                        <a href="https://news16-templatemark.blogspot.com/2017/10/solving-major-problem-in-additive.html" rel="nofollow" title="A new approach to making everything from jet engines to toys, called 3D printing, is creating a revolution in manufacturing — and a small company…">Solving A Major Problem in Additive Manufacturing</a>
-                    </div>
-                    <span>23/10/2017 - 0 Comments</span>
-                    <div style="clear:both"></div>
-                </li>
+
+                {% for item in recent_posts.items %}
+                    <li>
+                        <img src="{{ path_for('image', {'image_name':item.file}) }}" title="{{ item.title }}" alt="{{ item.title }}">
+                        <div>
+                            <a href="{{ path_for('post', {'lang':lang, 'id':item.postId}) }}" rel="nofollow" title="{{ item.text|striptags|truncate(30, true) }}">{{ item.title }}</a>
+                        </div>
+                        <span>{{ item.createdAt }}</span>
+                        <div style="clear:both"></div>
+                    </li>
+                {% endfor %}
             </ul>
         </div>
     </div>
+
     <div class="clear"></div>
 </div>

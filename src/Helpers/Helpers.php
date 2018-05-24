@@ -41,5 +41,4 @@ class Helpers
     public static function phoneFormat($num){
         return ($num)?'('.substr($num,0,3).') '.substr($num,3,3).'-'.substr($num,6,4):'';
     }
-
 }

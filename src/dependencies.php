@@ -51,9 +51,10 @@ $container['renderer'] = function ($c) {
             $renderer->addExtension(new \Twig_Extension_Profiler($c['twig_profile']));
             $renderer->addExtension(new \Twig_Extension_Debug());
             $renderer->addExtension(new TranslationExtension($c->get('i18n')));
+            $renderer->addExtension(new Twig_Extensions_Extension_Text());
 
-            $renderer->getEnvironment()->addFilter(new \Twig_Filter('timeago',      '\Helpers\Helpers::timeago'));
-            $renderer->getEnvironment()->addFilter(new \Twig_Filter('phone_format', '\Helpers\Helpers::phoneFormat' ));
+            $renderer->getEnvironment()->addFilter(new \Twig_Filter('timeago',      \Helpers\Helpers::class.'::timeago'));
+            $renderer->getEnvironment()->addFilter(new \Twig_Filter('phone_format', \Helpers\Helpers::class.'::phoneFormat' ));
 
             break;
         default :

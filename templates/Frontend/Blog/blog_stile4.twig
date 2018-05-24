@@ -40,9 +40,9 @@
         <div class="mag-wrapper">
             <div class="widget-content">
                 <div class="title">
-                    <a href="{{ path_for('industry', {'lang':lang, 'id':industry.industryId}) }}">{{ industry.name }}</a>
+                    <a href="{{ path_for('blog', {'lang':lang, 'id':industry.industryId}) }}">{{ industry.name }}</a>
                     <div class="viewall">
-                        <a href="{{ path_for('industry', {'lang':lang, 'id':industry.industryId}) }}">
+                        <a href="{{ path_for('blog', {'lang':lang, 'id':industry.industryId}) }}">
                             <i aria-hidden="true" class="fa fa-list-ul"></i> {{ 'All News'|trans }}
                         </a>
                     </div>
@@ -60,7 +60,7 @@
                             <div class="toe">
                                 <a href="{{ path_for('post', {'lang':lang, 'id':item.postId}) }}" class="post-date">{{ item.createdAt }}</a>
                             </div>
-                            <p class="post-summary">{{ item.text }}</p>
+                            <p class="post-summary">{{ item.text|striptags|truncate(30, true) }}</p>
                         </li>
                     {% endfor %}
                 </ul>

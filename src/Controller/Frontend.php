@@ -21,7 +21,8 @@ class Frontend extends BaseController
         $data['blog_container1'] = $this->renderer->fetch('Frontend/Blog/blog_stile1.twig', $this->getPosts(8, 6));
         $data['blog_container4'] = $this->renderer->fetch('Frontend/Blog/blog_stile4.twig', $this->getPosts(8, 6));
         $data['blog_container5'] = $this->renderer->fetch('Frontend/Blog/blog_stile5.twig', $this->getPosts(8, 6));
-;
+
+
 
     //    $data['about_tpl']    = $this->renderer->fetch('Frontend/index_about.twig',    $this->getPage('about'));
     //    $data['partners_tpl'] = $this->renderer->fetch('Frontend/index_partners.twig', $this->getPage('partners'));
@@ -29,12 +30,7 @@ class Frontend extends BaseController
     //    $data['contact_tpl']  = $this->renderer->fetch('Frontend/index_contact.twig',  $this->getPage('contacts'));
 
 
-
-        $stmt = $this->db->prepare("SELECT I.industryId, IL.name FROM industries I INNER JOIN industries_lang IL ON I.industryId = IL.industryId AND lang=?");
-        $stmt->execute([$this->lang]);
-        $data['industries'] = $stmt->fetchAll();
-
-        return $this->renderer->render($response, 'Frontend/index.twig', $data);
+        return $this->renderPage($response, 'Frontend/index.twig', $data);
     }
 
     public function about(Request $request, Response $response, Array $args) {
@@ -105,34 +101,62 @@ class Frontend extends BaseController
     }
 
     public function blog(Request $request, Response $response, Array $args) {
-        $data = $this->getPage('blog');
+        $data = $this->blogPosts($request, 10);
+
+        return $this->renderPage($response, 'Frontend/blog.twig', $data);
+    }
+
+    protected function blogPosts(Request $request, $limit = 10) {
+        $data = array();
 
         $options = array(
             Pagination::OPT_PARAM_NAME  => 'page',
             Pagination::OPT_PARAM_TYPE  => PageList::PAGE_ATTRIBUTE,
-            Pagination::OPT_PER_PAGE    => 10,
+            Pagination::OPT_PER_PAGE    => $limit,
             Pagination::OPT_SIDE_LENGTH => 3,
         );
 
-        $page   = $request->getAttribute($options[Pagination::OPT_PARAM_NAME], 1);
-        $offset = $options[Pagination::OPT_PER_PAGE] * ($page - 1);
+        $categoryId = $request->getAttribute('id', 0);
+        $page       = $request->getAttribute($options[Pagination::OPT_PARAM_NAME], 1);
+        $offset     = $options[Pagination::OPT_PER_PAGE] * ($page - 1);
+
+        $sql = "SELECT I.industryId, IL.name FROM industries I INNER JOIN industries_lang IL ON I.industryId = IL.industryId WHERE I.industryId = ? AND IL.lang=?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$categoryId, $this->lang]);
+        $data['industry'] = $stmt->fetch();
 
         $countSQL = "SELECT COUNT(*) total
-                     FROM blog B
-                     INNER JOIN blog_lang L ON L.blogId = B.blogId AND L.lang = '".$this->lang."'
-                     INNER JOIN users U ON B.userId = U.userId";
+                     FROM posts P
+                     INNER JOIN posts_lang L ON L.postId = P.postId AND L.lang = '".$this->lang."'
+                     INNER JOIN users U ON P.userId = U.userId
+                     INNER JOIN posts_industries PI ON PI.postId = P.postId AND PI.industryId = :industryId";
 
-        $dataSQL  = "SELECT B.*, L.*, U.name
-                     FROM blog B
-                     INNER JOIN blog_lang L ON L.blogId = B.blogId AND L.lang = '".$this->lang."'
-                     INNER JOIN users U ON B.userId = U.userId
-                     ORDER BY B.createdAt DESC
+        $dataSQL  = "SELECT P.*, L.*, U.name, PF.file
+                     FROM posts P
+                     INNER JOIN posts_lang L ON L.postId = P.postId AND L.lang = '".$this->lang."'
+                     LEFT JOIN (
+                         SELECT A.postId, A.file
+                         FROM posts_files A
+                         INNER JOIN (
+                             SELECT MAX(a.fileId) fileId, a.postId 
+                             FROM posts_files a 
+                             WHERE type LIKE 'image%' 
+                             GROUP BY a.postId
+                         ) B ON A.fileId = B.fileId                 
+                     ) PF ON PF.postId = P.postId
+                     INNER JOIN users U ON P.userId = U.userId
+                     INNER JOIN posts_industries PI ON PI.postId = P.postId AND PI.industryId = :industryId
+                     ORDER BY P.createdAt DESC
                      LIMIT :limit OFFSET :offset";
 
         $countQuery = $this->db->prepare($countSQL);
         $dataQuery  = $this->db->prepare($dataSQL);
-        $dataQuery->bindValue(':limit',  $options[Pagination::OPT_PER_PAGE], \PDO::PARAM_INT);
-        $dataQuery->bindValue(':offset', $offset,                            \PDO::PARAM_INT);
+
+        $countQuery->bindValue(':industryId', $categoryId,                        \PDO::PARAM_INT);
+
+        $dataQuery->bindValue(':industryId', $categoryId,                        \PDO::PARAM_INT);
+        $dataQuery->bindValue(':limit',      $options[Pagination::OPT_PER_PAGE], \PDO::PARAM_INT);
+        $dataQuery->bindValue(':offset',     $offset,                            \PDO::PARAM_INT);
 
         $countQuery->execute();
         $dataQuery->execute();
@@ -143,10 +167,18 @@ class Frontend extends BaseController
         $pagination = new Pagination($request, $this->router, $options);
         $data['pagination'] = $this->renderer->fetch('Frontend/pagination.twig', ['pagination' => $pagination]);
 
-        return $this->renderer->render($response, 'Frontend/blog.twig', $data);
+        return $data;
     }
 
+    protected function renderPage(Response $response, $template, Array $data = null){
+        $stmt = $this->db->prepare("SELECT I.industryId, IL.name FROM industries I INNER JOIN industries_lang IL ON I.industryId = IL.industryId AND lang=?");
+        $stmt->execute([$this->lang]);
+        $data['industries'] = $stmt->fetchAll();
 
+        $data['recent_posts'] = $this->recentPosts();
+
+        return $this->renderer->render($response, $template, $data);
+    }
 
     protected function getPage($alias){
         $sql = "SELECT P.*, L.title, L.keywords, L.description, L.text
@@ -177,7 +209,6 @@ class Frontend extends BaseController
         $sql = "SELECT I.industryId, IL.name FROM industries I INNER JOIN industries_lang IL ON I.industryId = IL.industryId WHERE I.industryId = ? AND IL.lang=?";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$industryId, $this->lang]);
-
         $data['industry'] = $stmt->fetch();
 
         $sql  = "SELECT P.*, L.*, U.name, PF.file
@@ -201,6 +232,39 @@ class Frontend extends BaseController
 
         $stmt = $this->db->prepare($sql);
         $stmt->bindValue(':industryId',  $industryId,  \PDO::PARAM_INT);
+        $stmt->bindValue(':limit',       $limit,       \PDO::PARAM_INT);
+        $stmt->bindValue(':offset',      $offset,      \PDO::PARAM_INT);
+        $stmt->execute();
+
+        $data['items'] = $stmt->fetchAll();
+
+        return $data;
+    }
+
+    protected function recentPosts($limit = 10, $offset = 0){
+        $data = array(
+            'title' => $this->trans('Latest Posts'),
+        );
+
+        $sql  = "SELECT P.*, L.*, U.name, PF.file
+                 FROM posts P
+                 INNER JOIN posts_lang L ON L.postId = P.postId AND L.lang = '".$this->lang."'
+                 LEFT JOIN (
+                     SELECT A.postId, A.file
+                     FROM posts_files A
+                     INNER JOIN (
+                         SELECT MAX(a.fileId) fileId, a.postId 
+                         FROM posts_files a 
+                         WHERE type LIKE 'image%' 
+                         GROUP BY a.postId
+                     ) B ON A.fileId = B.fileId                 
+                 ) PF ON PF.postId = P.postId
+                 INNER JOIN users U ON P.userId = U.userId
+
+                 ORDER BY P.createdAt DESC
+                 LIMIT :limit OFFSET :offset";
+
+        $stmt = $this->db->prepare($sql);
         $stmt->bindValue(':limit',       $limit,       \PDO::PARAM_INT);
         $stmt->bindValue(':offset',      $offset,      \PDO::PARAM_INT);
         $stmt->execute();

@@ -114,10 +114,10 @@
                     <ul>
                         <li class="homers"><a href="{{ path_for('home', {'lang': lang}) }}"><i class="material-icons" style=" line-height: 2.1; display: block; ">home</i></a></li>
                         <li><a href="{{ path_for('about', {'lang':lang}) }}">{{ 'About'|trans }}</a></li>
-                        <li><a href="{{ path_for('industries', {'lang':lang}) }}">{{ 'Categories'|trans }}<i class="material-icons" style=" font-size: 14px; ">keyboard_arrow_down</i></a>
+                        <li><a href="{{ path_for('blogs', {'lang':lang}) }}">{{ 'Categories'|trans }}<i class="material-icons" style=" font-size: 14px; ">keyboard_arrow_down</i></a>
                             <ul class="menus">
                                 {% for industry in industries %}
-                                    <li><a href="{{ path_for('industry', {'lang':lang,'id':industry.industryId}) }}">{{ industry.name }}</a></li>
+                                    <li><a href="{{ path_for('blog', {'lang':lang,'id':industry.industryId}) }}">{{ industry.name }}</a></li>
                                 {% endfor %}
                             </ul>
                         </li>
@@ -170,15 +170,17 @@
                                 </div>
                             </div>
                         </div>
+                        {#
+                                                <div class="widget HTML" data-version="1" id="HTML4">
+                                                    <h2 class="title">Advertisement</h2>
+                                                    <div class="widget-content">
+                                                        <img alt="Ad 300x250" src="/News16_files/300.png" title="Ad 300x250" border=">
+                                                    </div>
+                                                </div>
 
-                        <div class="widget HTML" data-version="1" id="HTML4">
-                            <h2 class="title">Advertisement</h2>
-                            <div class="widget-content">
-                                <img alt="Ad 300x250" src="/News16_files/300.png" title="Ad 300x250" border="0">
-                            </div>
-                        </div>
-
-                        {% include 'Frontend/Blog/popular_posts.twig' %}
+                                                {#
+                                                {% include 'Frontend/Blog/popular_posts.twig' %}
+                                                #}
 
                         <div class="widget Label" data-version="1" id="Label1">
                             <h2>All Categories</h2>
@@ -186,7 +188,7 @@
                                 <ul>
                                     {% for industry in industries %}
                                         <li>
-                                            <a dir="ltr" href="{{ path_for('industry', {'lang':lang,'id':industry.industryId}) }}">{{ industry.name }}</a>
+                                            <a dir="ltr" href="{{ path_for('blog', {'lang':lang,'id':industry.industryId}) }}">{{ industry.name }}</a>
                                         </li>
                                     {% endfor %}
                                 </ul>
@@ -201,6 +203,7 @@
                         </div>
 
                         {% include 'Frontend/Blog/recent_posts.twig' %}
+
                     </div>
                 </div>
             </div>
