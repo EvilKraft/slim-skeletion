@@ -206,7 +206,7 @@ li.recent-box:last-child{border-bottom:0!important;padding-bottom: 0!important; 
 .magstylo:last-child{margin-right:0}
 .magstylo2:last-child{margin-right:0}
 ul#label_with_thumbs {padding:15px;}
-.label-info a {color: #fff!important; padding:4px 6px; transition: all .3s ease-out; font-weight: 500; background:#2574A9;border-radius: 3px;}
+.label-info a {color: #fff!important; padding:4px 6px; transition: all .3s ease-out; font-weight: 500; background:#2574A9; border-radius: 3px;}
 #magstyle1 .title, #magstyle2 .title, #slider2 .title, #magstyle4 .title, #magstyle44 .title, #recent1 .title, #recent2 .title, #recent3 .title, .title22 {font-size: 13px; font-weight: 500; padding: 15px; transition: all 0.5s ease-out; border-bottom: 1px solid #e6e6e6;}
 .title22{border-bottom:0;border-top: 1px solid #e6e6e6;}
 .viewall a {background:#fff!important; color:#444!important;}

@@ -101,18 +101,12 @@ class Frontend extends BaseController
     }
 
     public function blog(Request $request, Response $response, Array $args) {
-        $data = $this->blogPosts($request, 10);
-
-        return $this->renderPage($response, 'Frontend/blog.twig', $data);
-    }
-
-    protected function blogPosts(Request $request, $limit = 10) {
         $data = array();
 
         $options = array(
             Pagination::OPT_PARAM_NAME  => 'page',
             Pagination::OPT_PARAM_TYPE  => PageList::PAGE_ATTRIBUTE,
-            Pagination::OPT_PER_PAGE    => $limit,
+            Pagination::OPT_PER_PAGE    => 10,
             Pagination::OPT_SIDE_LENGTH => 3,
         );
 
@@ -167,7 +161,41 @@ class Frontend extends BaseController
         $pagination = new Pagination($request, $this->router, $options);
         $data['pagination'] = $this->renderer->fetch('Frontend/pagination.twig', ['pagination' => $pagination]);
 
-        return $data;
+        return $this->renderPage($response, 'Frontend/blog.twig', $data);
+    }
+
+    public function post(Request $request, Response $response, Array $args) {
+        $data = array();
+
+        $sql  = "SELECT P.*, L.*, U.name, PF.file
+                 FROM posts P
+                 INNER JOIN posts_lang L ON L.postId = P.postId AND L.lang = ?
+                 LEFT JOIN (
+                     SELECT A.postId, A.file
+                     FROM posts_files A
+                     INNER JOIN (
+                         SELECT MAX(a.fileId) fileId, a.postId 
+                         FROM posts_files a 
+                         WHERE type LIKE 'image%' 
+                         GROUP BY a.postId
+                     ) B ON A.fileId = B.fileId                 
+                 ) PF ON PF.postId = P.postId
+                 INNER JOIN users U ON P.userId = U.userId
+                 WHERE P.postId = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$this->lang, $args['id']]);
+        $data['item'] = $stmt->fetch();
+
+        $sql = "SELECT I.industryId, IL.name 
+                FROM industries I 
+                INNER JOIN industries_lang IL ON I.industryId = IL.industryId AND lang=?
+                INNER JOIN posts_industries PI ON PI.industryId = I.industryId
+                WHERE PI.postId = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$this->lang, $args['id']]);
+        $data['item']['industries'] = $stmt->fetchAll();
+
+        return $this->renderPage($response, 'Frontend/post.twig', $data);
     }
 
     protected function renderPage(Response $response, $template, Array $data = null){

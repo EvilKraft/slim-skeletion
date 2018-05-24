@@ -1,0 +1,124 @@
+{% extends 'frontend_layout.twig' %}
+
+{% block content %}
+
+<div class="content-area" id="primarybwrap">
+    <div class="bwrapsite-main" id="mainbwrap" role="main">
+        <div class="clear"></div>
+        <div class="mainblogsec section" id="mainblogsec">
+            <div class="widget Blog" data-version="1" id="Blog1">
+                <div class="blog-posts hfeed">
+                    <!--Can't find substitution for tag [defaultAdStart]-->
+
+                    <div class="date-outer">
+                        <div class="date-posts">
+
+                            <div class="post-outer">
+                                <article class="post hentry">
+                                    <a content="https://1.bp.blogspot.com/-Y3jtko20nZA/We42YMNGo4I/AAAAAAAACvA/UEahaZNOpCcC_3llLMX40ARU9MRkCPNMQCLcBGAs/s1600/woman_593141_960_720.jpg"></a>
+                                    <div class="post-info2">
+                                        <span class="label-info">
+                                            {% for industry in item.industries %}
+                                                <a href="{{ path_for('blog', {'lang':lang, 'id':industry.industryId}) }}" rel="tag">{{ industry.name }}</a>
+                                            {% endfor %}
+                                        </span>
+                                    </div>
+                                    <h1 class="post-title entry-title">{{ item.title }}</h1>
+                                    <div class="post-info">
+                                        <span class="time-info">
+                                            on <a class="timestamp-link" href="{{ path_for('post', {'lang':lang, 'id':item.postId}) }}" rel="bookmark" title="permanent link"><abbr class="published updated timeago" title="2017-10-23T11:35:00-07:00">{{ item.createdAt }}</abbr></a>
+                                        </span>
+                                    </div>
+                                    <div class="post-header">
+                                        <div class="post-header-line-1"></div>
+                                    </div>
+                                    <div class="post-body entry-content">
+                                        {{ item.text|raw }}
+
+                                        <div class="separator" style="clear: both; text-align: center;">
+                                            <a href="https://1.bp.blogspot.com/-Y3jtko20nZA/We42YMNGo4I/AAAAAAAACvA/UEahaZNOpCcC_3llLMX40ARU9MRkCPNMQCLcBGAs/s1600/woman_593141_960_720.jpg" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+                                                <img alt="New Form of Farming Revolutionizes the Way We Eat" src="https://1.bp.blogspot.com/-Y3jtko20nZA/We42YMNGo4I/AAAAAAAACvA/UEahaZNOpCcC_3llLMX40ARU9MRkCPNMQCLcBGAs/s1600/woman_593141_960_720.jpg" title="New Form of Farming Revolutionizes the Way We Eat" border="0">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </article>
+                                <div style="clear:both"></div>
+
+                                {#
+                                <div id="related_posts">
+                                    <div class="relhead">
+                                        <h4>RELATED STORIES </h4>
+                                        <div class="clear"></div>
+                                        <div class="relhead2">
+                                            <ul id="relpost_img_sum">
+                                                <li class="news-title clearfix">
+                                                    <a href="https://news16-templatemark.blogspot.com/2016/11/3-ways-to-take-advantage-of-google-maps.html" rel="nofollow" target="_top" title="3 Ways to Take Advantage of Google Maps Ads"><div class="overlayb"></div><img src="https://1.bp.blogspot.com/-sj_Vjjwgu4c/WCXmSOmRshI/AAAAAAAACao/yZ1upOjlT0QJniyr_aUhx_XsTL9IBc63gCLcB/w120-h110-c/8.jpg"></a>
+                                                    <a class="relink" href="https://news16-templatemark.blogspot.com/2016/11/3-ways-to-take-advantage-of-google-maps.html" target="_top">3 Ways to Take Advantage of Google Maps Ads</a>
+                                                    <span class="news-text">Aenean mollis enim magna, at maximus risus pellen</span></li>
+                                                <li class="news-title clearfix">
+                                                    <a href="https://news16-templatemark.blogspot.com/2017/10/medical-device-protects-doctors-nurses.html" rel="nofollow" target="_top" title="Medical Device Protects Doctors, Nurses from Pathogens"><div class="overlayb"></div><img src="https://2.bp.blogspot.com/-fnFFRiFWrWQ/We4v6oUuncI/AAAAAAAACuE/uRkfrL2F2OYynl4lfW2mQ2I-ZxkCqhVXQCLcBGAs/w120-h110-c/beautiful_1274056_96_Gen40.jpg"></a>
+                                                    <a class="relink" href="https://news16-templatemark.blogspot.com/2017/10/medical-device-protects-doctors-nurses.html" target="_top">Medical Device Protects Doctors, Nurses from Pathogens</a>
+                                                    <span class="news-text">Every time a patient has surgery or any other pro</span>
+                                                </li>
+                                                <li class="news-title clearfix">
+                                                    <a href="https://news16-templatemark.blogspot.com/2017/10/5-mistakes-to-avoid-when-choosing.html" rel="nofollow" target="_top" title="5 Mistakes to Avoid When Choosing a Medicare Advantage Plan"><div class="overlayb"></div><img src="https://3.bp.blogspot.com/-r7PACzLjPnI/We4w-UGx3KI/AAAAAAAACuQ/peOzAP4GYH89Hbv4-ogCYFP9C4Hx_g_-wCLcBGAs/w120-h110-c/blue_2705642_960_720.jpg"></a>
+                                                    <a class="relink" href="https://news16-templatemark.blogspot.com/2017/10/5-mistakes-to-avoid-when-choosing.html" target="_top">5 Mistakes to Avoid When Choosing a Medicare Advantage Plan</a>
+                                                    <span class="news-text">The Medicare Annual Election Period takes place t</span>
+                                                </li>
+                                                <li class="news-title clearfix"><a href="https://news16-templatemark.blogspot.com/2017/10/solving-major-problem-in-additive.html" rel="nofollow" target="_top" title="Solving A Major Problem in Additive Manufacturing"><div class="overlayb"></div><img src="https://1.bp.blogspot.com/-iv9YvcRoYas/We4xkMJ_kbI/AAAAAAAACuU/q_ozJR61G5YxtNNQesAIZB99A03jHIryACLcBGAs/w120-h110-c/child_817373_960_720.jpg"></a><a class="relink" href="https://news16-templatemark.blogspot.com/2017/10/solving-major-problem-in-additive.html" target="_top">Solving A Major Problem in Additive Manufacturing</a><span class="news-text">A new approach to making everything from jet engi</span></li>
+                                                <li class="news-title clearfix"><a href="https://news16-templatemark.blogspot.com/2017/10/study-suggests-todays-us-students-are.html" rel="nofollow" target="_top" title="Study Suggests Today’s US Students Are Less Efficient Readers"><div class="overlayb"></div><img src="https://3.bp.blogspot.com/-kdk75lCKEpw/We41sftnIlI/AAAAAAAACu4/gBYBc4R23-M-G7J9Dv3LgGqTsC6FB82nQCLcBGAs/w120-h110-c/sunglasses_635269_96_xlKy3.jpg"></a><a class="relink" href="https://news16-templatemark.blogspot.com/2017/10/study-suggests-todays-us-students-are.html" target="_top">Study Suggests Today’s US Students Are Less Efficient Readers</a><span class="news-text">Do today’s students perform better than their pee</span></li>
+                                                <li class="news-title clearfix"><a href="https://news16-templatemark.blogspot.com/2017/10/how-to-increase-your-savings-on-your.html" rel="nofollow" target="_top" title="How to Increase Your Savings on Your Terms"><div class="overlayb"></div><img src="https://1.bp.blogspot.com/-sdtTZZP0JiQ/We4wcUBVwsI/AAAAAAAACuI/i7Cs4bv_410VLyPKQUCc6kZYRtZhXWTNgCLcBGAs/w120-h110-c/blue_69762_960_720.jpg"></a><a class="relink" href="https://news16-templatemark.blogspot.com/2017/10/how-to-increase-your-savings-on-your.html" target="_top">How to Increase Your Savings on Your Terms</a><span class="news-text">"You need to save money." You tell yourself this.</span></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                #}
+                                <div style="clear:both;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Can't find substitution for tag [adEnd]-->
+                </div>
+                <div style="clear: both;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+
+    <style type="text/css">
+        .post {padding:0;}
+        .post-body {color: #444; margin-right: 0; font-size: 15px; padding: 15px; width: 95%;}
+        .post img{background:#fafafa;height:auto;max-width:95%;border:0;margin-bottom:1.5px;transition:all 0.6s ease-out;}
+        .post img:hover {opacity:0.95;}
+        h1.post-title {color: #333;font-size:26px; font-weight:500; margin: 0; padding:5px 15px 5px;}
+        .post-info {font-size: 12px; padding: 10px 15px; font-weight: 600; margin-top: 0; margin: 0;}
+        .post-info2 {font-size: 10px; padding: 20px 15px 10px; font-weight: 600; margin-top: 0; margin: 0;}
+        .share-posts {margin-bottom:10px}
+        #blog-pager {display:none;}
+
+        img.author-photo{height:22px;width:22px;border-radius:100%;margin:0 3px 0 0}
+        .authorboxwrap{padding: 15px; overflow: hidden; border-bottom: 1px solid #e6e6e6;}
+        .avatar-container img{width:110px;height:auto;max-width:100%!important;border-radius:100%;}
+        .author_description_container h4{font-weight:700;font-size:16px;display:block;margin:0;margin-bottom:2px}
+        .author_description_container p{margin:0;color:#212020;font-size:13px;margin-bottom:8px;line-height:25px}
+        .authorsocial a{display:inline-block;text-align:center;margin-right:10px}
+        .authorsocial a i{font-family: "Material Icons";width:20px;height:20px;line-height:20px;padding:5px;display:block;opacity:1;border-radius:50%;transition:all .3s;}
+        .authorsocial a:nth-child(1) i {background:#2d609b;color:#fff;}
+        .authorsocial a:nth-child(2) i {background:#19bfe5;color:#fff;}
+        .authorsocial a:nth-child(3) i {background:#eb4026;color:#fff;}
+        .authorsocial a:hover:nth-child(1) i,.authorsocial a:hover:nth-child(2) i,.authorsocial a:hover:nth-child(3) i {opacity:0.90;}
+
+    </style>
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+
+{% endblock %}
