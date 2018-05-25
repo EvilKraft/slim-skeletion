@@ -55,6 +55,11 @@ $app->group('/{lang:'.$langRegExp.'}', function () use ($app) {
     ->add(\Controller\Auth::class.':checkAuth');
 
 
+    $this->group('/members', function () use ($app) {
+
+
+    })->add(\Controller\Auth::class.':checkAuth');
+
     $this->group('/user', function () use ($app) {
         $this->get('',                          \Controller\User::class.':dashboard')->setName('dashboard');
 
