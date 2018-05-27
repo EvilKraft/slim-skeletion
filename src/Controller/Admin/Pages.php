@@ -36,7 +36,7 @@ class Pages extends \Controller\RESTController
  //           $app->delete('', $class.':delete')->setName($prefix.'_delete');
         });
 
-  //      $app->delete('/{ids: .+}', $class.':deleteSelected')->setName($prefix.'_deleteSelected');
+//        $app->delete('/{ids: .+}', $class.':deleteSelected')->setName($prefix.'_deleteSelected');
 
         $app->get('/getTable',    $class.':dtServerProcessing')->setName($prefix.'_getTable');
     }

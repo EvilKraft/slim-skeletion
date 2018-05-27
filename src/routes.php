@@ -40,69 +40,30 @@ $app->group('/{lang:'.$langRegExp.'}', function () use ($app) {
 
     $this->get('/post/{id:[0-9]+}',                       \Controller\Frontend::class.':post')->setName('post');
 
-    $this->group('/tenders', function () use ($app) {
-        $this->get('',                      \Controller\Tenders\Tenders::class.':index')->setName('tenders');
-        $this->map(['GET', 'POST'], '/new', \Controller\Tenders\Tenders::class.':create')->setName('tenders_create');
+    $this->group('/member', function () use ($app) {
+        $this->get('',                          \Controller\Member\User::class.':dashboard')->setName('member_dashboard');
 
-        $this->group('/{id:[0-9]+}', function () {
-            $this->get('',              \Controller\Tenders\Tenders::class.':get')->setName('tenders_get');
-            $this->put('',              \Controller\Tenders\Tenders::class.':update')->setName('tenders_update');
-        });
+        $this->map(['GET', 'PUT'],  '/profile', \Controller\Member\User::class.':profile')->setName('member_profile');
+        $this->map(['GET', 'POST'], '/support', \Controller\Member\User::class.':support')->setName('member_support');
+        $this->get('/help',                     \Controller\Member\User::class.':help')->setName('member_help');
 
-        $this->post('/upload-file', \Controller\Tenders\Tenders::class.':uploadFile')->setName('tenders_upload_file');
-        $this->post('/delete-file', \Controller\Tenders\Tenders::class.':deleteFile')->setName('tenders_delete_file');
-    })
-    ->add(\Controller\Auth::class.':checkAuth');
-
-
-    $this->group('/members', function () use ($app) {
-
+        $this->group('/posts',      \Controller\Member\Posts::class.'::registerRoutes');
 
     })->add(\Controller\Auth::class.':checkAuth');
-
-    $this->group('/user', function () use ($app) {
-        $this->get('',                          \Controller\User::class.':dashboard')->setName('dashboard');
-
-        $this->map(['GET', 'PUT'],  '/profile', \Controller\User::class.':profile')->setName('profile');
-        $this->map(['GET', 'POST'], '/support', \Controller\User::class.':support')->setName('support');
-        $this->get('/help',                     \Controller\User::class.':help')->setName('help');
-
-        $this->group('/posts', function () use ($app) {
-            $this->get('',                      \Controller\Posts::class.':index')->setName('posts');
-            $this->map(['GET', 'POST'], '/new', \Controller\Posts::class.':create')->setName('posts_create');
-
-            $this->group('/{id:[0-9]+}', function () {
-                $this->get('', \Controller\Posts::class.':get')->setName('posts_get');
-                $this->put('', \Controller\Posts::class.':update')->setName('posts_update');
-            });
-
-            $this->post('/upload-file', \Controller\Posts::class.':uploadFile')->setName('posts_upload_file');
-            $this->post('/delete-file', \Controller\Posts::class.':deleteFile')->setName('posts_delete_file');
-        });
-    })
-    ->add(\Controller\Auth::class.':checkAuth');
 
 
     $this->group('/admin', function () use ($app) {
         $this->get('',              \Controller\Admin\Dashboard::class.':index')->setName('admin_dashboard');
-
-        $this->group('/tenders',    \Controller\Admin\Tenders::class.'::registerRoutes');
-
         $this->group('/posts',      \Controller\Admin\Posts::class.'::registerRoutes');
-
         $this->group('/users',      \Controller\Admin\Users::class.'::registerRoutes');
         $this->group('/industries', \Controller\Admin\Industries::class.'::registerRoutes');
         $this->group('/pages',      \Controller\Admin\Pages::class.'::registerRoutes');
         $this->group('/help',       \Controller\Admin\Help::class.'::registerRoutes');
-        $this->group('/reports',    \Controller\Reports::class.'::registerRoutes');
-
-        $this->group('/test',       \Controller\RESTController::class.'::registerRoutes');
     })
     ->add(\Controller\Auth::class.':checkIsAdmin')
     ->add(\Controller\Auth::class.':checkAuth');
 
 
-    $this->get('/why-reg',                          \Controller\Auth::class.':whyReg')->setName('why_reg');
     $this->map(['GET', 'POST'], '/login',           \Controller\Auth::class.':login')->setName('login');
     $this->map(['GET', 'POST'], '/register',        \Controller\Auth::class.':Register')->setName('register');
     $this->map(['GET', 'POST'], '/forgot-password', \Controller\Auth::class.':forgotPassword')->setName('forgotPassword');

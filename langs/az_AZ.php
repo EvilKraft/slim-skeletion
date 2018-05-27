@@ -10,6 +10,9 @@ return array(
     'version'       => 'versiya',
 
     'REST' => [
+        'Dashboard' => [
+            'pageTitle' => 'Dashboard',
+        ],
         'Tenders' => [
             'pageTitle' => 'Tenderlər',
             'fields'    => [
@@ -43,8 +46,8 @@ return array(
                 'name'          => 'Ad',
             ],
         ],
-        'Blog' => [
-            'pageTitle' => 'Bloq',
+        'Posts' => [
+            'pageTitle' => 'Posts',
             'fields'    => [
                 'id'            => 'Id',
                 'createdAt'     => 'Yaradılma tarixi',
@@ -60,16 +63,7 @@ return array(
                 'title'         => 'Başlıq',
             ],
         ],
-        'BillingOptions' => [
-            'pageTitle' => 'Ödəniş seçimi',
-            'fields'    => [
-                'id'               => 'Id',
-                'groupId'          => 'Grup İd',
-                'fullAccessTrial'  => 'Sınaq günləri',
-                'periodicPayment'  => 'Aylıq ödəniş',
-                'aperiodicPayment' => 'Bir dəfəlik ödəniş',
-            ],
-        ],
+
         'Help' => [
             'pageTitle' => 'Kömək',
             'fields'    => [

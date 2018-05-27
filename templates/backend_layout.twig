@@ -50,7 +50,7 @@
 
             <header class="main-header">
                 <!-- Logo -->
-                <a href="{{ path_for((session.user.groupId == 1)? 'admin_dashboard' : 'dashboard', {'lang': lang}) }}" class="logo">
+                <a href="{{ path_for((session.user.groupId == 1)? 'admin_dashboard' : 'member_dashboard', {'lang': lang}) }}" class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
                     <span class="logo-mini"><b>A</b>LT</span>
                     <!-- logo for regular state and mobile devices -->
@@ -98,7 +98,7 @@
 
                                 <ul class="dropdown-menu">
                                     <li class="user-footer">
-                                        <a href="{{ path_for('profile', {'lang': lang}) }}"><i class="fa fa-address-card-o"></i>{{ 'Profile'|trans }}</a>
+                                        <a href="{{ path_for('member_profile', {'lang': lang}) }}"><i class="fa fa-address-card-o"></i>{{ 'Profile'|trans }}</a>
                                         <hr>
                                         <a href="{{ path_for('logout', {'lang': lang}) }}"><i class="fa fa-power-off"></i>{{ 'Sign out'|trans }}</a>
                                     </li>
@@ -124,21 +124,7 @@
                                     <i class="fa fa-dashboard"></i> <span>{{ 'REST.Dashboard.pageTitle'|trans }}</span>
                                 </a>
                             </li>
-                            <li {{ currentRoute == 'admin_tenders_moderate' ? 'class="active"' }}>
-                                <a href="{{ path_for('admin_tenders_moderate', {'lang': lang}) }}">
-                                    <i class="fa fa-th-list"></i> <span>{{ 'New tenders'|trans }}</span>
-                                    {% if toModerate|default(0) > 0 %}
-                                        <span class="pull-right-container">
-                                            <small class="label label-warning pull-right">{{ toModerate }}</small>
-                                        </span>
-                                    {% endif %}
-                                </a>
-                            </li>
-                            <li {{ currentRoute == 'admin_tenders' ? 'class="active"' }}>
-                                <a href="{{ path_for('admin_tenders', {'lang': lang}) }}">
-                                    <i class="fa fa-th-list"></i> <span>{{ 'REST.Tenders.pageTitle'|trans }}</span>
-                                </a>
-                            </li>
+
 
                             <li {{ currentRoute == 'admin_posts' ? 'class="active"' }}>
                                 <a href="{{ path_for('admin_posts', {'lang': lang}) }}">
@@ -160,40 +146,19 @@
                                 <a href="{{ path_for('admin_help', {'lang': lang}) }}"><i class="fa fa-question-circle"></i> <span>{{ 'REST.Help.pageTitle'|trans }}</span></a>
                             </li>
 
-                            <li class="treeview">
-                                <a href="#">
-                                    <i class="fa fa-line-chart"></i>
-                                    <span>{{ 'Reports'|trans }}</span>
-                                    <span class="pull-right-container">
-                                        <i class="fa fa-angle-left pull-right"></i>
-                                    </span>
-                                </a>
-                                <ul class="treeview-menu">
-                                    <li {{ currentRoute == 'usersListReport'       ? 'class="active"' }}><a href="{{ path_for('usersListReport',       {'lang': lang}) }}"><i class="fa fa-circle-o"></i>{{ 'All users'|trans }}</a></li>
-                                    <li {{ currentRoute == 'usersByIndustryReport' ? 'class="active"' }}><a href="{{ path_for('usersByIndustryReport', {'lang': lang}) }}"><i class="fa fa-circle-o"></i>{{ 'Users by industry'|trans }}</a></li>
-                                </ul>
-                            </li>
                         {% endif %}
 
                         <li class="header">{{ 'MENU'|trans }}</li>
 
-                        {% if session.user.groupId != 1 %}
-                            <li {{ currentRoute == 'tenders' ? 'class="active"' }}>
-                                <a href="{{ path_for('tenders', {'lang': lang}) }}">
-                                    <i class="fa fa-th-list"></i> <span>{{ 'Tenders'|trans }}</span>
-                                </a>
-                            </li>
-                        {% endif %}
-
                         {% if session.user.groupId == 2 %}
-                            <li {{ currentRoute == 'posts' ? 'class="active"' }}>
-                                <a href="{{ path_for('posts', {'lang': lang}) }}"><i class="fa fa-edit"></i> <span>{{ 'Posts'|trans }}</span></a>
+                            <li {{ currentRoute == 'member_posts' ? 'class="active"' }}>
+                                <a href="{{ path_for('member_posts', {'lang': lang}) }}"><i class="fa fa-edit"></i> <span>{{ 'Posts'|trans }}</span></a>
                             </li>
-                            <li {{ currentRoute == 'help' ? 'class="active"' }}>
-                                <a href="{{ path_for('help', {'lang': lang}) }}"><i class="fa fa-question-circle"></i> <span>{{ 'Help'|trans }}</span></a>
+                            <li {{ currentRoute == 'member_help' ? 'class="active"' }}>
+                                <a href="{{ path_for('member_help', {'lang': lang}) }}"><i class="fa fa-question-circle"></i> <span>{{ 'Help'|trans }}</span></a>
                             </li>
-                            <li {{ currentRoute == 'support' ? 'class="active"' }}>
-                                <a href="{{ path_for('support', {'lang': lang}) }}"><i class="fa fa-wrench"></i> <span>{{ 'Support'|trans }}</span></a>
+                            <li {{ currentRoute == 'member_support' ? 'class="active"' }}>
+                                <a href="{{ path_for('member_support', {'lang': lang}) }}"><i class="fa fa-wrench"></i> <span>{{ 'Support'|trans }}</span></a>
                             </li>
                         {% endif %}
 
@@ -206,9 +171,10 @@
                                 </span>
                             </a>
                             <ul class="treeview-menu">
-                                <li {{ currentRoute == 'profile'  ? 'class="active"' }}><a href="{{ path_for('profile', {'lang': lang}) }}"><i class="fa fa-address-card-o"></i>{{ 'Profile'|trans }}</a></li>
+                                <li {{ currentRoute == 'member_profile'  ? 'class="active"' }}><a href="{{ path_for('member_profile', {'lang': lang}) }}"><i class="fa fa-address-card-o"></i>{{ 'Profile'|trans }}</a></li>
                             </ul>
                         </li>
+
                     </ul>
                 </section>
                 <!-- /.sidebar -->
@@ -226,13 +192,13 @@
             <footer class="main-footer">
 
                 <div class="pull-right" style="top: -6px; position:relative">
-                    <a href="https://www.facebook.com/mytenderaz-1542822582441907/" target="_blank" class="btn btn-social-icon btn-facebook">
+                    <a href="#" target="_blank" class="btn btn-social-icon btn-facebook">
                         <i class="fa fa-facebook"></i>
                     </a>
-                    <a href="https://plus.google.com/u/1/107117665769435340749?hl=rub" target="_blank"	class="btn btn-social-icon btn-google">
+                    <a href="#" target="_blank"	class="btn btn-social-icon btn-google">
                         <i class="fa fa-google-plus"></i>
                     </a>
-                    <a	href="https://www.linkedin.com/company/11333841/"	target="_blank"	class="btn btn-social-icon btn-linkedin">
+                    <a href="#" target="_blank" class="btn btn-social-icon btn-linkedin">
                         <i class="fa fa-linkedin"></i>
                     </a>
                 </div>

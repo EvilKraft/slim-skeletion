@@ -364,17 +364,10 @@ class RESTController extends BaseController implements RESTInterface
     {
         $table = $this->table;
         if(!empty($this->idxFieldLang)){
-            $l_columns = '';
-            $sm = $this->db->getSchemaManager();
-            foreach ($sm->listTableColumns($this->table.'_lang') as $column) {
-                $colName = $column->getName();
-                if($colName != $this->idxField && $colName != $this->idxFieldLang){
-                    $l_columns .= ', L.'.$colName;
-                }
-            }
+            $l_columns = 'L.'.implode(', L.', array_keys($this->getTableColumns($this->table.'_lang', [$this->idxField, $this->idxFieldLang])));
 
             $table = "(
-                SELECT T.*".$l_columns."
+                SELECT T.*, ".$l_columns."
                 FROM ".$this->table." T
                 INNER JOIN ".$this->table."_lang L ON L.".$this->idxField." = T.".$this->idxField." AND L.lang = '".$this->lang."'
             ) temp";
@@ -386,8 +379,16 @@ class RESTController extends BaseController implements RESTInterface
     }
 
     // Generate columns for DataTables Server Side Processing class
-    protected function getDtColumns(){
-        $tableColumns = array_merge($this->getTableColumns(), $this->getTableColumns($this->table.'_lang'));
+    protected function getDtColumns(Array $table_names = null){
+        $table_names = $table_names ?? array($this->table, $this->table.'_lang');
+
+        $tableColumns = array();
+        foreach ($table_names as $table_name){
+            $tableColumns = array_merge($tableColumns, $this->getTableColumns($table_name));
+        }
+
+     //   echo '<pre>'.print_r($tableColumns, true).'</pre>';
+    //    exit;
 
         $dtColumns[] = array(
             'db' => $this->idxField,

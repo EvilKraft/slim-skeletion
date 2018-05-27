@@ -17,10 +17,6 @@
                                 <input type="hidden" name="_METHOD" value="PUT" />
                             {% endif %}
 
-                            {% if currentRoute == 'admin_posts_domoderate' %}
-                                <input type="hidden" name="status" value="1" />
-                            {% endif %}
-
                             <div class="collapse in" id="collapsible">
                                 <div class="form-group">
                                     <label for="industryId">{{ 'Industry'|trans }} <span class="text-red">*</span></label>
@@ -133,16 +129,8 @@
                     </div>
                     <div class="box-footer">
                         <div class="form-group">
-                            {% if item.status|default('') is same as('0') %}
-                                <button class="btn btn-success" type="submit" form="updateForm">{{ 'Moderate'|trans }}</button>
-                                <a class="btn btn-default pull-right" href="{{ path_for(indexRoute~'_moderate', {'lang': lang}) }}">{{ 'Cancel'|trans }}</a>
-                            {% else %}
-                                <button class="btn btn-primary" type="submit" form="updateForm">{{ 'Submit'|trans }}</button>
-                                <a class="btn btn-default pull-right" href="{{ path_for(indexRoute, {'lang': lang}) }}">{{ 'Cancel'|trans }}</a>
-                            {% endif %}
-                            {% if item is defined and (session.user.groupId == 1 or session.user.userId == item.userId)  %}
-                                <a class="btn btn-danger" href="{{ path_for(indexRoute~'_finish', {'lang': lang, 'id': item.postId}) }}" onclick="return confirm('{{ 'Are you sure, you want to finish post?'|trans }}')">{{ 'Finish'|trans }}</a>
-                            {% endif %}
+                            <button class="btn btn-primary" type="submit" form="updateForm">{{ 'Submit'|trans }}</button>
+                            <a class="btn btn-default pull-right" href="{{ path_for(indexRoute, {'lang': lang}) }}">{{ 'Cancel'|trans }}</a>
                         </div>
                     </div>
                 </div>
@@ -261,8 +249,8 @@
 				        type: "{{ file.type }}",
 				        caption: "{{ file.caption }}",
 				        size: {{ file.size }},
-				        key: {{ file.fileId }},
-				        extra: {id: {{ file.fileId }}, file: '{{ file.file }}'}
+				        key: {{ file.id }},
+				        extra: {id: {{ file.id }}, file: '{{ file.file }}'}
 			        },
                     {% endfor %}
 

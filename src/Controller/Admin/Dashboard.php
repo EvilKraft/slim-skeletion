@@ -18,6 +18,19 @@ class Dashboard extends \Controller\BaseController
     {
         $this->data['pageTitle'] = $this->trans('Dashboard');
 
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM posts WHERE status = 0");
+        $stmt->execute();
+        $this->data['total_posts_moderate'] = $stmt->fetchColumn();
+
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM posts WHERE status = 1");
+        $stmt->execute();
+        $this->data['total_posts'] = $stmt->fetchColumn();
+
+
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM users WHERE groupId != 1 AND status = 1");
+        $stmt->execute();
+        $this->data['total_users'] = $stmt->fetchColumn();
+
 
         return $this->renderer->render($response, 'Admin/Dashboard.twig', $this->data);
     }

@@ -22,11 +22,11 @@
                     <div class="icon">
                         <i class="ion ion-compose"></i>
                     </div>
-                    <a href="{{ path_for('posts', {'lang':lang}) }}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="{{ path_for('member_posts', {'lang':lang}) }}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <div class="col-lg-6 col-xs-12">
-                <a class="btn btn-app bg-green" href="{{ path_for('posts_create', {'lang':lang}) }}">
+                <a class="btn btn-app bg-green" href="{{ path_for('member_posts_create', {'lang':lang}) }}">
                     <i class="fa fa-plus"></i> {{ 'New'|trans }}
                 </a>
                 <br>

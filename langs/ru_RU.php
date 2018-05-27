@@ -10,6 +10,9 @@ return array(
     'version'       => 'версия',
 
     'REST' => [
+        'Dashboard' => [
+            'pageTitle' => 'Dashboard',
+        ],
         'Tenders' => [
             'pageTitle' => 'Тендеры',
             'fields'    => [
@@ -42,8 +45,8 @@ return array(
                 'name'          => 'Название',
             ],
         ],
-        'Blog' => [
-            'pageTitle' => 'Блог',
+        'Posts' => [
+            'pageTitle' => 'Posts',
             'fields'    => [
                 'id'            => 'Id',
                 'createdAt'     => 'Дата создания',
@@ -57,16 +60,6 @@ return array(
                 'id'            => 'Id',
                 'alias'         => 'Alias',
                 'title'         => 'Заголовок',
-            ],
-        ],
-        'BillingOptions' => [
-            'pageTitle' => 'Опции оплаты',
-            'fields'    => [
-                'id'               => 'Id',
-                'groupId'          => 'Группа',
-                'fullAccessTrial'  => 'Пробные дни',
-                'periodicPayment'  => 'Месячный платеж',
-                'aperiodicPayment' => 'Разовый платеж',
             ],
         ],
         'Help' => [

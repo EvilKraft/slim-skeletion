@@ -7,18 +7,19 @@
 
 namespace Controller\Admin;
 
-use Controller\RESTController;
+use \Controller\RESTController;
+use phpDocumentor\Reflection\Types\Array_;
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
-class Posts extends \Controller\RESTController
+class Posts extends RESTController
 {
     protected $table        = 'posts';
     protected $idxField     = 'postId';
   //  protected $template    = 'Admin\Posts.twig';
 
-    protected $columns      = ['title', 'createdAt'];
+    protected $columns      = ['name', 'title', 'createdAt', 'status'];
     protected $actions      = ['create', 'update', 'delete'];
 
     protected $idxFieldLang = 'langId';
@@ -29,13 +30,113 @@ class Posts extends \Controller\RESTController
         $class  = static::class;
         $prefix = self::routePrefix();
 
-        $app->get('/to-moderate',        $class.':toModerate')->setName($prefix.'_moderate');
+        $app->get('/moderate',                               $class.':toModerate')->setName($prefix.'_moderate');
+        $app->map(['GET', 'PUT'], '/moderate/{id:[0-9]+}',   $class.':doModerate')->setName($prefix.'_domoderate');
         $app->get('/getToModerateTable', $class.':toModerateServerProcessing')->setName($prefix.'_moderate_getTable');
 
-        $app->get('/{id:[0-9]+}/finish', $class.':toModerate')->setName($prefix.'_finish');
+
+        $app->get('/{id:[0-9]+}/finish', $class.':finish')->setName($prefix.'_finish');
 
         $app->post('/upload-file', $class.':uploadFile')->setName($prefix.'_upload_file');
         $app->post('/delete-file', $class.':deleteFile')->setName($prefix.'_delete_file');
+    }
+
+    public function dtServerProcessing(Request $request, Response $response, Array $args)
+    {
+        $l_columns = 'L.'.implode(', L.', array_keys($this->getTableColumns($this->table.'_lang', [$this->idxField, $this->idxFieldLang])));
+        $u_columns = 'U.'.implode(', U.', array_keys($this->getTableColumns('users', ['userId', 'createdAt', 'site', 'status'])));
+
+        $table = "(
+            SELECT T.*, ".$l_columns.", ".$u_columns."
+            FROM ".$this->table." T
+            INNER JOIN ".$this->table."_lang L ON L.".$this->idxField." = T.".$this->idxField." AND L.lang = '".$this->lang."'
+            INNER JOIN users U ON T.userId = U.userId
+            ORDER BY T.".$this->idxField." ASC
+        ) temp";
+
+        $dtColumns = $this->getDtColumns(array($this->table, $this->table.'_lang', 'users'));
+        $this->setFormatter($dtColumns, 'status', function( $d, $row ) {
+            switch ($d){
+                case 1  : $class = 'label-success'; $text = 'Approved';      break;
+                case 0  : $class = 'label-warning'; $text = 'On moderation'; break;
+                case -1 : $class = 'label-danger';  $text = 'Finished';      break;
+            }
+
+            return '<div class="text-center"><span class="label '.$class.'">'.$this->trans($text).'</span></div>';
+        });
+
+        $data = \Helpers\dataTableSSP::simple($request->getQueryParams(), $this->db, $table, $this->idxField, $dtColumns);
+
+        return $response->withJson($data, 200);
+    }
+
+    public function toModerateServerProcessing(Request $request, Response $response, Array $args)
+    {
+        $l_columns = 'L.'.implode(', L.', array_keys($this->getTableColumns($this->table.'_lang', [$this->idxField, $this->idxFieldLang])));
+        $u_columns = 'U.'.implode(', U.', array_keys($this->getTableColumns('users', ['userId', 'createdAt', 'site', 'status'])));
+
+        $table = "(
+            SELECT T.*, ".$l_columns.", ".$u_columns."
+            FROM ".$this->table." T
+            INNER JOIN ".$this->table."_lang L ON L.".$this->idxField." = T.".$this->idxField." AND L.lang = '".$this->lang."'
+            INNER JOIN users U ON T.userId = U.userId
+            WHERE T.status = 0
+            ORDER BY T.".$this->idxField." ASC
+        ) temp";
+
+        $dtColumns = $this->getDtColumns(array($this->table, $this->table.'_lang', 'users'));
+        $this->setFormatter($dtColumns, 'status', function( $d, $row ) {
+            switch ($d){
+                case 1  : $class = 'label-success'; $text = 'Approved';      break;
+                case 0  : $class = 'label-warning'; $text = 'On moderation'; break;
+                case -1 : $class = 'label-danger';  $text = 'Finished';      break;
+            }
+
+            return '<div class="text-center"><span class="label '.$class.'">'.$this->trans($text).'</span></div>';
+        });
+
+        $data = \Helpers\dataTableSSP::simple($request->getQueryParams(), $this->db, $table, $this->idxField, $dtColumns);
+
+        return $response->withJson($data, 200);
+    }
+
+    public function toModerate(Request $request, Response $response, Array $args)
+    {
+        return $this->doList($request, $response);
+    }
+
+    public function doModerate(Request $request, Response $response, Array $args)
+    {
+        if($request->isPut()){
+            return $this->doUpdate($request, $response, $args);
+        }
+
+        return $this->get($request, $response, $args);
+    }
+
+    public function finish(Request $request, Response $response, Array $args)
+    {
+        $stmt = $this->db->query("SELECT * FROM ".$this->table." WHERE ".$this->idxField." = ".(int) $args['id']);
+        if (!$item = $stmt->fetch()) {
+            $this->flash->addMessage('error', $this->trans('Item %item_id% not found', ['%item_id%' => $args['id']]));
+            return $response->withStatus(302)->withHeader('Location', $this->getListUrl());
+        }
+        try {
+            $this->db->beginTransaction();
+
+            $stmt = $this->db->prepare("UPDATE ".$this->table." SET status = -1 WHERE ".$this->idxField." = ?");
+            $stmt->execute([$args['id']]);
+
+            $this->db->commit();
+            $this->flash->addMessage('success', $this->trans('Item %item_id% updated', ['%item_id%' => $args['id']]));
+        } catch (\Exception $e) {
+            $this->db->rollBack();
+
+            $flashMsg = ($this->settings['displayErrorDetails']) ? $e->getMessage() : $this->trans('Item %item_id% not updated', ['%item_id%' => $args['id']]);
+            $this->flash->addMessage('error', json_encode($flashMsg, JSON_PRETTY_PRINT));
+        }
+
+        return $response->withStatus(302)->withHeader('Location', $this->getListUrl());
     }
 
 
@@ -147,7 +248,7 @@ class Posts extends \Controller\RESTController
                 FROM industries I
                 LEFT JOIN ".$this->table."_industries PI ON PI.industryId = I.industryId AND ".$this->idxField."=?";
         $stmt = $this->db->prepare($sql);
-        $stmt->execute([$item[$this->idxField]]);
+        $stmt->execute([$args['id']]);
         $industries = $stmt->fetchAll();
 
         try {
@@ -178,13 +279,6 @@ class Posts extends \Controller\RESTController
             $insert_stmt = $this->db->prepare("INSERT INTO ".$this->table."_industries SET ".$this->idxField."=?, industryId=?");
             $delete_stmt = $this->db->prepare("DELETE FROM ".$this->table."_industries WHERE id=?");
 
-            /*
-            echo '<pre>'.print_r($request->getParsedBody()['industryId'], true).'</pre>';
-            echo '<pre>'.print_r($industries, true).'</pre>';
-
-            $this->db->rollBack();
-            return;
-*/
             foreach ($industries as $industry){
                 if(!empty($industry['PI_Id']) && !in_array($industry['industryId'], $request->getParsedBody()['industryId'])){
                     $delete_stmt->execute([$industry['PI_Id']]);

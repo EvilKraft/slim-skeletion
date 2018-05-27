@@ -5,21 +5,20 @@
  * Date: 22.08.2017
  */
 
-namespace Controller;
+namespace Controller\Member;
 
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
 
-class User extends BaseController
+class User extends \Controller\BaseController
 {
     protected  $data = [];
 
     public function dashboard(Request $request, Response $response, Array $args) {
         $this->data['pageTitle'] = $this->trans('Dashboard');
 
-
-        return $this->renderer->render($response, 'User/dashboard.twig', $this->data);
+        return $this->renderer->render($response, 'Member/User/dashboard.twig', $this->data);
     }
 
     public function profile(Request $request, Response $response, Array $args) {
@@ -127,7 +126,7 @@ class User extends BaseController
                 $flashMsg = ($this->settings['displayErrorDetails']) ? $e->getMessage() : $this->trans('Profile not updated');
                 $this->flash->addMessage('error', json_encode($flashMsg, JSON_PRETTY_PRINT));
             }
-            return $response->withStatus(302)->withHeader('Location', $this->router->pathFor('profile', ['lang' => $this->lang]));
+            return $response->withStatus(302)->withHeader('Location', $this->router->pathFor('member_profile', ['lang' => $this->lang]));
         }
 
         $this->data['pageTitle'] = $this->trans('Profile');
@@ -136,7 +135,7 @@ class User extends BaseController
         $stmt->execute();
         $this->data['cities'] = $stmt->fetchAll();
 
-        return $this->renderer->render($response, 'User/profile.twig', $this->data);
+        return $this->renderer->render($response, 'Member/User/profile.twig', $this->data);
     }
 
     public function help(Request $request, Response $response, Array $args) {
@@ -152,7 +151,7 @@ class User extends BaseController
 
         $this->data['pageTitle'] = $this->trans('Help');
 
-        return $this->renderer->render($response, 'User/help.twig', $this->data);
+        return $this->renderer->render($response, 'Member/User/help.twig', $this->data);
     }
 
     public function support(Request $request, Response $response, Array $args){
@@ -197,11 +196,11 @@ class User extends BaseController
 
                 $this->flash->addMessage('error', $this->trans('An error occurred. Please contact administrator'));
             }
-            return $response->withStatus(302)->withHeader('Location', $this->router->pathFor('tenders', ['lang' => $this->lang]));
+            return $response->withStatus(302)->withHeader('Location', $this->router->pathFor('member_dashboard', ['lang' => $this->lang]));
         }
 
         $this->data['pageTitle'] = $this->trans('Support');
 
-        return $this->renderer->render($response, 'User/support.twig', $this->data);
+        return $this->renderer->render($response, 'Member/User/support.twig', $this->data);
     }
 }

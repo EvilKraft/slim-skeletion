@@ -10,6 +10,9 @@ return array(
     'version'       => 'version',
 
     'REST' => [
+        'Dashboard' => [
+            'pageTitle' => 'Dashboard',
+        ],
         'Tenders' => [
             'pageTitle' => 'Tenders',
             'fields'    => [
@@ -42,8 +45,8 @@ return array(
                 'name'          => 'Title',
             ],
         ],
-        'Blog' => [
-            'pageTitle' => 'Blog',
+        'Posts' => [
+            'pageTitle' => 'Posts',
             'fields'    => [
                 'id'            => 'Id',
                 'createdAt'     => 'Created at',
@@ -57,16 +60,6 @@ return array(
                 'id'            => 'Id',
                 'alias'         => 'Alias',
                 'title'         => 'Title',
-            ],
-        ],
-        'BillingOptions' => [
-            'pageTitle' => 'Billing Options',
-            'fields'    => [
-                'id'               => 'Id',
-                'groupId'          => 'Group',
-                'fullAccessTrial'  => 'Trial days',
-                'periodicPayment'  => 'Periodic payment',
-                'aperiodicPayment' => 'Aperiodic payment',
             ],
         ],
         'Help' => [
