@@ -32,7 +32,6 @@ $app->group('/{lang:'.$langRegExp.'}', function () use ($app) {
     $this->get('/about',                    \Controller\Frontend::class.':about')->setName('about');
     $this->get('/privacy',                  \Controller\Frontend::class.':privacy')->setName('privacy');
     $this->get('/rules',                    \Controller\Frontend::class.':rules')->setName('rules');
-    $this->get('/sitemap',                  \Controller\Frontend::class.':sitemap')->setName('sitemap');
     $this->map(['GET', 'POST'], '/contact', \Controller\Frontend::class.':contact')->setName('contact');
 
     $this->get('/industries/',                            \Controller\Frontend::class.':blogss')->setName('blogs');

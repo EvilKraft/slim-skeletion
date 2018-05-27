@@ -3,12 +3,57 @@
 {% block content %}
     <div class="content-area" id="primarybwrap">
         <div class="bwrapsite-main" id="mainbwrap" role="main">
-            <div class="container">
-                <div class="page-header">
-                    <h2>{{ title|trans }}</h2>
+            <div class="clear"></div>
+            <div class="mainblogsec section" id="mainblogsec">
+                <div class="widget Blog">
+                    <div class="blog-posts hfeed">
+                        <div class="date-outer">
+                            <div class="date-posts">
+
+                                <div class="post-outer">
+                                    <article class="post hentry">
+                                        <h1 class="post-title entry-title">{{ title|trans }}</h1>
+                                        <div class="post-body entry-content">
+                                            {{ text|raw }}
+                                        </div>
+                                    </article>
+                                    <div style="clear:both"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="clear: both;"></div>
                 </div>
-                {{ text|raw }}
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+
+    <style type="text/css">
+        .post {padding:0;}
+        .post-body {color: #444; margin-right: 0; font-size: 15px; padding: 15px; width: 95%;}
+        .post img{background:#fafafa;height:auto;max-width:95%;border:0;margin-bottom:1.5px;transition:all 0.6s ease-out;}
+        .post img:hover {opacity:0.95;}
+        h1.post-title {color: #333;font-size:26px; font-weight:500; margin: 0; padding:5px 15px 5px;}
+        .post-info {font-size: 12px; padding: 10px 15px; font-weight: 600; margin-top: 0; margin: 0;}
+        .post-info2 {font-size: 10px; padding: 20px 15px 10px; font-weight: 600; margin-top: 0; margin: 0;}
+        .share-posts {margin-bottom:10px}
+        #blog-pager {display:none;}
+
+        img.author-photo{height:22px;width:22px;border-radius:100%;margin:0 3px 0 0}
+        .authorboxwrap{padding: 15px; overflow: hidden; border-bottom: 1px solid #e6e6e6;}
+        .avatar-container img{width:110px;height:auto;max-width:100%!important;border-radius:100%;}
+        .author_description_container h4{font-weight:700;font-size:16px;display:block;margin:0;margin-bottom:2px}
+        .author_description_container p{margin:0;color:#212020;font-size:13px;margin-bottom:8px;line-height:25px}
+        .authorsocial a{display:inline-block;text-align:center;margin-right:10px}
+        .authorsocial a i{font-family: "Material Icons";width:20px;height:20px;line-height:20px;padding:5px;display:block;opacity:1;border-radius:50%;transition:all .3s;}
+        .authorsocial a:nth-child(1) i {background:#2d609b;color:#fff;}
+        .authorsocial a:nth-child(2) i {background:#19bfe5;color:#fff;}
+        .authorsocial a:nth-child(3) i {background:#eb4026;color:#fff;}
+        .authorsocial a:hover:nth-child(1) i,.authorsocial a:hover:nth-child(2) i,.authorsocial a:hover:nth-child(3) i {opacity:0.90;}
+
+    </style>
 {% endblock %}

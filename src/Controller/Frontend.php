@@ -22,14 +22,6 @@ class Frontend extends BaseController
         $data['blog_container4'] = $this->renderer->fetch('Frontend/Blog/blog_stile4.twig', $this->getPosts(8, 6));
         $data['blog_container5'] = $this->renderer->fetch('Frontend/Blog/blog_stile5.twig', $this->getPosts(8, 6));
 
-
-
-    //    $data['about_tpl']    = $this->renderer->fetch('Frontend/index_about.twig',    $this->getPage('about'));
-    //    $data['partners_tpl'] = $this->renderer->fetch('Frontend/index_partners.twig', $this->getPage('partners'));
-    //    $data['service_tpl']  = $this->renderer->fetch('Frontend/index_service.twig',  $this->getPage('services'));
-    //    $data['contact_tpl']  = $this->renderer->fetch('Frontend/index_contact.twig',  $this->getPage('contacts'));
-
-
         return $this->renderPage($response, 'Frontend/index.twig', $data);
     }
 
@@ -37,28 +29,14 @@ class Frontend extends BaseController
 
         $data = $this->getPage('about');
 
-        return $this->renderer->render($response, 'Frontend/page.twig', $data);
-    }
-
-    public function services(Request $request, Response $response, Array $args) {
-
-        $data = $this->getPage('services');
-
-        return $this->renderer->render($response, 'Frontend/page.twig', $data);
-    }
-
-    public function partners(Request $request, Response $response, Array $args) {
-
-        $data = $this->getPage('partners');
-
-        return $this->renderer->render($response, 'Frontend/page.twig', $data);
+        return $this->renderPage($response, 'Frontend/page.twig', $data);
     }
 
     public function rules(Request $request, Response $response, Array $args) {
 
         $data = $this->getPage('rules');
 
-        return $this->renderer->render($response, 'Frontend/rules.twig', $data);
+        return $this->renderPage($response, 'Frontend/page.twig', $data);
     }
 
     public function contact(Request $request, Response $response, Array $args) {
@@ -97,7 +75,7 @@ class Frontend extends BaseController
 
         $data = $this->getPage('contacts');
 
-        return $this->renderer->render($response, 'Frontend/contact.twig', $data);
+        return $this->renderPage($response, 'Frontend/contact.twig', $data);
     }
 
     public function blog(Request $request, Response $response, Array $args) {

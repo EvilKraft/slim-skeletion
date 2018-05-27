@@ -145,7 +145,7 @@ class Auth extends BaseController
 
                 if($result == 1){
                     $this->db->commit();
-                    return $this->renderer->render($response, 'Frontend/info.twig', ['header' => 'Info', 'text' => 'Please, check email to complete registration']);
+                    return $this->renderer->render($response, 'Frontend/page.twig', ['title' => 'Info', 'text' => 'Please, check email to complete registration']);
                 }else{
                     $this->db->rollBack();
                     $this->flash->addMessage('error', $this->trans('An error occurred. Please contact administrator'));
@@ -212,7 +212,7 @@ class Auth extends BaseController
         $stmt = $this->db->prepare("SELECT * FROM users where activationCode = ? AND status = 0");
         $stmt->execute(array($args['code']));
         if(!$user = $stmt->fetch()){
-            return $this->renderer->render($response, 'Frontend/info.twig', ['header' => 'Error!', 'text' => 'Wrong activation code.']);
+            return $this->renderer->render($response, 'Frontend/page.twig', ['title' => 'Error!', 'text' => 'Wrong activation code.']);
         }
 
         try {
@@ -222,7 +222,7 @@ class Auth extends BaseController
             $stmt->execute(array($user['userId']));
 
             $this->db->commit();
-            return $this->renderer->render($response, 'Frontend/info.twig', ['header' => 'Info', 'text' => 'Conformation complete. Please, sign in.']);
+            return $this->renderer->render($response, 'Frontend/page.twig', ['title' => 'Info', 'text' => 'Conformation complete. Please, sign in.']);
         } catch (\Exception $e) {
             $this->db->rollBack();
             $flashMsg = ($this->settings['displayErrorDetails']) ? $e->getMessage() : $this->trans('An error occurred. Please contact administrator');
@@ -266,7 +266,7 @@ class Auth extends BaseController
 
                     if($result == 1){
                         $this->db->commit();
-                        return $this->renderer->render($response, 'Frontend/info.twig', ['header' => 'Info', 'text' => 'Please, check email']);
+                        return $this->renderer->render($response, 'Frontend/page.twig', ['title' => 'Info', 'text' => 'Please, check email']);
                     }else{
                         $this->db->rollBack();
                         $this->flash->addMessage('error', $this->trans('An error occurred. Please contact administrator'));
