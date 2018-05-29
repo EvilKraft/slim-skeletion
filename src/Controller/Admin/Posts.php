@@ -44,7 +44,7 @@ class Posts extends RESTController
     public function dtServerProcessing(Request $request, Response $response, Array $args)
     {
         $l_columns = 'L.'.implode(', L.', array_keys($this->getTableColumns($this->table.'_lang', [$this->idxField, $this->idxFieldLang])));
-        $u_columns = 'U.'.implode(', U.', array_keys($this->getTableColumns('users', ['userId', 'createdAt', 'site', 'status'])));
+        $u_columns = 'U.'.implode(', U.', array_keys($this->getTableColumns('users', ['userId', 'createdAt', 'site', 'status', 'cityId'])));
 
         $table = "(
             SELECT T.*, ".$l_columns.", ".$u_columns."
@@ -73,7 +73,7 @@ class Posts extends RESTController
     public function toModerateServerProcessing(Request $request, Response $response, Array $args)
     {
         $l_columns = 'L.'.implode(', L.', array_keys($this->getTableColumns($this->table.'_lang', [$this->idxField, $this->idxFieldLang])));
-        $u_columns = 'U.'.implode(', U.', array_keys($this->getTableColumns('users', ['userId', 'createdAt', 'site', 'status'])));
+        $u_columns = 'U.'.implode(', U.', array_keys($this->getTableColumns('users', ['userId', 'createdAt', 'site', 'status', 'cityId'])));
 
         $table = "(
             SELECT T.*, ".$l_columns.", ".$u_columns."

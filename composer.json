@@ -60,7 +60,8 @@
         "rappasoft/laravel-helpers": "dev-master",
         "runcmf/runtracy": "^0.2.10",
         "doctrine/orm": "^2.6",
-        "league/glide-slim": "^1.0"
+        "league/glide-slim": "^1.0",
+        "bower-asset/lightgallery": "^1.6"
     },
     "require-dev": {
         "phpunit/phpunit": ">=4.8 < 6.0"

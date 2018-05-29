@@ -36,7 +36,6 @@ $app->group('/{lang:'.$langRegExp.'}', function () use ($app) {
 
     $this->get('/industries/',                            \Controller\Frontend::class.':blogss')->setName('blogs');
     $this->get('/industry/{id:[0-9]+}[/page/{page:\d+}]', \Controller\Frontend::class.':blog')->setName('blog');
-
     $this->get('/post/{id:[0-9]+}',                       \Controller\Frontend::class.':post')->setName('post');
 
     $this->group('/member', function () use ($app) {
@@ -79,6 +78,12 @@ $app->get('/img[/{image_name:.*}]', function (Request $request, Response $respon
         'source' => DIR.'public/uploads',
         'cache' => DIR.'public/cache',
         'response' => new \League\Glide\Responses\SlimResponseFactory(),
+
+        'defaults' => [
+            'mark' => 'logo.png',
+            'markw' => '30w',
+            'markpad' => '5w',
+        ]
     ]);
 
     return $server->getImageResponse($args['image_name'], $request->getQueryParams());

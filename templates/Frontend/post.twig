@@ -33,13 +33,69 @@
                                         <div class="post-header-line-1"></div>
                                     </div>
                                     <div class="post-body entry-content">
+                                        <div class="row invoice-info">
+                                            <div class="col-sm-6 invoice-col">
+                                                {{ 'Company'|trans }}
+                                                <address>
+                                                    <i class="fa fa-money text-light-blue"></i> : <strong>{{ item.price }}</strong>
+                                                    <br><i class="fa fa-users text-light-blue"></i> : {{ item.workers }}
+                                                    <br><i class="fa fa-calendar text-light-blue"></i> : {{ item.buildedAt  }}
+                                                    <br><i class="fa fa-line-chart text-light-blue"></i> : {{ item.income }}
+                                                    {% if item.site|length > 0 %}
+                                                        <br><i class="glyphicon glyphicon-globe text-light-blue"></i> : <a href="{{ item.site }}">{{ item.site }}</a>
+                                                    {% endif %}
+                                                </address>
+                                            </div>
+                                            <div class="col-sm-6 invoice-col">
+                                                {{ 'Contact'|trans }}
+                                                <address>
+                                                    <strong>{{ item.name }}</strong>
+                                                    <br><i class="glyphicon glyphicon-map-marker text-light-blue"></i> : {{ item.city }}, {{ item.country }}
+                                                    <br><i class="glyphicon glyphicon-phone-alt text-light-blue"></i> : {{ item.phone }}
+                                                    <br><i class="glyphicon glyphicon-envelope text-light-blue"></i> : <a href="mailto:{{ item.email }}">{{ item.email }}</a>
+                                                    {% if item.site|length > 0 %}
+                                                        <br><i class="glyphicon glyphicon-globe text-light-blue"></i> : <a href="{{ item.site }}">{{ item.site }}</a>
+                                                    {% endif %}
+                                                    {% if item.facebook|length > 0 %}
+                                                        <br><i class="fa fa-facebook-official text-light-blue" style="font-size: 17px"></i> : <a href="{{ item.facebook }}">{{ item.facebook }}</a>
+                                                    {% endif %}
+                                                </address>
+                                            </div>
+                                        </div>
+                                        <hr>
+
                                         {{ item.text|raw }}
+
+                                        <hr>
+
+
+
+                                        <div id="animated-thumbnials">
+                                            {% for file in item.files %}
+                                                <a href="{{ base_url() }}/uploads/{{ file.file }}">
+                                                    <img src="/img/{{ file.file }}?h=100&w=100" />
+                                                </a>
+                                            {% endfor %}
+                                        </div>
+
+
+                                        <hr>
+
+
+                                        {% for file in item.files %}
+                                            <a class="btn btn-primary" style="margin-right: 5px; color:#ffffff;" href="{{ base_url() }}/uploads/{{ file.file }}">
+                                                <i class="fa fa-download"></i> {{ 'Download attachment'|trans }}
+                                            </a> {{ file.caption }}
+                                            <br><br>
+                                        {% endfor %}
 
                                         <div class="separator" style="clear: both; text-align: center;">
                                             <a href="https://1.bp.blogspot.com/-Y3jtko20nZA/We42YMNGo4I/AAAAAAAACvA/UEahaZNOpCcC_3llLMX40ARU9MRkCPNMQCLcBGAs/s1600/woman_593141_960_720.jpg" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
                                                 <img alt="New Form of Farming Revolutionizes the Way We Eat" src="https://1.bp.blogspot.com/-Y3jtko20nZA/We42YMNGo4I/AAAAAAAACvA/UEahaZNOpCcC_3llLMX40ARU9MRkCPNMQCLcBGAs/s1600/woman_593141_960_720.jpg" title="New Form of Farming Revolutionizes the Way We Eat" border="0">
                                             </a>
                                         </div>
+
+
                                     </div>
                                 </article>
                                 <div style="clear:both"></div>
@@ -92,9 +148,11 @@
 {% block head %}
     {{ parent() }}
 
+    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/assets/lightgallery/dist/css/lightgallery.min.css" />
+
     <style type="text/css">
-        .post {padding:0;}
-        .post-body {color: #444; margin-right: 0; font-size: 15px; padding: 15px; width: 95%;}
+        .post {padding:0; }
+        .post-body {color: #444; margin-right: 0; font-size: 15px; padding: 15px; width: 100%;}
         .post img{background:#fafafa;height:auto;max-width:95%;border:0;margin-bottom:1.5px;transition:all 0.6s ease-out;}
         .post img:hover {opacity:0.95;}
         h1.post-title {color: #333;font-size:26px; font-weight:500; margin: 0; padding:5px 15px 5px;}
@@ -115,10 +173,42 @@
         .authorsocial a:nth-child(3) i {background:#eb4026;color:#fff;}
         .authorsocial a:hover:nth-child(1) i,.authorsocial a:hover:nth-child(2) i,.authorsocial a:hover:nth-child(3) i {opacity:0.90;}
 
+        hr{
+            background-color: #e6e6e6;
+        }
+
+        .text-light-blue{
+            color: #2574A9;
+            min-width: 20px;
+        }
+
+        .content-area{
+            border-right: 0;
+        }
+
+        .sidebar-area {
+            border-left: 1px solid #e6e6e6;
+        }
     </style>
 {% endblock %}
 
 {% block scripts %}
     {{ parent() }}
+
+    <script src="{{ base_url() }}/assets/lightgallery/dist/js/lightgallery-all.min.js"></script>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function($){
+
+            $('#animated-thumbnials').lightGallery({
+                thumbnail:true,
+                animateThumb: false,
+                showThumbByDefault: false
+            });
+        });
+
+    </script>
+
+
 
 {% endblock %}

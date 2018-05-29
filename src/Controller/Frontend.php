@@ -95,7 +95,9 @@ class Frontend extends BaseController
         $sql = "SELECT I.industryId, IL.name FROM industries I INNER JOIN industries_lang IL ON I.industryId = IL.industryId WHERE I.industryId = ? AND IL.lang=?";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$categoryId, $this->lang]);
-        $data['industry'] = $stmt->fetch();
+        if(!$data['industry'] = $stmt->fetch()){
+            throw new \Slim\Exception\NotFoundException($request, $response);
+        }
 
         $countSQL = "SELECT COUNT(*) total
                      FROM posts P
@@ -145,7 +147,11 @@ class Frontend extends BaseController
     public function post(Request $request, Response $response, Array $args) {
         $data = array();
 
-        $sql  = "SELECT P.*, L.*, U.name, PF.file
+        $sql  = "SELECT 
+                    P.*, L.*, 
+                    U.name, U.phone, U.email, U.site, U.facebook,
+                    C.name as city, C.country,
+                    PF.file
                  FROM posts P
                  INNER JOIN posts_lang L ON L.postId = P.postId AND L.lang = ?
                  LEFT JOIN (
@@ -159,10 +165,13 @@ class Frontend extends BaseController
                      ) B ON A.fileId = B.fileId                 
                  ) PF ON PF.postId = P.postId
                  INNER JOIN users U ON P.userId = U.userId
+                 LEFT JOIN cities C ON C.cityId = U.cityId
                  WHERE P.postId = ?";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$this->lang, $args['id']]);
-        $data['item'] = $stmt->fetch();
+        if(!$data['item'] = $stmt->fetch()){
+            throw new \Slim\Exception\NotFoundException($request, $response);
+        }
 
         $sql = "SELECT I.industryId, IL.name 
                 FROM industries I 
@@ -172,6 +181,11 @@ class Frontend extends BaseController
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$this->lang, $args['id']]);
         $data['item']['industries'] = $stmt->fetchAll();
+
+        $sql = "SELECT * FROM posts_files WHERE postId = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$args['id']]);
+        $data['item']['files'] = $stmt->fetchAll();
 
         return $this->renderPage($response, 'Frontend/post.twig', $data);
     }
