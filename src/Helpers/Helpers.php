@@ -41,4 +41,8 @@ class Helpers
     public static function phoneFormat($num){
         return ($num)?'('.substr($num,0,3).') '.substr($num,3,3).'-'.substr($num,6,4):'';
     }
+
+    public static function isImageMIME($mimeType){
+        return in_array($mimeType, ['image/gif', 'image/jpeg', 'image/png']);
+    }
 }

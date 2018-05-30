@@ -201,7 +201,9 @@
                             </div>
                         </div>
 
-                        {% include 'Frontend/Blog/recent_posts.twig' %}
+                        {% if recent_posts is defined %}
+                            {% include 'Frontend/Blog/recent_posts.twig' %}
+                        {% endif %}
 
                     </div>
                 </div>

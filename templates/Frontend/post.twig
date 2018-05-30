@@ -71,16 +71,14 @@
 
 
                                         <div id="animated-thumbnials">
-                                            {% for file in item.files %}
-                                                <a href="{{ base_url() }}/uploads/{{ file.file }}">
-                                                    <img src="/img/{{ file.file }}?h=100&w=100" />
+                                            {% for image in item.images %}
+                                                <a href="{{ base_url() }}/uploads/{{ image.file }}">
+                                                    <img src="/img/{{ image.file }}?p=xs" />
                                                 </a>
                                             {% endfor %}
                                         </div>
 
-
                                         <hr>
-
 
                                         {% for file in item.files %}
                                             <a class="btn btn-primary" style="margin-right: 5px; color:#ffffff;" href="{{ base_url() }}/uploads/{{ file.file }}">
@@ -89,14 +87,7 @@
                                             <br><br>
                                         {% endfor %}
 
-                                        <div class="separator" style="clear: both; text-align: center;">
-                                            <a href="https://1.bp.blogspot.com/-Y3jtko20nZA/We42YMNGo4I/AAAAAAAACvA/UEahaZNOpCcC_3llLMX40ARU9MRkCPNMQCLcBGAs/s1600/woman_593141_960_720.jpg" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-                                                <img alt="New Form of Farming Revolutionizes the Way We Eat" src="https://1.bp.blogspot.com/-Y3jtko20nZA/We42YMNGo4I/AAAAAAAACvA/UEahaZNOpCcC_3llLMX40ARU9MRkCPNMQCLcBGAs/s1600/woman_593141_960_720.jpg" title="New Form of Farming Revolutionizes the Way We Eat" border="0">
-                                            </a>
-                                        </div>
-
-
-                                    </div>
+                                   </div>
                                 </article>
                                 <div style="clear:both"></div>
 

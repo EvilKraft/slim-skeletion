@@ -145,7 +145,10 @@ class Frontend extends BaseController
     }
 
     public function post(Request $request, Response $response, Array $args) {
-        $data = array();
+        $data = array(
+            'images' => [],
+            'files' => [],
+        );
 
         $sql  = "SELECT 
                     P.*, L.*, 
@@ -185,7 +188,14 @@ class Frontend extends BaseController
         $sql = "SELECT * FROM posts_files WHERE postId = ?";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$args['id']]);
-        $data['item']['files'] = $stmt->fetchAll();
+
+        while($file = $stmt->fetch()){
+            if(\Helpers\Helpers::isImageMIME($file['type'])){
+                $data['item']['images'][] = $file;
+            }else{
+                $data['item']['files'][] = $file;
+            }
+        }
 
         return $this->renderPage($response, 'Frontend/post.twig', $data);
     }

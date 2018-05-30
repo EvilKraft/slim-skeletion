@@ -75,16 +75,37 @@ $app->group('/{lang:'.$langRegExp.'}', function () use ($app) {
 $app->get('/img[/{image_name:.*}]', function (Request $request, Response $response, Array $args) {
 
     $server = \League\Glide\ServerFactory::create([
-        'source' => DIR.'public/uploads',
-        'cache' => DIR.'public/cache',
+        'source' => DIR.'public',
+        'cache' => DIR.'cache',
+        'source_path_prefix' => 'uploads',
+        'cache_path_prefix'  => 'thumbnails',
         'response' => new \League\Glide\Responses\SlimResponseFactory(),
 
-        'defaults' => [
-            'mark' => 'logo.png',
-            'markw' => '30w',
-            'markpad' => '5w',
+        'max_image_size' => 2000*2000,
+
+        // <img src="kayaks.jpg?p=small">
+        'presets' => [
+            'xs' => ['w' => 130, 'h' => 100, 'fit' => 'crop',],
+            's'  => ['w' => 200, 'h' => 200, 'fit' => 'crop',],
+            'm'  => ['w' => 600, 'h' => 400, 'fit' => 'crop',],
+
+
+            'rp'   => ['w' => 100, 'h' =>  80, 'fit' => 'crop',],
+            'bs1'  => ['w' => 181, 'h' => 100, 'fit' => 'crop',],
+            'bs4'  => ['w' => 218, 'h' => 120, 'fit' => 'crop',],
+            'bs5'  => ['w' => 309, 'h' => 170, 'fit' => 'crop',],
         ]
     ]);
+
+
+    if(!$server->sourceFileExists($args['image_name'])){
+        $args['image_name'] = '../resources/img/default-placeholder.png';
+    }
+
+    $mimeType = $server->getSource()->getMimetype($server->getSourcePath($args['image_name']));
+    if(!in_array($mimeType, ['image/gif', 'image/jpeg', 'image/png'])){
+        $args['image_name'] = '../resources/img/default-placeholder.png';
+    }
 
     return $server->getImageResponse($args['image_name'], $request->getQueryParams());
 

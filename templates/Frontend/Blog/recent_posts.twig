@@ -14,7 +14,7 @@
 
                 {% for item in recent_posts.items %}
                     <li>
-                        <img src="{{ path_for('image', {'image_name':item.file}) }}" title="{{ item.title }}" alt="{{ item.title }}">
+                        <img src="{{ path_for('image', {'image_name':item.file}, {'p':'rp'}) }}" title="{{ item.title }}" alt="{{ item.title }}">
                         <div>
                             <a href="{{ path_for('post', {'lang':lang, 'id':item.postId}) }}" rel="nofollow" title="{{ item.text|striptags|truncate(30, true) }}">{{ item.title }}</a>
                         </div>

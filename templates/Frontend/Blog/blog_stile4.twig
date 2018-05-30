@@ -53,7 +53,7 @@
                         <li class="recent-box">
                             <div class="imageContainer">
                                 <a href="{{ path_for('post', {'lang':lang, 'id':item.postId}) }}" target="_top">
-                                    <img class="label_thumb" src="{{ path_for('image', {'image_name':item.file}) }}" title="{{ item.title }}" alt="{{ item.title }}" style="width: auto; height: 120px; margin-left: -39.0909px; margin-top: 0px;">
+                                    <img class="label_thumb" src="{{ path_for('image', {'image_name':item.file}, {'p':'bs4'}) }}" title="{{ item.title }}" alt="{{ item.title }}" style="width: auto; height: 120px; margin-left: -39.0909px; margin-top: 0px;">
                                 </a>
                             </div>
                             <a class="label_title" href="{{ path_for('post', {'lang':lang, 'id':item.postId}) }}" target="_top">{{ item.title }}</a>
