@@ -161,7 +161,7 @@
                             <h2>{{ 'Search' }}</h2>
                             <div class="widget-content">
                                 <div id="search-bar">
-                                    <form action="/search" id="search-form" method="get">
+                                    <form action="{{ path_for('search', {'lang':lang}) }}" id="search-form" method="get">
                                         <input id="sq" name="q" placeholder="Search Here..." type="text">
                                         <input id="searchsubmit" value="" type="submit">
                                     </form>

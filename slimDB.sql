@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.7
+-- version 4.8.1
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Июн 03 2018 г., 15:04
+-- Время создания: Июн 03 2018 г., 22:49
 -- Версия сервера: 5.7.20
--- Версия PHP: 7.1.12
+-- Версия PHP: 7.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -484,110 +484,24 @@ CREATE TABLE `posts_lang` (
   `postId` int(10) UNSIGNED NOT NULL,
   `lang` char(2) NOT NULL,
   `title` varchar(255) NOT NULL,
-  `text` text NOT NULL
+  `text` text NOT NULL,
+  `text_search` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `posts_lang`
 --
 
-INSERT INTO `posts_lang` (`langId`, `postId`, `lang`, `title`, `text`) VALUES
-(1, 1, 'en', 'Array', 'Array'),
-(2, 1, 'ru', 'Array', 'Array'),
-(3, 1, 'az', 'Array', 'Array'),
-(4, 4, 'en', 'zz1', '<p>zzz1</p>\r\n'),
-(5, 4, 'ru', 'xx1', '<p>xxx1</p>\r\n'),
-(6, 4, 'az', 'cc1', '<p>ccc1</p>\r\n'),
-(7, 5, 'en', 'вап вап вап sdfg sdg sdg ывап ', '<p>sdfg выап выап sdfg вап</p>\r\n\r\n<p>в sfgsd выап выап ывап ывап вып выап вып впа sdg вап</p>\r\n'),
-(8, 5, 'ru', 'вап вап вап sdfg sdg sdg ывап ', '<p>sdfg выап выап sdfg вап</p>\r\n\r\n<p>в sfgsd выап выап ывап ывап вып выап вып впа sdg вап</p>\r\n'),
-(9, 5, 'az', 'вап вап вап sdfg sdg sdg ывап ', '<p>sdfg выап выап sdfg вап</p>\r\n\r\n<p>в sfgsd выап выап ывап ывап вып выап вып впа sdg вап</p>\r\n');
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `tenderFiles`
---
-
-CREATE TABLE `tenderFiles` (
-  `fileId` int(11) NOT NULL,
-  `userId` int(10) UNSIGNED NOT NULL,
-  `tenderId` int(10) UNSIGNED DEFAULT NULL,
-  `file` varchar(255) NOT NULL,
-  `caption` varchar(255) NOT NULL,
-  `type` varchar(255) NOT NULL,
-  `size` int(10) UNSIGNED NOT NULL,
-  `secret` varchar(30) DEFAULT NULL,
-  `uploadedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `tenderFiles`
---
-
-INSERT INTO `tenderFiles` (`fileId`, `userId`, `tenderId`, `file`, `caption`, `type`, `size`, `secret`, `uploadedAt`) VALUES
-(13, 2, NULL, 'tender_59d496c291ade8.87081237.doc', 'Alqı_Satqı müqaviləsi.doc', 'application/msword', 33280, '59d496aba5ed47.18944622', '2017-10-04 08:07:30'),
-(14, 2, NULL, 'tender_59d496cd63baf9.65411237.xlsx', 'alkopan Qazax Əhəng z.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 17489, '59d496aba5ed47.18944622', '2017-10-04 08:07:41'),
-(18, 2, NULL, 'tender_59e9fd715f5016.29135275.pdf', 'pencere.pdf', 'application/pdf', 94528, '59e9fcdea3a664.92529583', '2017-10-20 13:43:13'),
-(19, 2, NULL, 'tender_59e9fd9eb4a360.15062736.xlsx', 'check.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 79120, '59e9fcdea3a664.92529583', '2017-10-20 13:43:58'),
-(20, 2, NULL, 'tender_59e9fdb74f9061.76141220.txt', 'For Kostya_ mytenderaz.txt', 'text/plain', 1481, '59e9fcdea3a664.92529583', '2017-10-20 13:44:23'),
-(22, 2, NULL, 'tender_59ef8d0b967706.01183497.txt', 'New Text Document.txt', 'text/plain', 748, '59ef8ccbdd72e2.02869019', '2017-10-24 18:57:15'),
-(27, 55, NULL, 'tender_59f6ddc355e890.47646226.txt', 'resume.txt', 'text/plain', 1332, '59f6dd20cec9b6.38581586', '2017-10-30 08:07:31'),
-(28, 55, 32, 'tender_59f6e22e3d0437.99662121.txt', 'resume.txt', 'text/plain', 1332, '59f6e1d392cee7.91081469', '2017-10-30 08:26:22'),
-(30, 55, 33, 'tender_59f6e31dad00c8.81060829.txt', 'resume.txt', 'text/plain', 1332, '59f6e2eb1cda25.12418156', '2017-10-30 08:30:21'),
-(33, 65, NULL, 'tender_59fac07464d782.16007099.docx', '111.docx', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 12676, '59fabfd16d2a80.05180220', '2017-11-02 06:51:32'),
-(34, 65, 52, 'tender_59fae470302e74.50839824.docx', 'Testin.docx', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 11365, '59fae3e17b0518.58028254', '2017-11-02 09:25:04');
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `tenders`
---
-
-CREATE TABLE `tenders` (
-  `tenderId` int(10) UNSIGNED NOT NULL,
-  `userId` int(10) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `industryId` int(10) UNSIGNED NOT NULL,
-  `description` varchar(255) NOT NULL,
-  `description_full` text NOT NULL,
-  `contact` int(10) UNSIGNED DEFAULT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT '0',
-  `finishedAt` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `tenders`
---
-
-INSERT INTO `tenders` (`tenderId`, `userId`, `name`, `createdAt`, `industryId`, `description`, `description_full`, `contact`, `status`, `finishedAt`) VALUES
-(27, 2, 'Züxeri', '2017-10-25 06:50:22', 5, 'Fiber cement', '<p>Fiber - Spectra fiber (38 &micro;m in diameter) and Snia fiber (20 &micro;m in diameter) (Both are high modulus polyethylene fibers probably with different surface finish, supplied by different manufacturers).</p>\r\n\r\n<p>Matrix - Plain matrix (w/c=0.5 and no admixture) and SF matrix (silica fume/c=0.20, w/c=0.27, superplasticizer/c=0.05). Curing condition -</p>\r\n\r\n<p>Specimens are moisture-cured until the date of testing. Age of testing - 0.5, 1, 1.5, 2, 7, 14, 21, 28 days. For each material system, at least 3 specimens are tested at each age.</p>\r\n', 41, -1, '2017-11-24 09:50:00'),
-(30, 55, 'INNEXIM', '2017-10-26 10:02:24', 7, 'Logistic operations', '<p>4 zone Europe and worlwide</p>\r\n\r\n<p>Need logistic services from Italy and&nbsp;Spain to Azerbaijan.</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>Kindly ask you to send offers through.</p>\r\n\r\n<p>If reffered&nbsp;prices and services is Ok we will make negotiating directly.</p>\r\n\r\n<p>&nbsp;</p>\r\n', 44, -1, '2017-11-05 13:00:00'),
-(31, 65, 'Anty Boss', '2017-10-27 19:19:32', 9, 'Нефтехимическое состовляющее', '<p>Мазут, нефтепродукты, масла</p>\r\n\r\n<p>Для получения лополнительной информации просим отправить сообщение.</p>\r\n\r\n<p>&nbsp;</p>\r\n', 48, -1, '2017-12-29 23:00:00'),
-(32, 55, 'Transport Tender', '2017-10-30 08:27:01', 7, 'Transport Tender -------- short description', '<p>Transport Tender -------- Full description</p>\r\n', 44, -1, '2017-11-04 11:25:00'),
-(33, 55, 'Transport Tender 2', '2017-10-30 08:30:23', 7, 'Test foot and Beverage -------- short description', '<p>Transport Tender -------- full description</p>\r\n', 44, -1, '2017-11-04 11:29:00'),
-(34, 2, 'IT ', '2017-10-30 14:22:01', 12, 'Computers and ups', '<p>Upon request</p>\r\n', 41, -1, '2017-11-05 17:21:00'),
-(35, 55, 'Кабельные коммуникации', '2017-10-30 16:03:08', 12, 'Кабельные коммуникации', '<p>Кабели 3х4, 2х3</p>\r\n\r\n<p>количество: 100</p>\r\n\r\n<p>срок поставки: 5-10 дней</p>\r\n\r\n<p>&nbsp;</p>\r\n', 44, -1, '2017-11-05 19:01:00'),
-(36, 55, 'HUB installing', '2017-10-31 06:26:25', 12, 'HUBS and SWITCHS', '<p>Needed services on HUB and SWITCH installing</p>\r\n\r\n<p>Capacity: two buildings</p>\r\n', 44, -1, '2017-11-05 09:28:00'),
-(37, 65, 'Storages', '2017-10-31 13:42:11', 12, 'Implementing data storages', '<p>Specs:</p>\r\n\r\n<ul>\r\n	<li>\r\n	<p>The data staging area</p>\r\n	</li>\r\n	<li>\r\n	<p>The overall corporate data warehouse</p>\r\n	</li>\r\n	<li>\r\n	<p>Each of the dependent data marts, beginning with the first</p>\r\n	</li>\r\n	<li>\r\n	<p>Any multidimensional databases for OLAP</p>\r\n	</li>\r\n	<li>\r\n	<p>The data staging area</p>\r\n	</li>\r\n	<li>\r\n	<p>Each of the conformed data marts, beginning with the first</p>\r\n	</li>\r\n	<li>\r\n	<p>Any multidimensional databases for OLAP</p>\r\n	</li>\r\n</ul>\r\n', 48, -1, '2017-11-11 16:39:00'),
-(38, 65, 'Roof purchasing', '2017-11-01 11:34:52', 5, 'Roofs', '<p>1. Asphalt Shingles</p>\r\n\r\n<p>2.&nbsp;Fiberglass Shingles</p>\r\n\r\n<p>3.&nbsp;Organic Shingles</p>\r\n\r\n<p>4.&nbsp;Tile Shingles</p>\r\n\r\n<p>5.&nbsp;Wood Shingles</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>Need information:</p>\r\n\r\n<p><em><strong>Square price of shingles?</strong></em><br />\r\n<em><strong>Cost to install?</strong></em></p>\r\n', 48, -1, '2017-12-10 14:29:00'),
-(46, 2, 'Comps', '2017-11-01 19:46:37', 12, 'Computers purchase', '<p>Computers</p>\r\n', 41, -1, '2017-12-05 22:43:00'),
-(51, 2, 'Cardreaders', '2017-11-02 08:14:41', 6, 'Cardreaders', '<p>Purchasing of professional equipment of all types of card readers.</p>\r\n\r\n<p>All related nformation upon request.</p>\r\n', 41, -1, '2017-11-10 08:14:00'),
-(52, 65, 'Testing systems', '2017-11-02 09:25:11', 12, 'Testing syst', '<p>Purchasing of testing scholar systems</p>\r\n', 48, -1, '2017-12-10 09:23:00'),
-(53, 55, 'Печать полиграфической продукции', '2017-11-08 06:41:31', 15, 'Услуги по полиграфии', '<p>Компании INNEXIM требуются следующие услуги по полиграфии:</p>\r\n\r\n<p>1. Печать флайров/брашюры - 1000 шт.</p>\r\n\r\n<p>2. Рол-апы 5 шт.</p>\r\n\r\n<p>3. Печать на ручках - 100</p>\r\n\r\n<p>4. Печать визиток - количество&nbsp;</p>\r\n\r\n<p>Для большей рентабельности в процесе оценок просим присылать свои предложения через электронную платформу.</p>\r\n\r\n<p>&nbsp;</p>\r\n', 44, -1, '2017-12-10 06:18:00'),
-(54, 55, 'Программный софт/фильтр данных', '2017-11-08 06:47:51', 12, 'Приобретение и создание программного софта ', '<p>Описание технического задания:</p>\r\n\r\n<p>Программный по софт по фильтрации данных по недвижимости в сети интернет.</p>\r\n\r\n<p>1. Фильтрация веб-сайтов по купле-продаже недвижимости</p>\r\n\r\n<p>2. Фильтрация (импорт) и сбор в единную базу данных на платформу</p>\r\n\r\n<p>3. Граббинг необходимый информации с общедуступных веб-ресурсов.</p>\r\n\r\n<p>Все предложения просим отправлять посредством электронной платформы.</p>\r\n', 44, -1, '2018-01-05 06:43:00'),
-(55, 55, 'Smart parking system', '2017-11-08 07:00:01', 29, 'Rotary parking system', '<p>Completely equiped with safety devices.<br />\r\nCommonly known as mini rotary type, this system is designed to park vehicles by vertically circulating cage in left-right direction. Install in left-over space or small area that to be&nbsp;free from breakdowns because of the simple circular rotation type mechanism.&nbsp;</p>\r\n\r\n<p>Needed charachteristics and requirements:</p>\r\n\r\n<p>1. Parking of 7 to 12 vehicles on footprint&nbsp;</p>\r\n\r\n<p>2. Possibility of extension of 1 to 3 footprints</p>\r\n\r\n<p>3. Automated one-touch control</p>\r\n\r\n<p>4. Possible&nbsp;for SUVs and sedans</p>\r\n\r\n<p>5. Conforming to internation standards of quality ISO 9001</p>\r\n\r\n<p>Kindly ask you to send all offers via eplatform.</p>\r\n', 44, -1, '2017-12-31 06:51:00'),
-(56, 55, 'Удаленное виделнаблюдение', '2017-11-08 07:10:09', 24, 'Удаленное и беспроводное видеонаблюдение.', '<p>Необходима предоставление услуг в сфере видеонаблюдения.</p>\r\n\r\n<p>Цель и задачи:</p>\r\n\r\n<p>1. Удаленное видеонаблюдение посредством сети интернет с возможностью записи информации в клаудинг.</p>\r\n\r\n<p>2. Просмотр и анализ данных через клаудинг повсеместно где имеется выход в интернет.</p>\r\n\r\n<p>Количество и сроки закупа будут определятся по договоренности в соответсвия с принятыми задачами.</p>\r\n\r\n<p>Предложения происм высылать посредством электронной платформы.</p>\r\n', 44, -1, '2017-12-31 07:04:00'),
-(57, 55, 'Purchasing of data storages', '2017-11-16 05:34:14', 12, 'Purchasing of data storages', '<p>Tech Specifications:</p>\r\n\r\n<ul>\r\n	<li>\r\n	<p>The data staging area</p>\r\n	</li>\r\n	<li>\r\n	<p>The overall corporate data warehouse</p>\r\n	</li>\r\n	<li>\r\n	<p>Each of the dependent data marts, beginning with the first</p>\r\n	</li>\r\n	<li>\r\n	<p>Any multidimensional databases for OLAP</p>\r\n	</li>\r\n	<li>\r\n	<p>The data staging area</p>\r\n	</li>\r\n	<li>\r\n	<p>Each of the conformed data marts, beginning with the first</p>\r\n	</li>\r\n	<li>\r\n	<p>Any multidimensional databases for OLAP</p>\r\n	</li>\r\n</ul>\r\n', 44, -1, '2017-12-10 05:33:00'),
-(58, 55, 'установка и подключение умных ИП-камер', '2017-11-16 05:47:25', 6, 'Установка и подключение умных ИП-камер', '<p>Спецификации:</p>\r\n\r\n<p>Камеры видеонаблюдения в формате HD и Full HD</p>\r\n\r\n<p>Количество: 10</p>\r\n\r\n<p>Хранение информации: облако</p>\r\n\r\n<p>Инфраред: да</p>\r\n\r\n<p>Разрешение: неопределенные критерии</p>\r\n\r\n<p>Гарантийное обслуживание - минимум 1 год</p>\r\n\r\n<p>&nbsp;</p>\r\n', 44, -1, '2017-12-10 05:42:00'),
-(59, 55, 'установка и подключение умных ИП-камер ', '2017-11-16 05:48:26', 24, 'Установка и подключение умных ИП-камер ', '<p>Спецификации:</p>\r\n\r\n<p>Камеры видеонаблюдения в формате HD и Full HD</p>\r\n\r\n<p>Количество: 10</p>\r\n\r\n<p>Хранение информации: облако</p>\r\n\r\n<p>Инфраред: да</p>\r\n\r\n<p>Разрешение: неопределенные критерии</p>\r\n\r\n<p>Гарантийное обслуживание - минимум 1 год</p>\r\n', 44, -1, '2017-12-10 05:48:00'),
-(60, 65, 'TV and TV sets', '2017-11-16 13:07:44', 6, 'Purchasing of TV\'s and TV sets for office', '<p>Specifications</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>1. Diagonal - from 81 to 101 sm</p>\r\n\r\n<p>2. Display: LED</p>\r\n\r\n<p>3. Country of origine: N/A</p>\r\n\r\n<p>4. Quantity: 10 pieces</p>\r\n\r\n<p>5. Colors: black</p>\r\n\r\n<p>6. Price range: not exceeds 200 AZN (+- 10%)</p>\r\n\r\n<p>7. Warranty: necessary</p>\r\n\r\n<p>&nbsp;</p>\r\n', 48, -1, '2017-12-10 13:03:00'),
-(61, 65, 'Furniture for appartment Hotel in Baku', '2017-11-16 13:25:00', 18, 'Purchasing furniture for appart hotel in Baku', '<p>Specifications;</p>\r\n\r\n<p>10 sets for 10 rooms.</p>\r\n\r\n<p>Each set includes: 1 Kingsize bed, 1 wordrobe, 1 chair, 1 desktable.</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>Country of Manufacture: Azerbaijan</p>\r\n\r\n<p>Color: dark brown</p>\r\n\r\n<p>Delivery and instalation: neccesary</p>\r\n\r\n<p>Warranty: nessecary&nbsp;</p>\r\n\r\n<p>Size of bed: 2X2 meters</p>\r\n\r\n<p>Wordrobe: 1.2X1.8 meters</p>\r\n\r\n<p>Desk: standard size</p>\r\n\r\n<p>Chair: standard size</p>\r\n\r\n<p>All meters specifications have to be revised and may occure around +-10%.</p>\r\n\r\n<p>All offers kindly ask you to send via webpage or email.</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>&nbsp;</p>\r\n', 48, -1, '2017-12-31 13:15:00'),
-(62, 2, 'air conditions', '2017-11-27 10:43:06', 6, 'Purchasing air conditions', '<p>Purchasing air conditions</p>\r\n', 41, -1, '2017-12-10 11:00:00'),
-(63, 2, 'Ip telefonia', '2017-12-11 11:34:19', 12, 'Purchasing Ip', '<p>Quotation Cost 10.000 USD</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>IP-connections</p>\r\n\r\n<p>Ip-telelophonia</p>\r\n\r\n<p>IP-storages</p>\r\n', 41, 1, '2018-02-05 11:30:00'),
-(64, 55, 'Полиграфические услуги', '2017-12-22 05:43:41', 15, 'Печать и полиграфия', '<p>Необходимы следующая продукция:</p>\r\n\r\n<p>Ролапы: до 10 шт.</p>\r\n\r\n<p>Флаеры 1000&nbsp;шт.</p>\r\n\r\n<p>Буклеты 1000&nbsp;шт.</p>\r\n\r\n<p>Визитки - возобновляемо</p>\r\n\r\n<p>Предложения будут рассматриваться по критериям цена/качество.</p>\r\n', 44, 1, '2018-01-31 14:00:00'),
-(65, 65, 'Мебель', '2017-12-22 05:55:49', 18, 'Приобретение мебели для Аппартотеля', '<p>Мебель для аппартотеля:</p>\r\n\r\n<p>Необходимое количество и разновидности мебели</p>\r\n\r\n<p>Кровать кингсайз: 20 шт. размеры 1.8Х2м.</p>\r\n\r\n<p>Кровать синглсайз: 20 шт. 1Х2м.</p>\r\n\r\n<p>Кресла: 40 шт.</p>\r\n\r\n<p>Стулья: 40 шт.</p>\r\n\r\n<p>Диван: 10 шт. длина 1.2м.</p>\r\n\r\n<p>Шкафы: 20 шт. 1.5Х1.8м</p>\r\n\r\n<p>Шкафы: 20 шт. 1Х1.8м.</p>\r\n\r\n<p>&nbsp;</p>\r\n', 48, 1, '2018-01-31 14:00:00'),
-(66, 65, 'Телевизоры для отеля', '2017-12-22 05:59:52', 6, 'Приобретение телевизоров', '<p>Необходимые параметры телевизоров</p>\r\n\r\n<p>1)&nbsp;размеры 32 дюйма&nbsp;</p>\r\n\r\n<p>2) количество 30 шт.</p>\r\n\r\n<p>3) цвет - черный</p>\r\n\r\n<p>4) формат - LCD</p>\r\n\r\n<p>5) производство - любое</p>\r\n\r\n<p>6) гарантия - миниму 1 год</p>\r\n\r\n<p>7) требования - соотношение цена/качество</p>\r\n\r\n<p>&nbsp;</p>\r\n', 48, 1, '2018-01-31 05:56:00');
+INSERT INTO `posts_lang` (`langId`, `postId`, `lang`, `title`, `text`, `text_search`) VALUES
+(1, 1, 'en', 'Array', 'Array', 'Array'),
+(2, 1, 'ru', 'Array', 'Array', 'Array'),
+(3, 1, 'az', 'Array', 'Array', 'Array'),
+(4, 4, 'en', 'zz1', '<p>zzz1</p>\r\n', '<p>zzz1</p>'),
+(5, 4, 'ru', 'xx1', '<p>xxx1</p>\r\n', '<p>xxx1</p>'),
+(6, 4, 'az', 'cc1', '<p>ccc1</p>\r\n', '<p>ccc1</p>'),
+(7, 5, 'en', 'вап вап вап sdfg sdg sdg ывап ', '<p>sdfg выап выап sdfg вап</p>\r\n\r\n<p>в sfgsd выап выап ывап ывап вып выап вып впа sdg вап</p>\r\n', '<p>sdfg выап выап sdfg вап</p>  <p>в sfgsd выап выап ывап ывап вып выап вып впа sdg вап</p>'),
+(8, 5, 'ru', 'вап вап вап sdfg sdg sdg ывап ', '<p>sdfg выап выап sdfg вап</p>\r\n\r\n<p>в sfgsd выап выап ывап ывап вып выап вып впа sdg вап</p>\r\n', '<p>sdfg выап выап sdfg вап</p>  <p>в sfgsd выап выап ывап ывап вып выап вып впа sdg вап</p>'),
+(9, 5, 'az', 'вап вап вап sdfg sdg sdg ывап ', '<p>sdfg выап выап sdfg вап</p>\r\n\r\n<p>в sfgsd выап выап ывап ывап вып выап вып впа sdg вап</p>\r\n', '<p>sdfg выап выап sdfg вап</p>  <p>в sfgsd выап выап ывап ывап вып выап вып впа sdg вап</p>');
 
 -- --------------------------------------------------------
 
@@ -622,7 +536,7 @@ CREATE TABLE `users` (
   `groupId` int(10) UNSIGNED NOT NULL,
   `name` varchar(255) NOT NULL,
   `country` char(3) DEFAULT NULL,
-  `city` int(10) UNSIGNED DEFAULT NULL,
+  `cityId` int(10) UNSIGNED DEFAULT NULL,
   `phone` varchar(255) DEFAULT NULL,
   `email` varchar(255) NOT NULL,
   `site` varchar(255) DEFAULT NULL,
@@ -635,63 +549,9 @@ CREATE TABLE `users` (
 -- Дамп данных таблицы `users`
 --
 
-INSERT INTO `users` (`userId`, `login`, `password`, `createdAt`, `groupId`, `name`, `country`, `city`, `phone`, `email`, `site`, `facebook`, `status`, `activationCode`) VALUES
+INSERT INTO `users` (`userId`, `login`, `password`, `createdAt`, `groupId`, `name`, `country`, `cityId`, `phone`, `email`, `site`, `facebook`, `status`, `activationCode`) VALUES
 (1, 'admin', '$2y$10$WShDEA5s.Em0VNZYVpPaKeVTLtYMc2d7KHdchvWRLFhB5LYRmhUmW', '2017-07-28 08:02:27', 1, 'Admin', NULL, 0, '', 'k.kaluzhnikov@gmail.com', '', '', 1, 'eeef80f7660b283a3b799938a84416cc'),
-(2, 'test-b', '$2y$10$6Ic.8Twc9D0lrd6E88DAQezbUqZHGj59qjn8gGwuCm9MGWhZpvcUu', '2017-08-04 06:41:42', 2, 'Test Buyer', 'AZ', 1, '0555555555', 'zeuz@list.ru', '', '', 1, '3f6b8a99b77a42b247003aa4e2563b23'),
-(3, 'test-s', '$2y$10$t1O0Er5Sln7xIyfrjLYByuJJzBtueP0rj.bKpz/.3zEBNQ/nW5upi', '2017-08-04 06:43:36', 3, 'Test suplier', 'AZ', 1, '0552222222', 'evilkraft@gmail.com', '', '', 1, '2ef8e52d8794260dccf2eb3c40a042ef'),
-(4, 'test-s2', '$2y$10$vsB9/tuFvDTmwoaQTTVHeuSAk8uygoVER4Q1CniV.nM2IGs0Sxze2', '2017-08-09 11:30:22', 3, 'Test suplier 2', 'AZ', 2, '0552222222', 'zeuz1@list.ru', '', '', 1, '3f6b8a99b77a42b247003aa4e2563b23'),
-(21, 'Guest', '$2y$10$rtZe3fZNTI7E2JKez0tJoO77dHtmaUy8qCMitTE2eGscVvxQOieEa', '2017-08-22 06:11:24', 2, 'Best Solutions', 'AZ', 1, '0502884460', 'r.c.rustam@icloud.com', '', '', 1, '5829fa1e492fe8863f558d8e9a25ca0e'),
-(24, 'innovation', '$2y$10$UavGg5wLhL2ZA36fuFREjOQnt8yUF8RAZv5W/BIh8Qhnjup4mXMkC', '2017-08-22 08:22:42', 2, 'k&A', 'AZ', 1, '0124445555', 'k.agasi@gmail.com', '', '', 1, '91e343c820489d4ffa63cebcfa2dc44a'),
-(43, 'zaur', '$2y$10$Va0Yz8kpYDS75KNCacrqDemWXLksPYors6Wx589ju.Xj358lKlkGq', '2017-08-28 08:58:50', 2, '3Z MMC', 'AZ', 1, '0502636700', 'zeynalov.zaur@gmail.com', 'http://1415.az', '', 1, 'ba20d010dab1a2b1cd477ae670366934'),
-(55, 'innexim', '$2y$10$.VIOGrHTue92Qz1zCg7mju15VJhCaznTFuLiYyE3bRvICQosGc7uG', '2017-10-24 11:44:09', 2, 'INNEXIM', 'CA', 0, '0502186173', 'r.c.rustam@gmail.com', 'http://innexim.com', '', 1, 'c9fc98c061b0abd5304c2c3d192416ed'),
-(56, 'Farid', '$2y$10$NjWg45B25rZIZ1JxRLV2Y.oANYGUUyvhcGT5jvIhJSAS/ZYZ9hQ/q', '2017-10-25 07:07:50', 2, 'Original Motors', 'AZ', 1, '0502780210', 'rustamof@hotmail.com', 'http://originalmotors.com', '', 1, '83d95a5965ad83b3201cf06d892633fc'),
-(57, 'gunay', '$2y$10$TV9w8oFyoaL9yIy0Pfb50ewmHYDti00G8e5ZN0bhddNk968CHwsXK', '2017-10-25 08:01:23', 2, 'Netant', 'AZ', 1, '4969696', 'gunayhuseyn@gmail.com', '', '', 1, '75cd10ebbdb74046329e61bb64e862db'),
-(58, 'rustam-saf', '$2y$10$94wh18bKb23Y.c6r032jf.qjA4/xOB4CE1F2w7uY93wrckRmAsCeS', '2017-10-25 08:56:10', 2, 'Saf pencere', 'AZ', 1, '0124092835', 'office@saf-pencere.az', 'http://www.saf-pencere.az', 'https://www.facebook.com/saf.pencere/', 1, 'f25d8851517d80059bed61c91cb2c9c8'),
-(64, 'Pooltech', '$2y$10$i2ffpLVOZT4qTQHnuEYQyexnHf.b2UvEZvHwLKozvgej5fK38d1.u', '2017-10-25 16:09:18', 3, 'Pooltech MMC', 'AZ', 1, '+994552049422', 'taleh@pooltech.az', 'http://www.pooltech.az', '', 1, '4c596a0d8c4fb752b40a6bb688b62778'),
-(65, 'Fashion', '$2y$10$XJdTeKm3YtmJKCL5MnA0N.XS3wjD1tnD37f1Ql/A1Oy.EvKVlrHi.', '2017-10-27 18:53:31', 2, 'IDBI', 'AZ', 1, '0071895786996999', 'fashionarea@hotmail.com', '', '', 1, '691401df2a0e858b368ee0119dd6d39e'),
-(66, 'Chase', '$2y$10$WXl04J7Hd1MlqrrEvGvgLu/KGvYwgydfkUBH66YliLIFMPD1Fmd6u', '2017-10-30 01:57:27', 2, 'site signs', 'CA', 0, 'LR', 'chaseoshaughnessy@gmail.com', 'http://www.signsavers.co.uk/', '', 0, '5e37afb0d1949d8546743662ec66efb5'),
-(67, 'Christopher', '$2y$10$MAkGOR3VT95DKhXy6K5e4.H6.n87sN3ieWrryVDEW1BQvgFrfb.DS', '2017-10-30 01:58:22', 2, 'safety signs', 'CA', 0, '0388 2177223', 'christopheraspinall@arcor.de', 'http://www.signsavers.co.uk/', '', 0, '4b9fcd11f8b26c3006e671ba38557e0e'),
-(70, 'innexim1', '$2y$10$Ya8F/Gy3Y2YA1ARYGnf3EeNDRRx7sbU4LWCO9YsT5sQNOpmsS7Fr.', '2017-10-30 14:18:16', 3, 'INNEXIM', 'CA', 0, '09230120100', 'rustam.rustamov@pmdgroup.az', '', '', 1, 'fd44db8237425423b7a4e5d6db3a21a1'),
-(71, 'bagirzade', '$2y$10$w5Af4Spsk9yL/f6XLE4jseb1DzYAjgJB0L4CtNaoSa3/EH.YDgDtC', '2017-10-31 07:44:43', 3, 'Totoo', NULL, 1, '+994503220104', 'bagirzade@gmail.com', 'http://www.totoo.az', 'http://www.facebook.com/totoobebe', 1, 'd35058d276c08286cfd5ab3f5dc0c022'),
-(72, 'ASBC', '$2y$10$1quMzyz4dm.SD5q1V/5x9OvDMeAfriAB8oQVgpZYwelEsoiCis29e', '2017-10-31 08:25:05', 3, 'ASBC', NULL, 1, '+994124932888', 'e.k@asbc.az', 'http://www.almastore.az', '', 1, '9d527e0da89baf4a3a17d6f39f936c21'),
-(74, 'printi', '$2y$10$u2WtkTniGos0KWH9lHaQduhk6YN9Qq8HxwKqO51VENB2SgAywjnJS', '2017-10-31 09:00:00', 2, 'Printi Studio MMC', 'AZ', 1, '0553393234', 'elina@printi.az', '', '', 1, '1fbde010f1c3c0b014a1a7b76561dada'),
-(76, 'Khasayev', '$2y$10$5L6Y9tVH6VwScHdQIQtVbeGbs53PHVuZbIO.tTvrszqh5.9CF6.x2', '2017-10-31 09:10:52', 2, 'Frazex', 'AZ', 1, '+994502557044', 'info@frazex.com', 'http://frazex.com', '', 1, '2acdce6bbea59d55d27e5cbc46974ef5'),
-(77, 'kvazar.office@bk.ru', '$2y$10$sWkdZcN3rq9l3RJO4HAJpOYW8HVvNcgxLFsHWmKVbbxmaVXEyH9qW', '2017-10-31 09:34:43', 3, 'kvazar', 'AZ', 1, '+994502204032', 'kvazar.office@bk.ru', '', '', 1, '8ca540fe1eb290051ee281e215964e5a'),
-(78, 'bmlawaz', '$2y$10$4.MySv5HHtRv5t/io.qIIeijuwJmKXW/K4dSNPaDouAkxGCtfTZTW', '2017-10-31 10:02:19', 2, 'BM Morrison Partners LLC', 'AZ', 1, '012 4971914/15', 'info@bmlawaz.com', 'http://www.bmlawaz.com/', '', 1, '006c774dbea5671f00204690fde1096b'),
-(79, 'izotar', '$2y$10$6uCh5k8dV/2bzSqC6hDTg.fsTcd6vsUS9B9W0B9gVJVlRzByJdjdO', '2017-10-31 10:17:44', 3, '\"AZTOL-ALAT\" MMC', 'AZ', 1, '+994124890146; +994502125378', 'f.alishanov@gmail.com', 'https://www.izotar.az', 'https://www.facebook.com/Izotar/', 1, '41c8ec0a9bf29cfef984404e811785e9'),
-(80, 'organic', '$2y$10$BUH6n0O0tx7IhLxn.YCr0Oz1Lj6G9xr.4K4M6MjDcpniRGoRnID6m', '2017-10-31 10:23:16', 2, 'Organic Communications MMC', 'AZ', 1, '+994 12 4971781; 4971782; 4971783', 'office@organic.az', '', '', 0, 'dbe18ad993cdd087ced5d41e5dd94e08'),
-(83, 'Fibromet', '$2y$10$7okQZgq.kULs70yolo43Z.6ignivYqp0kIang8Rul2lkkPNBXt/uq', '2017-10-31 10:59:29', 2, 'Fibromet MMC', 'AZ', 1, '+994502145736', 'elcin@fibromet.az', 'https://www.fibromet.az', 'https://www.facebook.com/Fibromet-156172524473002/', 1, '3deaac4b98ce2b1b34bc2b9e1f0af164'),
-(84, 'tatiw', '$2y$10$tSBs7d6HRnq2j.2vukOp/eawz6b/rte4y7B87nkdTPdOwxCfe07ca', '2017-10-31 11:33:51', 2, 'TaZak', 'AZ', 5, '+994505033005', 'tarlanzakaryayev@gmail.com', '', '', 1, '6f5de001126a585db39614a9d05eb728'),
-(85, 'Office_Nawinia', '$2y$10$HKojmSDLkGKXeI45vsXRx.98YnhbIJLJ.HZtVBYo13fZ1Qbukcdqq', '2017-10-31 11:59:03', 3, 'NAWINIA BAKU MMC', 'AZ', 1, '+994124644046', 'oletov@nawinia.com', 'http://www.nawinia.com', '', 1, '436d8c2be663d2cd3f44a69ed017a327'),
-(86, 'JetBaku', '$2y$10$wusDwCcwJFr/opmoRmfmLOdeKsvK0za/Rz1J2ZDgo.OmSSeRFuFs.', '2017-10-31 12:06:37', 3, '«Jet İnformasiya Sistemləri» ММC', 'AZ', 1, '+994125964362', 'ryabchenko@jet.msk.su', 'http://www.jetinfosys.az', '', 1, '19312e1c54ce53d290385deca9261630'),
-(91, 'vusal@smartit.az', '$2y$10$t0Sf85zUzCxlQ6YsVRg/wOcRj0XwJbVJ.jfOt1mALbFURqyG6jEqW', '2017-10-31 19:21:47', 3, 'Smart IT MMC', 'AZ', 1, '+994123103335, 204', 'vusal@smartit.az', '', '', 1, 'efac3b4c80ec835417af01464b60b2fc'),
-(92, 'nano2017', '$2y$10$nNjONQzrVwoj4kZBqyjtUeXXkTYoBEpEESuEF7W3A8bc/.GN8V/2S', '2017-11-01 09:13:16', 2, 'Nano2017', 'AZ', 1, '012-495-57-21', 'nano2017@gmail.com', '', '', 0, 'f237ce69e0cf4333bebbe2f2a7bec5b2'),
-(95, 'Jamila', '$2y$10$NRM9vdeSMcOZ68XiwQVOT.58YyXLuyAswmooNC4oxGRaoYqRuBI4a', '2017-11-01 19:33:42', 3, 'SINAM', 'AZ', 1, '+994125101100', 'jamila.aliyeva@yahoo.com', 'https://sinam.net', '', 1, '70da8192fd6766d84039ed365ebc6b9e'),
-(97, 'valid', '$2y$10$7Vnpn/.JX9aqR4.CAE4eCuOpchVHTGwtdRyXh21mHUDDlZCj8hEhe', '2017-11-02 07:56:52', 3, ' Sumqayıt Texnologiyalar Parkı', 'AZ', 3, '+994502465699', 'vmammadli@stp.az', 'https:www.stp.az', 'https://www.facebook.com/www.stp.az/', 1, '86a6451e4d5abde5e9d5b35b2a53b444'),
-(104, 'Meridian', '$2y$10$m0PUTU0fhkuQI0kKtpNeeusl8stl3cbL/xl1Gead6i.0oLrG2Ry9u', '2017-11-03 06:41:09', 3, 'Meridian HIFI', 'AZ', 1, '+994502042446', 'farid@meridianhifi.az', '', '', 1, 'fe881cab92a93ab381291e861978d0bb'),
-(112, 'sharipov', '$2y$10$jR3YwgZaY7xt5a2YPNm25OIPiIeK.cIlMtBpR6/VGviB9hU5aKUU.', '2017-11-03 13:05:32', 2, 'mytender.az1', 'AZ', 1, '0124092838', 'sharipov.rustam@gmail.com', '', '', 1, '30c13711ee532afab0cf7eec209f88ad'),
-(115, 'azersis', '$2y$10$J6/RNxG5u9oRjJQjixI41.a2MT5dEymFam8zhcg7qoWW2yuae3cr6', '2017-11-04 11:26:58', 3, 'AZERSIS', 'AZ', 1, '+99505824930', 'azersis@mail.ru', '', '', 1, 'c50ca4d7835e45845d77f874f134d692'),
-(116, 'azeridizayn', '$2y$10$KQERlMDLb6NnfXwes1LcxeRzWQM4aflfxS4UODjzHGCRrAoPlOGta', '2017-11-05 06:06:37', 3, 'Azeri-Dizayn firmasi', 'AZ', 1, '+994125110587, +994124928722, +994552200981', 'info@azeri-design.az', '', '', 1, 'ca0bfe7e52afddc89b41d613ce5a83e6'),
-(117, 'foresight', '$2y$10$Q/eEUi/aSbYt5s6nevwkpeADH0w0FJKuwzs4/vBFtzckF66dCEciS', '2017-11-05 07:20:32', 3, 'FORESIGHT', 'AZ', 3, '(+99450) 3343689', 'foresight.adil@gmail.com', '', '', 1, '95aace9655bb88d32f432bd9103805b9'),
-(118, 'office@sadoil.com', '$2y$10$VcqosXR0oysqRaIBZIJC/euCZf/Qi8jZLCE3niOtlMogFTHboL6n.', '2017-11-06 05:40:58', 3, 'SADOIL MMC', 'AZ', 1, '+994124375300', 'office@sadoil.com', 'https://www.sadoil.com', '', 1, 'b04c7f71d44d470bd2419920624ea44e'),
-(120, 'Vostok ', '$2y$10$trrodfRIwTTB8tQOpOc0humhNsrRk3WZeR2lBhD3jzaBnGR5E4Sre', '2017-11-06 08:18:18', 3, 'Vostok Service', 'AZ', 1, '012 465 81 85', 'info@az.vostok.ru', 'https://az.vostok.ru/', 'https://www.facebook.com/vostokbaku/', 1, '4f086b127cbecdd3a9ca1d86aeb34511'),
-(127, 'Infoplusservis', '$2y$10$FARn87dAawEuSdIwYyelseaeZeYubmTrc.SRof1NvSLsB49p.ho8a', '2017-11-08 07:19:34', 3, 'Infoplusservis MMC', 'AZ', 1, '+994123102616', 'infoplyusservis@gmail.com', '', '', 1, '27393c143ea90d6a4a40819386a42643'),
-(129, 'ss.qrup', '$2y$10$l4ZOo6P2bo0bMk10dUjhjenJheZyS3wd5CtlEzWSCWFbG99p0UMcu', '2017-11-10 07:26:57', 3, 'SS group', 'AZ', 1, '0125647149', 'ss.qrup.125@gmail.com', '', '', 1, 'a757efc4f385d188d54135fa67257df0'),
-(130, 'info@factory-tents.az', '$2y$10$JbTKY4HVFvMvyQQmdwsWoefCs9mjO/4I6qdISyEKkhHGg7mMpAVx6', '2017-11-10 08:37:23', 2, 'Megapolis Group-Factory Tents', 'AZ', 1, '+994124044398', 'info@factory-tents.az', 'http://www.factory-tents.az', '', 1, 'bbf115e53ef27b29d39aab79a1eab6c5'),
-(131, 'RaifaJalilova', '$2y$10$VVzfJw/LXWNx04oCAuhHGOPiEo.BLMpFPlcJuXAgdSV1wWqbRDC9.', '2017-11-13 10:20:37', 2, 'Baku Consulting Group', 'AZ', 1, '+994 55 600 26 66', 'marinarenaldi@yandex.ru', '', '', 1, '8547c8c6117af58bff4f5604595b9a6c'),
-(133, 'Dmitrakovich87', '$2y$10$W.ZkV3foQsSJ0TkHix9Psur.MR6cuLsf/DjVOgITcWGS.s/0TJrBu', '2017-11-15 11:10:12', 3, 'IPhone Dmitrakovich', 'BY', 0, '+375298561515', 'evgenijdmitrakovich@mail.ru', '', '', 0, '190723ee383cf9c9327697bf193c40b8'),
-(134, 'www.evgenijdmitrakovich@mail.ru', '$2y$10$azpX5MoYIMz1icnlIg1ZW.Y2oLAseRUfJf2oYWJoCL5NkmX1CmPQW', '2017-11-15 13:46:59', 2, 'Ip Dmitrakovich', 'BY', 0, '+375298561515', 'www.evgenijdmitrakovich@mail.ru', '', '', 0, '190723ee383cf9c9327697bf193c40b8'),
-(137, 'VugarHydroserv', '$2y$10$sD9dNAi30BErSdNK95t4w.aJdcesIodCrUUCybB8np4AAq2OUvWey', '2017-11-23 05:18:07', 3, 'Hydroserv Caspian LTD', 'AZ', 1, '+994 50 246 89 92', 'vugar.mirzayev@hydroserv.az', '', '', 1, '41e5bcce49bc3fe097475cb494b2011e'),
-(138, 'tural', '$2y$10$33/wWcbN1y6hoCLrlbfbxONQdrayPup8yvWJxcmyv4Tip4w8H.tka', '2017-11-27 12:22:20', 2, 'Gobay', 'AZ', 1, '+994503515149', 'tural@gobay.az', '', '', 1, 'a2c62c8b90f12f04d89928a30b383f96'),
-(139, 'ces1999', '$2y$10$fHnYJBuqwtss0yJN55KEeOeTEa7E3Eja3lqqMTCJsOd/GSYtQdb5K', '2017-11-28 10:43:10', 2, 'Qafqazenergoservis', 'AZ', 1, '+994 12 498 67 71', 'baku@ces-az.com', 'http://ces-az.com', '', 1, 'e95da7af0b06c503956370dbfd459e52'),
-(140, 'sinam ', '$2y$10$O.01U884Hlo2fF2q7DDRcO4UQ3rpwvNZMyjD/.J5Tb.BEPnkDIHje', '2017-11-30 06:07:21', 2, 'SINAM  ', 'AZ', 1, '+994125101100 ', 'elchin.aliyev@sinam.net', 'https://sinam.net ', '', 0, 'e2e22dc2ba03dbad2d1567e854840a76'),
-(141, 'smartagro', '$2y$10$RY5UB8QvGXMUhZlggvw7zuZmgiV9vrNOEpVCmEKblA3Bo6NmT1k.G', '2017-12-14 07:23:37', 3, 'Smart Agro MMC', 'AZ', 1, '+994125648683', 'kamal.abdulrahimov@smartagro.az', 'http://smartagro.az', '', 1, '77158cbfa0b6805c0ae62d4b7140e9b4'),
-(142, 'shekitour', '$2y$10$XoHqlwYSagscLFaUpB8cV.U6IOm/Bt4VSc25bUrxT7xh/GI2i7uuC', '2017-12-18 18:40:10', 3, 'sheki tour', 'AZ', 5, '+994554060688', 'hamidlimurad@gmail.com', '', '', 1, '7b24c12a75db870a9d8d6ac02189292b'),
-(143, 'Stampel', '$2y$10$NeUUwXp0g9KNxiORh/hB0uHuzd2yNx79Lq82pdJ01vLD2V17MGzXG', '2017-12-23 15:32:51', 3, 'STAMPEL', 'AZ', 1, '+994502015253', 'info@stampel.az', 'https://www.stampel.az/', 'https://m.facebook.com/stampel.az/?ref=bookmarks', 0, '17fb97950b8e253a7922f4c1249015b8'),
-(144, 'Vitam', '$2y$10$Vvh2PN6X./6ouVJLangcDOoJZsR8QYWZM/vrpISQbn2CywnSu1mni', '2017-12-23 19:01:07', 3, 'Vitam Reklam', 'AZ', 1, '0124378060', 'tehran@vitam.az', 'http://vitam.az/', 'https://m.facebook.com/vitam.az', 1, '61b549c48d7d2786874de6e4ddb3dff4'),
-(145, 'intertechnics', '$2y$10$T441Hh5LbN2TOObv2B7l1uoJv7GrVbELCLbHFbdeqL16X57afAHeW', '2017-12-25 06:40:59', 3, 'Inter-Technics', 'AZ', 1, '+99412 347 95 55', 'office@inter-technics.az', 'https://inter-technics.com ', '', 1, 'fdba2ea99e557925283c9c2d8f8c4190'),
-(146, 'complectpromm', '$2y$10$TETZfpSZspnm8uV81/u7JOk7DroaGdBz0KnwoHAEZrm1aH3.cvDmK', '2017-12-26 13:30:02', 3, 'ООО \"КПМ\"', 'RU', 0, '+79112693365', 'manager15@complectprom.ru', 'http://www.complectprom.ru/', '', 1, '89e905c853248fd08e59cd69149f9945'),
-(147, 'hellshan', '$2y$10$wHjYtUJQ9R5eKdC5cWD2E.HU0HzCyjtVb1Lg9/9VyGLFiRfVEb6Uu', '2018-01-05 06:22:25', 2, 'Test1', 'AZ', 1, '0505555555', 'elsan.hasanov@gmail.com', '', '', 1, 'd707862fed9a734112c9f960f629bf3a');
+(2, 'test-b', '$2y$10$6Ic.8Twc9D0lrd6E88DAQezbUqZHGj59qjn8gGwuCm9MGWhZpvcUu', '2017-08-04 06:41:42', 2, 'Test Buyer', 'AZ', 1, '0555555555', 'zeuz@list.ru', '', '', 1, '3f6b8a99b77a42b247003aa4e2563b23');
 
 -- --------------------------------------------------------
 
@@ -743,7 +603,7 @@ ALTER TABLE `help`
 --
 ALTER TABLE `help_lang`
   ADD PRIMARY KEY (`langId`),
-  ADD KEY `pageId` (`helpId`);
+  ADD KEY `helpId` (`helpId`) USING BTREE;
 
 --
 -- Индексы таблицы `industries`
@@ -793,29 +653,15 @@ ALTER TABLE `posts_files`
 --
 ALTER TABLE `posts_industries`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `user_indust_idx` (`postId`,`industryId`);
+  ADD UNIQUE KEY `post_indust_idx` (`postId`,`industryId`) USING BTREE;
 
 --
 -- Индексы таблицы `posts_lang`
 --
 ALTER TABLE `posts_lang`
   ADD PRIMARY KEY (`langId`),
-  ADD KEY `blogId` (`postId`);
-
---
--- Индексы таблицы `tenderFiles`
---
-ALTER TABLE `tenderFiles`
-  ADD PRIMARY KEY (`fileId`),
-  ADD KEY `userId` (`userId`),
-  ADD KEY `tenderId` (`tenderId`);
-
---
--- Индексы таблицы `tenders`
---
-ALTER TABLE `tenders`
-  ADD PRIMARY KEY (`tenderId`),
-  ADD KEY `userId` (`userId`);
+  ADD KEY `postId` (`postId`) USING BTREE;
+ALTER TABLE `posts_lang` ADD FULLTEXT KEY `title` (`title`,`text_search`);
 
 --
 -- Индексы таблицы `userGroups`
@@ -909,18 +755,6 @@ ALTER TABLE `posts_lang`
   MODIFY `langId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
--- AUTO_INCREMENT для таблицы `tenderFiles`
---
-ALTER TABLE `tenderFiles`
-  MODIFY `fileId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
-
---
--- AUTO_INCREMENT для таблицы `tenders`
---
-ALTER TABLE `tenders`
-  MODIFY `tenderId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
-
---
 -- AUTO_INCREMENT для таблицы `userGroups`
 --
 ALTER TABLE `userGroups`
@@ -930,7 +764,7 @@ ALTER TABLE `userGroups`
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `userId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=148;
+  MODIFY `userId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
@@ -953,19 +787,6 @@ ALTER TABLE `industries_lang`
 --
 ALTER TABLE `pages_lang`
   ADD CONSTRAINT `pages_lang_ibfk_1` FOREIGN KEY (`pageId`) REFERENCES `pages` (`pageId`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Ограничения внешнего ключа таблицы `tenderFiles`
---
-ALTER TABLE `tenderFiles`
-  ADD CONSTRAINT `tenderfiles_ibfk_1` FOREIGN KEY (`tenderId`) REFERENCES `tenders` (`tenderId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `tenderfiles_ibfk_2` FOREIGN KEY (`userId`) REFERENCES `users` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Ограничения внешнего ключа таблицы `tenders`
---
-ALTER TABLE `tenders`
-  ADD CONSTRAINT `tenders_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

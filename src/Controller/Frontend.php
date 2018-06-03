@@ -200,6 +200,58 @@ class Frontend extends BaseController
         return $this->render($response, 'Frontend/post.twig', $data);
     }
 
+
+    public function searchPost(Request $request, Response $response, Array $args) {
+
+        $query = $request->getQueryParam('q', '');
+
+        if(strlen($query) <= 3){
+            return;
+        }
+
+        $options = array(
+            Pagination::OPT_PARAM_NAME  => 'page',
+            Pagination::OPT_PARAM_TYPE  => PageList::PAGE_ATTRIBUTE,
+            Pagination::OPT_PER_PAGE    => 10,
+            Pagination::OPT_SIDE_LENGTH => 3,
+        );
+
+        $page       = $request->getAttribute($options[Pagination::OPT_PARAM_NAME], 1);
+        $offset     = $options[Pagination::OPT_PER_PAGE] * ($page - 1);
+
+        $countSQL = "SELECT COUNT(*) total
+                    FROM posts_lang L
+                    WHERE L.lang = :lang AND MATCH (L.title, L.text_search) AGAINST (:query)";
+
+        $dataSQL = "SELECT L.* 
+                    FROM posts_lang L
+                    WHERE L.lang = :lang AND MATCH (L.title, L.text_search) AGAINST (:query)
+                    LIMIT :limit OFFSET :offset";
+
+        $countQuery = $this->db->prepare($countSQL);
+        $dataQuery  = $this->db->prepare($dataSQL);
+
+        $countQuery->bindValue(':lang',  $this->lang,                        \PDO::PARAM_STR);
+        $countQuery->bindValue(':query', $query,                             \PDO::PARAM_STR);
+
+        $dataQuery->bindValue(':lang',   $this->lang,                        \PDO::PARAM_STR);
+        $dataQuery->bindValue(':query',  $query,                             \PDO::PARAM_STR);
+        $dataQuery->bindValue(':limit',  $options[Pagination::OPT_PER_PAGE], \PDO::PARAM_INT);
+        $dataQuery->bindValue(':offset', $offset,                            \PDO::PARAM_INT);
+
+        $countQuery->execute();
+        $dataQuery->execute();
+
+        $options[Pagination::OPT_TOTAL] = $countQuery->fetch()['total'];
+        $data['items']                  = $dataQuery->fetchAll();
+
+        $pagination = new Pagination($request, $this->router, $options);
+        $data['pagination'] = $this->renderer->fetch('Frontend/pagination.twig', ['pagination' => $pagination]);
+
+        return $this->render($response, 'Frontend/blog.twig', $data);
+    }
+
+
     public function frontendMiddleware(Request $request, Response $response, callable $next)
     {
         $this->renderer->getEnvironment()->addGlobal('industries', $this->getCategories());

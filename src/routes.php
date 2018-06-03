@@ -38,6 +38,8 @@ $app->group('/{lang:'.$langRegExp.'}', function () use ($app) {
     $this->get('/industry/{id:[0-9]+}[/page/{page:\d+}]', \Controller\Frontend::class.':blog')->setName('blog');
     $this->get('/post/{id:[0-9]+}',                       \Controller\Frontend::class.':post')->setName('post');
 
+    $this->get('/search[/page/{page:\d+}]',               \Controller\Frontend::class.':searchPost')->setName('search');
+
     $this->group('/member', function () use ($app) {
         $this->get('',                          \Controller\Member\User::class.':dashboard')->setName('member_dashboard');
         $this->map(['GET', 'PUT'],  '/profile', \Controller\Member\User::class.':profile')->setName('member_profile');

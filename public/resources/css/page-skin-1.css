@@ -107,7 +107,7 @@ body#layout #bwrapcontent, body#layout #sidebar-wrapper {padding:0 0 0 0;}
 body#layout #recent3, body#layout #banner160 {width: 50%;float:left;}
 body#layout #header-wrapper {padding:0}
 body#layout #footer-widgetfix .footer-widget {margin-left:0;margin-right:20px;}
-hr{background-color:#242d36;height:1px;margin-bottom:26px;padding:0}
+hr{/*background-color:#242d36;*/ background-color: #e6e6e6; height:1px;margin-bottom:26px;padding:0}
 blockquote{color:#9ba2af;font-family:"PT Serif",Georgia,Times,serif;border-left:5px solid rgba(155,162,175,0.25);margin-left:0;margin-right:0;margin-bottom:27px;padding-left:27px}
 blockquote blockquote{font-size:inherit}
 img{height:auto;max-width:100%}
@@ -117,7 +117,7 @@ a:hover,a:focus,a:active{color:#f77e75;-webkit-transition:all .2s ease-in-out;-m
 .site-header{background:#242d36;border-bottom:5px solid #1e252d;margin:0;position:relative;width:100%;z-index:100}
 .site-header img{display:block;margin:0 auto;max-height:200px}
 .bwrapsite-content{margin: 0 auto; max-width: 1021px; overflow: hidden;border: 1px solid #e6e6e6; border-top: 0;}
-.content-area{float:left;margin:0 -25% 0 0;width:68%;border-right:1px solid #e6e6e6}
+.content-area{float:left;margin:0 -25% 0 0;width:68%; /*border-right:1px solid #e6e6e6*/ border-right: none;}
 .widget-title{background:none repeat scroll 0 0 #4B3F57;color:#FFF;font-size:16px;font-weight:400;text-transform:uppercase;margin:0 0 5px;position:relative;transition:all .5s ease-out}
 #header-wrapper{overflow: hidden; padding:20px; position: relative; margin: 0 auto;}
 #header{float:left;width:100%;max-width:250px;color:#46515e;}
@@ -130,7 +130,7 @@ a:hover,a:focus,a:active{color:#f77e75;-webkit-transition:all .2s ease-in-out;-m
 .header-right{float:right;padding:0;overflow:hidden;margin:0;width:100%;max-width:728px;}
 .header-right img{display:block;float:right}
 .top-header { background: #fff;}
-.sidebar-area{margin:0 auto;float:right;overflow:hidden;width:31.9%;}
+.sidebar-area{margin:0 auto;float:right;overflow:hidden;width:31.9%; border-left: 1px solid #e6e6e6}
 #sidebar .widget {background: #fff;border-bottom: 1px solid #e6e6e6;}
 #sidebar .widget-content {padding:12.8px;}
 #sidebar h2 {font-size: 14px; font-weight: 700; color: #2574A9; padding: 8px 10px; display: block; line-height: 30px; transition: All 0.4s ease-out; border-bottom: 1px solid #e6e6e6;text-align:center;margin:0;}

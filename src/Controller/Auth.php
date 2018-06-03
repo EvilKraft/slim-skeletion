@@ -14,39 +14,37 @@ class Auth extends BaseController
 {
     public function login(Request $request, Response $response, Array $args) {
 
-        if($request->isPost()){
-            $data = $request->getParsedBody();
+        if(!$request->isPost()){
+            return $this->render($response, 'Auth/login.twig');
+        }
 
-            $sql = "SELECT U.*, G.name AS groupName
-                    FROM users U
-                    LEFT JOIN userGroups G ON U.groupId = G.userGroupId
-                    WHERE U.login = ? AND U.status = 1";
-            $stmt = $this->db->prepare($sql);
-            $stmt->execute(array($data['login']));
-            if(!$user = $stmt->fetch()){
-                $this->flash->addMessage('error', $this->trans('User does not exists'));
-                return $response->withStatus(302)->withHeader('Location', $this->router->pathFor('login', ['lang' => $this->lang]));
-            }
+        $data = $request->getParsedBody();
 
-            if(password_verify($data['password'], $user['password'])) {
-                // If the password inputs matched the hashed password in the database
-                if (session_status() == PHP_SESSION_NONE) {
-                    session_start();
-                }
-
-                $_SESSION['user']   = $user;
-
-                $url = ($user['groupId'] == 1)
-                     ? $this->router->pathFor('admin_dashboard', ['lang' => $this->lang])
-                     : $this->router->pathFor('member_dashboard', ['lang' => $this->lang]);
-                return $response->withStatus(302)->withHeader('Location', $url);
-            }
-
-            $this->flash->addMessage('error', $this->trans('Wrong login or password'));
+        $sql = "SELECT U.*, G.name AS groupName
+                FROM users U
+                LEFT JOIN userGroups G ON U.groupId = G.userGroupId
+                WHERE (U.login = ? OR U.email = ?) AND U.status = 1";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$data['login'], $data['login']]);
+        if(!$user = $stmt->fetch()){
+            $this->flash->addMessage('error', $this->trans('User does not exists'));
             return $response->withStatus(302)->withHeader('Location', $this->router->pathFor('login', ['lang' => $this->lang]));
         }
 
-        return $this->render($response, 'Auth/login.twig');
+        if(password_verify($data['password'], $user['password'])) {
+            // If the password inputs matched the hashed password in the database
+            if (session_status() == PHP_SESSION_NONE) {
+                session_start();
+            }
+
+            $_SESSION['user']   = $user;
+
+            $routeName = ($user['groupId'] == 1) ? 'admin_dashboard' : 'member_dashboard';
+            return $response->withStatus(302)->withHeader('Location', $this->router->pathFor($routeName, ['lang' => $this->lang]));
+        }
+
+        $this->flash->addMessage('error', $this->trans('Wrong login or password'));
+        return $response->withStatus(302)->withHeader('Location', $this->router->pathFor('login', ['lang' => $this->lang]));
     }
 
     public function logout(Request $request, Response $response, Array $args) {
@@ -58,106 +56,68 @@ class Auth extends BaseController
 
     public function register(Request $request, Response $response, Array $args) {
 
-        if($request->isPost()){
-            $data = $request->getParsedBody();
-
-            if($this->loginExists($data['login'])){
-                $this->flash->addMessage('error', $this->trans("Login '%login%' already exists.", ['%login%' => $data['login']]));
-                return $response->withStatus(302)->withHeader('Location', $this->router->pathFor('register', ['lang' => $this->lang]));
-            }
-
-            if($this->emailExists($data['email'])){
-                $this->flash->addMessage('error', $this->trans("Email '%email%' already exists.", ['%email%' => $data['email']]));
-                return $response->withStatus(302)->withHeader('Location', $this->router->pathFor('register', ['lang' => $this->lang]));
-            }
-
-            $hashpass = password_hash((string)$data['password'], PASSWORD_DEFAULT);
-            $activationCode = md5($data['email']);
-
-            $bindVals = array(
-                $data['login'],
-                $hashpass,
-                $activationCode,
-                $data['group'],
-                $data['name'],
-                (int) $data['voen'],
-                $data['country'],
-                (int) $data['city'],
-                $data['address'],
-                $data['phone'],
-                $data['email'],
-                $data['site'],
-                $data['facebook'],
-                $data['description'],
-            );
-
-            try {
-                $this->db->beginTransaction();
-
-                $sql = "INSERT INTO users SET login=?, password=?, activationCode=?, groupId=?, name=?, voen=?, country=?, city=?, address=?, phone=?, email=?, site=?, facebook=?, description=?, fullAccessTo=?";
-                $stmt = $this->db->prepare($sql);
-                $stmt->execute($bindVals);
-
-                $userId = $this->db->lastInsertId();
-
-                if(isset($data['contact_name'])){
-                    $stmt = $this->db->prepare("INSERT INTO userContacts SET userId=?, name=?, position=?, phone=?, email=?");
-
-                    foreach($data['contact_name'] as $key => $contact_name){
-                        $stmt->execute([
-                            $userId,
-                            $contact_name,
-                            $data['contact_position'][$key],
-                            $data['contact_phone'][$key],
-                            $data['contact_email'][$key],
-
-                        ]);
-                    }
-                }
-
-                if(isset($data['industry'])){
-                    $stmt = $this->db->prepare("INSERT INTO userIndustries SET userId=?, industryId=?");
-
-                    foreach($data['industry'] as $industryId){
-                        $stmt->execute([
-                            $userId,
-                            $industryId,
-                        ]);
-                    }
-                }
-
-                $emailFrom = $this->settings['info_mail'];
-                $emailTo   = array($data['email'] => $data['name']);
-                $emailBody = $this->renderer->fetch('Emails/registrationConfirm.twig', array('code' => $activationCode));
-
-                // Setting all needed info and passing in my email template.
-                $message = (new \Swift_Message($this->trans('Conformation')))
-                    ->setFrom($emailFrom)
-                    ->setTo($emailTo)
-                    ->setBody($emailBody)
-                    ->setContentType("text/html");
-
-                // Send the message
-                $result = $this->mailer->send($message);
-
-                if($result == 1){
-                    $this->db->commit();
-
-                    return $this->render($response, 'Frontend/page.twig', ['title' => 'Info', 'text' => 'Please, check email to complete registration']);
-                }else{
-                    $this->db->rollBack();
-                    $this->flash->addMessage('error', $this->trans('An error occurred. Please contact administrator'));
-                    return $response->withStatus(302)->withHeader('Location', $this->router->pathFor('register', ['lang' => $this->lang]));
-                }
-            } catch (\Exception $e) {
-                $this->db->rollBack();
-                $flashMsg = ($this->settings['displayErrorDetails']) ? $e->getMessage() : $this->trans('An error occurred. Please contact administrator');
-                $this->flash->addMessage('error', json_encode($flashMsg, JSON_PRETTY_PRINT));
-                return $response->withStatus(302)->withHeader('Location', $this->router->pathFor('register', ['lang' => $this->lang]));
-            }
+        if(!$request->isPost()){
+            return $this->render($response, 'Auth/login.twig');
         }
 
-        return $this->render($response, 'Auth/login.twig');
+        $data = $request->getParsedBody();
+
+        if($this->checkExists('email', $data['email'])){
+            $this->flash->addMessage('error', $this->trans("Email '%email%' already exists.", ['%email%' => $data['email']]));
+            return $response->withStatus(302)->withHeader('Location', $this->router->pathFor('register', ['lang' => $this->lang]));
+        }
+
+        $hashpass = password_hash((string)$data['password'], PASSWORD_DEFAULT);
+        $activationCode = md5($data['email']);
+
+        $data = array(
+            'login'          => $data['email'],
+            'password'       => $hashpass,
+            'activationCode' => $activationCode,
+            'groupId'        => 2,
+            'name'           => $data['name'],
+            'country'        => $data['country'],
+            'cityId'         => $data['city'],
+            'phone'          => $data['phone'],
+            'email'          => $data['email'],
+            'site'           => $data['site'],
+            'facebook'       => $data['facebook'],
+        );
+
+        try {
+            $this->db->beginTransaction();
+
+            $keys = array_keys($data);
+            $fields = '`'.implode('`, `',$keys).'`';
+            $placeholder = substr(str_repeat('?,',count($keys)),0,-1);
+            $this->db->prepare("INSERT INTO `users` ($fields) VALUES ($placeholder)")->execute(array_values($data));
+
+            $userId = $this->db->lastInsertId();
+
+            $emailFrom = $this->settings['info_mail'];
+            $emailTo   = array($data['email'] => $data['name']);
+            $emailBody = $this->renderer->fetch('Emails/registrationConfirm.twig', array('code' => $activationCode));
+
+            // Setting all needed info and passing in my email template.
+            $message = (new \Swift_Message($this->trans('Conformation')))
+                ->setFrom($emailFrom)
+                ->setTo($emailTo)
+                ->setBody($emailBody)
+                ->setContentType("text/html");
+
+            // Send the message
+            if(!$this->mailer->send($message)){
+                throw new \Exception('Message has not been sent');
+            }
+
+            $this->db->commit();
+            return $this->render($response, 'Frontend/page.twig', ['title' => 'Info', 'text' => 'Please, check email to complete registration']);
+        } catch (\Exception $e) {
+            $this->db->rollBack();
+            $flashMsg = ($this->settings['displayErrorDetails']) ? $e->getMessage() : $this->trans('An error occurred. Please contact administrator');
+            $this->flash->addMessage('error', json_encode($flashMsg, JSON_PRETTY_PRINT));
+            return $response->withStatus(302)->withHeader('Location', $this->router->pathFor('register', ['lang' => $this->lang]));
+        }
     }
 
     public function confirmMail(Request $request, Response $response, Array $args) {
@@ -186,60 +146,53 @@ class Auth extends BaseController
 
     public function forgotPassword(Request $request, Response $response, Array $args) {
 
-        if($request->isPost()) {
-            $vars = $request->getParsedBody();
+        if(!$request->isPost()){
+            return $this->render($response, 'Auth/forgotPassword.twig');
+        }
 
-            $stmt = $this->db->prepare("SELECT * FROM users WHERE login=? AND email=?");
-            $stmt->execute([$vars['login'], $vars['email']]);
-            if($item = $stmt->fetch()){
+        $vars = $request->getParsedBody();
 
-                $password = (string)bin2hex(random_bytes(4));
-                $hashpass = password_hash($password, PASSWORD_DEFAULT);
+        $stmt = $this->db->prepare("SELECT * FROM users WHERE email=?");
+        $stmt->execute([$vars['email']]);
 
-                try {
-                    $this->db->beginTransaction();
-
-                    $stmt = $this->db->prepare("UPDATE users SET password=? WHERE userId=?");
-                    $stmt->execute([$hashpass, $item['userId']]);
-
-
-                    $emailFrom = $this->settings['info_mail'];
-                    $emailTo   = array($item['email'] => $item['name']);
-                    $emailBody = $this->renderer->fetch('Emails/forgotPassword.twig', array('password' => $password));
-
-                    // Setting all needed info and passing in my email template.
-                    $message = (new \Swift_Message($this->trans('Conformation')))
-                        ->setFrom($emailFrom)
-                        ->setTo($emailTo)
-                        ->setBody($emailBody)
-                        ->setContentType("text/html");
-
-                    // Send the message
-                    $result = $this->mailer->send($message);
-
-                    if($result == 1){
-                        $this->db->commit();
-                        return $this->render($response, 'Frontend/page.twig', ['title' => 'Info', 'text' => 'Please, check email']);
-                    }else{
-                        $this->db->rollBack();
-                        $this->flash->addMessage('error', $this->trans('An error occurred. Please contact administrator'));
-                        return $response->withStatus(302)->withHeader('Location', $this->router->pathFor('forgotPassword', ['lang' => $this->lang]));
-                    }
-                } catch (\Exception $e) {
-                    $this->db->rollBack();
-                    $flashMsg = ($this->settings['displayErrorDetails']) ? $e->getMessage() : $this->trans('An error occurred. Please contact administrator');
-                    $this->flash->addMessage('error', json_encode($flashMsg, JSON_PRETTY_PRINT));
-                    return $response->withStatus(302)->withHeader('Location', $this->router->pathFor('forgotPassword', ['lang' => $this->lang]));
-                }
-            }
-
-            $this->flash->addMessage('error', $this->trans('Wrong login or email'));
+        if(!$item = $stmt->fetch()){
+            $this->flash->addMessage('error', $this->trans('Wrong email'));
             return $response->withStatus(302)->withHeader('Location', $this->router->pathFor('forgotPassword', ['lang' => $this->lang]));
         }
 
-        $data = array();
+        $password = (string)bin2hex(random_bytes(4));
+        $hashpass = password_hash($password, PASSWORD_DEFAULT);
 
-        return $this->render($response, 'Auth/forgotPassword.twig', $data);;
+        try {
+            $this->db->beginTransaction();
+
+            $stmt = $this->db->prepare("UPDATE users SET password=? WHERE userId=?");
+            $stmt->execute([$hashpass, $item['userId']]);
+
+            $emailFrom = $this->settings['info_mail'];
+            $emailTo   = array($item['email'] => $item['name']);
+            $emailBody = $this->renderer->fetch('Emails/forgotPassword.twig', array('password' => $password));
+
+            // Setting all needed info and passing in my email template.
+            $message = (new \Swift_Message($this->trans('Conformation')))
+                ->setFrom($emailFrom)
+                ->setTo($emailTo)
+                ->setBody($emailBody)
+                ->setContentType("text/html");
+
+            // Send the message
+            if(!$this->mailer->send($message)){
+                throw new \Exception('Message has not been sent');
+            }
+
+            $this->db->commit();
+            return $this->render($response, 'Frontend/page.twig', ['title' => 'Info', 'text' => 'Please, check email']);
+        } catch (\Exception $e) {
+            $this->db->rollBack();
+            $flashMsg = ($this->settings['displayErrorDetails']) ? $e->getMessage() : $this->trans('An error occurred. Please contact administrator');
+            $this->flash->addMessage('error', json_encode($flashMsg, JSON_PRETTY_PRINT));
+            return $response->withStatus(302)->withHeader('Location', $this->router->pathFor('forgotPassword', ['lang' => $this->lang]));
+        }
     }
 
     // Check Auth Middleware
@@ -271,18 +224,17 @@ class Auth extends BaseController
     public function checkNotExists(Request $request, Response $response, Array $args) {
         $allGetVars = $request->getQueryParams();
 
-        $field = preg_replace('/[^A-Za-z0-9\-]/', '', key($allGetVars));
-        $value = reset($allGetVars);
-
-        if(!$this->checkExists($field, $value)){
-            return $response->withJson('OK', 200);
+        if($this->checkExists(key($allGetVars), reset($allGetVars))){
+            return  $response->withJson('Not valid', 400);
         }
 
-        return  $response->withJson('Not valid', 400);
+        return $response->withJson('OK', 200);
     }
 
     protected function checkExists($field, $value) {
-        $stmt = $this->db->prepare("SELECT COUNT(*) FROM users where ". $field." = ?");
+        $field = preg_replace('/[^A-Za-z0-9\-]/', '', $field);
+
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM users where ".$field." = ?");
         $stmt->execute([$value]);
 
         return (bool) $stmt->fetchColumn();

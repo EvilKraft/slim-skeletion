@@ -63,7 +63,7 @@ ul.pt-followers-icons.share-buttons li:hover span.counter, ul.pt-followers-icons
 #recent3 .post-summary { font-size: 13px; line-height: 21px; color: #111;}
 .post-summary {color:#555;}
 
-#magstyle1, #magstyle2, {background-color: #FFF;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;}
+#magstyle1, #magstyle2 {background-color: #FFF;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;}
 #magstyle1 .recent-box, #magstyle2 .recent-box {margin-bottom: 10px;border-bottom: 1px dashed #f1f1f1;padding-bottom: 15px;}
 #magstyle1 .recent-box:first-child .label_title, #magstyle2 .recent-box:first-child .label_title, #magstyle44 .recent-box:first-child .label_title {font-size: 17px; font-weight:600; text-transform: capitalize;}
 #magstyle1 .label_title, #magstyle2 .label_title {display: -webkit-box; margin: 0 auto; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis;font-size: 14px; font-weight: 600; line-height: 1.6;}

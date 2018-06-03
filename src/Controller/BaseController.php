@@ -43,7 +43,7 @@ abstract class BaseController
         return $this->i18n->trans($id, $parameters, $domain, $locale);
     }
 
-    protected function render(Response $response, $template, Array $data = null){
+    protected function render(Response $response, $template, Array $data = []){
         return $this->renderer->render($response, $template, $data);
     }
 
