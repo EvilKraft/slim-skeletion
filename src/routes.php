@@ -40,7 +40,6 @@ $app->group('/{lang:'.$langRegExp.'}', function () use ($app) {
 
     $this->group('/member', function () use ($app) {
         $this->get('',                          \Controller\Member\User::class.':dashboard')->setName('member_dashboard');
-
         $this->map(['GET', 'PUT'],  '/profile', \Controller\Member\User::class.':profile')->setName('member_profile');
         $this->map(['GET', 'POST'], '/support', \Controller\Member\User::class.':support')->setName('member_support');
         $this->get('/help',                     \Controller\Member\User::class.':help')->setName('member_help');
@@ -48,6 +47,18 @@ $app->group('/{lang:'.$langRegExp.'}', function () use ($app) {
         $this->group('/posts',      \Controller\Member\Posts::class.'::registerRoutes');
 
     })->add(\Controller\Auth::class.':checkAuth');
+
+})->add(\Controller\Frontend::class.':frontendMiddleware');
+
+$app->group('/{lang:'.$langRegExp.'}', function () use ($app) {
+    $this->group('', function () use ($app) {
+        $this->map(['GET', 'POST'], '/login',           \Controller\Auth::class.':login')->setName('login');
+        $this->map(['GET', 'POST'], '/register',        \Controller\Auth::class.':Register')->setName('register');
+        $this->map(['GET', 'POST'], '/forgot-password', \Controller\Auth::class.':forgotPassword')->setName('forgotPassword');
+    })->add(\Controller\Frontend::class.':frontendMiddleware');
+    $this->get('/check-exists',                     \Controller\Auth::class.':checkNotExists')->setName('checkNotExists');
+    $this->get('/confirm-mail/{code:.+}',           \Controller\Auth::class.':confirmMail')->setName('confirmMail');
+    $this->any('/logout',                           \Controller\Auth::class.':logout')->setName('logout');
 
 
     $this->group('/admin', function () use ($app) {
@@ -57,19 +68,8 @@ $app->group('/{lang:'.$langRegExp.'}', function () use ($app) {
         $this->group('/industries', \Controller\Admin\Industries::class.'::registerRoutes');
         $this->group('/pages',      \Controller\Admin\Pages::class.'::registerRoutes');
         $this->group('/help',       \Controller\Admin\Help::class.'::registerRoutes');
-    })
-    ->add(\Controller\Auth::class.':checkIsAdmin')
-    ->add(\Controller\Auth::class.':checkAuth');
-
-
-    $this->map(['GET', 'POST'], '/login',           \Controller\Auth::class.':login')->setName('login');
-    $this->map(['GET', 'POST'], '/register',        \Controller\Auth::class.':Register')->setName('register');
-    $this->map(['GET', 'POST'], '/forgot-password', \Controller\Auth::class.':forgotPassword')->setName('forgotPassword');
-    $this->get('/check-login',                      \Controller\Auth::class.':checkLogin')->setName('checkLogin');
-    $this->get('/check-email',                      \Controller\Auth::class.':checkEmail')->setName('checkEmail');
-    $this->get('/confirm-mail/{code:.+}',           \Controller\Auth::class.':confirmMail')->setName('confirmMail');
-    $this->any('/logout',                           \Controller\Auth::class.':logout')->setName('logout');
-
+    })->add(\Controller\Auth::class.':checkIsAdmin')
+      ->add(\Controller\Auth::class.':checkAuth');
 });
 
 $app->get('/img[/{image_name:.*}]', function (Request $request, Response $response, Array $args) {

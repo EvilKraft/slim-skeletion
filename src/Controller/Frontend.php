@@ -22,21 +22,21 @@ class Frontend extends BaseController
         $data['blog_container4'] = $this->renderer->fetch('Frontend/Blog/blog_stile4.twig', $this->getPosts(8, 6));
         $data['blog_container5'] = $this->renderer->fetch('Frontend/Blog/blog_stile5.twig', $this->getPosts(8, 6));
 
-        return $this->renderPage($response, 'Frontend/index.twig', $data);
+        return $this->render($response, 'Frontend/index.twig', $data);
     }
 
     public function about(Request $request, Response $response, Array $args) {
 
         $data = $this->getPage('about');
 
-        return $this->renderPage($response, 'Frontend/page.twig', $data);
+        return $this->render($response, 'Frontend/page.twig', $data);
     }
 
     public function rules(Request $request, Response $response, Array $args) {
 
         $data = $this->getPage('rules');
 
-        return $this->renderPage($response, 'Frontend/page.twig', $data);
+        return $this->render($response, 'Frontend/page.twig', $data);
     }
 
     public function contact(Request $request, Response $response, Array $args) {
@@ -75,7 +75,7 @@ class Frontend extends BaseController
 
         $data = $this->getPage('contacts');
 
-        return $this->renderPage($response, 'Frontend/contact.twig', $data);
+        return $this->render($response, 'Frontend/contact.twig', $data);
     }
 
     public function blog(Request $request, Response $response, Array $args) {
@@ -141,7 +141,7 @@ class Frontend extends BaseController
         $pagination = new Pagination($request, $this->router, $options);
         $data['pagination'] = $this->renderer->fetch('Frontend/pagination.twig', ['pagination' => $pagination]);
 
-        return $this->renderPage($response, 'Frontend/blog.twig', $data);
+        return $this->render($response, 'Frontend/blog.twig', $data);
     }
 
     public function post(Request $request, Response $response, Array $args) {
@@ -197,18 +197,18 @@ class Frontend extends BaseController
             }
         }
 
-        return $this->renderPage($response, 'Frontend/post.twig', $data);
+        return $this->render($response, 'Frontend/post.twig', $data);
     }
 
-    protected function renderPage(Response $response, $template, Array $data = null){
-        $stmt = $this->db->prepare("SELECT I.industryId, IL.name FROM industries I INNER JOIN industries_lang IL ON I.industryId = IL.industryId AND lang=?");
-        $stmt->execute([$this->lang]);
-        $data['industries'] = $stmt->fetchAll();
+    public function frontendMiddleware(Request $request, Response $response, callable $next)
+    {
+        $this->renderer->getEnvironment()->addGlobal('industries', $this->getCategories());
+        $this->renderer->getEnvironment()->addGlobal('recent_posts', $this->recentPosts());
 
-        $data['recent_posts'] = $this->recentPosts();
-
-        return $this->renderer->render($response, $template, $data);
+        return $next($request, $response, $next);
     }
+
+
 
     protected function getPage($alias){
         $sql = "SELECT P.*, L.title, L.keywords, L.description, L.text
@@ -267,6 +267,14 @@ class Frontend extends BaseController
         $stmt->execute();
 
         $data['items'] = $stmt->fetchAll();
+
+        return $data;
+    }
+
+    protected function getCategories(){
+        $stmt = $this->db->prepare("SELECT I.industryId, IL.name FROM industries I INNER JOIN industries_lang IL ON I.industryId = IL.industryId AND lang=?");
+        $stmt->execute([$this->lang]);
+        $data = $stmt->fetchAll();
 
         return $data;
     }

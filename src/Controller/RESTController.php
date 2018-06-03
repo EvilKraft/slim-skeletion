@@ -315,7 +315,7 @@ class RESTController extends BaseController implements RESTInterface
             $this->data['pageTitle'] .= ' / '.$this->trans($pageTitle);
         }
 
-        return $this->renderer->render($response, $template, $this->data);
+        return $this->render($response, $template, $this->data);
     }
 
     protected function getListUrl(){
@@ -347,7 +347,7 @@ class RESTController extends BaseController implements RESTInterface
         return $columns;
     }
 
-    // owerrade to add additional form. Ex. $this->data['zzz'] = 'zzz';
+    // Override to add additional form. Ex. $this->data['zzz'] = 'zzz';
     protected function extraFormData(){
 
         // Add langs data to form

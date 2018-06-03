@@ -43,6 +43,10 @@ abstract class BaseController
         return $this->i18n->trans($id, $parameters, $domain, $locale);
     }
 
+    protected function render(Response $response, $template, Array $data = null){
+        return $this->renderer->render($response, $template, $data);
+    }
+
     public static function getNamespace() {
         return implode('\\', array_slice(explode('\\', get_called_class()), 0, -1));
     }

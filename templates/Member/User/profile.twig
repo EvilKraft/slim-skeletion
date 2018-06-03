@@ -106,7 +106,7 @@
 
                             <div class="form-group has-feedback">
                                 <label for="login">{{ 'Login'|trans }}</label>
-                                <input id="login" name="login" class="form-control" placeholder="{{ 'Login'|trans }}" type="text" disabled data-error="{{ 'Invalid value'|trans }}" data-remote="{{ path_for('checkLogin', {'lang': lang}) }}">
+                                <input id="login" name="login" class="form-control" placeholder="{{ 'Login'|trans }}" type="text" disabled data-error="{{ 'Invalid value'|trans }}" data-remote="{{ path_for('checkNotExists', {'lang': lang}) }}">
                                 <span class="glyphicon glyphicon-user form-control-feedback"></span>
                                 <div class="help-block with-errors"></div>
                             </div>

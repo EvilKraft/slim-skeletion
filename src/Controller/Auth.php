@@ -14,7 +14,6 @@ class Auth extends BaseController
 {
     public function login(Request $request, Response $response, Array $args) {
 
-
         if($request->isPost()){
             $data = $request->getParsedBody();
 
@@ -47,9 +46,7 @@ class Auth extends BaseController
             return $response->withStatus(302)->withHeader('Location', $this->router->pathFor('login', ['lang' => $this->lang]));
         }
 
-        $data = $this->getLoginData();
-
-        return $this->renderer->render($response, 'Auth/login.twig', $data);
+        return $this->render($response, 'Auth/login.twig');
     }
 
     public function logout(Request $request, Response $response, Array $args) {
@@ -145,7 +142,8 @@ class Auth extends BaseController
 
                 if($result == 1){
                     $this->db->commit();
-                    return $this->renderer->render($response, 'Frontend/page.twig', ['title' => 'Info', 'text' => 'Please, check email to complete registration']);
+
+                    return $this->render($response, 'Frontend/page.twig', ['title' => 'Info', 'text' => 'Please, check email to complete registration']);
                 }else{
                     $this->db->rollBack();
                     $this->flash->addMessage('error', $this->trans('An error occurred. Please contact administrator'));
@@ -159,52 +157,7 @@ class Auth extends BaseController
             }
         }
 
-        $data = $this->getLoginData();
-
-        return $this->renderer->render($response, 'Auth/login.twig', $data);
-    }
-
-    public function whyReg(Request $request, Response $response, Array $args) {
-
-        $data = $this->getLoginData();
-
-        return $this->renderer->render($response, 'Auth/login.twig', $data);
-    }
-
-    public function checkLogin(Request $request, Response $response, Array $args) {
-        $allGetVars = $request->getQueryParams();
-
-        $key = key($allGetVars);
-        $val = reset($allGetVars);
-
-        switch ($key){
-            case 'login' :
-                if(!$this->loginExists($val)){
-                    return $response->withJson('OK', 200);
-                }
-
-                break;
-        }
-
-        return  $response->withJson('Not valid', 400);
-    }
-
-    public function checkEmail(Request $request, Response $response, Array $args) {
-        $allGetVars = $request->getQueryParams();
-
-        $key = key($allGetVars);
-        $val = reset($allGetVars);
-
-        switch ($key){
-            case 'email' :
-                if(!$this->emailExists($val)){
-                    return $response->withJson('OK', 200);
-                }
-
-                break;
-        }
-
-        return  $response->withJson('Not valid', 400);
+        return $this->render($response, 'Auth/login.twig');
     }
 
     public function confirmMail(Request $request, Response $response, Array $args) {
@@ -212,7 +165,7 @@ class Auth extends BaseController
         $stmt = $this->db->prepare("SELECT * FROM users where activationCode = ? AND status = 0");
         $stmt->execute(array($args['code']));
         if(!$user = $stmt->fetch()){
-            return $this->renderer->render($response, 'Frontend/page.twig', ['title' => 'Error!', 'text' => 'Wrong activation code.']);
+            return $this->render($response, 'Frontend/page.twig', ['title' => 'Error!', 'text' => 'Wrong activation code.']);
         }
 
         try {
@@ -222,7 +175,7 @@ class Auth extends BaseController
             $stmt->execute(array($user['userId']));
 
             $this->db->commit();
-            return $this->renderer->render($response, 'Frontend/page.twig', ['title' => 'Info', 'text' => 'Conformation complete. Please, sign in.']);
+            return $this->render($response, 'Frontend/page.twig', ['title' => 'Info', 'text' => 'Conformation complete. Please, sign in.']);
         } catch (\Exception $e) {
             $this->db->rollBack();
             $flashMsg = ($this->settings['displayErrorDetails']) ? $e->getMessage() : $this->trans('An error occurred. Please contact administrator');
@@ -266,7 +219,7 @@ class Auth extends BaseController
 
                     if($result == 1){
                         $this->db->commit();
-                        return $this->renderer->render($response, 'Frontend/page.twig', ['title' => 'Info', 'text' => 'Please, check email']);
+                        return $this->render($response, 'Frontend/page.twig', ['title' => 'Info', 'text' => 'Please, check email']);
                     }else{
                         $this->db->rollBack();
                         $this->flash->addMessage('error', $this->trans('An error occurred. Please contact administrator'));
@@ -286,9 +239,10 @@ class Auth extends BaseController
 
         $data = array();
 
-        return $this->renderer->render($response, 'Auth/forgotPassword.twig', $data);;
+        return $this->render($response, 'Auth/forgotPassword.twig', $data);;
     }
 
+    // Check Auth Middleware
     public function checkAuth(Request $request, Response $response, callable $next)
     {
         if (session_status() == PHP_SESSION_NONE) {
@@ -303,6 +257,7 @@ class Auth extends BaseController
         return $next($request, $response, $next);
     }
 
+    // Check is Admin Middleware
     public function checkIsAdmin(Request $request, Response $response, callable $next)
     {
         if ($_SESSION['user']['groupId'] != 1) {
@@ -312,51 +267,24 @@ class Auth extends BaseController
         return $next($request, $response, $next);
     }
 
-    private function getLoginData(){
-        $data = array();
+    // Check if user not exists
+    public function checkNotExists(Request $request, Response $response, Array $args) {
+        $allGetVars = $request->getQueryParams();
 
-        $stmt = $this->db->prepare("SELECT * FROM cities");
-        $stmt->execute();
-        $data['cities'] = $stmt->fetchAll();
+        $field = preg_replace('/[^A-Za-z0-9\-]/', '', key($allGetVars));
+        $value = reset($allGetVars);
 
-        $stmt = $this->db->prepare("SELECT I.industryId, IL.name FROM industries I INNER JOIN industries_lang IL ON I.industryId = IL.industryId AND lang=?");
-        $stmt->execute([$this->lang]);
-        $data['industries'] = $stmt->fetchAll();
+        if(!$this->checkExists($field, $value)){
+            return $response->withJson('OK', 200);
+        }
 
-        $sql = "SELECT 
-                    PL.title AS why_title, 
-                    PL.text  AS why_text 
-                FROM pages P
-                INNER JOIN pages_lang PL ON PL.pageId = P.pageId
-                WHERE P.alias = 'why' AND PL.lang=?";
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute([$this->lang]);
-        $why = $stmt->fetch();
-        $data['why_title'] = $why['why_title'];
-        $data['why_text']  = $why['why_text'];
-
-        return $data;
+        return  $response->withJson('Not valid', 400);
     }
 
-    private function loginExists($login){
-        $stmt = $this->db->prepare("SELECT COUNT(*) AS count FROM users where login = ?");
-        $stmt->execute([$login]);
-        $row = $stmt->fetch();
+    protected function checkExists($field, $value) {
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM users where ". $field." = ?");
+        $stmt->execute([$value]);
 
-        if($row['count'] > 0){
-            return true;
-        }
-        return false;
-    }
-
-    private function emailExists($email){
-        $stmt = $this->db->prepare("SELECT COUNT(*) AS count FROM users where email = ?");
-        $stmt->execute([$email]);
-        $row = $stmt->fetch();
-
-        if($row['count'] > 0){
-            return true;
-        }
-        return false;
+        return (bool) $stmt->fetchColumn();
     }
 }

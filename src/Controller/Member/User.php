@@ -18,7 +18,7 @@ class User extends \Controller\BaseController
     public function dashboard(Request $request, Response $response, Array $args) {
         $this->data['pageTitle'] = $this->trans('Dashboard');
 
-        return $this->renderer->render($response, 'Member/User/dashboard.twig', $this->data);
+        return $this->render($response, 'Member/User/dashboard.twig', $this->data);
     }
 
     public function profile(Request $request, Response $response, Array $args) {
@@ -135,7 +135,7 @@ class User extends \Controller\BaseController
         $stmt->execute();
         $this->data['cities'] = $stmt->fetchAll();
 
-        return $this->renderer->render($response, 'Member/User/profile.twig', $this->data);
+        return $this->render($response, 'Member/User/profile.twig', $this->data);
     }
 
     public function help(Request $request, Response $response, Array $args) {
@@ -151,7 +151,7 @@ class User extends \Controller\BaseController
 
         $this->data['pageTitle'] = $this->trans('Help');
 
-        return $this->renderer->render($response, 'Member/User/help.twig', $this->data);
+        return $this->render($response, 'Member/User/help.twig', $this->data);
     }
 
     public function support(Request $request, Response $response, Array $args){
@@ -201,6 +201,6 @@ class User extends \Controller\BaseController
 
         $this->data['pageTitle'] = $this->trans('Support');
 
-        return $this->renderer->render($response, 'Member/User/support.twig', $this->data);
+        return $this->render($response, 'Member/User/support.twig', $this->data);
     }
 }

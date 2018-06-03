@@ -32,6 +32,6 @@ class Dashboard extends \Controller\BaseController
         $this->data['total_users'] = $stmt->fetchColumn();
 
 
-        return $this->renderer->render($response, 'Admin/Dashboard.twig', $this->data);
+        return $this->render($response, 'Admin/Dashboard.twig', $this->data);
     }
 }
