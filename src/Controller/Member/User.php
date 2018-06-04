@@ -142,7 +142,7 @@ class User extends \Controller\BaseController
 
         $sql = "SELECT H.*, L.title, L.text
                 FROM help H
-                INNER JOIN help_lang L ON L.pageId=H.helpId AND L.lang=?
+                INNER JOIN help_lang L ON L.helpId=H.helpId AND L.lang=?
                 ORDER BY sort";
 
         $stmt = $this->db->prepare($sql);
@@ -183,12 +183,9 @@ class User extends \Controller\BaseController
                 ->setContentType("text/html");
 
             // Send the message
-            $result = $this->mailer->send($message);
-
-            if($result == 1){
+            if($this->mailer->send($message)){
                 $this->flash->addMessage('success', $this->trans('Email was send'));
             }else{
-
                 // Dump the log contents
                 // NOTE: The EchoLogger dumps in realtime so dump() does nothing for it. We use ArrayLogger instead.
                 echo "Error:" . $logger->dump();

@@ -89,7 +89,6 @@ return [
             ],
         ],
 
-
         // i18n settings
         'i18n' => [
             'langs'         => ['en', 'ru', 'az'],

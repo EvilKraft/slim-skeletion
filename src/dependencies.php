@@ -152,21 +152,23 @@ $container['mailer'] = function ($container) {
         $transport = new \Swift_SendmailTransport();
         $options = ['command'];
     }
-    if ($transport) {
-        if (isset($options) && is_array($options) && !empty($options)) {
-            foreach ($options as $option) {
-                if (isset($config[$option]) && $config[$option]) {
-                    $methodName = str_replace('_', ' ', $option);
-                    $methodName = ucwords($methodName);
-                    $methodName = str_replace(' ', '', $methodName);
-                    $methodName = 'set' . $methodName;
-                    $transport->{$methodName}($config[$option]);
-                }
+
+    if (!$transport) {
+        return false;
+    }
+
+    if (isset($options) && is_array($options) && !empty($options)) {
+        foreach ($options as $option) {
+            if (isset($config[$option]) && $config[$option]) {
+                $methodName = str_replace('_', ' ', $option);
+                $methodName = ucwords($methodName);
+                $methodName = str_replace(' ', '', $methodName);
+                $methodName = 'set' . $methodName;
+                $transport->{$methodName}($config[$option]);
             }
         }
-        return new \Swift_Mailer($transport);
     }
-    return false;
+    return new \Swift_Mailer($transport);
 };
 
 if($container->get('settings')['displayErrorDetails'] === true){

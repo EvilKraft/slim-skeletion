@@ -123,15 +123,8 @@
                     <!--Can't find substitution for tag [adEnd]-->
                 </div>
                 <div style="clear: both;"></div>
-
-                {{ pagination|default('') }}
-
-                <div class="blog-pager" id="blog-pager">
-                    <span id="blog-pager-older-link">
-                        <a class="blog-pager-older-link" href="https://news16-templatemark.blogspot.com/search/label/Advertisement?updated-max=2017-10-23T11:22:00-07:00&amp;max-results=5&amp;start=5&amp;by-date=false" id="Blog1_blog-pager-older-link" title="Older Posts">Older Posts&nbsp;→</a>
-                    </span>
-                    <a class="home-link" href="https://news16-templatemark.blogspot.com/">Home</a>
-                </div>
+                <br>
+                {{ pagination|default('')|raw }}
                 <div class="clear"></div>
             </div>
         </div>

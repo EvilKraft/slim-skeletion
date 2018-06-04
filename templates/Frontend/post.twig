@@ -66,27 +66,26 @@
 
                                         {{ item.text|raw }}
 
-                                        <hr>
+                                        {% if item.images is defined %}
+                                            <hr>
+                                            <div id="animated-thumbnials">
+                                                {% for image in item.images %}
+                                                    <a href="{{ path_for('image', {'image_name':image.file}) }}">
+                                                        <img src="{{ path_for('image', {'image_name':image.file}, {'p':'xs'}) }}" />
+                                                    </a>
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
 
-
-
-                                        <div id="animated-thumbnials">
-                                            {% for image in item.images %}
-                                                <a href="{{ base_url() }}/uploads/{{ image.file }}">
-                                                    <img src="/img/{{ image.file }}?p=xs" />
-                                                </a>
+                                        {% if item.files is defined %}
+                                            <hr>
+                                            {% for file in item.files %}
+                                                <a class="btn btn-primary" style="margin-right: 5px; color:#ffffff;" href="{{ base_url() }}/uploads/{{ file.file }}">
+                                                    <i class="fa fa-download"></i> {{ 'Download attachment'|trans }}
+                                                </a> {{ file.caption }}
+                                                <br><br>
                                             {% endfor %}
-                                        </div>
-
-                                        <hr>
-
-                                        {% for file in item.files %}
-                                            <a class="btn btn-primary" style="margin-right: 5px; color:#ffffff;" href="{{ base_url() }}/uploads/{{ file.file }}">
-                                                <i class="fa fa-download"></i> {{ 'Download attachment'|trans }}
-                                            </a> {{ file.caption }}
-                                            <br><br>
-                                        {% endfor %}
-
+                                        {% endif %}
                                    </div>
                                 </article>
                                 <div style="clear:both"></div>

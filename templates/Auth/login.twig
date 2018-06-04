@@ -56,7 +56,7 @@
 
                                     <div class="form-group has-feedback">
                                         <label for="email">{{ 'Email'|trans }} <span class="text-danger">*</span></label>
-                                        <input id="email" name="email" class="form-control form" placeholder="{{ 'Email'|trans }}" required="" type="text" data-error="{{ 'Invalid value'|trans }}" data-remote="{{ path_for('checkNotExists', {'lang': lang}) }}">
+                                        <input id="email" name="email" class="form-control form" placeholder="{{ 'Email'|trans }}" required="" type="email" data-error="{{ 'Invalid value'|trans }}" data-remote="{{ path_for('checkNotExists', {'lang': lang}) }}">
                                         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                                         <div class="help-block with-errors"></div>
                                     </div>

@@ -63,9 +63,7 @@ class Frontend extends BaseController
                 ->setContentType("text/html");
 
             // Send the message
-            $result = $this->mailer->send($message);
-
-            if($result == 1){
+            if($this->mailer->send($message)){
                 $this->flash->addMessage('success', $this->trans('Email was send'));
             }else{
                 $this->flash->addMessage('error', $this->trans('An error occurred. Please contact administrator'));
@@ -146,10 +144,7 @@ class Frontend extends BaseController
     }
 
     public function post(Request $request, Response $response, Array $args) {
-        $data = array(
-            'images' => [],
-            'files' => [],
-        );
+        $data = array();
 
         $sql  = "SELECT 
                     P.*, L.*, 
@@ -200,7 +195,6 @@ class Frontend extends BaseController
 
         return $this->render($response, 'Frontend/post.twig', $data);
     }
-
 
     public function searchPost(Request $request, Response $response, Array $args) {
 
