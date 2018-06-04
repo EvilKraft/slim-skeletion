@@ -43,11 +43,7 @@ $app->group('/{lang:'.$langRegExp.'}', function () use ($app) {
     $this->group('/member', function () use ($app) {
         $this->get('',                          \Controller\Member\User::class.':dashboard')->setName('member_dashboard');
         $this->map(['GET', 'PUT'],  '/profile', \Controller\Member\User::class.':profile')->setName('member_profile');
-        $this->map(['GET', 'POST'], '/support', \Controller\Member\User::class.':support')->setName('member_support');
-        $this->get('/help',                     \Controller\Member\User::class.':help')->setName('member_help');
-
-        $this->group('/posts',      \Controller\Member\Posts::class.'::registerRoutes');
-
+        $this->group('/posts',                  \Controller\Member\Posts::class.'::registerRoutes');
     })->add(\Controller\Auth::class.':checkAuth');
 
 })->add(\Controller\Frontend::class.':frontendMiddleware');
@@ -69,7 +65,6 @@ $app->group('/{lang:'.$langRegExp.'}', function () use ($app) {
         $this->group('/users',      \Controller\Admin\Users::class.'::registerRoutes');
         $this->group('/industries', \Controller\Admin\Industries::class.'::registerRoutes');
         $this->group('/pages',      \Controller\Admin\Pages::class.'::registerRoutes');
-        $this->group('/help',       \Controller\Admin\Help::class.'::registerRoutes');
     })->add(\Controller\Auth::class.':checkIsAdmin')
       ->add(\Controller\Auth::class.':checkAuth');
 });

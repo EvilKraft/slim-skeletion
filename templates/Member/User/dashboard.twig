@@ -1,42 +1,43 @@
-{% extends 'backend_layout.twig' %}
-
-
+{% extends 'Frontend/page.twig' %}
 
 {% block content %}
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-        <h1>{{ pageTitle }}</h1>
-    </section>
+    <div class="content-area" id="primarybwrap">
+        <div class="bwrapsite-main" id="mainbwrap" role="main">
+            <div class="post-outer">
+                <article class="post hentry">
+                    <h1 class="post-title entry-title">{{ pageTitle }}</h1>
+                    <div class="post-body entry-content">
 
-    <!-- Main content -->
-    <section class="content">
-        <div class="row">
-            <div class="col-lg-3 col-xs-6">
-                <!-- small box -->
-                <div class="small-box bg-aqua">
-                    <div class="inner">
-                        <h3>150</h3>
-
-                        <p>Posts</p>
+                        <div class="row">
+                            <div class="col-lg-3 col-xs-6">
+                                <!-- small box -->
+                                <div class="small-box bg-aqua">
+                                    <div class="inner">
+                                        <h3>{{ total_posts }}</h3>
+                                        <p>{{ 'Posts'|trans }}</p>
+                                    </div>
+                                    <div class="icon">
+                                        <i class="ion ion-compose"></i>
+                                    </div>
+                                    <a href="{{ path_for('member_posts', {'lang':lang}) }}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-xs-12">
+                                <a class="btn btn-app bg-green" href="{{ path_for('member_posts_create', {'lang':lang}) }}">
+                                    <i class="fa fa-plus"></i> {{ 'New'|trans }}
+                                </a>
+                                <br>
+                                dgdfgdfg вап вап вап
+                                вапвапавп вап ав пвап
+                                впвп вап вап вап вап
+                            </div>
+                        </div>
                     </div>
-                    <div class="icon">
-                        <i class="ion ion-compose"></i>
-                    </div>
-                    <a href="{{ path_for('member_posts', {'lang':lang}) }}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-            <div class="col-lg-6 col-xs-12">
-                <a class="btn btn-app bg-green" href="{{ path_for('member_posts_create', {'lang':lang}) }}">
-                    <i class="fa fa-plus"></i> {{ 'New'|trans }}
-                </a>
-                <br>
-                dgdfgdfg вап вап вап
-                вапвапавп вап ав пвап
-                впвп вап вап вап вап
+                </article>
+                <div style="clear:both"></div>
             </div>
         </div>
-    </section>
-    <!-- /.content -->
+    </div>
 {% endblock %}
 
 {% block head %}
@@ -46,13 +47,5 @@
 
 {% block scripts %}
     {{ parent() }}
-
-    <script src="{{ base_url() }}/assets/bootstrap-validator/dist/validator.min.js?ver={{ version }}"></script>
-
-    <script type="text/javascript">
-        $(document).ready(function(){
-
-        });
-    </script>
 
 {% endblock %}

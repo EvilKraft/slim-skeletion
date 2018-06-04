@@ -55,6 +55,9 @@ class Frontend extends BaseController
                 'text' => $vars['text']
             ));
 
+            $logger = new \Swift_Plugins_Loggers_ArrayLogger();
+            $this->mailer->registerPlugin(new \Swift_Plugins_LoggerPlugin($logger));
+
             // Setting all needed info and passing in my email template.
             $message = (new \Swift_Message($this->trans('Contacts').': '.$vars['name']))
                 ->setFrom($emailFrom)
@@ -66,6 +69,11 @@ class Frontend extends BaseController
             if($this->mailer->send($message)){
                 $this->flash->addMessage('success', $this->trans('Email was send'));
             }else{
+                // Dump the log contents
+                // NOTE: The EchoLogger dumps in realtime so dump() does nothing for it. We use ArrayLogger instead.
+                //echo "Error:" . $logger->dump();
+                //return $response;
+
                 $this->flash->addMessage('error', $this->trans('An error occurred. Please contact administrator'));
             }
             return $response->withStatus(302)->withHeader('Location', $this->router->pathFor('home', ['lang' => $this->lang]));

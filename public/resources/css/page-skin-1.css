@@ -291,8 +291,8 @@ h2.date-header{margin:10px 0;display:none}
 #menu li:hover ul.menus{display:block}
 #menu ul.menus a:hover{ background:#2574A9; color: #fff; -webkit-transition: all .1s ease-in-out; -moz-transition: all .1s ease-in-out; -ms-transition: all .1s ease-in-out; -o-transition: all .1s ease-in-out; transition: all .1s ease-in-out; }
 
-#menu li.navbar-right ul.menus{width: 250px; right:0; padding: 10px}
-#menu li.navbar-right div.dropdown-menu{width: 250px; right:0; padding: 10px}
+#menu li.navbar-right ul.menus{width: 250px; right:0; }
+#menu li.navbar-right div.dropdown-menu{width: 250px; right:0; padding: 15px}
 #menu li.navbar-right label{display:block; width:100%; text-align:left; font-size:12px; text-transform:none }
 #menu li.navbar-right input{display:block; width:100%; opacity:1; cursor:auto}
 

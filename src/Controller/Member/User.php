@@ -18,6 +18,10 @@ class User extends \Controller\BaseController
     public function dashboard(Request $request, Response $response, Array $args) {
         $this->data['pageTitle'] = $this->trans('Dashboard');
 
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM posts WHERE userId = ?");
+        $stmt->execute([$_SESSION['user']['userId']]);
+        $this->data['total_posts'] = $stmt->fetchColumn();
+
         return $this->render($response, 'Member/User/dashboard.twig', $this->data);
     }
 
@@ -136,68 +140,5 @@ class User extends \Controller\BaseController
         $this->data['cities'] = $stmt->fetchAll();
 
         return $this->render($response, 'Member/User/profile.twig', $this->data);
-    }
-
-    public function help(Request $request, Response $response, Array $args) {
-
-        $sql = "SELECT H.*, L.title, L.text
-                FROM help H
-                INNER JOIN help_lang L ON L.helpId=H.helpId AND L.lang=?
-                ORDER BY sort";
-
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute([$this->lang]);
-        $this->data['items'] = $stmt->fetchAll();
-
-        $this->data['pageTitle'] = $this->trans('Help');
-
-        return $this->render($response, 'Member/User/help.twig', $this->data);
-    }
-
-    public function support(Request $request, Response $response, Array $args){
-
-        if($request->isPost()){
-            $vars = $request->getParsedBody();
-
-            $stmt = $this->db->prepare("SELECT * FROM users WHERE login = 'admin'");
-            $stmt->execute();
-            $admin = $stmt->fetch();
-
-            $emailFrom = array($_SESSION['user']['email'] => $_SESSION['user']['name']);
-            $emailTo   = array($admin['email'] => $admin['name']);
-            $emailBody = $this->renderer->fetch('Emails/support.twig', array(
-                'from' => $_SESSION['user']['name'],
-                'text' => $vars['text']
-            ));
-
-
-            $logger = new \Swift_Plugins_Loggers_ArrayLogger();
-            $this->mailer->registerPlugin(new \Swift_Plugins_LoggerPlugin($logger));
-
-
-            // Setting all needed info and passing in my email template.
-            $message = (new \Swift_Message($this->trans('Support').': '.$_SESSION['user']['name']))
-                ->setFrom($emailFrom)
-                ->setTo($emailTo)
-                ->setBody($emailBody)
-                ->setContentType("text/html");
-
-            // Send the message
-            if($this->mailer->send($message)){
-                $this->flash->addMessage('success', $this->trans('Email was send'));
-            }else{
-                // Dump the log contents
-                // NOTE: The EchoLogger dumps in realtime so dump() does nothing for it. We use ArrayLogger instead.
-                echo "Error:" . $logger->dump();
-                return $response;
-
-                $this->flash->addMessage('error', $this->trans('An error occurred. Please contact administrator'));
-            }
-            return $response->withStatus(302)->withHeader('Location', $this->router->pathFor('member_dashboard', ['lang' => $this->lang]));
-        }
-
-        $this->data['pageTitle'] = $this->trans('Support');
-
-        return $this->render($response, 'Member/User/support.twig', $this->data);
     }
 }

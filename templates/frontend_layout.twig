@@ -25,6 +25,8 @@
             <link type="text/css" rel="stylesheet" href="{{ base_url() }}/resources/css/popular-posts.css?ver={{ version }}">
             <link type="text/css" rel="stylesheet" href="{{ base_url() }}/resources/css/css.css" media="all">
 
+            <link rel="stylesheet" href="{{ base_url() }}/assets/jquery-toast-plugin/dist/jquery.toast.min.css">
+
             <link rel="stylesheet" href="{{ base_url() }}/assets/flag-icon-css/css/flag-icon.min.css">
 
             <link type="text/css" rel="stylesheet" href="{{ base_url() }}/resources/css/frontend.css">
@@ -116,30 +118,43 @@
                         </li>
                         <li><a href="{{ path_for('contact', {'lang':lang}) }}">{{ 'Contact'|trans }}</a></li>
 
-                        <li class="navbar-right"><a href="{{ path_for('register', {'lang':lang}) }}">{{ 'Register'|trans }}</a></li>
-                        <li class="navbar-right dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                                Sign In<i class="material-icons" style=" font-size: 14px; ">keyboard_arrow_down</i>
-                            </a>
-                            <div class="dropdown-menu" id="formLogin">
-                                <div class="row">
-                                    <div class="container-fluid">
-                                        <form id="loginForm" method="post" data-toggle="validator" action="{{ path_for('login', {'lang': lang}) }}">
-                                            <div class="form-group">
-                                                <label>{{ 'Login'|trans }}</label>
-                                                <input class="form-control" name="login" id="auth_login" type="text" placeholder="{{ 'Login'|trans }}">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>{{ 'Password'|trans }}</label>
-                                                <input class="form-control" name="password" id="auth_password" type="password" placeholder="{{ 'Password'|trans }}">
-                                                <br>
-                                            </div>
-                                            <button type="submit" id="btnLogin" class="btn btn-success btn-sm">{{ 'Sign in'|trans }}</button>
-                                        </form>
+                        {% if session.user is defined  %}
+                            <li class="navbar-right" style="float: right">
+                                <a href="{{ path_for('member_dashboard', {'lang':lang}) }}">
+                                    {{ session.user.name }}<i class="material-icons" style=" font-size: 14px; ">keyboard_arrow_down</i>
+                                </a>
+                                <ul class="menus">
+                                    <li><a href="{{ path_for('member_posts', {'lang':lang}) }}">{{ 'Posts'|trans }}</a></li>
+                                    <li><a href="{{ path_for('member_profile', {'lang':lang}) }}">{{ 'Profile'|trans }}</a></li>
+                                    <li><a href="{{ path_for('logout', {'lang':lang}) }}">{{ 'Logout'|trans }}</a></li>
+                                </ul>
+                            </li>
+                        {% else %}
+                            <li class="navbar-right"><a href="{{ path_for('register', {'lang':lang}) }}">{{ 'Register'|trans }}</a></li>
+                            <li class="navbar-right dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                                    {{ 'Sign In'|trans }}<i class="material-icons" style=" font-size: 14px; ">keyboard_arrow_down</i>
+                                </a>
+                                <div class="dropdown-menu" id="formLogin">
+                                    <div class="row">
+                                        <div class="container-fluid">
+                                            <form id="loginForm" method="post" data-toggle="validator" action="{{ path_for('login', {'lang': lang}) }}">
+                                                <div class="form-group">
+                                                    <label>{{ 'Login'|trans }}</label>
+                                                    <input class="form-control" name="login" id="auth_login" type="text" placeholder="{{ 'Login'|trans }}">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>{{ 'Password'|trans }}</label>
+                                                    <input class="form-control" name="password" id="auth_password" type="password" placeholder="{{ 'Password'|trans }}">
+                                                    <br>
+                                                </div>
+                                                <button type="submit" id="btnLogin" class="btn btn-success btn-sm">{{ 'Sign in'|trans }}</button>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </li>
+                            </li>
+                        {% endif %}
                     </ul>
                 </nav>
             </div>
@@ -352,10 +367,43 @@
 
             <script src="{{ base_url() }}/assets/moment/min/moment-with-locales.min.js?ver={{ version }}"></script>
 
+            <script src="{{ base_url() }}/assets/jquery-toast-plugin/dist/jquery.toast.min.js"></script>
+
             <script>
                 jQuery(document).ready(function($) {
                     $('.blog-date').html(moment().locale('{{lang }}').format('LLLL'));
                 });
+
+                i18next
+                    .use(i18nextXHRBackend)
+                    .init({
+                        lng: '{{ lang }}',
+                        backend: {
+                            loadPath: '/locales/{{ '{{lng}}' }}/{{ '{{ns}}' }}.json',
+                            addPath: '/locales/add/{{ '{{lng}}' }}/{{ '{{ns}}' }}',
+                        },
+                        saveMissing: true,
+                        //    debug: true
+                    });
+
+                $(document).ready(function () {
+                    {% for type, group in flash_messages %}
+                    $.toast({
+                        heading: '{{ type|capitalize }}!',
+                        text: [
+                            {% for msg in group %}
+                            '{{ msg }}',
+                            {% endfor %}
+                        ],
+                        icon: '{{ type }}',
+                        position: 'bottom-right',
+                        showHideTransition: 'slide',
+                        hideAfter : false,
+                        loader: false
+                    });
+                    {% endfor %}
+
+                })
             </script>
 
             <script type="text/javascript">

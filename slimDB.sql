@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.1
+-- version 4.7.3
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Июн 03 2018 г., 22:49
--- Версия сервера: 5.7.20
--- Версия PHP: 7.2.0
+-- Время создания: Июн 04 2018 г., 20:06
+-- Версия сервера: 5.7.19
+-- Версия PHP: 7.1.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -114,99 +114,6 @@ INSERT INTO `cities` (`cityId`, `name`, `country`, `iso2`, `population`) VALUES
 (71, 'Zərdab', 'Azerbaijan', 'AZ', 0),
 (72, 'Şərur', 'Azerbaijan', 'AZ', 0),
 (73, 'Qıvraq', 'Azerbaijan', 'AZ', 0);
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `help`
---
-
-CREATE TABLE `help` (
-  `helpId` int(10) UNSIGNED NOT NULL,
-  `sort` int(10) UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `help`
---
-
-INSERT INTO `help` (`helpId`, `sort`) VALUES
-(2, 8),
-(4, 1),
-(5, 2),
-(6, 3),
-(7, 4),
-(8, 5),
-(9, 6),
-(10, 7),
-(11, 9),
-(12, 10),
-(13, 11),
-(14, 12),
-(15, 13),
-(16, 14);
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `help_lang`
---
-
-CREATE TABLE `help_lang` (
-  `langId` int(10) UNSIGNED NOT NULL,
-  `helpId` int(10) UNSIGNED NOT NULL,
-  `lang` char(2) NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `text` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `help_lang`
---
-
-INSERT INTO `help_lang` (`langId`, `helpId`, `lang`, `title`, `text`) VALUES
-(4, 2, 'en', 'Proposals to participants in tenders', '<p>To master the production of demanded, socially and economically significant goods;</p>\r\n\r\n<p>To begin preparation for participation in tenders through study of legislation on tenders;</p>\r\n\r\n<p>To improve your technical training to work on the platform;</p>\r\n\r\n<p>To prepare financial security for participation in procurement;</p>\r\n\r\n<p>To study attentively the tender documentation of the companies-customers;</p>\r\n\r\n<p>To draw up correctly the necessary documents.</p>\r\n'),
-(5, 2, 'ru', 'Советы, желающему участвовать в тендерах', '<p>Осваивайте производство востребованных, социально и экономически значимых товаров;</p>\r\n\r\n<p>Начинайте подготовку к участию в тендерах через изучение законодательства по тендерам;</p>\r\n\r\n<p>Совершенствуйте свою техническую подготовку к работе на платформе;</p>\r\n\r\n<p>Подготовьте финансовое обеспечение для участия в закупках;</p>\r\n\r\n<p>Внимательно изучайте конкурсную документацию компаний-заказчиков;</p>\r\n\r\n<p>Правильно оформляйте необходимые документы.</p>\r\n'),
-(6, 2, 'az', 'Tenderdə iştirak etmək istəyən şəxslərə tövsiyyələr', '<p>Daha tələbatlı, sosial və iqtisadi cəhətdən m&uuml;h&uuml;m məhsulların istehsalını &ouml;yrənin;</p>\r\n\r\n<p>Tenderlərdə tender qanunvericiliyinin &ouml;yrənilməsi yolu ilə iştirak etməyə hazırlıqlara başlayın;</p>\r\n\r\n<p>Platforma ilə işləmək &uuml;&ccedil;&uuml;n texniki hazırlığı təkmilləşdirin;</p>\r\n\r\n<p>Satınalmalarda iştirak &uuml;&ccedil;&uuml;n maliyyə təminatını hazırlayın;</p>\r\n\r\n<p>Sifariş&ccedil;i şirkətlərin m&uuml;sabiqə sənədlərini diqqətlə araşdırın;</p>\r\n\r\n<p>Zəruri sənədləri d&uuml;zg&uuml;n qaydada tərtib edin.</p>\r\n'),
-(10, 4, 'en', 'What is a tender?', '<p>A tender is a reverse auction when there is one buyer of goods, work or services and several suppliers, representing a competitive basis. The announcement of the tender provides the buyer with the suppliers.&nbsp;</p>\r\n'),
-(11, 4, 'ru', 'Что такое тендер? ', '<p>Тендер &ndash; это обратный аукцион, когда есть один закупщик товара, работы &nbsp;или услуги и несколько поставщиков, представляя собой конкурсную основу. Объявление тендера обеспечивает связь закупщика с поставщиками.&nbsp;</p>\r\n'),
-(12, 4, 'az', 'Tender nədir? ', '<p>Тender - məhsul, işləri və ya xidmətləri əldə edən yeganə alıcı və bir-birinə rəqabət &ouml;z&uuml;l&uuml;n&uuml; yaradan bir ne&ccedil;ə satıcıdan ibarət auksiona əks anlayışdır. Tenderin elan edilməsi alıcı ilə satıcıların əlaqəsini təmin edir.</p>\r\n'),
-(13, 5, 'en', 'Types of tenders', '<p>Tenders are of two types, state and commercial. Procurement for state needs is carried out on budgetary funds. Commercial tenders are different in that customers themselves determine the rules for conducting transactions, establish conditions and conduct tenders for own or raised funds.</p>\r\n\r\n<p>Tenders are growing in popularity around the world. According to statistics, about 30% of chaffers are posted specially for small and medium businesses.</p>\r\n'),
-(14, 5, 'ru', 'Виды тендеров', '<p>Тендеры бывают двух видов, государственные и коммерческие.<strong> </strong>Закупки для государственных нужд осуществляются на бюджетные средства. Коммерческие тендеры отличаются тем, что заказчики сами определяют регламент проведения сделок, устанавливают условия и проводят тендеры на собственные или привлеченные средства.</p>\r\n\r\n<p>Тендеры приобретают в мире все большую популярность. По статистике около 30% торгов размещаются специально для малого и среднего бизнеса.</p>\r\n'),
-(15, 5, 'az', 'Tenderin növləri', '<p>Tenderlər d&ouml;vlət və kommersiya olmaqla iki n&ouml;və b&ouml;l&uuml;n&uuml;r. D&ouml;vlət ehtiyyacları &uuml;&ccedil;&uuml;n satınalmalar b&uuml;dcə vəsaitləri əsasında həyata ke&ccedil;irilir. Kommersiya tenderlərinin fərqi ondan ibarətdir ki, burada m&uuml;ştərilərin &ouml;z&uuml; s&ouml;vdələşmələrin aparılması qaydalarını, şərtlərini m&uuml;əyyən edir, şəxsi və ya cəlb edilmiş vəsaitlər &uuml;zrə tenderləri həyata ke&ccedil;irir.</p>\r\n\r\n<p>Tenderlər getdikcə d&uuml;nyada daha &ccedil;ox məşhurlaşır. Statistikaya g&ouml;rə təqribən torqların 30%-i x&uuml;susi olaraq ki&ccedil;ik və orta biznes &uuml;&ccedil;&uuml;n yerləşdirilir.</p>\r\n'),
-(16, 6, 'en', 'How does it work?', '<p>The platform will help You in obtaining price proposals for the purchase of goods in electronic form. For the application, You need to register and, using the control panel, create a tender. In one tender, within the same category, can be any number of positions. The information about the purchase is sent to the suppliers in accordance with the chosen business category. All tenders by category are sent directly to Your e-mail. You just have to join the tender corresponding to the specifics of Your work.</p>\r\n'),
-(17, 6, 'ru', 'Как это работает?', '<p>Платформа поможет Вам в получение ценовых предложений на закупку товаров в электронном виде. Информация о закупке рассылается поставщикам, авторизированным на платформе, в соответствии с выбранной категорией. Все тендеры по категориям можно также увидеть прямо на платформе. Предложения по тендерам отправляются покупателям на электронную почту.</p>\r\n'),
-(18, 6, 'az', 'Bu necə işləyir?', '<p>Platforma malların elektron şəkildə satınalması &uuml;&ccedil;&uuml;n qiymət təkliflərinin əldə edilməsində Sizə yardım g&ouml;stərəcək. M&uuml;raciət etmək &uuml;&ccedil;&uuml;n, Siz qeydiyyatdan ke&ccedil;məli və idarəetmə panelindən istifadə etməklə tender yaratmalısınız. Bir meyar &uuml;zrə bir tenderdə istənilən sayda vəziyyətlər ola bilər. Satınalmalar &uuml;zrə məlumatlar se&ccedil;ilmiş biznes meyarı &uuml;zrə platformamızda qeydiyyatdan ke&ccedil;ən satıcılara g&ouml;ndərilir. Meyarlar &uuml;zrə b&uuml;t&uuml;n tenderlər elektron po&ccedil;tunuza g&ouml;ndərilir. Sizə isə işlərinizin x&uuml;susiyyətinə uyğun gələn tenderə qoşulmaq qalır.</p>\r\n'),
-(19, 7, 'en', 'Requirements to the supplier', '<p>The purchaser must establish technical requirements for the supplier. Tender documentation should contain technical and commercial part. To select the most profitable supplier and guarantees for its integrity, the purchaser has the right to demand from the supplier economic security for the performance of the contract.</p>\r\n'),
-(20, 7, 'ru', 'Требования к поставщику', '<p>Закупщик должен установить технические требования к поставщику. Тендерная документация должна содержать техническую и коммерческую часть. Для выбора наиболее выгодного поставщика и гарантий его добросовестности, закупщик вправе потребовать от поставщика экономическое обеспечение исполнения контракта.</p>\r\n'),
-(21, 7, 'az', 'Satıcıya tələblər', '<p>Satınalan şəxs satıcıya texniki tələblər m&uuml;əyyən etməlidir. Tender sənədləşməsi texniki və kommersiya hissələrindən ibarət olmalıdır. Ən əlverişli və vicdanlı olması zəmanətinin y&uuml;ksək olduğu satıcının se&ccedil;ilməsi &uuml;&ccedil;&uuml;n satınalan satıcıdan m&uuml;qavilənin icrasının iqtisadi təminatını tələb etmək h&uuml;ququna malikdir.</p>\r\n'),
-(22, 8, 'en', 'Responsibility of suppliers', '<p>Failure to perform contractual obligations entails the entry of the company in the register of unfair suppliers and the need for compensation for damages.</p>\r\n'),
-(23, 8, 'ru', 'Ответственность поставщиков', '<p>Неисполнение обязанностей по контракту влечет за собой попадание компании в реестр недобросовестных поставщиков и необходимость возмещения ущерба.</p>\r\n'),
-(24, 8, 'az', 'Satıcıların məsuliyyəti', '<p>M&uuml;qavilə &uuml;zrə &ouml;hdəliklərin yerinə yetirilməməsi şirkətin qərəzli satıcıların reyestrinə d&uuml;şməsinə və təzminatın &ouml;dənilməsi zəruriliyinə gətirib &ccedil;ıxarır.</p>\r\n'),
-(25, 9, 'en', 'Appeal procedure', '<p>The appeal&nbsp;must be recognized as justified and properly executed. The appeal&nbsp;must be accompanied by all the necessary documents indicating the fact of the breach by the buyer.</p>\r\n'),
-(26, 9, 'ru', 'Процедура обжалования', '<p>Жалоба должна быть признана обоснованной и правильно оформленной. К жалобе должны прилагаться все необходимые документы, указывающие факт допущения нарушения закупщиком.</p>\r\n'),
-(27, 9, 'az', 'Şikayət verilmə proseduru', '<p>Şikayət əsaslı və d&uuml;zg&uuml;n qaydada tərtib olunmalıdır. Həmin şikayətə satınalan tərəfindən pozuntuların yol verilməsi faktları qeyd edilmiş b&uuml;t&uuml;n zəruri sənədlər əlavə edilməlidir.</p>\r\n'),
-(28, 10, 'en', 'Feedback', '<p>Using the feedback provided on the platform, You will be able to obtain any necessary information.</p>\r\n'),
-(29, 10, 'ru', 'Обратная связь', '<p>Воспользовавшись обратной связью, указанной на платформе, Вы сможете получить любую необходимую для Вас информацию.</p>\r\n'),
-(30, 10, 'az', 'Əlaqə', '<p>Bizə m&uuml;raciət etməklə, hər hansı bir&nbsp;zəruri məsələ ilə əlaqədar, hərtərəfli məlumat&nbsp;əldə edə bilərsiniz.&nbsp;</p>\r\n'),
-(31, 11, 'en', 'For buyers: how to make an electronic tender?', '<p>&nbsp;</p>\r\n\r\n<p>Step 1. Register on the platform.</p>\r\n\r\n<p>Step 2. Login to account.</p>\r\n\r\n<p>Step 3. In the Tenders window, find the icon &quot;<strong>+</strong>&quot;, that means, &quot;<strong>Add a tender</strong>&quot;.</p>\r\n\r\n<p>Step 4. Fill in all the required fields.</p>\r\n\r\n<p>Step 5. Attach the required file (*pdf, *docs, *txt, *xlsx).</p>\r\n\r\n<p>Step 6. Click on the icon &ldquo;<strong>Create</strong>&rdquo;.</p>\r\n\r\n<p>Step 7. After moderation by the webpage administration, your tender will appear in the general list.</p>\r\n\r\n<p>&nbsp;</p>\r\n'),
-(32, 11, 'ru', 'Для покупателей: как создать электронный тендер?', '<p>Шаг 1. Зарегистрироваться на платформе.</p>\r\n\r\n<p>Шаг 2. Войти в личный кабинет.</p>\r\n\r\n<p>Шаг 3. В окне тендеры, найти иконку&nbsp;<strong>&laquo;+&raquo;</strong>, означающий <strong>&laquo;добавить тендер&raquo;</strong></p>\r\n\r\n<p>Шаг 4. Заполнить все необходимые поля.</p>\r\n\r\n<p>Шаг 5. Вложить необходимый файл (*pdf, *docs, *txt, *xlsx).</p>\r\n\r\n<p>Шаг 6. Нажать на иконку&nbsp;<strong>&laquo;Cоздать&raquo;</strong>.</p>\r\n\r\n<p>Шаг 7. После модерации со стороны администрации, Ваш тендер появится в общем списке.</p>\r\n'),
-(33, 11, 'az', 'Alıcılar üçün: elektron tenderi nece yaratmalı?', '<p>Addım 1. Platformada qeydiyyatdan ke&ccedil;mək.</p>\r\n\r\n<p>Addım 2. Şəxsi kabinetə daxil olmaq.</p>\r\n\r\n<p>Addım 3. Tenderlər pəncərəsində <strong>&ldquo;Tender əlavə edin&rdquo;</strong> mənasını bildirən <strong>&ldquo;+&rdquo;</strong> işarəsini tapın.</p>\r\n\r\n<p>Addım 4. B&uuml;t&uuml;n zəruri olan sahələri doldurun.</p>\r\n\r\n<p>Addım 5. Zəruri olan faylı daxil edin (*pdf, *docs, *txt, *xlsx).</p>\r\n\r\n<p>Addım 6. <strong>&ldquo;Yarat&rdquo;</strong> işarəsini vurun.</p>\r\n\r\n<p>Addım 7. Web-səhifənin administrasiya tərəfindən moderasiya aparılmasından sonrası Sizin tender &uuml;mumi siyahıda g&ouml;r&uuml;nəcək.&nbsp;</p>\r\n'),
-(34, 12, 'en', 'For suppliers: how to participate in the electronic tender?', '<p>Step 1. Register on the platform.</p>\r\n\r\n<p>Step 2. Login to account.</p>\r\n\r\n<p>Step 3. In the Tenders window, accordingly to Your chosen activity category, a list of tenders will be displayed.</p>\r\n\r\n<p>Step 4. Choose the tender You are interested in and click on the icon <strong>&quot;Lock&quot;</strong> to participate in it.</p>\r\n\r\n<p>Step 5. Click on the icon <strong>&laquo;Participate&raquo;</strong>.&nbsp;</p>\r\n\r\n<p>Step 6. Fill in all the required fields and attach the required file (*pdf, *docs, *txt, *xlsx).</p>\r\n\r\n<p>Step 7. Click on the icon <strong>&laquo;Participate&raquo;</strong>.</p>\r\n'),
-(35, 12, 'ru', 'Для поставщиков: как принять участие в электронном тендере?', '<p>Шаг 1. Зарегистрироваться на платформе.</p>\r\n\r\n<p>Шаг 2. Войти в личный кабинет.</p>\r\n\r\n<p>Шаг 3. В окне тендеры, в соответствии с выбранной Вами категорией деятельности, отображается список тендеров.</p>\r\n\r\n<p>Шаг 4. Выберите интересующий Вас тендер и нажмите на иконку&nbsp;<strong>&laquo;Замок&raquo;</strong> для участия в нем.</p>\r\n\r\n<p>Шаг 5. Нажмите на иконку&nbsp;<strong>&laquo;Принять участие&raquo;</strong>.&nbsp;</p>\r\n\r\n<p>Шаг 6. Заполнить все необходимые поля и вложить необходимый файл (*pdf, *docs, *txt, *xlsx).</p>\r\n\r\n<p>Шаг 7. Нажать на иконку&nbsp;<strong>&laquo;Учавствовать&raquo;</strong>.</p>\r\n'),
-(36, 12, 'az', 'Təchizatçılar üçün: elektron tenderdə necə iştirak etməli?', '<p>Addım 1. &nbsp;Platformada qeydiyyatdan ke&ccedil;mək.</p>\r\n\r\n<p>Addım 2. Şəxsi kabinetə daxil olmaq.</p>\r\n\r\n<p>Addım 3. Sizin se&ccedil;diyiniz fəaliyyət kateqoriyasına m&uuml;vafiq olaraq tenderlər pəncərəsində tenderlərin siyahısı əks olunur.</p>\r\n\r\n<p>Addım 4. Sizi maraqlandıran tenderi se&ccedil;in və burada iştirak etmək &uuml;&ccedil;&uuml;n <strong>&ldquo;Qıfıl&rdquo;</strong> işarəsini vurun.</p>\r\n\r\n<p>Addım 5. <strong>&ldquo;İştirak et&rdquo;</strong> işarəsini vurun.&nbsp;</p>\r\n\r\n<p>Addım 6. B&uuml;t&uuml;n zəruri olan sahələri doldurun və zəruri olan faylı daxil edin (*pdf, *docs, *txt, *xlsx).</p>\r\n\r\n<p>Addım 7. <strong>&ldquo;İştirak et&rdquo;</strong> işarəsini vurun.</p>\r\n'),
-(37, 13, 'en', 'Can a company register as a buyer and a supplier simultaneously?', '<p>Yes.&nbsp;</p>\r\n\r\n<p>For this, in the field<strong> &ldquo;Contacts&rdquo;</strong> upon registration, the data of the buyer and the supplier should not coincide.</p>\r\n\r\n<p>That is, the e-mail and contact name indicated in the field <strong>&ldquo;Contacts&rdquo; </strong>should be unique.</p>\r\n'),
-(38, 13, 'ru', 'Может ли компания, регистрироваться в качестве покупателя и поставщика одновременно?', '<p>Да.&nbsp;</p>\r\n\r\n<p>Для этого в графе <strong>&laquo;</strong><strong>К</strong><strong>онтакты&raquo;</strong> при регистрации, данные покупателя и поставщика не должны совпадать.</p>\r\n\r\n<p>То есть, указываемая в графе <strong>&laquo;Контакты&raquo;</strong> электронная почта и контактное лицо должным быть уникальными.</p>\r\n'),
-(39, 13, 'az', 'Şirkət eyni zamanda həm alıcı və həm də təchizatçı qismində qeydiyyatdan keçə bilər?', '<p>Bəli.&nbsp;</p>\r\n\r\n<p>Bunun &uuml;&ccedil;&uuml;n qeydiyyat zamanı <strong>&ldquo;Əlaqələr&rdquo;</strong> qrafasında alıcı və təchizat&ccedil;ının məlumatları &uuml;st-&uuml;stə d&uuml;şməməlidir.</p>\r\n\r\n<p>Yəni, <strong>&ldquo;Əlaqələr&rdquo;</strong> qrafasında g&ouml;stərilən elektron po&ccedil;t &uuml;nvanı və əlaqədar şəxs fərqli olmalıdırlar. &nbsp;&nbsp;</p>\r\n'),
-(40, 14, 'en', 'Will users receive e-mails via the tenders made?', '<p>Yes.</p>\r\n\r\n<p>With each new tender created, users will receive news both to e-mail and to their account. In addition, all necessary information will be sent to all users periodically.</p>\r\n'),
-(41, 14, 'ru', 'Будут ли пользователи получать электронную рассылку по созданным тендерам?', '<p>Да.</p>\r\n\r\n<p>При каждом созданном новом тендере, пользователи будут получать рассылку как на электронную почту, так и в личный кабинет. Также всем пользователям будет направляться периодически необходимая новостная информация.</p>\r\n'),
-(42, 14, 'az', 'Yaradılmış tenderlər üzrə istifadəçilər elektron göndərişlər alacaqlar?', '<p>Bəli.</p>\r\n\r\n<p>Hər bir yeni tenderin yaradılması zamanı istifadə&ccedil;ilər həm elektron po&ccedil;t qutularına, həm də şəxsi kabinetlərinə g&ouml;ndərişlər alacaqlar. Eləcə də istifadə&ccedil;ilərə m&uuml;təmadi olaraq b&uuml;t&uuml;n zəruri olan məlumatlar g&ouml;ndəriləcək.</p>\r\n'),
-(43, 15, 'en', 'Can a user change personal data and/or information about company?', '<p>Yes.</p>\r\n\r\n<p>Logging into account, in the window <strong>&ldquo;Settings&rdquo;</strong>, need to be selected the item <strong>&ldquo;Profile&rdquo;</strong>. Then it will be possible to make the necessary changes.</p>\r\n'),
-(44, 15, 'ru', 'Может ли пользователь менять данные о себе и/или компании?', '<p>Да.</p>\r\n\r\n<p>Войдя в личный кабинет, в окне <strong>&laquo;</strong><strong>Н</strong><strong>астройки&raquo;</strong>, необходимо выбрать пункт <strong>&laquo;Профиль&raquo;</strong>. Далее будет возможным осуществлять необходимые изменения.</p>\r\n'),
-(45, 15, 'az', 'İstifadəçi özü və/və ya şirkət haqqında məlumatları dəyişdirə bilər?', '<p>Bəli.</p>\r\n\r\n<p>Şəxsi kabinetə daxil olaraq <strong>&ldquo;Ayarlar&rdquo;</strong> pəncərəsində <strong>&ldquo;Profil&rdquo;</strong> bəndini se&ccedil;mək lazımdır. Bundan sonra zəruri olan d&uuml;zəlişləri həyata ke&ccedil;irmək m&uuml;mk&uuml;n olacaq.</p>\r\n'),
-(46, 16, 'en', 'How does mail work in user’s account?', '<p>With the help of a mailbox to the&nbsp;personal&nbsp;account, buyers and suppliers can freely send messages to each other regarding the issues of a particular tender.</p>\r\n'),
-(47, 16, 'ru', 'Как работает почта в личном кабинете пользователя?', '<p>При помощи почтового ящика в личном кабинете, покупатели и поставщики могут свободно отправлять сообщения друг другу, касательно вопросов того или иного тендера.</p>\r\n'),
-(48, 16, 'az', 'İstifadəçinin şəxsi kabinetindəki poçt necə çalışır?', '<p>Şəxsi kabinetdəki po&ccedil;t qutusunun k&ouml;məkliyi ilə alıcılar və&nbsp;təchizat&ccedil;ılar sərbəst<br />\r\nşəkildə biri birilərinə&nbsp;bu və ya digər tenderlərə aid olan sualları g&ouml;ndərə bilərlər.</p>\r\n');
 
 -- --------------------------------------------------------
 
@@ -551,7 +458,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`userId`, `login`, `password`, `createdAt`, `groupId`, `name`, `country`, `cityId`, `phone`, `email`, `site`, `facebook`, `status`, `activationCode`) VALUES
 (1, 'admin', '$2y$10$WShDEA5s.Em0VNZYVpPaKeVTLtYMc2d7KHdchvWRLFhB5LYRmhUmW', '2017-07-28 08:02:27', 1, 'Admin', NULL, 0, '', 'k.kaluzhnikov@gmail.com', '', '', 1, 'eeef80f7660b283a3b799938a84416cc'),
-(2, 'test-b', '$2y$10$6Ic.8Twc9D0lrd6E88DAQezbUqZHGj59qjn8gGwuCm9MGWhZpvcUu', '2017-08-04 06:41:42', 2, 'Test Buyer', 'AZ', 1, '0555555555', 'zeuz@list.ru', '', '', 1, '3f6b8a99b77a42b247003aa4e2563b23');
+(2, 'test-b', '$2y$10$6Ic.8Twc9D0lrd6E88DAQezbUqZHGj59qjn8gGwuCm9MGWhZpvcUu', '2017-08-04 06:41:42', 2, 'Test Buyer', 'AZ', 1, '0555555555', 'zeuz@listzzz.ru', '', '', 1, '3f6b8a99b77a42b247003aa4e2563b23'),
+(5, 'zeuz@list.ru', '$2y$10$iuYvLdohN2x7KOqWxQSpjeFxm1NW4M/LN9QJM1m8xU0XBvj46mGIK', '2018-06-04 15:41:55', 2, 'fgh fgh ', NULL, NULL, NULL, 'zeuz@list.ru', NULL, NULL, 1, '3f6b8a99b77a42b247003aa4e2563b23');
 
 -- --------------------------------------------------------
 
@@ -591,19 +499,6 @@ INSERT INTO `votes` (`voter`, `votedFor`, `stars`) VALUES
 --
 ALTER TABLE `cities`
   ADD PRIMARY KEY (`cityId`);
-
---
--- Индексы таблицы `help`
---
-ALTER TABLE `help`
-  ADD PRIMARY KEY (`helpId`);
-
---
--- Индексы таблицы `help_lang`
---
-ALTER TABLE `help_lang`
-  ADD PRIMARY KEY (`langId`),
-  ADD KEY `helpId` (`helpId`) USING BTREE;
 
 --
 -- Индексы таблицы `industries`
@@ -693,88 +588,59 @@ ALTER TABLE `votes`
 --
 ALTER TABLE `cities`
   MODIFY `cityId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
-
---
--- AUTO_INCREMENT для таблицы `help`
---
-ALTER TABLE `help`
-  MODIFY `helpId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
-
---
--- AUTO_INCREMENT для таблицы `help_lang`
---
-ALTER TABLE `help_lang`
-  MODIFY `langId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
-
 --
 -- AUTO_INCREMENT для таблицы `industries`
 --
 ALTER TABLE `industries`
   MODIFY `industryId` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
-
 --
 -- AUTO_INCREMENT для таблицы `industries_lang`
 --
 ALTER TABLE `industries_lang`
   MODIFY `langId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
-
 --
 -- AUTO_INCREMENT для таблицы `pages`
 --
 ALTER TABLE `pages`
   MODIFY `pageId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
 --
 -- AUTO_INCREMENT для таблицы `pages_lang`
 --
 ALTER TABLE `pages_lang`
   MODIFY `langId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
-
 --
 -- AUTO_INCREMENT для таблицы `posts`
 --
 ALTER TABLE `posts`
   MODIFY `postId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
 --
 -- AUTO_INCREMENT для таблицы `posts_files`
 --
 ALTER TABLE `posts_files`
   MODIFY `fileId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
 --
 -- AUTO_INCREMENT для таблицы `posts_industries`
 --
 ALTER TABLE `posts_industries`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
-
 --
 -- AUTO_INCREMENT для таблицы `posts_lang`
 --
 ALTER TABLE `posts_lang`
   MODIFY `langId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
 --
 -- AUTO_INCREMENT для таблицы `userGroups`
 --
 ALTER TABLE `userGroups`
   MODIFY `userGroupId` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 --
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `userId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
+  MODIFY `userId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- Ограничения внешнего ключа сохраненных таблиц
 --
-
---
--- Ограничения внешнего ключа таблицы `help_lang`
---
-ALTER TABLE `help_lang`
-  ADD CONSTRAINT `help_lang_ibfk_1` FOREIGN KEY (`helpId`) REFERENCES `help` (`helpId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ограничения внешнего ключа таблицы `industries_lang`
