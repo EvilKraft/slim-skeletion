@@ -95,9 +95,10 @@ class Frontend extends BaseController
         $sql = "SELECT I.industryId, IL.name FROM industries I INNER JOIN industries_lang IL ON I.industryId = IL.industryId WHERE I.industryId = ? AND IL.lang=?";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$categoryId, $this->lang]);
-        if(!$data['industry'] = $stmt->fetch()){
+        if(!$category = $stmt->fetch()){
             throw new \Slim\Exception\NotFoundException($request, $response);
         }
+        $data['category_name'] = $category['name'];
 
         $countSQL = "SELECT COUNT(*) total
                      FROM posts P
@@ -205,8 +206,12 @@ class Frontend extends BaseController
 
         $query = $request->getQueryParam('q', '');
 
+        $data = array(
+            'category_name' => $query,
+        );
+
         if(strlen($query) <= 3){
-            return;
+            return $this->render($response, 'Frontend/blog.twig', $data);
         }
 
         $options = array(
@@ -220,21 +225,33 @@ class Frontend extends BaseController
         $offset     = $options[Pagination::OPT_PER_PAGE] * ($page - 1);
 
         $countSQL = "SELECT COUNT(*) total
-                    FROM posts_lang L
-                    WHERE L.lang = :lang AND MATCH (L.title, L.text_search) AGAINST (:query)";
+                     FROM posts P
+                     INNER JOIN posts_lang L ON L.postId = P.postId AND L.lang = '".$this->lang."'
+                     INNER JOIN users U ON P.userId = U.userId
+                     WHERE MATCH (L.title, L.text_search) AGAINST (:query)";
 
-        $dataSQL = "SELECT L.* 
-                    FROM posts_lang L
-                    WHERE L.lang = :lang AND MATCH (L.title, L.text_search) AGAINST (:query)
+        $dataSQL = "SELECT P.*, L.*, U.name, PF.file
+                    FROM posts P
+                    INNER JOIN posts_lang L ON L.postId = P.postId AND L.lang = '".$this->lang."'
+                    LEFT JOIN (
+                        SELECT A.postId, A.file
+                        FROM posts_files A
+                        INNER JOIN (
+                            SELECT MAX(a.fileId) fileId, a.postId 
+                            FROM posts_files a 
+                            WHERE type LIKE 'image%' 
+                            GROUP BY a.postId
+                        ) B ON A.fileId = B.fileId                 
+                    ) PF ON PF.postId = P.postId
+                    INNER JOIN users U ON P.userId = U.userId
+                    WHERE MATCH (L.title, L.text_search) AGAINST (:query)
                     LIMIT :limit OFFSET :offset";
 
         $countQuery = $this->db->prepare($countSQL);
         $dataQuery  = $this->db->prepare($dataSQL);
 
-        $countQuery->bindValue(':lang',  $this->lang,                        \PDO::PARAM_STR);
         $countQuery->bindValue(':query', $query,                             \PDO::PARAM_STR);
 
-        $dataQuery->bindValue(':lang',   $this->lang,                        \PDO::PARAM_STR);
         $dataQuery->bindValue(':query',  $query,                             \PDO::PARAM_STR);
         $dataQuery->bindValue(':limit',  $options[Pagination::OPT_PER_PAGE], \PDO::PARAM_INT);
         $dataQuery->bindValue(':offset', $offset,                            \PDO::PARAM_INT);

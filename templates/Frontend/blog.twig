@@ -9,10 +9,10 @@
             <div class="widget Blog" data-version="1" id="Blog1">
                 <div class="blog-posts hfeed">
                     <div class="status-msg-wrap">
-                        <div class="status-msg-body">Showing posts with label <b>Advertisement</b>.</div>
+                        <div class="status-msg-body"><b>{{ category_name }}</b></div>
                         <div class="status-msg-border">
                             <div class="status-msg-bg">
-                                <div class="status-msg-hidden">Showing posts with label <b>Advertisement</b>.</div>
+                                <div class="status-msg-hidden"><b>{{ category_name }}</b></div>
                             </div>
                         </div>
                     </div>
@@ -21,8 +21,6 @@
 
                     <div class="date-outer">
                         <div class="date-posts">
-
-
                             <div class="post-outer">
                                 <article class="post hentry">
                                     <a content="https://1.bp.blogspot.com/-Y3jtko20nZA/We42YMNGo4I/AAAAAAAACvA/UEahaZNOpCcC_3llLMX40ARU9MRkCPNMQCLcBGAs/s1600/woman_593141_960_720.jpg"></a>
@@ -68,60 +66,65 @@
                                 <div style="clear:both;"></div>
                             </div>
 
-
-
-                            {% for item in items %}
-                                <div class="post-outer">
-                                    <article class="post hentry">
-                                        <a content="{{ path_for('image', {'image_name':item.file}) }}"></a>
-                                        <div class="format-image hentry post-image post-format-image">
-                                            <a href="{{ path_for('post', {'lang':lang, 'id':item.postId}) }}" title="{{ item.title }}">
-                                                <img itemprop="image" src="{{ path_for('image', {'image_name':item.file}) }}" alt="{{ item.title }}" title="{{ item.title }}" style="width:250px; height:200px">
-                                            </a>
-                                        </div>
-                                        <h2 class="post-title entry-title">
-                                            <a href="{{ path_for('post', {'lang':lang, 'id':item.postId}) }}" title="{{ item.title }}">
-                                                {{ item.title }}
-                                            </a>
-                                        </h2>
-                                        <div class="post-info">
-                                            <span class="author-info">
-                                                <span class="vcard" itemprop="author" itemscope="itemscope" itemtype="http://schema.org/Person">
-                                                    <span class="fn">
-                                                     by <a class="g-profile" href="https://www.blogger.com/profile/09280593907688002943" rel="author" title="author profile"><span itemprop="name">Muhammad Subel</span></a>
+                            {% if items is defined and items|length > 0 %}
+                                {% for item in items %}
+                                    <div class="post-outer">
+                                        <article class="post hentry">
+                                            <a content="{{ path_for('image', {'image_name':item.file}) }}"></a>
+                                            <div class="format-image hentry post-image post-format-image">
+                                                <a href="{{ path_for('post', {'lang':lang, 'id':item.postId}) }}" title="{{ item.title }}">
+                                                    <img itemprop="image" src="{{ path_for('image', {'image_name':item.file}) }}" alt="{{ item.title }}" title="{{ item.title }}" style="width:250px; height:200px">
+                                                </a>
+                                            </div>
+                                            <h2 class="post-title entry-title">
+                                                <a href="{{ path_for('post', {'lang':lang, 'id':item.postId}) }}" title="{{ item.title }}">
+                                                    {{ item.title }}
+                                                </a>
+                                            </h2>
+                                            <div class="post-info">
+                                                <span class="author-info">
+                                                    <span class="vcard" itemprop="author" itemscope="itemscope" itemtype="http://schema.org/Person">
+                                                        <span class="fn">
+                                                         by <a class="g-profile" href="#" rel="author" title="author profile"><span itemprop="name">{{ item.name }}</span></a>
+                                                        </span>
                                                     </span>
                                                 </span>
-                                            </span>
-                                            <span><i aria-hidden="true" class="fa fa-angle-right"></i></span>
-                                            <span class="time-info">
-                                                on <a class="timestamp-link" href="{{ path_for('post', {'lang':lang, 'id':item.postId}) }}" rel="bookmark" title="permanent link"><abbr class="published updated timeago" title="2017-10-23T11:35:00-07:00">{{ item.createdAt }}</abbr></a>
-                                            </span>
-                                        </div>
-                                        <div class="post-header">
-                                            <div class="post-header-line-1"></div>
-                                        </div>
-                                        <div class="post-body entry-content">
-                                            <div>
-                                                <div>{{ item.text|striptags|truncate(30, true) }}</div>
+                                                <span><i aria-hidden="true" class="fa fa-angle-right"></i></span>
+                                                <span class="time-info">
+                                                    on <a class="timestamp-link" href="{{ path_for('post', {'lang':lang, 'id':item.postId}) }}" rel="bookmark" title="permanent link"><abbr class="published updated timeago" title="2017-10-23T11:35:00-07:00">{{ item.createdAt }}</abbr></a>
+                                                </span>
                                             </div>
+                                            <div class="post-header">
+                                                <div class="post-header-line-1"></div>
+                                            </div>
+                                            <div class="post-body entry-content">
+                                                <div>
+                                                    <div>{{ item.text|striptags|truncate(30, true) }}</div>
+                                                </div>
 
-                                            <div class="share-post">
-                                                <a class="readmore2" href="{{ path_for('post', {'lang':lang, 'id':item.postId}) }}" title="{{ item.title }}">{{ 'Continue Reading'|trans }} <i aria-hidden="true" class="fa fa-long-arrow-right"></i></a>
+                                                <div class="share-post">
+                                                    <a class="readmore2" href="{{ path_for('post', {'lang':lang, 'id':item.postId}) }}" title="{{ item.title }}">{{ 'Continue Reading'|trans }} <i aria-hidden="true" class="fa fa-long-arrow-right"></i></a>
+                                                </div>
+                                                <div style="clear: both;"></div>
                                             </div>
-                                            <div style="clear: both;"></div>
-                                        </div>
+                                        </article>
+                                        <div style="clear:both;"></div>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="post-outer">
+                                    <article class="post hentry">
+                                        <h5>{{ 'Nothing was found'|trans }}</h5>
                                     </article>
-                                    <div style="clear:both;"></div>
                                 </div>
-                            {% endfor %}
+                            {% endif %}
                         </div>
                     </div>
-
                     <!--Can't find substitution for tag [adEnd]-->
                 </div>
                 <div style="clear: both;"></div>
 
-                {{ pagination }}
+                {{ pagination|default('') }}
 
                 <div class="blog-pager" id="blog-pager">
                     <span id="blog-pager-older-link">

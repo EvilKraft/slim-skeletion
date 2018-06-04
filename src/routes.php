@@ -99,17 +99,18 @@ $app->get('/img[/{image_name:.*}]', function (Request $request, Response $respon
         ]
     ]);
 
+    $image_name = $request->getAttribute('image_name', 'none');
 
-    if(!$server->sourceFileExists($args['image_name'])){
-        $args['image_name'] = '../resources/img/default-placeholder.png';
+    if(!$server->sourceFileExists($image_name)){
+        $image_name = '../resources/img/default-placeholder.png';
     }
 
-    $mimeType = $server->getSource()->getMimetype($server->getSourcePath($args['image_name']));
+    $mimeType = $server->getSource()->getMimetype($server->getSourcePath($image_name));
     if(!in_array($mimeType, ['image/gif', 'image/jpeg', 'image/png'])){
-        $args['image_name'] = '../resources/img/default-placeholder.png';
+        $image_name = '../resources/img/default-placeholder.png';
     }
 
-    return $server->getImageResponse($args['image_name'], $request->getQueryParams());
+    return $server->getImageResponse($image_name, $request->getQueryParams());
 
 })->setName('image');
 
