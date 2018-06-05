@@ -15,9 +15,11 @@ use \Psr\Http\Message\ResponseInterface as Response;
 //abstract class RESTController extends BaseController implements RESTInterface
 class RESTController extends BaseController implements RESTInterface
 {
-    protected $table       = null;  //table name
-    protected $idxField    = null;  // Primary key
-    protected $template    = null; //'Admin\Users.twig';
+    protected $table            = null;  //table name
+    protected $idxField         = null;  // Primary key
+    protected $template         = null; //'Admin\Users.twig';
+    protected $table_template   = 'table.twig';
+
 
     protected $columns     = [];
     protected $actions     = ['create', 'update', 'delete', 'move'];
@@ -217,7 +219,7 @@ class RESTController extends BaseController implements RESTInterface
         $this->data['dtColumns']  = $this->dtColumns();
         $this->data['dtLanguage'] = $this->dtLanguage();
 
-        return $this->renderPage($response, 'table.twig');
+        return $this->renderPage($response, $this->table_template);
     }
 
     protected function doCreate(Request $request, Response $response)

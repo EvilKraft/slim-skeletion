@@ -154,9 +154,6 @@
                             <li {{ currentRoute == 'member_posts' ? 'class="active"' }}>
                                 <a href="{{ path_for('member_posts', {'lang': lang}) }}"><i class="fa fa-edit"></i> <span>{{ 'Posts'|trans }}</span></a>
                             </li>
-                            <li {{ currentRoute == 'member_support' ? 'class="active"' }}>
-                                <a href="{{ path_for('member_support', {'lang': lang}) }}"><i class="fa fa-wrench"></i> <span>{{ 'Support'|trans }}</span></a>
-                            </li>
                         {% endif %}
 
                         <li class="treeview">

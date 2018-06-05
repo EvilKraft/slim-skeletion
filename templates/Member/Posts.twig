@@ -1,143 +1,150 @@
-{% extends 'backend_layout.twig' %}
+{% extends 'Frontend/page.twig' %}
 
 {% block content %}
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-        <h1>{{ pageTitle }}</h1>
-    </section>
+    <div class="content-area" id="primarybwrap">
+        <div class="bwrapsite-main" id="mainbwrap" role="main">
+            <div class="post-outer">
+                <article class="post hentry">
+                    <h1 class="post-title entry-title">{{ pageTitle }}</h1>
+                    <div class="post-body entry-content">
 
-    <!-- Main content -->
-    <section class="content">
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="box box-primary">
-                    <div class="box-body">
-                        <form id="updateForm" method="POST" enctype="multipart/form-data" data-toggle="validator" action="{{ currentUrl }}">
-                            {% if item is defined %}
-                                <input type="hidden" name="_METHOD" value="PUT" />
-                            {% endif %}
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="box box-primary">
+                                    <div class="box-body">
+                                        <form id="updateForm" method="POST" enctype="multipart/form-data" data-toggle="validator" action="{{ currentUrl }}">
+                                            {% if item is defined %}
+                                                <input type="hidden" name="_METHOD" value="PUT" />
+                                            {% endif %}
 
-                            <div class="collapse in" id="collapsible">
-                                <div class="form-group">
-                                    <label for="industryId">{{ 'Industry'|trans }} <span class="text-red">*</span></label>
-                                    <select id="industryId" name="industryId[]" class="form-control select2" required="" data-error="{{ 'Select an industry'|trans }}">
-                                        <option value="" selected disabled>{{ 'Select an industry'|trans }}</option>
-                                        {% for industry in industries %}
-                                            <option value="{{ industry.industryId }}" {{ (industry.PI_Id is not empty) ? 'selected' }}>{{ industry.name }}</option>
-                                        {% endfor %}
-                                    </select>
-                                    <div class="help-block with-errors"></div>
-                                </div>
-                            </div>
+                                            <div class="collapse in" id="collapsible">
+                                                <div class="form-group">
+                                                    <label for="industryId">{{ 'Industry'|trans }} <span class="text-red">*</span></label>
+                                                    <select id="industryId" name="industryId[]" class="form-control select2" required="" data-error="{{ 'Select an industry'|trans }}">
+                                                        <option value="" selected disabled>{{ 'Select an industry'|trans }}</option>
+                                                        {% for industry in industries %}
+                                                            <option value="{{ industry.industryId }}" {{ (industry.PI_Id is not empty) ? 'selected' }}>{{ industry.name }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                    <div class="help-block with-errors"></div>
+                                                </div>
+                                            </div>
 
-                            <div class="collapse in" id="collapsible">
-                                <div class="form-group">
-                                    <label for="cityId">{{ 'City'|trans }} <span class="text-red">*</span></label>
-                                    <select id="cityId" name="cityId" class="form-control select2" required="" data-error="{{ 'Select a city'|trans }}">
-                                        <option value="" {{ (item.cityId|default('') == '') ? 'selected' }} disabled>{{ 'Select a city'|trans }}</option>
-                                        {% for city in cities %}
-                                            <option value="{{ city.cityId }}" {{ (city.cityId == item.cityId|default('')) ? 'selected' }}>{{ city.name }}</option>
-                                        {% endfor %}
-                                    </select>
-                                    <div class="help-block with-errors"></div>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="workers">{{ 'Workers'|trans }}</label>
-                                <div class="input-group date">
-                                    <div class="input-group-addon">
-                                        <i class="fa fa-users"></i>
-                                    </div>
-                                    <input id="workers" name="workers" class="form-control" placeholder="{{ 'Workers'|trans }}" value="{{ item.workers|default(0) }}" type="text" data-error="{{ 'Invalid value'|trans }}">
-                                </div>
-                                <div class="help-block with-errors"></div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="buildedAt">{{ 'builded At'|trans }}</label>
-                                <div class="input-group date">
-                                    <div class="input-group-addon">
-                                        <i class="fa fa-calendar"></i>
-                                    </div>
-                                    <input type="text" id="buildedAt" name="buildedAt" class="form-control pull-right datetimepicker" value="{{ item.buildedAt|default('') == '' ? "" : item.finishedAt|date("d.m.Y") }}" pattern="^\d\d\.\d\d\.\d\d\d\d$" data-error="{{ 'Invalid value'|trans }}">
-                                </div>
-                                <div class="help-block with-errors"></div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="income">{{ 'Income'|trans }}</label>
-                                <div class="input-group">
-                                    <div class="input-group-addon">
-                                        &#x20BC;
-                                    </div>
-                                    <input id="income" name="income" class="form-control" placeholder="{{ 'Income'|trans }}" value="{{ item.income|default(0) }}" type="text" data-error="{{ 'Invalid value'|trans }}">
-                                </div>
-                                <div class="help-block with-errors"></div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="price">{{ 'Price'|trans }}</label>
-                                <div class="input-group">
-                                    <div class="input-group-addon">
-                                        &#x20BC;
-                                    </div>
-                                    <input id="price" name="price" class="form-control" placeholder="{{ 'Price'|trans }}" value="{{ item.price|default(0) }}" type="text" data-error="{{ 'Invalid value'|trans }}">
-                                </div>
-                                <div class="help-block with-errors"></div>
-                            </div>
-
-                            <div class="form-group has-feedback">
-                                <label for="site">{{ 'Site'|trans }}</label>
-                                <input id="site" name="site" class="form-control" placeholder="{{ 'Site'|trans }}" type="url" value="{{ item.site|default('') }}" data-error="{{ 'Invalid url'|trans }}">
-                                <span class="glyphicon glyphicon-globe form-control-feedback"></span>
-                                <div class="help-block with-errors"></div>
-                            </div>
-
-                            <div class="nav-tabs-custom">
-                                <ul class="nav nav-tabs">
-                                    {% for lang in langs %}
-                                        <li {{ loop.first ? 'class="active"' }}><a data-toggle="tab" href="#tab_{{ lang }}">{{ lang|upper }}</a></li>
-                                    {% endfor %}
-                                </ul>
-                                <div class="tab-content">
-                                    {% for lang in langs %}
-                                        <div id="tab_{{ lang }}" class="tab-pane {{ loop.first ? 'in active' }}">
-                                            <input type="hidden" name="{{ lang }}[langId]" value="{{ item_langs[lang].langId|default('') }}" />
+                                            <div class="collapse in" id="collapsible">
+                                                <div class="form-group">
+                                                    <label for="cityId">{{ 'City'|trans }} <span class="text-red">*</span></label>
+                                                    <select id="cityId" name="cityId" class="form-control select2" required="" data-error="{{ 'Select a city'|trans }}">
+                                                        <option value="" {{ (item.cityId|default('') == '') ? 'selected' }} disabled>{{ 'Select a city'|trans }}</option>
+                                                        {% for city in cities %}
+                                                            <option value="{{ city.cityId }}" {{ (city.cityId == item.cityId|default('')) ? 'selected' }}>{{ city.name }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                    <div class="help-block with-errors"></div>
+                                                </div>
+                                            </div>
 
                                             <div class="form-group">
-                                                <label for="title">{{ 'Title'|trans }} <span class="text-red">*</span></label>
-                                                <input id="title_{{ lang }}" name="{{ lang }}[title]" class="form-control" placeholder="{{ 'Title'|trans }}" value="{{ item_langs[lang].title|default('') }}" required="" type="text" data-error="{{ 'Invalid value'|trans }}">
+                                                <label for="workers">{{ 'Workers'|trans }}</label>
+                                                <div class="input-group date">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-users"></i>
+                                                    </div>
+                                                    <input id="workers" name="workers" class="form-control" placeholder="{{ 'Workers'|trans }}" value="{{ item.workers|default(0) }}" type="text" data-error="{{ 'Invalid value'|trans }}">
+                                                </div>
                                                 <div class="help-block with-errors"></div>
                                             </div>
+
                                             <div class="form-group">
-                                                <label for="text">{{ 'Text'|trans }} <span class="text-red">*</span></label>
-                                                <textarea id="text_{{ lang }}" name="{{ lang }}[text]" class="form-control ckeditor" placeholder="{{ 'Text'|trans }}" required="" data-error="{{ 'Invalid value'|trans }}">{{ item_langs[lang].text|default('') }}</textarea>
+                                                <label for="buildedAt">{{ 'builded At'|trans }}</label>
+                                                <div class="input-group date">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    <input type="text" id="buildedAt" name="buildedAt" class="form-control pull-right datetimepicker" value="{{ item.buildedAt|default('') == '' ? "" : item.finishedAt|date("d.m.Y") }}" pattern="^\d\d\.\d\d\.\d\d\d\d$" data-error="{{ 'Invalid value'|trans }}">
+                                                </div>
                                                 <div class="help-block with-errors"></div>
                                             </div>
+
+                                            <div class="form-group">
+                                                <label for="income">{{ 'Income'|trans }}</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon">
+                                                        &#x20BC;
+                                                    </div>
+                                                    <input id="income" name="income" class="form-control" placeholder="{{ 'Income'|trans }}" value="{{ item.income|default(0) }}" type="text" data-error="{{ 'Invalid value'|trans }}">
+                                                </div>
+                                                <div class="help-block with-errors"></div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="price">{{ 'Price'|trans }}</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon">
+                                                        &#x20BC;
+                                                    </div>
+                                                    <input id="price" name="price" class="form-control" placeholder="{{ 'Price'|trans }}" value="{{ item.price|default(0) }}" type="text" data-error="{{ 'Invalid value'|trans }}">
+                                                </div>
+                                                <div class="help-block with-errors"></div>
+                                            </div>
+
+                                            <div class="form-group has-feedback">
+                                                <label for="site">{{ 'Site'|trans }}</label>
+                                                <input id="site" name="site" class="form-control" placeholder="{{ 'Site'|trans }}" type="url" value="{{ item.site|default('') }}" data-error="{{ 'Invalid url'|trans }}">
+                                                <span class="glyphicon glyphicon-globe form-control-feedback"></span>
+                                                <div class="help-block with-errors"></div>
+                                            </div>
+
+                                            <div class="nav-tabs-custom">
+                                                <ul class="nav nav-tabs">
+                                                    {% for lang in langs %}
+                                                        <li {{ loop.first ? 'class="active"' }}><a data-toggle="tab" href="#tab_{{ lang }}">{{ lang|upper }}</a></li>
+                                                    {% endfor %}
+                                                </ul>
+                                                <div class="tab-content">
+                                                    {% for lang in langs %}
+                                                        <div id="tab_{{ lang }}" class="tab-pane {{ loop.first ? 'in active' }}">
+                                                            <input type="hidden" name="{{ lang }}[langId]" value="{{ item_langs[lang].langId|default('') }}" />
+
+                                                            <div class="form-group">
+                                                                <label for="title">{{ 'Title'|trans }} <span class="text-red">*</span></label>
+                                                                <input id="title_{{ lang }}" name="{{ lang }}[title]" class="form-control" placeholder="{{ 'Title'|trans }}" value="{{ item_langs[lang].title|default('') }}" required="" type="text" data-error="{{ 'Invalid value'|trans }}">
+                                                                <div class="help-block with-errors"></div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="text">{{ 'Text'|trans }} <span class="text-red">*</span></label>
+                                                                <textarea id="text_{{ lang }}" name="{{ lang }}[text]" class="form-control ckeditor" placeholder="{{ 'Text'|trans }}" required="" data-error="{{ 'Invalid value'|trans }}">{{ item_langs[lang].text|default('') }}</textarea>
+                                                                <div class="help-block with-errors"></div>
+                                                            </div>
+                                                        </div>
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="my_file">{{ 'Attachment'|trans }}</label>
+                                                <input id="my_file" name="my_file[]" type="file" multiple accept=".jpg,.jpeg,.png,.gif,.txt,.doc,.docx,.xls,.xlsx,.pdf">
+                                            </div>
+                                            <input type="hidden" name="secret" value="{{ secret|default('') }}">
+                                        </form>
+                                    </div>
+                                    <div class="box-footer">
+                                        <div class="form-group">
+                                            <button class="btn btn-primary" type="submit" form="updateForm">{{ 'Submit'|trans }}</button>
+                                            <a class="btn btn-default pull-right" href="{{ path_for(indexRoute, {'lang': lang}) }}">{{ 'Cancel'|trans }}</a>
                                         </div>
-                                    {% endfor %}
+                                    </div>
                                 </div>
                             </div>
-
-                            <div class="form-group">
-                                <label for="my_file">{{ 'Attachment'|trans }}</label>
-                                <input id="my_file" name="my_file[]" type="file" multiple accept=".jpg,.jpeg,.png,.gif,.txt,.doc,.docx,.xls,.xlsx,.pdf">
-                            </div>
-                            <input type="hidden" name="secret" value="{{ secret|default('') }}">
-                        </form>
-                    </div>
-                    <div class="box-footer">
-                        <div class="form-group">
-                            <button class="btn btn-primary" type="submit" form="updateForm">{{ 'Submit'|trans }}</button>
-                            <a class="btn btn-default pull-right" href="{{ path_for(indexRoute, {'lang': lang}) }}">{{ 'Cancel'|trans }}</a>
                         </div>
+
+
+
                     </div>
-                </div>
+                </article>
+                <div style="clear:both"></div>
             </div>
         </div>
-    </section>
-    <!-- /.content -->
+    </div>
 {% endblock %}
 
 {% block head %}

@@ -14,9 +14,10 @@ use \Symfony\Component\Config\Definition\Exception\Exception;
 
 class Posts extends \Controller\Admin\Posts
 {
-    protected $table        = 'posts';
-    protected $idxField     = 'postId';
+    protected $table          = 'posts';
+    protected $idxField       = 'postId';
   //  protected $template    = 'Admin\Posts.twig';
+    protected $table_template = 'frontend_table.twig';
 
     protected $columns      = ['title', 'createdAt', 'status'];
     protected $actions      = ['create', 'update', 'delete'];
