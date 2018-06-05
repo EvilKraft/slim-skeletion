@@ -205,7 +205,11 @@ class Posts extends RESTController
                 foreach ($this->settings['i18n']['langs'] as $lang){
                     $vars = array_intersect_key($request->getParsedBody()[$lang], $tableColumns);
                     $vars_lang[$lang] = array_merge_recursive( [$this->idxField => $lastId, 'lang' => $lang ], $vars);
+
+                    $vars_lang[$lang]['text_search'] = strip_tags($vars_lang[$lang]['text']);
                 }
+
+
                 $colNames  = implode(', ', array_keys(reset($vars_lang)));
                 $questions = '?'.str_repeat(', ?', (count(reset($vars_lang))-1));
 
@@ -266,7 +270,10 @@ class Posts extends RESTController
                 $vars_lang = array();
                 foreach ($this->settings['i18n']['langs'] as $lang){
                     $vars_lang[$lang] = array_intersect_key($request->getParsedBody()[$lang], $tableColumns);
+
+                    $vars_lang[$lang]['text_search'] = strip_tags($vars_lang[$lang]['text']);
                 }
+
                 $colNames  = implode(', ', array_map(function($n) {return($n.'=?');}, array_keys(reset($vars_lang))));
 
                 $stmt = $this->db->prepare("UPDATE ".$this->table."_lang SET ".$colNames." WHERE ".$this->idxFieldLang." = ?");
