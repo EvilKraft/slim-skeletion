@@ -375,10 +375,6 @@
 
 
             <script>
-                jQuery(document).ready(function($) {
-                    $('.blog-date').html(moment().locale('{{lang }}').format('LLLL'));
-                });
-
                 i18next
                     .use(i18nextXHRBackend)
                     .init({
@@ -392,22 +388,23 @@
                     });
 
                 $(document).ready(function () {
-                    {% for type, group in flash_messages %}
-                    $.toast({
-                        heading: '{{ type|capitalize }}!',
-                        text: [
-                            {% for msg in group %}
-                            '{{ msg }}',
-                            {% endfor %}
-                        ],
-                        icon: '{{ type }}',
-                        position: 'bottom-right',
-                        showHideTransition: 'slide',
-                        hideAfter : false,
-                        loader: false
-                    });
-                    {% endfor %}
+                    $('.blog-date').html(moment().locale('{{lang }}').format('LLLL'));
 
+                    {% for type, group in flash_messages %}
+                        $.toast({
+                            heading: '{{ type|capitalize }}!',
+                            text: [
+                                {% for msg in group %}
+                                '{{ msg }}',
+                                {% endfor %}
+                            ],
+                            icon: '{{ type }}',
+                            position: 'bottom-right',
+                            showHideTransition: 'slide',
+                            hideAfter : false,
+                            loader: false
+                        });
+                    {% endfor %}
                 })
             </script>
 

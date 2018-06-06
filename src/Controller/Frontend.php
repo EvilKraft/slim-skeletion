@@ -18,9 +18,9 @@ class Frontend extends BaseController
 
         $data = array();
 
-        $data['blog_container1'] = $this->renderer->fetch('Frontend/Blog/blog_stile1.twig', $this->getPosts(8, 6));
-        $data['blog_container4'] = $this->renderer->fetch('Frontend/Blog/blog_stile4.twig', $this->getPosts(8, 6));
-        $data['blog_container5'] = $this->renderer->fetch('Frontend/Blog/blog_stile5.twig', $this->getPosts(8, 6));
+        $data['blog_container1'] = $this->renderer->fetch('Frontend/Blog/blog_stile1.twig', $this->getPosts(5, 6));
+        $data['blog_container4'] = $this->renderer->fetch('Frontend/Blog/blog_stile1.twig', $this->getPosts(5, 6));
+        $data['blog_container5'] = $this->renderer->fetch('Frontend/Blog/blog_stile1.twig', $this->getPosts(5, 6));
 
         return $this->render($response, 'Frontend/index.twig', $data);
     }
@@ -275,6 +275,7 @@ class Frontend extends BaseController
     {
         $this->renderer->getEnvironment()->addGlobal('industries', $this->getCategories());
         $this->renderer->getEnvironment()->addGlobal('recent_posts', $this->recentPosts());
+    //    $this->renderer->getEnvironment()->addGlobal('valutes', $this->getValutes());
 
         return $next($request, $response, $next);
     }
@@ -381,5 +382,16 @@ class Frontend extends BaseController
         $data['items'] = $stmt->fetchAll();
 
         return $data;
+    }
+
+    protected function getValutes(){
+        $xml = simplexml_load_file('https://www.cbar.az/currencies/'.date('d.m.Y').'.xml');
+        $xml = $xml->xpath("//Valute[@Code='USD' or @Code='EUR' or @Code='RUB' or @Code='GEL']");
+
+        $valutes = array();
+        foreach($xml as $node){
+            $valutes[(string) $node['Code']] = ['name' => (string) $node->Name, 'value' => (float) $node->Value];
+        }
+        return $valutes;
     }
 }
