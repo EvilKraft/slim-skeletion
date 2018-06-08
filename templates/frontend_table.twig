@@ -1,23 +1,11 @@
 {% extends 'frontend_layout.twig' %}
-{% import _self as self %}
-
-{%
-    set CRUDRoutes = {
-        'create'   : currentRoute ~ '_create',
-        'get'      : currentRoute ~ '_get',
-        'delete'   : currentRoute ~ '_delete',
-        'newChild' : currentRoute ~ '_newChild',
-        'move'     : currentRoute ~ '_move',
-    }
-%}
-
 
 {% block content %}
     <div class="content-area" id="primarybwrap">
         <div class="bwrapsite-main" id="mainbwrap" role="main">
             <div class="post-outer">
                 <article class="post hentry">
-                    <h1 class="post-title entry-title">{{ pageTitle }}</h1>
+                    <h1 class="post-title entry-title">{{ page.title }}</h1>
                     <div class="post-body entry-content">
                         <table id="tableData" class="table table-striped table-bordered table-hover" style="width: 100%"></table>
                     </div>
@@ -33,9 +21,7 @@
     {{ parent() }}
 
     <link rel="stylesheet" href="{{ base_url() }}/assets/magnific-popup/dist/magnific-popup.css">
-
     <link rel="stylesheet" href="{{ base_url() }}/libs/DataTables/dataTables.min.css">
-
     <link rel="stylesheet" href="{{ base_url() }}/libs/dataTableExportCollection/dataTableExportCollection.css">
 
 {% endblock %}
@@ -55,7 +41,7 @@
     <script type="text/javascript">
         $(document).ready(function(){
             $.extend( true, $.fn.dataTable.defaults, {
-                dom: "<'row'<'col-sm-6 col-lg-3'B><'col-sm-6 col-lg-3'l><'col-sm-6 col-lg-4'fr><'col-sm-6 col-lg-2 text-right'b>>" +
+                dom: "<'row'<'col-sm-6 col-lg-3'{#B#}><'col-sm-6 col-lg-3'l><'col-sm-6 col-lg-4'fr><'col-sm-6 col-lg-2 text-right'b>>" +
                 "<'row'<'col-sm-12't>>" +
                 "<'row'<'col-sm-5'i><'col-sm-7'p>>",
 
@@ -70,7 +56,7 @@
                     loadingIndicator: true,
                     displayBuffer: 20
                 },
-
+            {#
                 buttons: [
                     'select_all',
                     'export_collection',
@@ -82,7 +68,7 @@
                         postfixButtons: [ 'colvisRestore' ],
                     },
                 ],
-
+#}
                 language: {{ dtLanguage|raw }},
 
                 select: {
@@ -110,27 +96,6 @@
                 columns: {{ dtColumns|raw }},
 
                 dataTableActionBtns: {{ actions|json_encode|raw }},
-
-                initComplete: function (settings, json) {
-                    var api = this.api();
-
-/*
-                    $('.magnificPopup').magnificPopup({
-                        type: 'ajax',
-                        ajax: {
-                            settings: null, // Ajax settings object that will extend default one - http://api.jquery.com/jQuery.ajax/#jQuery-ajax-settings
-                            cursor: 'mfp-ajax-cur', // CSS class that will be added to body during the loading (adds "progress" cursor)
-                            tError: '<a href="%url%">The content could not be loaded.</a>' //  Error message, can contain %curr% and %total% tags if gallery is enabled
-                        },
-                        callbacks: {
-                            ajaxContentAdded: function() {
-                                // Ajax content is loaded and appended to DOM
-                                //initializeSelect2();
-                            }
-                        }
-                    });
-*/
-                },
             });
         });
     </script>

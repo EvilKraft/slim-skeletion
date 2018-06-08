@@ -169,7 +169,6 @@ class Posts extends RESTController
             $this->data['files'] = $stmt->fetchAll();
 
             foreach($this->data['files'] as $key => $file){
-
                 switch ($file['type']) {
                     case (preg_match('/image.*/',                   $file['type']) ? true : false) : $this->data['files'][$key]['type'] = 'image';  break;
                     case 'text/html'                                                                       : $this->data['files'][$key]['type'] = 'html';   break;
@@ -189,12 +188,27 @@ class Posts extends RESTController
         try {
             $this->db->beginTransaction();
 
-            $vars      = $this->getPostedVars($request);
-            $colNames  = implode(', ', array_merge(array_keys($vars), ['userId']));
-            $questions = '?'.str_repeat(', ?', (count($vars)));
+            $vars           = $this->getPostedVars($request);
+            $vars['userId'] = $_SESSION['user']['userId'];
 
-            $stmt = $this->db->prepare("INSERT INTO ".$this->table." (".$colNames.") VALUES (".$questions.")");
-            $stmt->execute(array_merge(array_values($vars), [$_SESSION['user']['userId']]));
+            $keys = array_keys($vars);
+            $fields = '`'.implode('`, `',$keys).'`';
+            $placeholder = implode(', ', array_map(function($n) {return(':'.$n);}, $keys));
+
+            $stmt = $this->db->prepare("INSERT INTO ".$this->table." (".$fields.") VALUES (".$placeholder.")");
+            foreach ($vars as $field => $value){
+                if($field == 'buildedAt'){
+                    $value = empty($value) ? null : date('Y-m-d', strtotime($value));
+                }
+
+                switch(true) {
+                    case is_null($value)         : $type = \PDO::PARAM_NULL; break;
+                    case is_numeric($value)      : $type = \PDO::PARAM_INT;  break;
+                    default                      : $type = \PDO::PARAM_STR;
+                }
+                $stmt->bindValue(':'.$field, $value, $type);
+            }
+            $stmt->execute();
 
             $lastId = $this->db->lastInsertId();
 
@@ -259,10 +273,24 @@ class Posts extends RESTController
             $this->db->beginTransaction();
 
             $vars     = $this->getPostedVars($request);
-            $colNames = implode(', ', array_map(function($n) {return($n.'=?');}, array_keys($vars)));
+            $colNames = implode(', ', array_map(function($n) {return('`'.$n.'` = :'.$n);}, array_keys($vars)));
 
-            $stmt = $this->db->prepare("UPDATE ".$this->table." SET ".$colNames." WHERE ".$this->idxField." = ?");
-            $stmt->execute(array_merge_recursive(array_values($vars), [$args['id']]));
+            $vars[$this->idxField] = $args['id'];
+
+            $stmt = $this->db->prepare("UPDATE ".$this->table." SET ".$colNames." WHERE ".$this->idxField." = :".$this->idxField." ");
+            foreach ($vars as $field => $value){
+                if($field == 'buildedAt'){
+                    $value = empty($value) ? null : date('Y-m-d', strtotime($value));
+                }
+
+                switch(true) {
+                    case is_null($value)         : $type = \PDO::PARAM_NULL; break;
+                    case is_numeric($value)      : $type = \PDO::PARAM_INT;  break;
+                    default                      : $type = \PDO::PARAM_STR;
+                }
+                $stmt->bindValue(':'.$field, $value, $type);
+            }
+            $stmt->execute();
 
             if(!empty($this->idxFieldLang)){
                 $tableColumns = $this->getTableColumns($this->table.'_lang');

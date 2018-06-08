@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Июн 04 2018 г., 20:06
+-- Время создания: Июн 08 2018 г., 16:57
 -- Версия сервера: 5.7.19
 -- Версия PHP: 7.1.7
 
@@ -315,7 +315,7 @@ CREATE TABLE `posts` (
   `finishedAt` timestamp NULL DEFAULT NULL,
   `cityId` int(10) UNSIGNED DEFAULT NULL,
   `workers` int(10) UNSIGNED NOT NULL,
-  `buildedAt` date NOT NULL,
+  `buildedAt` date DEFAULT NULL,
   `income` decimal(10,0) UNSIGNED NOT NULL,
   `price` decimal(10,0) UNSIGNED NOT NULL,
   `site` varchar(255) NOT NULL
@@ -328,7 +328,9 @@ CREATE TABLE `posts` (
 INSERT INTO `posts` (`postId`, `userId`, `createdAt`, `status`, `finishedAt`, `cityId`, `workers`, `buildedAt`, `income`, `price`, `site`) VALUES
 (1, 1, '2018-05-20 18:43:04', 0, NULL, 3, 0, '2020-05-20', '0', '0', ''),
 (4, 1, '2018-05-21 17:38:19', 1, NULL, 1, 0, '2027-05-20', '0', '0', ''),
-(5, 2, '2018-05-26 17:13:19', 0, NULL, 1, 12, '2026-05-20', '0', '0', '');
+(5, 2, '2018-05-26 17:13:19', 0, NULL, 1, 12, '2018-06-01', '0', '0', ''),
+(9, 5, '2018-06-05 08:35:48', 0, NULL, 1, 0, NULL, '0', '0', ''),
+(10, 5, '2018-06-07 11:26:26', 0, NULL, 1, 0, NULL, '0', '100', '');
 
 -- --------------------------------------------------------
 
@@ -357,7 +359,20 @@ INSERT INTO `posts_files` (`fileId`, `userId`, `postId`, `file`, `caption`, `typ
 (6, 1, NULL, 'posts_5b01c143839711.46731011.pdf', '12-rules-to-learn-languages-in-record-time.pdf', 'application/pdf', 259009, '5b01c129a08692.32969121', '2018-05-20 18:41:07'),
 (7, 2, 5, 'posts_5b0995ab2d6a49.52490025.pdf', '12-rules-to-learn-languages-in-record-time.pdf', 'application/pdf', 259009, '5b09956c944d18.18832813', '2018-05-26 17:13:15'),
 (8, 2, 5, 'posts_5b0995ab74b556.73355315.png', '1.png', 'image/png', 510002, '5b09956c944d18.18832813', '2018-05-26 17:13:15'),
-(9, 2, 5, 'posts_5b0995aba1a1f3.97462860.png', 'Untitled.png', 'image/png', 787012, '5b09956c944d18.18832813', '2018-05-26 17:13:15');
+(9, 2, 5, 'posts_5b0995aba1a1f3.97462860.png', 'Untitled.png', 'image/png', 787012, '5b09956c944d18.18832813', '2018-05-26 17:13:15'),
+(10, 5, NULL, 'posts_5b16488be8c501.72880163.JPG', 'IMG_4107.JPG', 'image/jpeg', 1543171, '5b1648380ab121.64809910', '2018-06-05 08:23:39'),
+(11, 5, NULL, 'posts_5b16488c1770a6.52183073.JPG', 'IMG_4111.JPG', 'image/jpeg', 1878643, '5b1648380ab121.64809910', '2018-06-05 08:23:40'),
+(12, 5, NULL, 'posts_5b1648e3e180d7.72950221.JPG', 'IMG_4107.JPG', 'image/jpeg', 1543171, '5b1648c3946a78.59559474', '2018-06-05 08:25:07'),
+(13, 5, NULL, 'posts_5b1648e40e2774.49891589.JPG', 'IMG_4111.JPG', 'image/jpeg', 1878643, '5b1648c3946a78.59559474', '2018-06-05 08:25:08'),
+(14, 5, NULL, 'posts_5b164a51a7b4c8.63258360.JPG', 'IMG_4107.JPG', 'image/jpeg', 1543171, '5b164a374a9d55.57779214', '2018-06-05 08:31:13'),
+(15, 5, NULL, 'posts_5b164a51cb54c2.41858659.JPG', 'IMG_4111.JPG', 'image/jpeg', 1878643, '5b164a374a9d55.57779214', '2018-06-05 08:31:13'),
+(16, 5, NULL, 'posts_5b164af0c91806.96264331.JPG', 'IMG_4107.JPG', 'image/jpeg', 1543171, '5b164ad830a844.46693468', '2018-06-05 08:33:52'),
+(17, 5, NULL, 'posts_5b164af0ef8084.55216006.JPG', 'IMG_4111.JPG', 'image/jpeg', 1878643, '5b164ad830a844.46693468', '2018-06-05 08:33:52'),
+(18, 5, 9, 'posts_5b164b62ee6d24.73492779.JPG', 'IMG_4107.JPG', 'image/jpeg', 1543171, '5b164b432844a4.84011962', '2018-06-05 08:35:46'),
+(19, 5, 9, 'posts_5b164b631f44b5.50857809.JPG', 'IMG_4111.JPG', 'image/jpeg', 1878643, '5b164b432844a4.84011962', '2018-06-05 08:35:47'),
+(20, 5, 10, 'posts_5b19165f3d5fe7.72079031.txt', 'FireFox links.txt', 'text/plain', 1655, '5b19162664c6f1.67704275', '2018-06-07 11:26:23'),
+(21, 5, 10, 'posts_5b19165f5e4bf7.74892395.JPG', 'IMG_4107.JPG', 'image/jpeg', 1543171, '5b19162664c6f1.67704275', '2018-06-07 11:26:23'),
+(22, 5, 10, 'posts_5b19165f802dc2.70835141.JPG', 'IMG_4111.JPG', 'image/jpeg', 1878643, '5b19162664c6f1.67704275', '2018-06-07 11:26:23');
 
 -- --------------------------------------------------------
 
@@ -378,7 +393,9 @@ CREATE TABLE `posts_industries` (
 INSERT INTO `posts_industries` (`id`, `postId`, `industryId`) VALUES
 (1, 1, 5),
 (10, 4, 15),
-(11, 5, 5);
+(11, 5, 5),
+(12, 9, 5),
+(13, 10, 5);
 
 -- --------------------------------------------------------
 
@@ -406,9 +423,15 @@ INSERT INTO `posts_lang` (`langId`, `postId`, `lang`, `title`, `text`, `text_sea
 (4, 4, 'en', 'zz1', '<p>zzz1</p>\r\n', '<p>zzz1</p>'),
 (5, 4, 'ru', 'xx1', '<p>xxx1</p>\r\n', '<p>xxx1</p>'),
 (6, 4, 'az', 'cc1', '<p>ccc1</p>\r\n', '<p>ccc1</p>'),
-(7, 5, 'en', 'вап вап вап sdfg sdg sdg ывап ', '<p>sdfg выап выап sdfg вап</p>\r\n\r\n<p>в sfgsd выап выап ывап ывап вып выап вып впа sdg вап</p>\r\n', '<p>sdfg выап выап sdfg вап</p>  <p>в sfgsd выап выап ывап ывап вып выап вып впа sdg вап</p>'),
-(8, 5, 'ru', 'вап вап вап sdfg sdg sdg ывап ', '<p>sdfg выап выап sdfg вап</p>\r\n\r\n<p>в sfgsd выап выап ывап ывап вып выап вып впа sdg вап</p>\r\n', '<p>sdfg выап выап sdfg вап</p>  <p>в sfgsd выап выап ывап ывап вып выап вып впа sdg вап</p>'),
-(9, 5, 'az', 'вап вап вап sdfg sdg sdg ывап ', '<p>sdfg выап выап sdfg вап</p>\r\n\r\n<p>в sfgsd выап выап ывап ывап вып выап вып впа sdg вап</p>\r\n', '<p>sdfg выап выап sdfg вап</p>  <p>в sfgsd выап выап ывап ывап вып выап вып впа sdg вап</p>');
+(7, 5, 'en', 'вап вап вап sdfg sdg sdg ывап ', '<p>sdfg выап выап sdfg вап</p>\r\n\r\n<p>в sfgsd выап выап ывап ывап вып выап вып впа sdg вап</p>\r\n', 'sdfg выап выап sdfg вап\r\n\r\nв sfgsd выап выап ывап ывап вып выап вып впа sdg вап\r\n'),
+(8, 5, 'ru', 'вап вап вап sdfg sdg sdg ывап ', '<p>sdfg выап выап sdfg вап</p>\r\n\r\n<p>в sfgsd выап выап ывап ывап вып выап вып впа sdg вап</p>\r\n', 'sdfg выап выап sdfg вап\r\n\r\nв sfgsd выап выап ывап ывап вып выап вып впа sdg вап\r\n'),
+(9, 5, 'az', 'вап вап вап sdfg sdg sdg ывап ', '<p>sdfg выап выап sdfg вап</p>\r\n\r\n<p>в sfgsd выап выап ывап ывап вып выап вып впа sdg вап</p>\r\n', 'sdfg выап выап sdfg вап\r\n\r\nв sfgsd выап выап ывап ывап вып выап вып впа sdg вап\r\n'),
+(10, 9, 'en', 'fd пва павп авп вап вап в ', '<p>fd пва павп авп вап вап в</p>\r\n\r\n<p>п вавп вап авп</p>\r\n\r\n<p>п авва павп</p>\r\n\r\n<p>п ва павп вап ав</p>\r\n\r\n<p>авп авпавпавп</p>\r\n', 'fd пва павп авп вап вап в\r\n\r\nп вавп вап авп\r\n\r\nп авва павп\r\n\r\nп ва павп вап ав\r\n\r\nавп авпавпавп\r\n'),
+(11, 9, 'ru', 'fd пва павп авп вап вап в ', '<p>fd пва павп авп вап вап в</p>\r\n\r\n<p>п вавп вап авп</p>\r\n\r\n<p>п авва павп</p>\r\n\r\n<p>п ва павп вап ав</p>\r\n\r\n<p>авп авпавпавп</p>\r\n', 'fd пва павп авп вап вап в\r\n\r\nп вавп вап авп\r\n\r\nп авва павп\r\n\r\nп ва павп вап ав\r\n\r\nавп авпавпавп\r\n'),
+(12, 9, 'az', 'fd пва павп авп вап вап в ', '<p>fd пва павп авп вап вап в</p>\r\n\r\n<p>п вавп вап авп</p>\r\n\r\n<p>п авва павп</p>\r\n\r\n<p>п ва павп вап ав</p>\r\n\r\n<p>авп авпавпавп</p>\r\n', 'fd пва павп авп вап вап в\r\n\r\nп вавп вап авп\r\n\r\nп авва павп\r\n\r\nп ва павп вап ав\r\n\r\nавп авпавпавп\r\n'),
+(13, 10, 'en', 'hhhhhh  h h h h h', '<p>в апвап вап вап вап вап вап вапв п впв ап</p>\r\n\r\n<p>&nbsp;вав павп вп авп вап вп&nbsp; впав пав пав пвап вап авп</p>\r\n\r\n<p>ап пв ап вап вп вп вап ва павпавпавпвп впвап впвпвап</p>\r\n\r\n<p>вап авп вапавп</p>\r\n', 'в апвап вап вап вап вап вап вапв п впв ап\r\n\r\n&nbsp;вав павп вп авп вап вп&nbsp; впав пав пав пвап вап авп\r\n\r\nап пв ап вап вп вп вап ва павпавпавпвп впвап впвпвап\r\n\r\nвап авп вапавп\r\n'),
+(14, 10, 'ru', 'hhhhhh  h h h h h', '<p>в апвап вап вап вап вап вап вапв п впв ап</p>\r\n\r\n<p>&nbsp;вав павп вп авп вап вп&nbsp; впав пав пав пвап вап авп</p>\r\n\r\n<p>ап пв ап вап вп вп вап ва павпавпавпвп впвап впвпвап</p>\r\n\r\n<p>вап авп вапавп</p>\r\n', 'в апвап вап вап вап вап вап вапв п впв ап\r\n\r\n&nbsp;вав павп вп авп вап вп&nbsp; впав пав пав пвап вап авп\r\n\r\nап пв ап вап вп вп вап ва павпавпавпвп впвап впвпвап\r\n\r\nвап авп вапавп\r\n'),
+(15, 10, 'az', 'hhhhhh  h h h h h', '<p>в апвап вап вап вап вап вап вапв п впв ап</p>\r\n\r\n<p>&nbsp;вав павп вп авп вап вп&nbsp; впав пав пав пвап вап авп</p>\r\n\r\n<p>ап пв ап вап вп вп вап ва павпавпавпвп впвап впвпвап</p>\r\n\r\n<p>вап авп вапавп</p>\r\n', 'в апвап вап вап вап вап вап вапв п впв ап\r\n\r\n&nbsp;вав павп вп авп вап вп&nbsp; впав пав пав пвап вап авп\r\n\r\nап пв ап вап вп вп вап ва павпавпавпвп впвап впвпвап\r\n\r\nвап авп вапавп\r\n');
 
 -- --------------------------------------------------------
 
@@ -612,22 +635,22 @@ ALTER TABLE `pages_lang`
 -- AUTO_INCREMENT для таблицы `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `postId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `postId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT для таблицы `posts_files`
 --
 ALTER TABLE `posts_files`
-  MODIFY `fileId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `fileId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 --
 -- AUTO_INCREMENT для таблицы `posts_industries`
 --
 ALTER TABLE `posts_industries`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT для таблицы `posts_lang`
 --
 ALTER TABLE `posts_lang`
-  MODIFY `langId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `langId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT для таблицы `userGroups`
 --

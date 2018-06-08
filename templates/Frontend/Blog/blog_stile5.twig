@@ -53,7 +53,7 @@
                             </div>
                             <a class="label_title" href="{{ path_for('post', {'lang':lang, 'id':item.postId}) }}" target="_top">{{ item.title }}</a>
                             <div class="toe">
-                                <a href="{{ path_for('post', {'lang':lang, 'id':item.postId}) }}" class="post-date">{{ item.createdAt }}</a>
+                                <a href="{{ path_for('post', {'lang':lang, 'id':item.postId}) }}" class="post-date">{{ item.createdAt|date("d.m.Y H:i:s") }}</a>
                             </div>
                         </li>
                     {% endfor %}

@@ -6,27 +6,15 @@
  */
 
 return array(
-    'site_name' => 'MYTENDER',
-    'version'       => 'version',
+    'site_name' => 'MySite',
+    'version'   => 'version',
 
     'REST' => [
         'Dashboard' => [
-            'pageTitle' => 'Dashboard',
-        ],
-        'Tenders' => [
-            'pageTitle' => 'Tenders',
-            'fields'    => [
-                'id'            => 'Id',
-                'username'      => 'Name',
-                'name'          => 'Title',
-                'description'   => 'Description',
-                'createdAt'     => 'Created at',
-                'industryname'  => 'Industry',
-                'status'        => 'Status',
-            ],
+            'page' => [ 'title' =>'Dashboard',],
         ],
         'Users' => [
-            'pageTitle' => 'Clients',
+            'page' => [ 'title' =>'Clients',],
             'fields'    => [
                 'id'            => 'Id',
                 'login'         => 'Login',
@@ -39,14 +27,14 @@ return array(
             ],
         ],
         'Industries' => [
-            'pageTitle' => 'Industries',
+            'page' => [ 'title' =>'Industries',],
             'fields'    => [
                 'id'            => 'Id',
                 'name'          => 'Title',
             ],
         ],
         'Posts' => [
-            'pageTitle' => 'Posts',
+            'page' => [ 'title' =>'Posts',],
             'fields'    => [
                 'id'            => 'Id',
                 'createdAt'     => 'Created at',
@@ -55,18 +43,11 @@ return array(
             ],
         ],
         'Pages' => [
-            'pageTitle' => 'Pages',
+            'page' => [ 'title' =>'Pages',],
             'fields'    => [
                 'id'            => 'Id',
                 'alias'         => 'Alias',
                 'title'         => 'Title',
-            ],
-        ],
-        'Help' => [
-            'pageTitle' => 'Помощь',
-            'fields'    => [
-                'id'            => 'Id',
-                'title'         => 'Question',
             ],
         ],
     ],

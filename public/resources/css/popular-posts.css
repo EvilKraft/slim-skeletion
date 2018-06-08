@@ -76,7 +76,7 @@ ul.pt-followers-icons.share-buttons li:hover span.counter, ul.pt-followers-icons
 #magstyle4 .recent-box:first-child {margin-top:0}
 #magstyle4 .recent-box:nth-child(2) {margin-top:0}
 #magstyle4 .imageContainer {width:130px;height:100px;}
-#magstyle4 {background-color: #FFF;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;}
+#magstyle4 {background-color: #FFF;border-top: 1px solid #e6e6e6;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;}
 #magstyle4 .recent-box {float: left; display: block; width: 48%; margin-right: 10px; padding-bottom: 10px; margin-bottom: 10px; padding-top: 0; border-bottom: 1px dashed #f1f1f1;}
 #magstyle4 ul {padding: 15px; overflow: hidden;}
 #magstyle4 .recent-box .post-summary {display: none;}
@@ -136,7 +136,7 @@ ul.pt-followers-icons.share-buttons li:hover span.counter, ul.pt-followers-icons
 .featuredposts .arl-tmb:hover:after{opacity:.7;}
 .featuredposts li{float: left; width: 32.3333%; height: 300px; position: relative; padding: 0; overflow: hidden; display: block; margin-right: 14px;}
 
-#footer-wrapper {text-align:left;overflow:hidden;padding:15px 0 0 0;background-color:#21252d}
+#footer-wrapper {text-align:left;overflow:hidden;/*padding:15px 0 0 0;*/background-color:#21252d}
 #footer-widgetfix {overflow:hidden;margin:0 auto;}
 #footer-wrapper h2 {color: #fff;line-height: 28px; padding: 8px 0; margin: 0; font-size: 16px; font-weight: 500; text-transform: uppercase; margin-bottom: 15px;}
 #footer-wrapper .widget-content {text-align:left;color: #fff; font-size: 15px;}

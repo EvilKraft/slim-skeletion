@@ -11,21 +11,17 @@
 <div class="content-area" id="primarybwrap">
     <div class="bwrapsite-main" id="mainbwrap" role="main">
 
+        {% for container in containers %}
+            {{ container|raw }}
+        {% endfor %}
+
         {#{% include 'Frontend/Blog/blog_stile1.twig' %}#}
-        {{ blog_container1|raw }}
+
         {#{% include 'Frontend/Blog/blog_stile2.twig' %}  not use #}
 
+        {% if page_banner is defined %}
 
-        <div class="animated fadeInUp section" id="adpost">
-            <div class="widget HTML" data-version="1" id="HTML6">
-                <div class="post-ad" style="display: block">
-                    <div class="widget-content">
-                        <img alt="Ad 728x90" data-original-height="90" data-original-width="728" src="/News16_files/728.png" title="Ad 728x90" border="0">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="clear"></div>
+        {% endif %}
 
         {#{% include 'Frontend/Blog/blog_stile3.twig' %}  not use #}
 
@@ -33,15 +29,7 @@
         {% include 'Frontend/Blog/blog_stile4.twig' %}
         {% include 'Frontend/Blog/blog_stile5.twig' %}
         #}
-        {{ blog_container4|raw }}
-        {{ blog_container5|raw }}
 
-        {#
-        <div class="mag-wrapper">
-            <div class="clear"></div>
-        </div>
-        <div class="clear"></div>
-        #}
 
         {#{% include 'Frontend/Blog/blog_stile6.twig' %}  not use #}
 

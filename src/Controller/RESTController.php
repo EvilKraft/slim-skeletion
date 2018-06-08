@@ -312,9 +312,9 @@ class RESTController extends BaseController implements RESTInterface
     }
 
     protected function renderPage(Response $response, $template, $pageTitle = null){
-        $this->data['pageTitle'] = $this->trans('REST.'.self::getBaseClassName().'.pageTitle');
+        $this->data['page']['title'] = $this->trans('REST.'.self::getBaseClassName().'.page.title');
         if(!is_null($pageTitle)){
-            $this->data['pageTitle'] .= ' / '.$this->trans($pageTitle);
+            $this->data['page']['title'] .= ' / '.$this->trans($pageTitle);
         }
 
         return $this->render($response, $template, $this->data);

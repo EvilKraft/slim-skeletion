@@ -16,11 +16,16 @@ class Frontend extends BaseController
 {
     public function index(Request $request, Response $response, Array $args) {
 
-        $data = array();
+        $containers = array();
+        $containers[] = $this->renderer->fetch('Frontend/Blog/blog_stile1.twig', $this->getPosts(5, 6));
+        $containers[] = $this->getPageBanner();
+        $containers[] = $this->renderer->fetch('Frontend/Blog/blog_stile1.twig', $this->getPosts(5, 6));
+    //    $containers[] = $this->getPageBanner();
+        $containers[] = $this->renderer->fetch('Frontend/Blog/blog_stile1.twig', $this->getPosts(5, 6));
 
-        $data['blog_container1'] = $this->renderer->fetch('Frontend/Blog/blog_stile1.twig', $this->getPosts(5, 6));
-        $data['blog_container4'] = $this->renderer->fetch('Frontend/Blog/blog_stile1.twig', $this->getPosts(5, 6));
-        $data['blog_container5'] = $this->renderer->fetch('Frontend/Blog/blog_stile1.twig', $this->getPosts(5, 6));
+        $data = array(
+            'containers' => $containers
+        );
 
         return $this->render($response, 'Frontend/index.twig', $data);
     }
@@ -275,11 +280,14 @@ class Frontend extends BaseController
     {
         $this->renderer->getEnvironment()->addGlobal('industries', $this->getCategories());
         $this->renderer->getEnvironment()->addGlobal('recent_posts', $this->recentPosts());
+        $this->renderer->getEnvironment()->addGlobal('pop_categories', $this->popularCategories(10));
     //    $this->renderer->getEnvironment()->addGlobal('valutes', $this->getValutes());
+
+        $this->renderer->getEnvironment()->addGlobal('head_banner', $this->getHeadBanner());
+        $this->renderer->getEnvironment()->addGlobal('side_banner', $this->getSideBanner());
 
         return $next($request, $response, $next);
     }
-
 
 
     protected function getPage($alias){
@@ -301,7 +309,6 @@ class Frontend extends BaseController
 
         return $data;
     }
-
 
     protected function getPosts($industryId, $limit = 10, $offset = 0){
         $data = array();
@@ -384,6 +391,24 @@ class Frontend extends BaseController
         return $data;
     }
 
+    protected function popularCategories($limit = 8){
+        $sql = "SELECT 
+                    PI.industryId, IL.name, COUNT(*) COUNT 
+                FROM posts_industries PI
+                INNER JOIN industries_lang IL ON PI.industryId = IL.industryId 
+                WHERE IL.lang=:lang
+                GROUP BY PI.industryId, IL.name
+                ORDER BY COUNT(*) DESC 
+                LIMIT :limit";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':lang',  $this->lang,  \PDO::PARAM_INT);
+        $stmt->bindValue(':limit', $limit,       \PDO::PARAM_INT);
+        $stmt->execute();
+
+        $data = $stmt->fetchAll();
+        return $data;
+    }
+
     protected function getValutes(){
         $xml = simplexml_load_file('https://www.cbar.az/currencies/'.date('d.m.Y').'.xml');
         $xml = $xml->xpath("//Valute[@Code='USD' or @Code='EUR' or @Code='RUB' or @Code='GEL']");
@@ -394,4 +419,34 @@ class Frontend extends BaseController
         }
         return $valutes;
     }
+
+    protected function getHeadBanner(){
+        $data = array(
+            'url'   => $this->router->pathFor('contact', ['lang' => $this->lang]),
+            'img'   => '/resources/img/banners/banner-728-x-90.jpg',
+            'title' => 'Ad 728x90',
+        );
+        return $data;
+    }
+
+    protected function getSideBanner(){
+        $data = array(
+            'url'   => $this->router->pathFor('contact', ['lang' => $this->lang]),
+            'img'   => '/resources/img/banners/banner-300-x-250.jpg',
+            'title' => 'Ad 300x250',
+        );
+       return $data;
+    }
+
+    protected function getPageBanner(){
+        $data = array(
+            'banner' => array(
+                'url'   => $this->router->pathFor('contact', ['lang' => $this->lang]),
+                'img'   => '/resources/img/banners/banner-728-x-90.jpg',
+                'title' => 'Ad 728x90',
+            ),
+        );
+        return $this->renderer->fetch('Frontend/Banner/pageBanner.twig', $data);
+    }
+
 }

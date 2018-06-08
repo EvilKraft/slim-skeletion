@@ -6,27 +6,15 @@
  */
 
 return array(
-    'site_name' => 'MYTENDER',
-    'version'       => 'versiya',
+    'site_name' => 'MySite',
+    'version'   => 'versiya',
 
     'REST' => [
         'Dashboard' => [
-            'pageTitle' => 'Dashboard',
-        ],
-        'Tenders' => [
-            'pageTitle' => 'Tenderlər',
-            'fields'    => [
-                'id'            => 'Id',
-                'username'      => 'Müştərinin аdı',
-                'name'          => 'Adı',
-                'description'   => 'Təsvir',
-                'createdAt'     => 'Yaradılma tarixi',
-                'industryname'  => 'Sənayə adı',
-                'status'        => 'Status',
-            ],
+            'page' => [ 'title' =>'Dashboard',],
         ],
         'Users' => [
-            'pageTitle' => 'Müştərilər',
+            'page' => [ 'title' =>'Müştərilər',],
             'fields'    => [
                 'id'            => 'Id',
                 'login'         => 'Giriş',
@@ -36,18 +24,17 @@ return array(
                 'description'   => 'Təsvir',
                 'createdAt'     => 'Yaradılma tarixi',
                 'status'        => 'Status',
-				'facebook'		=> 'FFFF',
             ],
         ],
         'Industries' => [
-            'pageTitle' => 'Sənayə',
+            'page' => [ 'title' =>'Sənayə',],
             'fields'    => [
                 'id'            => 'Id',
                 'name'          => 'Ad',
             ],
         ],
         'Posts' => [
-            'pageTitle' => 'Posts',
+            'page' => [ 'title' =>'Posts',],
             'fields'    => [
                 'id'            => 'Id',
                 'createdAt'     => 'Yaradılma tarixi',
@@ -56,19 +43,11 @@ return array(
             ],
         ],
         'Pages' => [
-            'pageTitle' => 'Səhifələr',
+            'page' => [ 'title' =>'Səhifələr',],
             'fields'    => [
                 'id'            => 'Id',
                 'alias'         => 'Ləqəb',
                 'title'         => 'Başlıq',
-            ],
-        ],
-
-        'Help' => [
-            'pageTitle' => 'Kömək',
-            'fields'    => [
-                'id'            => 'Id',
-                'title'         => 'Sual',
             ],
         ],
     ],

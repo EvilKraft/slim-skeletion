@@ -3,7 +3,7 @@
 {% block content %}
     <!-- Content Header (Page header) -->
     <section class="content-header">
-        <h1>{{ pageTitle }}</h1>
+        <h1>{{ page.title }}</h1>
     </section>
 
     <!-- Main content -->
@@ -64,7 +64,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-calendar"></i>
                                     </div>
-                                    <input type="text" id="buildedAt" name="buildedAt" class="form-control pull-right datetimepicker" value="{{ item.buildedAt|default('') == '' ? "" : item.finishedAt|date("d.m.Y") }}" pattern="^\d\d\.\d\d\.\d\d\d\d$" data-error="{{ 'Invalid value'|trans }}">
+                                    <input type="text" id="buildedAt" name="buildedAt" class="form-control pull-right datetimepicker" readonly="" value="{{ item.buildedAt|default('')|date("d.m.Y") }}" pattern="^\d\d\.\d\d\.\d\d\d\d$" data-error="{{ 'Invalid value'|trans }}">
                                 </div>
                                 <div class="help-block with-errors"></div>
                             </div>
@@ -207,6 +207,9 @@
 		        locale: '{{ lang }}',
                 maxDate: new Date(),
                 sideBySide: true,
+                ignoreReadonly: true,
+                showClear: true,
+                useCurrent: false,
 	        });
 
             $('#industry').select2({ theme: "bootstrap", width: '100%', placeholder: "{{ 'Select an industry'|trans }}" });
@@ -231,7 +234,7 @@
 		        + '</button>';
 
 	        var fileinput = $("#my_file").fileinput({
-
+                language: "{{ lang }}",
 		        otherActionButtons: btns,
 
 		        showUpload:                 false,

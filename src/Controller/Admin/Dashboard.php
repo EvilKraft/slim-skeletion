@@ -16,7 +16,7 @@ class Dashboard extends \Controller\BaseController
 
     public function index(Request $request, Response $response, Array $args)
     {
-        $this->data['pageTitle'] = $this->trans('Dashboard');
+        $this->data['page']['title'] = $this->trans('Dashboard');
 
         $stmt = $this->db->prepare("SELECT COUNT(*) FROM posts WHERE status = 0");
         $stmt->execute();

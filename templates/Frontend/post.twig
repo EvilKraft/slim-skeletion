@@ -15,7 +15,6 @@
 
                             <div class="post-outer">
                                 <article class="post hentry">
-                                    <a content="https://1.bp.blogspot.com/-Y3jtko20nZA/We42YMNGo4I/AAAAAAAACvA/UEahaZNOpCcC_3llLMX40ARU9MRkCPNMQCLcBGAs/s1600/woman_593141_960_720.jpg"></a>
                                     <div class="post-info2">
                                         <span class="label-info">
                                             {% for industry in item.industries %}
@@ -26,7 +25,7 @@
                                     <h1 class="post-title entry-title">{{ item.title }}</h1>
                                     <div class="post-info">
                                         <span class="time-info">
-                                            on <a class="timestamp-link" href="{{ path_for('post', {'lang':lang, 'id':item.postId}) }}" rel="bookmark" title="permanent link"><abbr class="published updated timeago" title="2017-10-23T11:35:00-07:00">{{ item.createdAt }}</abbr></a>
+                                            <a class="timestamp-link" href="{{ path_for('post', {'lang':lang, 'id':item.postId}) }}" rel="bookmark" title="permanent link"><abbr class="published updated timeago" title="2017-10-23T11:35:00-07:00">{{ item.createdAt }}</abbr></a>
                                         </span>
                                     </div>
                                     <div class="post-header">
@@ -37,10 +36,16 @@
                                             <div class="col-sm-6 invoice-col">
                                                 {{ 'Company'|trans }}
                                                 <address>
-                                                    <i class="fa fa-money text-light-blue"></i> : <strong>{{ item.price }}</strong>
-                                                    <br><i class="fa fa-users text-light-blue"></i> : {{ item.workers }}
-                                                    <br><i class="fa fa-calendar text-light-blue"></i> : {{ item.buildedAt  }}
-                                                    <br><i class="fa fa-line-chart text-light-blue"></i> : {{ item.income }}
+                                                    <i class="fa fa-money text-light-blue"></i> {{ 'Price'|trans }} : <strong>{{ item.price }} </strong>
+                                                    {% if item.workers > 0 %}
+                                                        <br><i class="fa fa-users text-light-blue"></i> {{ 'Workers'|trans }} : {{ item.workers }}
+                                                    {% endif %}
+                                                    {% if item.buildedAt is not empty %}
+                                                        <br><i class="fa fa-calendar text-light-blue"></i> {{ 'Builded at'|trans }} : {{ item.buildedAt|date("d.m.Y")  }}
+                                                    {% endif %}
+                                                    {% if item.income > 0 %}
+                                                        <br><i class="fa fa-line-chart text-light-blue"></i> : {{ item.income }}
+                                                    {% endif %}
                                                     {% if item.site|length > 0 %}
                                                         <br><i class="glyphicon glyphicon-globe text-light-blue"></i> : <a href="{{ item.site }}">{{ item.site }}</a>
                                                     {% endif %}
@@ -50,10 +55,14 @@
                                                 {{ 'Contact'|trans }}
                                                 <address>
                                                     <strong>{{ item.name }}</strong>
-                                                    <br><i class="glyphicon glyphicon-map-marker text-light-blue"></i> : {{ item.city }}, {{ item.country }}
-                                                    <br><i class="glyphicon glyphicon-phone-alt text-light-blue"></i> : {{ item.phone }}
                                                     <br><i class="glyphicon glyphicon-envelope text-light-blue"></i> : <a href="mailto:{{ item.email }}">{{ item.email }}</a>
-                                                    {% if item.site|length > 0 %}
+                                                    {% if item.phone is not empty %}
+                                                        <br><i class="glyphicon glyphicon-phone-alt text-light-blue"></i> : {{ item.phone }}
+                                                    {% endif %}
+                                                    {% if item.city is not empty %}
+                                                        <br><i class="glyphicon glyphicon-map-marker text-light-blue"></i> : {{ [item.city, item.country]|join(', ')|trim(', ') }}
+                                                    {% endif %}
+                                                         {% if item.site|length > 0 %}
                                                         <br><i class="glyphicon glyphicon-globe text-light-blue"></i> : <a href="{{ item.site }}">{{ item.site }}</a>
                                                     {% endif %}
                                                     {% if item.facebook|length > 0 %}
