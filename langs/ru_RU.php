@@ -16,7 +16,6 @@ return array(
         'Users' => [
             'page' => [ 'title' =>'Пользователи',],
             'fields'    => [
-                'id'            => 'Id',
                 'login'         => 'Логин',
                 'groupName'     => 'Группа',
                 'industryName'  => 'Индустрия',
@@ -29,23 +28,28 @@ return array(
         'Industries' => [
             'page' => [ 'title' =>'Индустрии',],
             'fields'    => [
-                'id'            => 'Id',
-                'name'          => 'Название',
+                'title'         => 'Название',
+            ],
+        ],
+        'PostTypes' => [
+            'page' => [ 'title' =>'Типы',],
+            'fields'    => [
+                'title'         => 'Название',
             ],
         ],
         'Posts' => [
             'page' => [ 'title' =>'Posts',],
             'fields'    => [
-                'id'            => 'Id',
+                'name'          => 'Имя',
                 'createdAt'     => 'Дата создания',
                 'title'         => 'Заголовок',
                 'text'          => 'Текст',
+                'status'        => 'Статус',
             ],
         ],
         'Pages' => [
             'page' => [ 'title' =>'Страницы',],
             'fields'    => [
-                'id'            => 'Id',
                 'alias'         => 'Alias',
                 'title'         => 'Заголовок',
             ],

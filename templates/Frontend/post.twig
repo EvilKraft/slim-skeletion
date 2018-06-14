@@ -18,7 +18,7 @@
                                     <div class="post-info2">
                                         <span class="label-info">
                                             {% for industry in item.industries %}
-                                                <a href="{{ path_for('blog', {'lang':lang, 'id':industry.industryId}) }}" rel="tag">{{ industry.name }}</a>
+                                                <a href="{{ path_for('blog', {'lang':lang, 'id':industry.industryId}) }}" rel="tag">{{ industry.title }}</a>
                                             {% endfor %}
                                         </span>
                                     </div>

@@ -222,9 +222,9 @@ h2.post-title a, h1.post-title a, h2.post-title, h1.post-title {color:#333;z-ind
 	#recent2 .recent-box .imageContainer {width:100%}
 	.banner160 {display:none;}
 	#top-nav .wrapper{position:relative}
-	#top-menu-icon{width:40px;height:30px;float:right;border-right:1px solid #ECECEC;border-left:1px solid #ECECEC;background:url(//4.bp.blogspot.com/-UDUfajF5uV0/VlBNqL5O4DI/AAAAAAAAGuk/unRI8jhDNJ4/s1600/top-menu-icon.png) no-repeat;cursor:pointer;background:all .3s}
+	#top-menu-icon{width:40px;height:30px; margin-top:5px;float:right;border-right:1px solid #ECECEC;border-left:1px solid #ECECEC;background:url(//4.bp.blogspot.com/-UDUfajF5uV0/VlBNqL5O4DI/AAAAAAAAGuk/unRI8jhDNJ4/s1600/top-menu-icon.png) no-repeat;cursor:pointer;background:all .3s}
 	#top-menu-icon:hover{background-color:#fff}
-	#top-nav ul{position:absolute;right:0;top:30px;display:none;height:auto;padding:10px 0;background-color:#FCFCFC;border:1px solid #f2f2f2;z-index:1000}
+	#top-nav ul#menu-top-menu{position:relative;right:0;top:0px;display:none;height:auto;padding:10px 0;background-color:#FCFCFC;border:1px solid #f2f2f2;z-index:1000}
 	#top-nav li{float:none;clear:both;line-height:26px}
 	#top-nav li a{height:auto;padding:0 12px;border-right:none}
 	#top-nav .menu li ul{position:static;float:none;display:block!important;background-color:transparent;border:none;padding:0 0 0 10px}

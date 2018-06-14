@@ -103,13 +103,13 @@ class Frontend extends BaseController
         $page       = $request->getAttribute($options[Pagination::OPT_PARAM_NAME], 1);
         $offset     = $options[Pagination::OPT_PER_PAGE] * ($page - 1);
 
-        $sql = "SELECT I.industryId, IL.name FROM industries I INNER JOIN industries_lang IL ON I.industryId = IL.industryId WHERE I.industryId = ? AND IL.lang=?";
+        $sql = "SELECT I.industryId, IL.title FROM industries I INNER JOIN industries_lang IL ON I.industryId = IL.industryId WHERE I.industryId = ? AND IL.lang=?";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$categoryId, $this->lang]);
         if(!$category = $stmt->fetch()){
             throw new \Slim\Exception\NotFoundException($request, $response);
         }
-        $data['category_name'] = $category['name'];
+        $data['category_name'] = $category['title'];
 
         $countSQL = "SELECT COUNT(*) total
                      FROM posts P
@@ -156,6 +156,73 @@ class Frontend extends BaseController
         return $this->render($response, 'Frontend/blog.twig', $data);
     }
 
+    public function postType(Request $request, Response $response, Array $args) {
+        $data = array();
+
+        $options = array(
+            Pagination::OPT_PARAM_NAME  => 'page',
+            Pagination::OPT_PARAM_TYPE  => PageList::PAGE_ATTRIBUTE,
+            Pagination::OPT_PER_PAGE    => 10,
+            Pagination::OPT_SIDE_LENGTH => 3,
+        );
+
+        $categoryId = $request->getAttribute('id', 0);
+        $page       = $request->getAttribute($options[Pagination::OPT_PARAM_NAME], 1);
+        $offset     = $options[Pagination::OPT_PER_PAGE] * ($page - 1);
+
+        $sql = "SELECT T.typeId, L.title FROM postTypes T INNER JOIN postTypes_lang L ON T.typeId = L.typeId WHERE T.typeId = ? AND L.lang=?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$categoryId, $this->lang]);
+        if(!$category = $stmt->fetch()){
+            throw new \Slim\Exception\NotFoundException($request, $response);
+        }
+        $data['category_name'] = $category['title'];
+
+        $countSQL = "SELECT COUNT(*) total
+                     FROM posts P
+                     INNER JOIN posts_lang L ON L.postId = P.postId AND L.lang = '".$this->lang."'
+                     INNER JOIN users U ON P.userId = U.userId
+                     WHERE P.typeId = :typeId";
+
+        $dataSQL  = "SELECT P.*, L.*, U.name, PF.file
+                     FROM posts P
+                     INNER JOIN posts_lang L ON L.postId = P.postId AND L.lang = '".$this->lang."'
+                     LEFT JOIN (
+                         SELECT A.postId, A.file
+                         FROM posts_files A
+                         INNER JOIN (
+                             SELECT MAX(a.fileId) fileId, a.postId 
+                             FROM posts_files a 
+                             WHERE type LIKE 'image%' 
+                             GROUP BY a.postId
+                         ) B ON A.fileId = B.fileId                 
+                     ) PF ON PF.postId = P.postId
+                     INNER JOIN users U ON P.userId = U.userId
+                     WHERE P.typeId = :typeId
+                     ORDER BY P.createdAt DESC
+                     LIMIT :limit OFFSET :offset";
+
+        $countQuery = $this->db->prepare($countSQL);
+        $dataQuery  = $this->db->prepare($dataSQL);
+
+        $countQuery->bindValue(':typeId',    $categoryId,                        \PDO::PARAM_INT);
+
+        $dataQuery->bindValue(':typeId',     $categoryId,                        \PDO::PARAM_INT);
+        $dataQuery->bindValue(':limit',      $options[Pagination::OPT_PER_PAGE], \PDO::PARAM_INT);
+        $dataQuery->bindValue(':offset',     $offset,                            \PDO::PARAM_INT);
+
+        $countQuery->execute();
+        $dataQuery->execute();
+
+        $options[Pagination::OPT_TOTAL] = $countQuery->fetch()['total'];
+        $data['items']                  = $dataQuery->fetchAll();
+
+        $pagination = new Pagination($request, $this->router, $options);
+        $data['pagination'] = $this->renderer->fetch('Frontend/pagination.twig', ['pagination' => $pagination]);
+
+        return $this->render($response, 'Frontend/blog.twig', $data);
+    }
+
     public function post(Request $request, Response $response, Array $args) {
         $data = array();
 
@@ -185,7 +252,7 @@ class Frontend extends BaseController
             throw new \Slim\Exception\NotFoundException($request, $response);
         }
 
-        $sql = "SELECT I.industryId, IL.name 
+        $sql = "SELECT I.industryId, IL.title 
                 FROM industries I 
                 INNER JOIN industries_lang IL ON I.industryId = IL.industryId AND lang=?
                 INNER JOIN posts_industries PI ON PI.industryId = I.industryId
@@ -279,9 +346,10 @@ class Frontend extends BaseController
     public function frontendMiddleware(Request $request, Response $response, callable $next)
     {
         $this->renderer->getEnvironment()->addGlobal('industries', $this->getCategories());
+        $this->renderer->getEnvironment()->addGlobal('postTypes', $this->getPostTypes());
         $this->renderer->getEnvironment()->addGlobal('recent_posts', $this->recentPosts());
         $this->renderer->getEnvironment()->addGlobal('pop_categories', $this->popularCategories(10));
-    //    $this->renderer->getEnvironment()->addGlobal('valutes', $this->getValutes());
+        $this->renderer->getEnvironment()->addGlobal('valutes', $this->getValutes());
 
         $this->renderer->getEnvironment()->addGlobal('head_banner', $this->getHeadBanner());
         $this->renderer->getEnvironment()->addGlobal('side_banner', $this->getSideBanner());
@@ -315,7 +383,7 @@ class Frontend extends BaseController
 
         $industryId = (int) $industryId;
 
-        $sql = "SELECT I.industryId, IL.name FROM industries I INNER JOIN industries_lang IL ON I.industryId = IL.industryId WHERE I.industryId = ? AND IL.lang=?";
+        $sql = "SELECT I.industryId, IL.title FROM industries I INNER JOIN industries_lang IL ON I.industryId = IL.industryId WHERE I.industryId = ? AND IL.lang=?";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$industryId, $this->lang]);
         $data['industry'] = $stmt->fetch();
@@ -351,7 +419,15 @@ class Frontend extends BaseController
     }
 
     protected function getCategories(){
-        $stmt = $this->db->prepare("SELECT I.industryId, IL.name FROM industries I INNER JOIN industries_lang IL ON I.industryId = IL.industryId AND lang=?");
+        $stmt = $this->db->prepare("SELECT I.industryId, IL.title FROM industries I INNER JOIN industries_lang IL ON I.industryId = IL.industryId AND lang=?");
+        $stmt->execute([$this->lang]);
+        $data = $stmt->fetchAll();
+
+        return $data;
+    }
+
+    protected function getPostTypes(){
+        $stmt = $this->db->prepare("SELECT T.typeId, L.title FROM postTypes T INNER JOIN postTypes_lang L ON T.typeId = L.typeId AND lang=?");
         $stmt->execute([$this->lang]);
         $data = $stmt->fetchAll();
 
@@ -393,11 +469,11 @@ class Frontend extends BaseController
 
     protected function popularCategories($limit = 8){
         $sql = "SELECT 
-                    PI.industryId, IL.name, COUNT(*) COUNT 
+                    PI.industryId, IL.title, COUNT(*) COUNT 
                 FROM posts_industries PI
                 INNER JOIN industries_lang IL ON PI.industryId = IL.industryId 
                 WHERE IL.lang=:lang
-                GROUP BY PI.industryId, IL.name
+                GROUP BY PI.industryId, IL.title
                 ORDER BY COUNT(*) DESC 
                 LIMIT :limit";
         $stmt = $this->db->prepare($sql);
@@ -413,10 +489,11 @@ class Frontend extends BaseController
         $xml = simplexml_load_file('https://www.cbar.az/currencies/'.date('d.m.Y').'.xml');
         $xml = $xml->xpath("//Valute[@Code='USD' or @Code='EUR' or @Code='RUB' or @Code='GEL']");
 
-        $valutes = array();
+        $valutes = array_fill_keys(['USD', 'EUR', 'RUB', 'GEL'], '');
         foreach($xml as $node){
             $valutes[(string) $node['Code']] = ['name' => (string) $node->Name, 'value' => (float) $node->Value];
         }
+      //  ksort($valutes, SORT_NATURAL | SORT_FLAG_CASE);
         return $valutes;
     }
 

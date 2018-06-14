@@ -38,7 +38,7 @@
 
     <script type="text/javascript" src="{{ base_url() }}/assets/magnific-popup/dist/jquery.magnific-popup.min.js"></script>
 
-    <script type="text/javascript" src="{{ base_url() }}/libs/DataTables/datatables.min.js"></script>
+    <script type="text/javascript" src="{{ base_url() }}/libs/DataTables/datatables.js"></script>
 
     <script type="text/javascript" src="{{ base_url() }}/assets/dataTableSelectAllBtn/dataTableSelectAllBtn.js"></script>
     <script type="text/javascript" src="{{ base_url() }}/assets/dataTableExportCollection/dataTableExportCollection.js"></script>
@@ -84,6 +84,12 @@
                     blurable: true
                 },
                 stateSave: true,
+                stateSaveParams: function (settings, data) {
+                    delete data.search;
+                    for (var i = 0;i < data.columns.length; i++){
+                        delete data.columns[i].search;
+                    }
+                },
                 colReorder: {realtime: false},
 
                 dataTableColumnFilter: true,

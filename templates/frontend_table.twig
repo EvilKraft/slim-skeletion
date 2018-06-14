@@ -76,7 +76,15 @@
                     selector: 'td:not(.action_btns_container)',
                     blurable: true
                 },
+                /*
                 stateSave: true,
+                stateSaveParams: function (settings, data) {
+                    delete data.search;
+                    for (var i = 0;i < data.columns.length; i++){
+                        delete data.columns[i].search;
+                    }
+                },
+                */
                 colReorder: {realtime: false},
 
                 dataTableColumnFilter: true,

@@ -16,7 +16,6 @@ return array(
         'Users' => [
             'page' => [ 'title' =>'Clients',],
             'fields'    => [
-                'id'            => 'Id',
                 'login'         => 'Login',
                 'groupName'     => 'Group',
                 'industryName'  => 'Industry',
@@ -29,23 +28,28 @@ return array(
         'Industries' => [
             'page' => [ 'title' =>'Industries',],
             'fields'    => [
-                'id'            => 'Id',
-                'name'          => 'Title',
+                'title'         => 'Title',
+            ],
+        ],
+        'PostTypes' => [
+            'page' => [ 'title' =>'Types',],
+            'fields'    => [
+                'title'         => 'Title',
             ],
         ],
         'Posts' => [
             'page' => [ 'title' =>'Posts',],
             'fields'    => [
-                'id'            => 'Id',
+                'name'          => 'Name',
                 'createdAt'     => 'Created at',
                 'title'         => 'Title',
                 'text'          => 'Text',
+                'status'        => 'Status',
             ],
         ],
         'Pages' => [
             'page' => [ 'title' =>'Pages',],
             'fields'    => [
-                'id'            => 'Id',
                 'alias'         => 'Alias',
                 'title'         => 'Title',
             ],

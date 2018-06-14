@@ -6,7 +6,7 @@
         <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
         <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 
-        <link rel="icon" href="{{ base_url() }}/favicon.ico">
+        <link href="/favicon.ico?v=2" rel="icon" type="image/x-icon" />
 
         <meta name="description" content="News16 Professional Newspaper and Magazine Free Blogger Template Download" >
         <meta name="keywords"    content="YOUR, KEYWORDS, HERE" >
@@ -51,49 +51,64 @@
         {% endblock %}
     </head>
     <body>
-        <div class="bwrapsite-content" id="bwrapcontent">
+    <div class="bwrapsite-content" id="bwrapcontent">
+
+
+
             <nav id="top-nav">
                 <div class="wrapper">
-                    <div class="blog-date"></div>
+                    <div class="blog-date" style="margin-right: 10px;">
+
+                    </div>
+
+                    <div class="blog-date marquee">
+                        {% for key, valute in valutes %}
+                            <strong>{{ valute.name }} ({{ key }})</strong>: {{ valute.value }};
+                        {% endfor %}
+                    </div>
+
+                    <div class="blog-date dropdown" style="float:right;" >
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="padding: 0 12px;">
+                            <i class="flag-icon flag-icon-{{ lang }}"></i>
+                        </a>
+                        <ul class="dropdown-menu" style="position: relative; z-index: 100; width: auto; min-width: 36px; top:0; left:0; border-radius: unset">
+                            <li >
+                                {% for site_lang in langs %}
+                                    {% if site_lang != lang %}
+                                        {% set currentRouteArgs = currentRouteArgs|merge({'lang': site_lang}) %}
+
+                                        <a href="{{ path_for(currentRoute, currentRouteArgs) }}" style="padding: 0 10px; min-width: 36px; line-height: 36px" >
+                                            <i class="flag-icon flag-icon-{{ site_lang }}"></i>
+                                        </a>
+                                    {% endif %}
+                                {% endfor %}
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div id="top-menu-icon" style="position: relative;" ></div>
+
                     <div class="menu-top-menu-container">
                         <ul class="menu" id="menu-top-menu">
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="padding: 0 12px;">
-                                    <i class="flag-icon flag-icon-{{ lang }}"></i>
-                                </a>
-                                <ul class="dropdown-menu" style="position: relative; z-index: 100; width: auto; min-width: 36px; top:0; left:0; border-radius: unset">
-                                    <li >
-                                        {% for site_lang in langs %}
-                                            {% if site_lang != lang %}
-                                                {% set currentRouteArgs = currentRouteArgs|merge({'lang': site_lang}) %}
-
-                                                <a href="{{ path_for(currentRoute, currentRouteArgs) }}" style="padding: 0 10px; min-width: 36px; line-height: 36px" >
-                                                    <i class="flag-icon flag-icon-{{ site_lang }}"></i>
-                                                </a>
-                                            {% endif %}
-                                        {% endfor %}
-                                    </li>
-                                </ul>
-                            </li>
-
                             <li class="menu-item">
-                                <a href="#" style="font-size: 24px;"><i style="color:#3b5998;" class="fa fa-facebook-square"></i></a>
+                                <div>
+                                    <a href="#" style="font-size: 24px; display: inline-block;"><i style="color:#3b5998;" class="fa fa-facebook-square"></i></a>
+                                    <a href="#" style="font-size: 24px; display: inline-block;"><i style="color:#dd4b39;" class="fa fa-google-plus-square"></i></a>
+                                    <a href="#" style="font-size: 24px; display: inline-block;"><i style="color:#007bb6;" class="fa fa-linkedin-square"></i></a>
+                                </div>
                             </li>
-                            <li class="menu-item">
-                                <a href="#" style="font-size: 24px;"><i style="color:#dd4b39;" class="fa fa-google-plus-square"></i></a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="#" style="font-size: 24px;"><i style="color:#007bb6;" class="fa fa-linkedin-square"></i></a>
-                            </li>
-
                             <li class="menu-item"><a href="{{ path_for('about',   {'lang':lang}) }}">{{ 'About'|trans }}</a></li>
                             <li class="menu-item"><a href="{{ path_for('contact', {'lang':lang}) }}">{{ 'Contact'|trans }}</a></li>
                             <li class="menu-item"><a href="{{ path_for('rules',   {'lang':lang}) }}">{{ 'Rules'|trans }}</a></li>
                         </ul>
                     </div>
-                    <div id="top-menu-icon"></div>
+
+
+
                 </div>
             </nav>
+
+
             <div class="top-header">
                 <div id="header-wrapper" itemscope="itemscope" itemtype="http://schema.org/WPHeader">
                     <div class="header section section" id="header">
@@ -120,16 +135,27 @@
                     <ul>
                         <li class="homers"><a href="{{ path_for('home', {'lang': lang}) }}"><i class="material-icons" style=" line-height: 2.1; display: block; ">home</i></a></li>
                         <li><a href="{{ path_for('about', {'lang':lang}) }}">{{ 'About'|trans }}</a></li>
-                        <li><a href="{{ path_for('blogs', {'lang':lang}) }}">{{ 'Categories'|trans }}<i class="material-icons" style=" font-size: 14px; ">keyboard_arrow_down</i></a>
+                        <li>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                                {{ 'Categories'|trans }}<i class="material-icons" style=" font-size: 14px; ">keyboard_arrow_down</i>
+                            </a>
                             <ul class="menus">
                                 {% for industry in industries %}
-                                    <li><a href="{{ path_for('blog', {'lang':lang,'id':industry.industryId}) }}">{{ industry.name }}</a></li>
+                                    <li><a href="{{ path_for('blog', {'lang':lang,'id':industry.industryId}) }}">{{ industry.title }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                                {{ 'postTypes'|trans }}<i class="material-icons" style=" font-size: 14px; ">keyboard_arrow_down</i>
+                            </a>
+                            <ul class="menus">
+                                {% for postType in postTypes %}
+                                    <li><a href="{{ path_for('postType', {'lang':lang,'id':postType.typeId}) }}">{{ postType.title }}</a></li>
                                 {% endfor %}
                             </ul>
                         </li>
                         <li><a href="{{ path_for('contact', {'lang':lang}) }}">{{ 'Contact'|trans }}</a></li>
-
-
 
 
                         {% if session.user is defined  %}
@@ -201,7 +227,7 @@
                                 <ul>
                                     {% for industry in industries %}
                                         <li>
-                                            <a dir="ltr" href="{{ path_for('blog', {'lang':lang,'id':industry.industryId}) }}">{{ industry.name }}</a>
+                                            <a dir="ltr" href="{{ path_for('blog', {'lang':lang,'id':industry.industryId}) }}">{{ industry.title }}</a>
                                         </li>
                                     {% endfor %}
                                 </ul>
@@ -273,7 +299,7 @@
                                     <div class="widget-content cloud-label-widget-content">
                                         {% for category in pop_categories %}
                                             <span class="label-size">
-                                                <a href="{{ path_for('blog', {'lang':lang,'id':category.industryId}) }}">{{ category.name }}</a>
+                                                <a href="{{ path_for('blog', {'lang':lang,'id':category.industryId}) }}">{{ category.title }}</a>
                                             </span>
                                         {% endfor %}
                                     </div>
@@ -325,7 +351,7 @@
 
             <script src="{{ base_url() }}/assets/jquery-toast-plugin/dist/jquery.toast.min.js"></script>
 
-
+            <script src="{{ base_url() }}/assets/jquery.marquee/jquery.marquee.min.js"></script>
 
             <script>
                 i18next
@@ -341,7 +367,12 @@
                     });
 
                 $(document).ready(function () {
-                    $('.blog-date').html(moment().locale('{{lang }}').format('LLLL'));
+                    $('.blog-date').first().html(moment().locale('{{lang }}').format('LLLL'));
+
+                    $('.marquee').show().marquee({
+                        duplicated: true,
+                        pauseOnHover: true,
+                    });
 
                     {% for type, group in flash_messages %}
                         $.toast({
@@ -423,13 +454,13 @@
                     });
 
                     $('#top-menu-icon').on('click', function(){
-                        $('#top-nav ul').slideToggle(250);
+                        $('#top-nav ul#menu-top-menu').slideToggle(250);
                         $(this).toggleClass('active');
                     });
 
                     $(window).resize(function(){
                         var w = $(window).width();
-                        var navDisplay = $('#top-nav ul');
+                        var navDisplay = $('#top-nav ul#menu-top-menu');
                         if(w > 1000 && navDisplay.is(':hidden')) {
                             navDisplay.removeAttr('style');
                         }

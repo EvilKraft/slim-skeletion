@@ -48,7 +48,7 @@ class User extends \Controller\BaseController
         }
         $this->data['item'] = $item;
 
-        $sql = "SELECT I.industryId, IL.name
+        $sql = "SELECT I.industryId, IL.title
                 FROM industries I
                 INNER JOIN industries_lang IL ON I.industryId = IL.industryId AND lang=?";
         $stmt = $this->db->prepare($sql);

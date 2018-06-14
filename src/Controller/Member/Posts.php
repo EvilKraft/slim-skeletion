@@ -19,8 +19,8 @@ class Posts extends \Controller\Admin\Posts
   //  protected $template    = 'Admin\Posts.twig';
     protected $table_template = 'frontend_table.twig';
 
-    protected $columns      = ['title', 'createdAt', 'status'];
-    protected $actions      = ['create', 'update', 'delete'];
+    protected        $columns      = ['title', 'createdAt', 'status'];
+    protected static $actions      = ['create', 'update', 'delete'];
 
     protected $idxFieldLang = 'langId';
 

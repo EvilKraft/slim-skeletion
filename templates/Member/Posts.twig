@@ -19,11 +19,24 @@
 
                                             <div class="collapse in" id="collapsible">
                                                 <div class="form-group">
+                                                    <label for="typeId">{{ 'Type'|trans }} <span class="text-red">*</span></label>
+                                                    <select id="typeId" name="typeId" class="form-control select2" required="" data-error="{{ 'Select a type'|trans }}">
+                                                        <option value="" selected disabled>{{ 'Select a type'|trans }}</option>
+                                                        {% for type in postTypes %}
+                                                            <option value="{{ type.typeId }}" {{ (type.typeId == item.typeId|default('')) ? 'selected' }}>{{ type.title }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                    <div class="help-block with-errors"></div>
+                                                </div>
+                                            </div>
+
+                                            <div class="collapse in" id="collapsible">
+                                                <div class="form-group">
                                                     <label for="industryId">{{ 'Industry'|trans }} <span class="text-red">*</span></label>
                                                     <select id="industryId" name="industryId[]" class="form-control select2" required="" data-error="{{ 'Select an industry'|trans }}">
                                                         <option value="" selected disabled>{{ 'Select an industry'|trans }}</option>
                                                         {% for industry in industries %}
-                                                            <option value="{{ industry.industryId }}" {{ (industry.PI_Id is not empty) ? 'selected' }}>{{ industry.name }}</option>
+                                                            <option value="{{ industry.industryId }}" {{ (industry.PI_Id is not empty) ? 'selected' }}>{{ industry.title }}</option>
                                                         {% endfor %}
                                                     </select>
                                                     <div class="help-block with-errors"></div>

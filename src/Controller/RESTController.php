@@ -21,9 +21,9 @@ class RESTController extends BaseController implements RESTInterface
     protected $table_template   = 'table.twig';
 
 
-    protected $columns     = [];
-    protected $actions     = ['create', 'update', 'delete', 'move'];
-    protected $col_filters = [];
+    protected        $columns     = [];
+    protected static $actions     = ['create', 'update', 'delete', 'move'];
+    protected        $col_filters = [];
 
     // langs properties
     protected $idxFieldLang = null;
@@ -53,18 +53,31 @@ class RESTController extends BaseController implements RESTInterface
         $class  = static::class;
         $prefix = self::routePrefix();
 
-        $app->get('',                      $class.':index')->setName($prefix);
-        $app->map(['GET', 'POST'], '/new', $class.':create')->setName($prefix.'_create');
+        $app->get('', $class.':index')->setName($prefix);
+
+        if(in_array('create', $class::$actions)){
+            $app->map(['GET', 'POST'], '/new', $class.':create')->setName($prefix.'_create');
+        }
 
         $app->group('/{id:[0-9]+}', function () use ($app, $class, $prefix) {
             $app->get('',    $class.':get')->setName($prefix.'_get');
-            $app->put('',    $class.':update')->setName($prefix.'_update');
-            $app->delete('', $class.':delete')->setName($prefix.'_delete');
 
-            $app->get('/move',   $class.':move')->setName($prefix.'_move');
+            if(in_array('update', $class::$actions)){
+                $app->put('', $class.':update')->setName($prefix.'_update');
+            }
+
+            if(in_array('delete', $class::$actions)){
+                $app->delete('', $class.':delete')->setName($prefix.'_delete');
+            }
+
+            if(in_array('move', $class::$actions)){
+                $app->get('/move', $class.':move')->setName($prefix.'_move');
+            }
         });
 
-        $app->delete('/{ids: .+}', $class.':deleteSelected')->setName($prefix.'_deleteSelected');
+        if(in_array('delete', $class::$actions)){
+            $app->delete('/{ids: .+}', $class.':deleteSelected')->setName($prefix.'_deleteSelected');
+        }
 
         $app->get('/getTable',    $class.':dtServerProcessing')->setName($prefix.'_getTable');
     }
@@ -85,7 +98,8 @@ class RESTController extends BaseController implements RESTInterface
             $this->flash->addMessage('error', $this->trans('Item %item_id% not found', ['%item_id%' => $args['id']]));
             return $response->withStatus(302)->withHeader('Location', $this->getListUrl());
         }
-        $this->data['item'] = $item;
+        $this->data['item']    = $item;
+        $this->data['actions'] = static::$actions;
 
         $this->extraFormData();
 
@@ -98,6 +112,7 @@ class RESTController extends BaseController implements RESTInterface
             return $this->doCreate($request, $response);
         }
 
+        $this->data['actions'] = static::$actions;
         $this->extraFormData();
 
         return $this->renderPage($response, $this->template, 'New');
@@ -215,7 +230,7 @@ class RESTController extends BaseController implements RESTInterface
 
     protected function doList(Request $request, Response $response)
     {
-        $this->data['actions']    = array_values(array_intersect($this->actions, ['create', 'delete']));
+        $this->data['actions']    = array_values(array_intersect(static::$actions, ['create', 'delete']));
         $this->data['dtColumns']  = $this->dtColumns();
         $this->data['dtLanguage'] = $this->dtLanguage();
 
@@ -229,7 +244,7 @@ class RESTController extends BaseController implements RESTInterface
 
             $vars      = $this->getPostedVars($request);
             $colNames  = implode(', ', array_keys($vars));
-            $questions = '?'.str_repeat(', ?', (count($vars)-1));
+            $questions = implode(',', array_fill(0, count($vars), '?'));
             
             $stmt = $this->db->prepare("INSERT INTO ".$this->table." (".$colNames.") VALUES (".$questions.")");
             $stmt->execute(array_values($vars));
@@ -245,7 +260,7 @@ class RESTController extends BaseController implements RESTInterface
                     $vars_lang[$lang] = array_merge_recursive( [$this->idxField => $lastId, 'lang' => $lang ], $vars);
                 }
                 $colNames  = implode(', ', array_keys(reset($vars_lang)));
-                $questions = '?'.str_repeat(', ?', (count(reset($vars_lang))-1));
+                $questions = implode(',', array_fill(0, count(reset($vars_lang)), '?'));
 
                 $stmt = $this->db->prepare("INSERT INTO ".$this->table."_lang (".$colNames.") VALUES (".$questions.")");
 
@@ -278,10 +293,12 @@ class RESTController extends BaseController implements RESTInterface
             $this->db->beginTransaction();
 
             $vars     = $this->getPostedVars($request);
-            $colNames = implode(', ', array_map(function($n) {return($n.'=?');}, array_keys($vars)));
+            if(count($vars) > 0){
+                $colNames = implode(', ', array_map(function($n) {return($n.'=?');}, array_keys($vars)));
 
-            $stmt = $this->db->prepare("UPDATE ".$this->table." SET ".$colNames." WHERE ".$this->idxField." = ?");
-            $stmt->execute(array_merge_recursive(array_values($vars), [$args['id']]));
+                $stmt = $this->db->prepare("UPDATE ".$this->table." SET ".$colNames." WHERE ".$this->idxField." = ?");
+                $stmt->execute(array_merge_recursive(array_values($vars), [$args['id']]));
+            }
 
             if(!empty($this->idxFieldLang)){
                 $tableColumns = $this->getTableColumns($this->table.'_lang');
@@ -494,11 +511,10 @@ class RESTController extends BaseController implements RESTInterface
             );
         }
 
-        if(!empty($this->actions)){
+        $func = '';
+        if(!empty(static::$actions)){
 
-            $actionsStr = implode(',',
-                array_map(function($value) { return '"'.$value.'"'; }, $this->actions) // add double quotes to each element
-            );
+            $actionsStr = implode(',', array_map(function($value) { return '"'.$value.'"'; }, static::$actions));
             $func = '$.fn.dataTable.render.dataTableActionBtns(['.$actionsStr.'])';
 
             $out[] = array(

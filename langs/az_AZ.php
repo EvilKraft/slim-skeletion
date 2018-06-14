@@ -16,7 +16,6 @@ return array(
         'Users' => [
             'page' => [ 'title' =>'Müştərilər',],
             'fields'    => [
-                'id'            => 'Id',
                 'login'         => 'Giriş',
                 'groupName'     => 'Grup adı',
                 'industryName'  => 'Sənayə adı',
@@ -29,23 +28,28 @@ return array(
         'Industries' => [
             'page' => [ 'title' =>'Sənayə',],
             'fields'    => [
-                'id'            => 'Id',
-                'name'          => 'Ad',
+                'title'         => 'Ad',
+            ],
+        ],
+        'PostTypes' => [
+            'page' => [ 'title' =>'Tiplər',],
+            'fields'    => [
+                'title'         => 'Ad',
             ],
         ],
         'Posts' => [
             'page' => [ 'title' =>'Posts',],
             'fields'    => [
-                'id'            => 'Id',
+                'name'          => 'Müştərinin аdı',
                 'createdAt'     => 'Yaradılma tarixi',
                 'title'         => 'Başlıq',
                 'text'          => 'Mətn',
+                'status'        => 'Status',
             ],
         ],
         'Pages' => [
             'page' => [ 'title' =>'Səhifələr',],
             'fields'    => [
-                'id'            => 'Id',
                 'alias'         => 'Ləqəb',
                 'title'         => 'Başlıq',
             ],

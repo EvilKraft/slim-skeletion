@@ -8,7 +8,7 @@
 
         <meta name="description" content="">
         <meta name="author" content="Konstantin Kaluzhnikov, k.kaluzhnikov@gmail.com">
-        <link rel="icon" href="{{ base_url() }}/favicon.ico">
+        <link href="/favicon.ico?v=2" rel="icon" type="image/x-icon" />
 
         <title>{{ page.title|default('site_name'|trans) }}</title>
 
@@ -124,16 +124,16 @@
                                     <i class="fa fa-dashboard"></i> <span>{{ 'REST.Dashboard.page.title'|trans }}</span>
                                 </a>
                             </li>
-
-
                             <li {{ currentRoute == 'admin_posts' ? 'class="active"' }}>
                                 <a href="{{ path_for('admin_posts', {'lang': lang}) }}">
                                     <i class="fa fa-th-list"></i> <span>{{ 'REST.Posts.page.title'|trans }}</span>
                                 </a>
                             </li>
-
                             <li {{ currentRoute == 'admin_users' ? 'class="active"' }}>
                                 <a href="{{ path_for('admin_users', {'lang': lang}) }}"><i class="fa fa-users"></i> <span>{{ 'REST.Users.page.title'|trans }}</span></a>
+                            </li>
+                            <li {{ currentRoute == 'admin_posttypes' ? 'class="active"' }}>
+                                <a href="{{ path_for('admin_posttypes', {'lang': lang}) }}"><i class="fa fa-circle-o"></i> <span>{{ 'REST.PostTypes.page.title'|trans }}</span></a>
                             </li>
                             <li {{ currentRoute == 'admin_industries' ? 'class="active"' }}>
                                 <a href="{{ path_for('admin_industries', {'lang': lang}) }}"><i class="fa fa-industry"></i> <span>{{ 'REST.Industries.page.title'|trans }}</span></a>

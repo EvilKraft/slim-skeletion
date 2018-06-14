@@ -18,9 +18,9 @@ class Users extends \Controller\RESTController
     protected $idxField    = 'userId';
     protected $template    = 'Admin\Users.twig';
 
-    protected $columns     = ['login', 'name', 'country', 'createdAt'];
-    protected $actions     = ['create', 'update', 'delete'];
-    protected $col_filters = ['country', 'stars'];
+    protected        $columns     = ['login', 'name', 'country', 'createdAt'];
+    protected static $actions     = ['create', 'update', 'delete'];
+    protected        $col_filters = ['country', 'stars'];
 
     protected function doCreate(Request $request, Response $response)
     {
@@ -88,7 +88,7 @@ class Users extends \Controller\RESTController
             return $response->withStatus(302)->withHeader('Location', $this->getListUrl());
         }
 
-        $sql = "SELECT I.industryId, IL.name, UI.userIndustryId AS UI_Id, UI.userId
+        $sql = "SELECT I.industryId, IL.title, UI.userIndustryId AS UI_Id, UI.userId
                 FROM industries I
                 INNER JOIN industries_lang IL ON I.industryId = IL.industryId AND lang=?
                 LEFT JOIN userIndustries UI ON UI.industryId = I.industryId AND userId=?";
@@ -197,7 +197,7 @@ class Users extends \Controller\RESTController
         $stmt->execute();
         $this->data['cities'] = $stmt->fetchAll();
 
-        $sql = "SELECT I.industryId, IL.name, UI.userIndustryId AS UI_Id, UI.userId
+        $sql = "SELECT I.industryId, IL.title, UI.userIndustryId AS UI_Id, UI.userId
                 FROM industries I
                 INNER JOIN industries_lang IL ON I.industryId = IL.industryId AND lang=?
                 LEFT JOIN userIndustries UI ON UI.industryId = I.industryId AND userId=?";

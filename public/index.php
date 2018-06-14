@@ -19,6 +19,9 @@ session_start();
 
 defined('DS') || define('DS', DIRECTORY_SEPARATOR);
 define('DIR', realpath(__DIR__ . '/../') . DS);
+define('CACHE_DIR',  DIR.'cache'.DS);
+define('PUBLIC_DIR', DIR.'public'.DS);
+define('UPLOAD_DIR', DIR.'public'.DS.'uploads'.DS);
 
 /*
 spl_autoload_register(function ($classname) {
