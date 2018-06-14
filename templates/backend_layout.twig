@@ -142,6 +142,13 @@
                             <li {{ currentRoute == 'admin_pages' ? 'class="active"' }}>
                                 <a href="{{ path_for('admin_pages', {'lang': lang}) }}"><i class="fa fa-pencil-square-o"></i> <span>{{ 'REST.Pages.page.title'|trans }}</span></a>
                             </li>
+
+                            <li {{ currentRoute == 'admin_banners' ? 'class="active"' }}>
+                                <a href="{{ path_for('admin_banners', {'lang': lang}) }}"><i class="fa fa-circle-o"></i> <span>{{ 'REST.Banners.page.title'|trans }}</span></a>
+                            </li>
+                            <li {{ currentRoute == 'admin_bannersclients' ? 'class="active"' }}>
+                                <a href="{{ path_for('admin_bannersclients', {'lang': lang}) }}"><i class="fa fa-circle-o"></i> <span>{{ 'REST.BannersClients.page.title'|trans }}</span></a>
+                            </li>
                         {% endif %}
 
                         <li class="header">{{ 'MENU'|trans }}</li>

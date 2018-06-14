@@ -66,6 +66,10 @@ $app->group('/{lang:'.$langRegExp.'}', function () use ($app) {
         $this->group('/posttypes',  \Controller\Admin\PostTypes::class.'::registerRoutes');
         $this->group('/industries', \Controller\Admin\Industries::class.'::registerRoutes');
         $this->group('/pages',      \Controller\Admin\Pages::class.'::registerRoutes');
+
+        $this->group('/banners',        \Controller\Admin\Banners::class.'::registerRoutes');
+        $this->group('/bannersClients', \Controller\Admin\bannersClients::class.'::registerRoutes');
+
     })->add(\Controller\Auth::class.':checkIsAdmin')
       ->add(\Controller\Auth::class.':checkAuth');
 });

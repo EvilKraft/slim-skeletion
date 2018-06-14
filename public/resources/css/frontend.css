@@ -110,7 +110,7 @@ td.action_btns_container :last-child{
 
 .marquee {
 	float: left;
-	width: 450px;
+	width: 430px;
 	overflow: hidden;
 
 	display: none;
@@ -123,12 +123,12 @@ td.action_btns_container :last-child{
 }
 @media screen and (max-width:960px) {
 	.marquee {
-		width: 28%;
+		width: 23%;
 	}
 }
 @media only screen and (max-width: 768px) {
 	.marquee {
-		width: 58%;
+		width: 45%;
 	}
 }
 @media only screen and (max-width: 600px) {

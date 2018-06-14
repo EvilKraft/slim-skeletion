@@ -1,0 +1,283 @@
+{% extends 'backend_layout.twig' %}
+
+{% block content %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>{{ page.title }}</h1>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="box box-primary">
+                    <div class="box-body">
+                        <form id="updateForm" method="POST" enctype="multipart/form-data" data-toggle="validator" action="{{ currentUrl }}">
+                            {% if item is defined %}
+                                <input type="hidden" name="_METHOD" value="PUT" />
+                            {% endif %}
+
+                            <div class="collapse in" id="collapsible">
+                                <div class="form-group">
+                                    <label for="type">{{ 'Type'|trans }} <span class="text-red">*</span></label>
+                                    <select id="type" name="type" class="form-control select2" required="" data-error="{{ 'Select a type'|trans }}">
+                                        <option value="" selected disabled>{{ 'Select a type'|trans }}</option>
+                                        {% for type, title in types %}
+                                            <option value="{{ type }}" {{ (type == item.type|default('')) ? 'selected' }}>{{ title }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+
+                            <div class="collapse in" id="collapsible">
+                                <div class="form-group">
+                                    <label for="clientId">{{ 'Client'|trans }} <span class="text-red">*</span></label>
+                                    <select id="clientId" name="clientId" class="form-control select2" required="" data-error="{{ 'Select a client'|trans }}">
+                                        <option value="" selected disabled>{{ 'Select a client'|trans }}</option>
+                                        {% for client in bannersClients %}
+                                            <option value="{{ client.clientId }}" {{ (client.clientId == item.clientId|default('')) ? 'selected' }}>{{ client.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="start">{{ 'Start'|trans }}</label>
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" id="start" name="start" class="form-control pull-right datetimepicker" readonly="" value="{{ item.start|default('')|date("d.m.Y") }}" pattern="^\d\d\.\d\d\.\d\d\d\d$" data-error="{{ 'Invalid value'|trans }}">
+                                </div>
+                                <div class="help-block with-errors"></div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="stop">{{ 'Stop'|trans }}</label>
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" id="stop" name="stop" class="form-control pull-right datetimepicker" readonly="" value="{{ item.stop|default('')|date("d.m.Y") }}" pattern="^\d\d\.\d\d\.\d\d\d\d$" data-error="{{ 'Invalid value'|trans }}">
+                                </div>
+                                <div class="help-block with-errors"></div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="title">{{ 'Title'|trans }} <span class="text-red">*</span></label>
+                                <input id="title" name="title" class="form-control" placeholder="{{ 'Title'|trans }}" value="{{ item.title|default('') }}" required="" type="text" data-error="{{ 'Invalid value'|trans }}">
+                                <div class="help-block with-errors"></div>
+                            </div>
+
+                            <div class="form-group has-feedback">
+                                <label for="url">{{ 'Url'|trans }}</label>
+                                <input id="url" name="url" class="form-control" placeholder="{{ 'Url'|trans }}" type="url" value="{{ item.url|default('') }}" data-error="{{ 'Invalid url'|trans }}">
+                                <span class="glyphicon glyphicon-globe form-control-feedback"></span>
+                                <div class="help-block with-errors"></div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="my_file">{{ 'Attachment'|trans }}</label>
+                                <input id="my_file" name="my_file[]" type="file" multiple accept=".jpg,.jpeg,.png,.gif,.txt,.doc,.docx,.xls,.xlsx,.pdf">
+                            </div>
+                            <input type="hidden" name="secret" value="{{ secret|default('') }}">
+                        </form>
+                    </div>
+                    <div class="box-footer">
+                        <div class="form-group">
+                            {% if item.status|default('') is same as('0') %}
+                                {% if 'update' in actions %}
+                                    <button class="btn btn-success" type="submit" form="updateForm">{{ 'Moderate'|trans }}</button>
+                                {% endif %}
+                                <a class="btn btn-default pull-right" href="{{ path_for(indexRoute~'_moderate', {'lang': lang}) }}">{{ 'Cancel'|trans }}</a>
+                            {% else %}
+                                {% if 'update' in actions %}
+                                    <button class="btn btn-primary" type="submit" form="updateForm">{{ 'Submit'|trans }}</button>
+                                {% endif %}
+                                <a class="btn btn-default pull-right" href="{{ path_for(indexRoute, {'lang': lang}) }}">{{ 'Cancel'|trans }}</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+
+    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/assets/select2/dist/css/select2.min.css?ver={{ version }}">
+    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/assets/select2-bootstrap-theme-dist/dist/select2-bootstrap.min.css?ver={{ version }}">
+
+    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/assets/adminlte/plugins/ckeditor/skins/moono/editor_gecko.css?t=H5SE&ver={{ version }}">
+    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/assets/adminlte/plugins/ckeditor/skins/moono/dialog.css?t=H5SE&ver={{ version }}">
+
+    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/assets/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css?ver={{ version }}">
+
+    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/assets/bootstrap-fileinput/css/fileinput.min.css?ver={{ version }}" media="all" >
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+
+    <script src="{{ base_url() }}/assets/select2/dist/js/select2.min.js?ver={{ version }}"></script>
+    <script src="{{ base_url() }}/assets/select2/dist/js/i18n/{{ lang }}.js?ver={{ version }}"></script>
+
+    <script src="{{ base_url() }}/assets/adminlte/plugins/ckeditor/ckeditor.js?ver={{ version }}"></script>
+    <script src="{{ base_url() }}/assets/adminlte/plugins/ckeditor/config.js?t=H5SE&ver={{ version }}"></script>
+    <script src="{{ base_url() }}/assets/adminlte/plugins/ckeditor/lang/{{ lang }}.js?t=H5SE&ver={{ version }}"></script>
+    <script src="{{ base_url() }}/assets/adminlte/plugins/ckeditor/styles.js?t=H5SE&ver={{ version }}"></script>
+    <script src="{{ base_url() }}/assets/adminlte/plugins/ckeditor/plugins/image/dialogs/image.js?t=H5SE&ver={{ version }}"></script>
+
+    <script src="{{ base_url() }}/assets/moment/min/moment-with-locales.min.js?ver={{ version }}"></script>
+    <script src="{{ base_url() }}/assets/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js?ver={{ version }}"></script>
+
+    <!-- piexif.min.js is only needed if you wish to resize images before upload to restore exif data.
+     This must be loaded before fileinput.min.js -->
+    <script src="{{ base_url() }}/assets/bootstrap-fileinput/js/plugins/piexif.min.js?ver={{ version }}" type="text/javascript"></script>
+    <!-- sortable.min.js is only needed if you wish to sort / rearrange files in initial preview.
+         This must be loaded before fileinput.min.js -->
+    <script src="{{ base_url() }}/assets/bootstrap-fileinput/js/plugins/sortable.min.js?ver={{ version }}" type="text/javascript"></script>
+    <!-- purify.min.js is only needed if you wish to purify HTML content in your preview for HTML files.
+         This must be loaded before fileinput.min.js -->
+    <script src="{{ base_url() }}/assets/bootstrap-fileinput/js/plugins/purify.min.js?ver={{ version }}" type="text/javascript"></script>
+    <!-- the main fileinput plugin file -->
+    <script src="{{ base_url() }}/assets/bootstrap-fileinput/js/fileinput.min.js?ver={{ version }}"></script>
+    <!-- optionally if you need a theme like font awesome theme you can include it as mentioned below -->
+    <script src="{{ base_url() }}/assets/bootstrap-fileinput/themes/fa/theme.js?ver={{ version }}"></script>
+    <!-- optionally if you need translation for your language then include locale file as mentioned below -->
+    <script src="{{ base_url() }}/assets/bootstrap-fileinput/js/locales/{{ lang }}.js?ver={{ version }}"></script>
+
+
+    <script src="{{ base_url() }}/assets/bootstrap-validator/dist/validator.min.js?ver={{ version }}"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+	        $('.datetimepicker').datetimepicker({
+                format: 'DD.MM.YYYY',
+		        locale: '{{ lang }}',
+                maxDate: new Date(),
+                sideBySide: true,
+                ignoreReadonly: true,
+                showClear: true,
+                useCurrent: false,
+	        });
+
+            $('#industry').select2({ theme: "bootstrap", width: '100%', placeholder: "{{ 'Select an industry'|trans }}" });
+            $('#cityId').select2({ theme: "bootstrap", width: '100%', placeholder: "{{ 'Select a city'|trans }}" });
+
+//	        CKEDITOR.replaceClass = 'ckeditor';
+
+            // Switch tab on validation
+            $('input').on('invalid.bs.validator', function () {
+                var tab = $(this).closest('.tab-pane').attr('id');
+                $('.nav a[href="#' + tab + '"]').tab('show');
+
+                $(this).focus();
+
+                // Only want to do it once
+                return false;
+            });
+
+
+	        var btns = '<button type="button" class="kv-cust-btn btn btn-xs btn-default" title="{{ 'Download'|trans }}" {dataKey}>'
+		        + '<i class="glyphicon glyphicon-download"></i>'
+		        + '</button>';
+
+	        var fileinput = $("#my_file").fileinput({
+                language: "{{ lang }}",
+		        otherActionButtons: btns,
+
+		        showUpload:                 false,
+		        showCaption:                true,
+		        showClose:                  false,
+		        showRemove:                 false,
+		        overwriteInitial:           false,
+		        maxFileCount:               5,
+		        previewFileType:            'any',
+		        initialPreviewAsData:       true,
+		        //allowedPreviewTypes:        null,
+		        preferIconicPreview:        true, // this will force thumbnails to display icons for following file extensions
+		        //preferIconicZoomPreview:    true,
+		        allowedFileExtensions:      ['jpg', 'jpeg', 'png', 'gif', 'txt', 'doc', 'docx', 'xls', 'xlsx', 'pdf'],
+
+		        validateInitialCount: true,
+
+		        initialCaption: "Image",
+                {#       initialPreview: [
+                           '{{ base_url() }}/uploads/{{ item.file }}',
+                     ],
+                   {#
+                       initialPreviewConfig: [
+                           {% for file in files %}
+                           {
+                               type: "{{ file.type }}",
+                               caption: "{{ file.caption }}",
+                               size: {{ file.size }},
+                               key: {{ file.fileId }},
+                               extra: {id: {{ file.fileId }}, file: '{{ file.file }}'}
+                           },
+                           {% endfor %}
+
+                       ],
+
+		        uploadUrl: "{{ base_url() }}{{ path_for(indexRoute~'_upload_file', {'lang': lang}) }}",
+		        uploadExtraData: function(previewId, index) {
+			        return {key: index, secret: '{{ secret }}'};
+		        },
+                {% if files|length > 0 %}
+		        deleteUrl: "{{ base_url() }}{{ path_for(indexRoute~'_delete_file', {'lang': lang}) }}",
+                {% endif %}
+        #}
+		        // configure your icon file extensions
+		        previewFileIconSettings: {
+			        'doc': '<i class="fa fa-file-word-o text-primary"></i>',
+			        'xls': '<i class="fa fa-file-excel-o text-success"></i>',
+			        'ppt': '<i class="fa fa-file-powerpoint-o text-danger"></i>',
+			        'pdf': '<i class="fa fa-file-pdf-o text-danger"></i>',
+			        'zip': '<i class="fa fa-file-archive-o text-muted"></i>',
+			        'htm': '<i class="fa fa-file-code-o text-info"></i>',
+			        'txt': '<i class="fa fa-file-text-o text-info"></i>',
+			        'mov': '<i class="fa fa-file-movie-o text-warning"></i>',
+			        'mp3': '<i class="fa fa-file-audio-o text-warning"></i>',
+			        // note for these file types below no extension determination logic
+			        // has been configured (the keys itself will be used as extensions)
+			        'jpg': '<i class="fa fa-file-photo-o text-danger"></i>',
+			        'gif': '<i class="fa fa-file-photo-o text-muted"></i>',
+			        'png': '<i class="fa fa-file-photo-o text-primary"></i>'
+		        },
+		        previewFileExtSettings: { // configure the logic for determining icon file extensions
+			        'doc': function(ext) { return ext.match(/(doc|docx)$/i); },
+			        'xls': function(ext) { return ext.match(/(xls|xlsx)$/i); },
+			        'ppt': function(ext) { return ext.match(/(ppt|pptx)$/i); },
+			        'zip': function(ext) { return ext.match(/(zip|rar|tar|gzip|gz|7z)$/i); },
+			        'htm': function(ext) { return ext.match(/(htm|html)$/i); },
+			        'txt': function(ext) { return ext.match(/(txt|ini|csv|java|php|js|css)$/i); },
+			        'mov': function(ext) { return ext.match(/(avi|mpg|mkv|mov|mp4|3gp|webm|wmv)$/i); },
+			        'mp3': function(ext) { return ext.match(/(mp3|wav)$/i); },
+			        'pdf': function(ext) { return ext.match(/(pdf)$/i); },
+		        },
+	        }).on("filebatchselected", function(event, files) {
+		        fileinput.fileinput("upload");
+	        });
+
+	        $('.kv-cust-btn').on('click', function() {
+		        var $btn = $(this), key = $btn.data('key');
+
+		        var xxx = fileinput.fileinput('getPreview').config.filter(function( obj ) {
+			        return obj.key == key;
+		        });
+
+		        var url = "{{ base_url() }}/uploads/"+xxx[0].extra.file;
+
+		        window.open(url, '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');
+	        });
+        });
+    </script>
+
+{% endblock %}

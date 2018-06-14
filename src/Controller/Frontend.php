@@ -345,6 +345,7 @@ class Frontend extends BaseController
 
     public function frontendMiddleware(Request $request, Response $response, callable $next)
     {
+        $this->renderer->getEnvironment()->addGlobal('footerAbout', $this->getFooterAbout());
         $this->renderer->getEnvironment()->addGlobal('industries', $this->getCategories());
         $this->renderer->getEnvironment()->addGlobal('postTypes', $this->getPostTypes());
         $this->renderer->getEnvironment()->addGlobal('recent_posts', $this->recentPosts());
@@ -416,6 +417,17 @@ class Frontend extends BaseController
         $data['items'] = $stmt->fetchAll();
 
         return $data;
+    }
+
+    protected function getFooterAbout(){
+        $sql = "SELECT L.text
+                FROM pages P
+                INNER JOIN pages_lang L ON L.pageId=P.pageId AND L.lang=?
+                WHERE alias='main'";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$this->lang]);
+        return $stmt->fetchColumn();
     }
 
     protected function getCategories(){
