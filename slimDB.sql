@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Июн 08 2018 г., 16:57
+-- Время создания: Июн 14 2018 г., 15:45
 -- Версия сервера: 5.7.19
 -- Версия PHP: 7.1.7
 
@@ -166,14 +166,14 @@ CREATE TABLE `industries_lang` (
   `langId` int(10) UNSIGNED NOT NULL,
   `industryId` int(10) UNSIGNED NOT NULL,
   `lang` char(2) NOT NULL,
-  `name` varchar(255) NOT NULL
+  `title` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `industries_lang`
 --
 
-INSERT INTO `industries_lang` (`langId`, `industryId`, `lang`, `name`) VALUES
+INSERT INTO `industries_lang` (`langId`, `industryId`, `lang`, `title`) VALUES
 (13, 5, 'az', 'Tikinti və təmir'),
 (14, 5, 'ru', 'Строительство и ремонт '),
 (15, 5, 'en', 'Construction and building materials '),
@@ -313,6 +313,7 @@ CREATE TABLE `posts` (
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `status` tinyint(1) NOT NULL DEFAULT '0',
   `finishedAt` timestamp NULL DEFAULT NULL,
+  `typeId` int(10) UNSIGNED NOT NULL,
   `cityId` int(10) UNSIGNED DEFAULT NULL,
   `workers` int(10) UNSIGNED NOT NULL,
   `buildedAt` date DEFAULT NULL,
@@ -325,12 +326,12 @@ CREATE TABLE `posts` (
 -- Дамп данных таблицы `posts`
 --
 
-INSERT INTO `posts` (`postId`, `userId`, `createdAt`, `status`, `finishedAt`, `cityId`, `workers`, `buildedAt`, `income`, `price`, `site`) VALUES
-(1, 1, '2018-05-20 18:43:04', 0, NULL, 3, 0, '2020-05-20', '0', '0', ''),
-(4, 1, '2018-05-21 17:38:19', 1, NULL, 1, 0, '2027-05-20', '0', '0', ''),
-(5, 2, '2018-05-26 17:13:19', 0, NULL, 1, 12, '2018-06-01', '0', '0', ''),
-(9, 5, '2018-06-05 08:35:48', 0, NULL, 1, 0, NULL, '0', '0', ''),
-(10, 5, '2018-06-07 11:26:26', 0, NULL, 1, 0, NULL, '0', '100', '');
+INSERT INTO `posts` (`postId`, `userId`, `createdAt`, `status`, `finishedAt`, `typeId`, `cityId`, `workers`, `buildedAt`, `income`, `price`, `site`) VALUES
+(1, 1, '2018-05-20 18:43:04', 1, NULL, 5, 3, 0, NULL, '0', '0', ''),
+(4, 1, '2018-05-21 17:38:19', 1, NULL, 6, 1, 0, NULL, '0', '0', ''),
+(5, 2, '2018-05-26 17:13:19', 1, NULL, 5, 1, 12, '2018-06-01', '0', '0', ''),
+(9, 5, '2018-06-05 08:35:48', 1, NULL, 7, 1, 0, '2018-06-13', '0', '0', ''),
+(10, 5, '2018-06-07 11:26:26', 0, NULL, 0, 1, 0, '2018-06-13', '0', '100', '');
 
 -- --------------------------------------------------------
 
@@ -370,8 +371,6 @@ INSERT INTO `posts_files` (`fileId`, `userId`, `postId`, `file`, `caption`, `typ
 (17, 5, NULL, 'posts_5b164af0ef8084.55216006.JPG', 'IMG_4111.JPG', 'image/jpeg', 1878643, '5b164ad830a844.46693468', '2018-06-05 08:33:52'),
 (18, 5, 9, 'posts_5b164b62ee6d24.73492779.JPG', 'IMG_4107.JPG', 'image/jpeg', 1543171, '5b164b432844a4.84011962', '2018-06-05 08:35:46'),
 (19, 5, 9, 'posts_5b164b631f44b5.50857809.JPG', 'IMG_4111.JPG', 'image/jpeg', 1878643, '5b164b432844a4.84011962', '2018-06-05 08:35:47'),
-(20, 5, 10, 'posts_5b19165f3d5fe7.72079031.txt', 'FireFox links.txt', 'text/plain', 1655, '5b19162664c6f1.67704275', '2018-06-07 11:26:23'),
-(21, 5, 10, 'posts_5b19165f5e4bf7.74892395.JPG', 'IMG_4107.JPG', 'image/jpeg', 1543171, '5b19162664c6f1.67704275', '2018-06-07 11:26:23'),
 (22, 5, 10, 'posts_5b19165f802dc2.70835141.JPG', 'IMG_4111.JPG', 'image/jpeg', 1878643, '5b19162664c6f1.67704275', '2018-06-07 11:26:23');
 
 -- --------------------------------------------------------
@@ -417,12 +416,12 @@ CREATE TABLE `posts_lang` (
 --
 
 INSERT INTO `posts_lang` (`langId`, `postId`, `lang`, `title`, `text`, `text_search`) VALUES
-(1, 1, 'en', 'Array', 'Array', 'Array'),
-(2, 1, 'ru', 'Array', 'Array', 'Array'),
-(3, 1, 'az', 'Array', 'Array', 'Array'),
-(4, 4, 'en', 'zz1', '<p>zzz1</p>\r\n', '<p>zzz1</p>'),
-(5, 4, 'ru', 'xx1', '<p>xxx1</p>\r\n', '<p>xxx1</p>'),
-(6, 4, 'az', 'cc1', '<p>ccc1</p>\r\n', '<p>ccc1</p>'),
+(1, 1, 'en', 'Array', '<p>Array</p>\r\n', 'Array\r\n'),
+(2, 1, 'ru', 'Array', '<p>Array</p>\r\n', 'Array\r\n'),
+(3, 1, 'az', 'Array', '<p>Array</p>\r\n', 'Array\r\n'),
+(4, 4, 'en', 'zz1', '<p>zzz1</p>\r\n', 'zzz1\r\n'),
+(5, 4, 'ru', 'xx1', '<p>xxx1</p>\r\n', 'xxx1\r\n'),
+(6, 4, 'az', 'cc1', '<p>ccc1</p>\r\n', 'ccc1\r\n'),
 (7, 5, 'en', 'вап вап вап sdfg sdg sdg ывап ', '<p>sdfg выап выап sdfg вап</p>\r\n\r\n<p>в sfgsd выап выап ывап ывап вып выап вып впа sdg вап</p>\r\n', 'sdfg выап выап sdfg вап\r\n\r\nв sfgsd выап выап ывап ывап вып выап вып впа sdg вап\r\n'),
 (8, 5, 'ru', 'вап вап вап sdfg sdg sdg ывап ', '<p>sdfg выап выап sdfg вап</p>\r\n\r\n<p>в sfgsd выап выап ывап ывап вып выап вып впа sdg вап</p>\r\n', 'sdfg выап выап sdfg вап\r\n\r\nв sfgsd выап выап ывап ывап вып выап вып впа sdg вап\r\n'),
 (9, 5, 'az', 'вап вап вап sdfg sdg sdg ывап ', '<p>sdfg выап выап sdfg вап</p>\r\n\r\n<p>в sfgsd выап выап ывап ывап вып выап вып впа sdg вап</p>\r\n', 'sdfg выап выап sdfg вап\r\n\r\nв sfgsd выап выап ывап ывап вып выап вып впа sdg вап\r\n'),
@@ -432,6 +431,61 @@ INSERT INTO `posts_lang` (`langId`, `postId`, `lang`, `title`, `text`, `text_sea
 (13, 10, 'en', 'hhhhhh  h h h h h', '<p>в апвап вап вап вап вап вап вапв п впв ап</p>\r\n\r\n<p>&nbsp;вав павп вп авп вап вп&nbsp; впав пав пав пвап вап авп</p>\r\n\r\n<p>ап пв ап вап вп вп вап ва павпавпавпвп впвап впвпвап</p>\r\n\r\n<p>вап авп вапавп</p>\r\n', 'в апвап вап вап вап вап вап вапв п впв ап\r\n\r\n&nbsp;вав павп вп авп вап вп&nbsp; впав пав пав пвап вап авп\r\n\r\nап пв ап вап вп вп вап ва павпавпавпвп впвап впвпвап\r\n\r\nвап авп вапавп\r\n'),
 (14, 10, 'ru', 'hhhhhh  h h h h h', '<p>в апвап вап вап вап вап вап вапв п впв ап</p>\r\n\r\n<p>&nbsp;вав павп вп авп вап вп&nbsp; впав пав пав пвап вап авп</p>\r\n\r\n<p>ап пв ап вап вп вп вап ва павпавпавпвп впвап впвпвап</p>\r\n\r\n<p>вап авп вапавп</p>\r\n', 'в апвап вап вап вап вап вап вапв п впв ап\r\n\r\n&nbsp;вав павп вп авп вап вп&nbsp; впав пав пав пвап вап авп\r\n\r\nап пв ап вап вп вп вап ва павпавпавпвп впвап впвпвап\r\n\r\nвап авп вапавп\r\n'),
 (15, 10, 'az', 'hhhhhh  h h h h h', '<p>в апвап вап вап вап вап вап вапв п впв ап</p>\r\n\r\n<p>&nbsp;вав павп вп авп вап вп&nbsp; впав пав пав пвап вап авп</p>\r\n\r\n<p>ап пв ап вап вп вп вап ва павпавпавпвп впвап впвпвап</p>\r\n\r\n<p>вап авп вапавп</p>\r\n', 'в апвап вап вап вап вап вап вапв п впв ап\r\n\r\n&nbsp;вав павп вп авп вап вп&nbsp; впав пав пав пвап вап авп\r\n\r\nап пв ап вап вп вп вап ва павпавпавпвп впвап впвпвап\r\n\r\nвап авп вапавп\r\n');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `postTypes`
+--
+
+CREATE TABLE `postTypes` (
+  `typeId` int(11) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `postTypes`
+--
+
+INSERT INTO `postTypes` (`typeId`) VALUES
+(5),
+(6),
+(7),
+(8),
+(9);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `postTypes_lang`
+--
+
+CREATE TABLE `postTypes_lang` (
+  `langId` int(10) UNSIGNED NOT NULL,
+  `typeId` int(10) UNSIGNED NOT NULL,
+  `lang` char(2) NOT NULL,
+  `title` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `postTypes_lang`
+--
+
+INSERT INTO `postTypes_lang` (`langId`, `typeId`, `lang`, `title`) VALUES
+(1, 5, 'en', 'Продажа/Покупка бизнеса'),
+(2, 5, 'ru', 'Продажа/Покупка бизнеса1'),
+(3, 5, 'az', 'Продажа/Покупка бизнеса'),
+(4, 6, 'en', 'Аренда бизнеса'),
+(5, 6, 'ru', 'Аренда бизнеса'),
+(6, 6, 'az', 'Аренда бизнеса'),
+(7, 7, 'en', 'Франчайзинг'),
+(8, 7, 'ru', 'Франчайзинг'),
+(9, 7, 'az', 'Франчайзинг'),
+(10, 8, 'en', 'Поиск инвестора'),
+(11, 8, 'ru', 'Поиск инвестора'),
+(12, 8, 'az', 'Поиск инвестора'),
+(13, 9, 'en', 'Стартап'),
+(14, 9, 'ru', 'Стартап'),
+(15, 9, 'az', 'Стартап');
 
 -- --------------------------------------------------------
 
@@ -483,35 +537,6 @@ INSERT INTO `users` (`userId`, `login`, `password`, `createdAt`, `groupId`, `nam
 (1, 'admin', '$2y$10$WShDEA5s.Em0VNZYVpPaKeVTLtYMc2d7KHdchvWRLFhB5LYRmhUmW', '2017-07-28 08:02:27', 1, 'Admin', NULL, 0, '', 'k.kaluzhnikov@gmail.com', '', '', 1, 'eeef80f7660b283a3b799938a84416cc'),
 (2, 'test-b', '$2y$10$6Ic.8Twc9D0lrd6E88DAQezbUqZHGj59qjn8gGwuCm9MGWhZpvcUu', '2017-08-04 06:41:42', 2, 'Test Buyer', 'AZ', 1, '0555555555', 'zeuz@listzzz.ru', '', '', 1, '3f6b8a99b77a42b247003aa4e2563b23'),
 (5, 'zeuz@list.ru', '$2y$10$iuYvLdohN2x7KOqWxQSpjeFxm1NW4M/LN9QJM1m8xU0XBvj46mGIK', '2018-06-04 15:41:55', 2, 'fgh fgh ', NULL, NULL, NULL, 'zeuz@list.ru', NULL, NULL, 1, '3f6b8a99b77a42b247003aa4e2563b23');
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `votes`
---
-
-CREATE TABLE `votes` (
-  `voter` int(10) UNSIGNED NOT NULL,
-  `votedFor` int(10) UNSIGNED NOT NULL,
-  `stars` tinyint(3) UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `votes`
---
-
-INSERT INTO `votes` (`voter`, `votedFor`, `stars`) VALUES
-(2, 3, 4),
-(2, 22, 1),
-(2, 45, 3),
-(3, 2, 5),
-(3, 21, 3),
-(3, 39, 1),
-(3, 44, 3),
-(3, 55, 5),
-(21, 45, 5),
-(45, 21, 5),
-(95, 65, 5);
 
 --
 -- Индексы сохранённых таблиц
@@ -571,7 +596,8 @@ ALTER TABLE `posts_files`
 --
 ALTER TABLE `posts_industries`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `post_indust_idx` (`postId`,`industryId`) USING BTREE;
+  ADD UNIQUE KEY `post_indust_idx` (`postId`,`industryId`) USING BTREE,
+  ADD KEY `industryId` (`industryId`);
 
 --
 -- Индексы таблицы `posts_lang`
@@ -580,6 +606,20 @@ ALTER TABLE `posts_lang`
   ADD PRIMARY KEY (`langId`),
   ADD KEY `postId` (`postId`) USING BTREE;
 ALTER TABLE `posts_lang` ADD FULLTEXT KEY `title` (`title`,`text_search`);
+
+--
+-- Индексы таблицы `postTypes`
+--
+ALTER TABLE `postTypes`
+  ADD PRIMARY KEY (`typeId`);
+
+--
+-- Индексы таблицы `postTypes_lang`
+--
+ALTER TABLE `postTypes_lang`
+  ADD PRIMARY KEY (`langId`),
+  ADD KEY `lang` (`lang`),
+  ADD KEY `typeId` (`typeId`) USING BTREE;
 
 --
 -- Индексы таблицы `userGroups`
@@ -594,13 +634,6 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`userId`),
   ADD UNIQUE KEY `login` (`login`),
   ADD UNIQUE KEY `email` (`email`);
-
---
--- Индексы таблицы `votes`
---
-ALTER TABLE `votes`
-  ADD PRIMARY KEY (`voter`,`votedFor`),
-  ADD KEY `votedFor` (`votedFor`);
 
 --
 -- AUTO_INCREMENT для сохранённых таблиц
@@ -652,6 +685,16 @@ ALTER TABLE `posts_industries`
 ALTER TABLE `posts_lang`
   MODIFY `langId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 --
+-- AUTO_INCREMENT для таблицы `postTypes`
+--
+ALTER TABLE `postTypes`
+  MODIFY `typeId` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+--
+-- AUTO_INCREMENT для таблицы `postTypes_lang`
+--
+ALTER TABLE `postTypes_lang`
+  MODIFY `langId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+--
 -- AUTO_INCREMENT для таблицы `userGroups`
 --
 ALTER TABLE `userGroups`
@@ -676,6 +719,31 @@ ALTER TABLE `industries_lang`
 --
 ALTER TABLE `pages_lang`
   ADD CONSTRAINT `pages_lang_ibfk_1` FOREIGN KEY (`pageId`) REFERENCES `pages` (`pageId`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Ограничения внешнего ключа таблицы `posts`
+--
+ALTER TABLE `posts`
+  ADD CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`userId`) ON DELETE CASCADE;
+
+--
+-- Ограничения внешнего ключа таблицы `posts_industries`
+--
+ALTER TABLE `posts_industries`
+  ADD CONSTRAINT `posts_industries_ibfk_1` FOREIGN KEY (`industryId`) REFERENCES `industries` (`industryId`) ON DELETE CASCADE,
+  ADD CONSTRAINT `posts_industries_ibfk_2` FOREIGN KEY (`postId`) REFERENCES `posts` (`postId`) ON DELETE CASCADE;
+
+--
+-- Ограничения внешнего ключа таблицы `posts_lang`
+--
+ALTER TABLE `posts_lang`
+  ADD CONSTRAINT `posts_lang_ibfk_1` FOREIGN KEY (`postId`) REFERENCES `posts` (`postId`) ON DELETE CASCADE;
+
+--
+-- Ограничения внешнего ключа таблицы `postTypes_lang`
+--
+ALTER TABLE `postTypes_lang`
+  ADD CONSTRAINT `posttypes_lang_ibfk_1` FOREIGN KEY (`typeId`) REFERENCES `postTypes` (`typeId`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
