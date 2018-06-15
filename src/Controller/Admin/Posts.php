@@ -19,8 +19,9 @@ class Posts extends RESTController
     protected $idxField     = 'postId';
   //  protected $template    = 'Admin\Posts.twig';
 
-    protected $columns      = ['name', 'title', 'createdAt', 'status'];
-    protected $actions      = ['create', 'update', 'delete'];
+    protected        $columns      = ['postType', 'name', 'title', 'createdAt', 'status'];
+    protected static $actions      = ['create', 'update', 'delete'];
+    protected        $col_filters  = ['type'];
 
     protected $idxFieldLang = 'langId';
 
@@ -34,9 +35,6 @@ class Posts extends RESTController
         $app->map(['GET', 'PUT'], '/moderate/{id:[0-9]+}',   $class.':doModerate')->setName($prefix.'_domoderate');
         $app->get('/getToModerateTable', $class.':toModerateServerProcessing')->setName($prefix.'_moderate_getTable');
 
-
-        $app->get('/{id:[0-9]+}/finish', $class.':finish')->setName($prefix.'_finish');
-
         $app->post('/upload-file', $class.':uploadFile')->setName($prefix.'_upload_file');
         $app->post('/delete-file', $class.':deleteFile')->setName($prefix.'_delete_file');
     }
@@ -47,14 +45,17 @@ class Posts extends RESTController
         $u_columns = 'U.'.implode(', U.', array_keys($this->getTableColumns('users', ['userId', 'createdAt', 'site', 'status', 'cityId'])));
 
         $table = "(
-            SELECT T.*, ".$l_columns.", ".$u_columns."
+            SELECT T.*, ".$l_columns.", ".$u_columns.", TL.title AS postType
             FROM ".$this->table." T
             INNER JOIN ".$this->table."_lang L ON L.".$this->idxField." = T.".$this->idxField." AND L.lang = '".$this->lang."'
             INNER JOIN users U ON T.userId = U.userId
+            LEFT JOIN postTypes_lang TL ON TL.typeId = T.typeId AND TL.lang = '".$this->lang."'
             ORDER BY T.".$this->idxField." ASC
         ) temp";
 
         $dtColumns = $this->getDtColumns(array($this->table, $this->table.'_lang', 'users'));
+        $dtColumns[] =  array('db' => 'postType', 'dt' => 'postType',);
+
         $this->setFormatter($dtColumns, 'status', function( $d, $row ) {
             switch ($d){
                 case 1  : $class = 'label-success'; $text = 'Approved';      break;
@@ -76,15 +77,18 @@ class Posts extends RESTController
         $u_columns = 'U.'.implode(', U.', array_keys($this->getTableColumns('users', ['userId', 'createdAt', 'site', 'status', 'cityId'])));
 
         $table = "(
-            SELECT T.*, ".$l_columns.", ".$u_columns."
+            SELECT T.*, ".$l_columns.", ".$u_columns.", TL.title AS postType
             FROM ".$this->table." T
             INNER JOIN ".$this->table."_lang L ON L.".$this->idxField." = T.".$this->idxField." AND L.lang = '".$this->lang."'
             INNER JOIN users U ON T.userId = U.userId
+            LEFT JOIN postTypes_lang TL ON TL.typeId = T.typeId AND TL.lang = '".$this->lang."'
             WHERE T.status = 0
             ORDER BY T.".$this->idxField." ASC
         ) temp";
 
         $dtColumns = $this->getDtColumns(array($this->table, $this->table.'_lang', 'users'));
+        $dtColumns[] =  array('db' => 'postType', 'dt' => 'postType',);
+
         $this->setFormatter($dtColumns, 'status', function( $d, $row ) {
             switch ($d){
                 case 1  : $class = 'label-success'; $text = 'Approved';      break;
@@ -102,6 +106,7 @@ class Posts extends RESTController
 
     public function toModerate(Request $request, Response $response, Array $args)
     {
+        self::$actions = ['update'];
         return $this->doList($request, $response);
     }
 
@@ -114,48 +119,21 @@ class Posts extends RESTController
         return $this->get($request, $response, $args);
     }
 
-    public function finish(Request $request, Response $response, Array $args)
-    {
-        $stmt = $this->db->query("SELECT * FROM ".$this->table." WHERE ".$this->idxField." = ".(int) $args['id']);
-        if (!$item = $stmt->fetch()) {
-            $this->flash->addMessage('error', $this->trans('Item %item_id% not found', ['%item_id%' => $args['id']]));
-            return $response->withStatus(302)->withHeader('Location', $this->getListUrl());
-        }
-        try {
-            $this->db->beginTransaction();
-
-            $stmt = $this->db->prepare("UPDATE ".$this->table." SET status = -1 WHERE ".$this->idxField." = ?");
-            $stmt->execute([$args['id']]);
-
-            $this->db->commit();
-            $this->flash->addMessage('success', $this->trans('Item %item_id% updated', ['%item_id%' => $args['id']]));
-        } catch (\Exception $e) {
-            $this->db->rollBack();
-
-            $flashMsg = ($this->settings['displayErrorDetails']) ? $e->getMessage() : $this->trans('Item %item_id% not updated', ['%item_id%' => $args['id']]);
-            $this->flash->addMessage('error', json_encode($flashMsg, JSON_PRETTY_PRINT));
-        }
-
-        return $response->withStatus(302)->withHeader('Location', $this->getListUrl());
-    }
-
-
     protected function extraFormData()
     {
         parent::extraFormData();
 
-      //  $stmt = $this->db->prepare("SELECT I.industryId, IL.name FROM industries I INNER JOIN industries_lang IL ON I.industryId = IL.industryId AND lang=?");
-     //   $stmt->execute([$this->lang]);
-     //   $this->data['industries'] = $stmt->fetchAll();
+        $stmt = $this->db->prepare("SELECT T.typeId, TL.title FROM postTypes T INNER JOIN postTypes_lang TL ON T.typeId = TL.typeId AND lang=?");
+        $stmt->execute([$this->lang]);
+        $this->data['postTypes'] = $stmt->fetchAll();
 
-        $sql = "SELECT I.industryId, IL.name, PI.id AS PI_Id, PI.".$this->idxField."
+        $sql = "SELECT I.industryId, IL.title, PI.id AS PI_Id, PI.".$this->idxField."
                 FROM industries I
                 INNER JOIN industries_lang IL ON I.industryId = IL.industryId AND lang=?
                 LEFT JOIN ".$this->table."_industries PI ON PI.industryId = I.industryId AND ".$this->idxField."=?";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$this->lang, @$this->data['item'][$this->idxField]]);
         $this->data['industries'] = $stmt->fetchAll();
-
 
         $stmt = $this->db->prepare("SELECT * FROM cities");
         $stmt->execute();
@@ -169,7 +147,6 @@ class Posts extends RESTController
             $this->data['files'] = $stmt->fetchAll();
 
             foreach($this->data['files'] as $key => $file){
-
                 switch ($file['type']) {
                     case (preg_match('/image.*/',                   $file['type']) ? true : false) : $this->data['files'][$key]['type'] = 'image';  break;
                     case 'text/html'                                                                       : $this->data['files'][$key]['type'] = 'html';   break;
@@ -183,18 +160,118 @@ class Posts extends RESTController
         }
     }
 
+    public function delete(Request $request, Response $response, Array $args)
+    {
+        $data = array('status' => 0, 'data' => ['id' => $args['id']], 'errors' => []);
+
+        $stmt = $this->db->query("SELECT * FROM ".$this->table." WHERE ".$this->idxField."=".(int) $args['id']);
+        if (!$item = $stmt->fetch()) {
+            $data['errors'][] = array('message' => $this->trans('Record not found'));
+            return $response->withJson($data, 200);
+        }
+
+        try {
+            $this->db->beginTransaction();
+
+            $stmt = $this->db->prepare("DELETE FROM ".$this->table." WHERE ".$this->idxField." = ?");
+            $stmt->execute(array($args['id']));
+
+            $stmt = $this->db->prepare("SELECT * FROM ".$this->table."_files WHERE ".$this->idxField." = ?");
+            $stmt->execute(array($args['id']));
+
+            $server = \Controller\Image::initServer();
+            $stmt = $this->db->prepare("DELETE FROM ".$this->table."_files WHERE fileId = ?");
+            foreach ($stmt->fetchAll() as $file){
+                $server->deleteCache($file['file']);
+                unlink(UPLOAD_DIR.$file['file']);
+                $stmt->execute(array($file['fileId']));
+            }
+
+            $this->db->commit();
+            $data['status'] = 1;
+        } catch (\Exception $e) {
+            $this->db->rollBack();
+            $data['errors'][] = array('message' => ($this->settings['displayErrorDetails']) ? $e->getMessage() : $this->trans('Record not deleted'));
+        }
+
+        return $response->withJson($data, 200);
+    }
+
+    public function deleteSelected(Request $request, Response $response, Array $args)
+    {
+        $ids = explode(',', $args['ids']);
+
+        // check if all params are numeric
+        if(!ctype_digit(implode('', $ids)) || count(array_filter($ids)) != count($ids)){
+            throw new \Slim\Exception\NotFoundException($request, $response);
+        }
+
+        $data = array('status' => 0, 'data' => ['ids' => $ids], 'errors' => []);
+
+        $stmt = $this->db->query("SELECT COUNT(*) AS COUNT FROM ".$this->table." WHERE ".$this->idxField." IN (".$args['ids'].")");
+        $row = $stmt->fetch();
+
+        if($row['COUNT'] != count($ids)){
+            $data['errors'][] = array('message' => $this->trans('At least one record not found!'));
+            return $response->withJson($data, 200);
+        }
+
+        $questionsStr = implode(',', array_fill(0, count($ids), '?'));
+
+        try {
+            $this->db->beginTransaction();
+
+            $stmt = $this->db->prepare("DELETE FROM ".$this->table." WHERE ".$this->idxField." IN (".$questionsStr.")");
+            $stmt->execute($ids);
+
+            $stmt = $this->db->prepare("SELECT * FROM ".$this->table."_files WHERE ".$this->idxField." IN (".$questionsStr.")");
+            $stmt->execute(array($args['id']));
+
+            $server = \Controller\Image::initServer();
+            $stmt = $this->db->prepare("DELETE FROM ".$this->table."_files WHERE fileId = ?");
+            foreach ($stmt->fetchAll() as $file){
+                $server->deleteCache($file['file']);
+                unlink(UPLOAD_DIR.$file['file']);
+                $stmt->execute(array($file['fileId']));
+            }
+
+            $this->db->commit();
+            $data['status'] = 1;
+        } catch (\Exception $e) {
+            $this->db->rollBack();
+            $data['errors'][] = array('message' => $this->trans('Records not deleted'));
+        }
+
+        return $response->withJson($data, 200);
+    }
+
     protected function doCreate(Request $request, Response $response)
     {
 
         try {
             $this->db->beginTransaction();
 
-            $vars      = $this->getPostedVars($request);
-            $colNames  = implode(', ', array_merge(array_keys($vars), ['userId']));
-            $questions = '?'.str_repeat(', ?', (count($vars)));
+            $vars           = $this->getPostedVars($request);
+            $vars['userId'] = $_SESSION['user']['userId'];
 
-            $stmt = $this->db->prepare("INSERT INTO ".$this->table." (".$colNames.") VALUES (".$questions.")");
-            $stmt->execute(array_merge(array_values($vars), [$_SESSION['user']['userId']]));
+            $keys = array_keys($vars);
+            $fields = '`'.implode('`, `',$keys).'`';
+            $placeholder = implode(', ', array_map(function($n) {return(':'.$n);}, $keys));
+
+            $stmt = $this->db->prepare("INSERT INTO ".$this->table." (".$fields.") VALUES (".$placeholder.")");
+            foreach ($vars as $field => $value){
+                if($field == 'buildedAt'){
+                    $value = empty($value) ? null : date('Y-m-d', strtotime($value));
+                }
+
+                switch(true) {
+                    case is_null($value)         : $type = \PDO::PARAM_NULL; break;
+                    case is_numeric($value)      : $type = \PDO::PARAM_INT;  break;
+                    default                      : $type = \PDO::PARAM_STR;
+                }
+                $stmt->bindValue(':'.$field, $value, $type);
+            }
+            $stmt->execute();
 
             $lastId = $this->db->lastInsertId();
 
@@ -259,10 +336,24 @@ class Posts extends RESTController
             $this->db->beginTransaction();
 
             $vars     = $this->getPostedVars($request);
-            $colNames = implode(', ', array_map(function($n) {return($n.'=?');}, array_keys($vars)));
+            $colNames = implode(', ', array_map(function($n) {return('`'.$n.'` = :'.$n);}, array_keys($vars)));
 
-            $stmt = $this->db->prepare("UPDATE ".$this->table." SET ".$colNames." WHERE ".$this->idxField." = ?");
-            $stmt->execute(array_merge_recursive(array_values($vars), [$args['id']]));
+            $vars[$this->idxField] = $args['id'];
+
+            $stmt = $this->db->prepare("UPDATE ".$this->table." SET ".$colNames." WHERE ".$this->idxField." = :".$this->idxField." ");
+            foreach ($vars as $field => $value){
+                if($field == 'buildedAt'){
+                    $value = empty($value) ? null : date('Y-m-d', strtotime($value));
+                }
+
+                switch(true) {
+                    case is_null($value)         : $type = \PDO::PARAM_NULL; break;
+                    case is_numeric($value)      : $type = \PDO::PARAM_INT;  break;
+                    default                      : $type = \PDO::PARAM_STR;
+                }
+                $stmt->bindValue(':'.$field, $value, $type);
+            }
+            $stmt->execute();
 
             if(!empty($this->idxFieldLang)){
                 $tableColumns = $this->getTableColumns($this->table.'_lang');
@@ -310,6 +401,7 @@ class Posts extends RESTController
     }
 
 
+
     public function uploadFile(Request $request, Response $response, Array $args) {
 
         $data  = $request->getParsedBody();
@@ -334,10 +426,10 @@ class Posts extends RESTController
                     $filename = null;
                     while (true) {
                         $filename = uniqid($this->table.'_', true) . '.'.$ext;
-                        if (!file_exists('uploads/'.$filename)) break;
+                        if (!file_exists(UPLOAD_DIR.$filename)) break;
                     }
 
-                    $myFile->moveTo('uploads/' . $filename);
+                    $myFile->moveTo(UPLOAD_DIR.$filename);
 
                     $stmt->execute(array(
                         $_SESSION['user']['userId'],
@@ -368,7 +460,9 @@ class Posts extends RESTController
         try {
             $this->db->beginTransaction();
 
-            unlink('uploads/'.$data['file']);
+            $server = \Controller\Image::initServer();
+            $server->deleteCache($data['file']);
+            unlink(UPLOAD_DIR.$data['file']);
 
             $sql = "DELETE FROM ".$this->table."_files WHERE fileId=?";
             $stmt = $this->db->prepare($sql);
@@ -381,4 +475,5 @@ class Posts extends RESTController
             return $response->withJson('File was not deleted', 400);
         }
     }
+
 }

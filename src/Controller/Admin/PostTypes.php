@@ -12,14 +12,14 @@ use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
-class Pages extends \Controller\RESTController
+class PostTypes extends \Controller\RESTController
 {
-    protected $table        = 'pages';
-    protected $idxField     = 'pageId';
-    protected $template     = 'Admin\Pages.twig';
+    protected $table     = 'postTypes';
+    protected $idxField  = 'typeId';
+    protected $template  = 'Admin\PostTypes.twig';
 
-    protected        $columns      = ['alias', 'title'];
-    protected static $actions      = ['create', 'update'];
+    protected        $columns   = ['title'];
+    protected static $actions   = ['update'];
 
     protected $idxFieldLang = 'langId';
 

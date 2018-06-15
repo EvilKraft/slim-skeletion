@@ -5,7 +5,7 @@
         <div class="bwrapsite-main" id="mainbwrap" role="main">
             <div class="post-outer">
                 <article class="post hentry">
-                    <h1 class="post-title entry-title">{{ pageTitle }}</h1>
+                    <h1 class="post-title entry-title">{{ page.title }}</h1>
                     <div class="post-body entry-content">
 
                         <div class="row">
@@ -19,11 +19,24 @@
 
                                             <div class="collapse in" id="collapsible">
                                                 <div class="form-group">
+                                                    <label for="typeId">{{ 'Type'|trans }} <span class="text-red">*</span></label>
+                                                    <select id="typeId" name="typeId" class="form-control select2" required="" data-error="{{ 'Select a type'|trans }}">
+                                                        <option value="" selected disabled>{{ 'Select a type'|trans }}</option>
+                                                        {% for type in postTypes %}
+                                                            <option value="{{ type.typeId }}" {{ (type.typeId == item.typeId|default('')) ? 'selected' }}>{{ type.title }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                    <div class="help-block with-errors"></div>
+                                                </div>
+                                            </div>
+
+                                            <div class="collapse in" id="collapsible">
+                                                <div class="form-group">
                                                     <label for="industryId">{{ 'Industry'|trans }} <span class="text-red">*</span></label>
                                                     <select id="industryId" name="industryId[]" class="form-control select2" required="" data-error="{{ 'Select an industry'|trans }}">
                                                         <option value="" selected disabled>{{ 'Select an industry'|trans }}</option>
                                                         {% for industry in industries %}
-                                                            <option value="{{ industry.industryId }}" {{ (industry.PI_Id is not empty) ? 'selected' }}>{{ industry.name }}</option>
+                                                            <option value="{{ industry.industryId }}" {{ (industry.PI_Id is not empty) ? 'selected' }}>{{ industry.title }}</option>
                                                         {% endfor %}
                                                     </select>
                                                     <div class="help-block with-errors"></div>
@@ -60,7 +73,7 @@
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
-                                                    <input type="text" id="buildedAt" name="buildedAt" class="form-control pull-right datetimepicker" value="{{ item.buildedAt|default('') == '' ? "" : item.finishedAt|date("d.m.Y") }}" pattern="^\d\d\.\d\d\.\d\d\d\d$" data-error="{{ 'Invalid value'|trans }}">
+                                                    <input type="text" id="buildedAt" name="buildedAt" class="form-control pull-right datetimepicker" readonly="" value="{{ item.buildedAt|default('') }}" pattern="^\d\d\.\d\d\.\d\d\d\d$" data-error="{{ 'Invalid value'|trans }}">
                                                 </div>
                                                 <div class="help-block with-errors"></div>
                                             </div>
@@ -136,9 +149,6 @@
                                 </div>
                             </div>
                         </div>
-
-
-
                     </div>
                 </article>
                 <div style="clear:both"></div>
@@ -202,6 +212,9 @@
 		        locale: '{{ lang }}',
                 maxDate: new Date(),
                 sideBySide: true,
+                ignoreReadonly: true,
+                showClear: true,
+                useCurrent: false,
 	        });
 
             $('#industry').select2({ theme: "bootstrap", width: '100%', placeholder: "{{ 'Select an industry'|trans }}" });
@@ -226,7 +239,7 @@
 		        + '</button>';
 
 	        var fileinput = $("#my_file").fileinput({
-
+                language: "{{ lang }}",
 		        otherActionButtons: btns,
 
 		        showUpload:                 false,
@@ -256,11 +269,10 @@
 				        type: "{{ file.type }}",
 				        caption: "{{ file.caption }}",
 				        size: {{ file.size }},
-				        key: {{ file.id }},
-				        extra: {id: {{ file.id }}, file: '{{ file.file }}'}
+				        key: {{ file.fileId }},
+				        extra: {id: {{ file.fileId }}, file: '{{ file.file }}'}
 			        },
                     {% endfor %}
-
 		        ],
 
 		        uploadUrl: "{{ base_url() }}{{ path_for(indexRoute~'_upload_file', {'lang': lang}) }}",

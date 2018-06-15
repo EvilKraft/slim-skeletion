@@ -3,7 +3,7 @@
 {% block content %}
     <!-- Content Header (Page header) -->
     <section class="content-header">
-        <h1>{{ pageTitle }}</h1>
+        <h1>{{ page.title }}</h1>
     </section>
 
     <!-- Main content -->
@@ -19,11 +19,11 @@
 
                             <div class="collapse in" id="collapsible">
                                 <div class="form-group">
-                                    <label for="industryId">{{ 'Industry'|trans }} <span class="text-red">*</span></label>
-                                    <select id="industryId" name="industryId[]" class="form-control select2" required="" data-error="{{ 'Select an industry'|trans }}">
-                                        <option value="" selected disabled>{{ 'Select an industry'|trans }}</option>
-                                        {% for industry in industries %}
-                                            <option value="{{ industry.industryId }}" {{ (industry.PI_Id is not empty) ? 'selected' }}>{{ industry.name }}</option>
+                                    <label for="type">{{ 'Type'|trans }} <span class="text-red">*</span></label>
+                                    <select id="type" name="type" class="form-control select2" required="" data-error="{{ 'Select a type'|trans }}">
+                                        <option value="" selected disabled>{{ 'Select a type'|trans }}</option>
+                                        {% for type, title in types %}
+                                            <option value="{{ type }}" {{ (type == item.type|default('')) ? 'selected' }}>{{ title }}</option>
                                         {% endfor %}
                                     </select>
                                     <div class="help-block with-errors"></div>
@@ -32,11 +32,11 @@
 
                             <div class="collapse in" id="collapsible">
                                 <div class="form-group">
-                                    <label for="cityId">{{ 'City'|trans }} <span class="text-red">*</span></label>
-                                    <select id="cityId" name="cityId" class="form-control select2" required="" data-error="{{ 'Select a city'|trans }}">
-                                        <option value="" {{ (item.cityId|default('') == '') ? 'selected' }} disabled>{{ 'Select a city'|trans }}</option>
-                                        {% for city in cities %}
-                                            <option value="{{ city.cityId }}" {{ (city.cityId == item.cityId|default('')) ? 'selected' }}>{{ city.name }}</option>
+                                    <label for="clientId">{{ 'Client'|trans }} <span class="text-red">*</span></label>
+                                    <select id="clientId" name="clientId" class="form-control select2" required="" data-error="{{ 'Select a client'|trans }}">
+                                        <option value="" selected disabled>{{ 'Select a client'|trans }}</option>
+                                        {% for client in bannersClients %}
+                                            <option value="{{ client.clientId }}" {{ (client.clientId == item.clientId|default('')) ? 'selected' }}>{{ client.name }}</option>
                                         {% endfor %}
                                     </select>
                                     <div class="help-block with-errors"></div>
@@ -44,80 +44,39 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="workers">{{ 'Workers'|trans }}</label>
-                                <div class="input-group date">
-                                    <div class="input-group-addon">
-                                        <i class="fa fa-users"></i>
-                                    </div>
-                                    <input id="workers" name="workers" class="form-control" placeholder="{{ 'Workers'|trans }}" value="{{ item.workers|default(0) }}" type="text" data-error="{{ 'Invalid value'|trans }}">
-                                </div>
-                                <div class="help-block with-errors"></div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="buildedAt">{{ 'builded At'|trans }}</label>
+                                <label for="start">{{ 'Start'|trans }}</label>
                                 <div class="input-group date">
                                     <div class="input-group-addon">
                                         <i class="fa fa-calendar"></i>
                                     </div>
-                                    <input type="text" id="buildedAt" name="buildedAt" class="form-control pull-right datetimepicker" value="{{ item.buildedAt|default('') == '' ? "" : item.finishedAt|date("d.m.Y") }}" pattern="^\d\d\.\d\d\.\d\d\d\d$" data-error="{{ 'Invalid value'|trans }}">
+                                    <input type="text" id="start" name="start" class="form-control pull-right datetimepicker" readonly="" value="{{ item.start|default('')|date("d.m.Y") }}" pattern="^\d\d\.\d\d\.\d\d\d\d$" data-error="{{ 'Invalid value'|trans }}">
                                 </div>
                                 <div class="help-block with-errors"></div>
                             </div>
 
                             <div class="form-group">
-                                <label for="income">{{ 'Income'|trans }}</label>
-                                <div class="input-group">
+                                <label for="stop">{{ 'Stop'|trans }}</label>
+                                <div class="input-group date">
                                     <div class="input-group-addon">
-                                        &#x20BC;
+                                        <i class="fa fa-calendar"></i>
                                     </div>
-                                    <input id="income" name="income" class="form-control" placeholder="{{ 'Income'|trans }}" value="{{ item.income|default(0) }}" type="text" data-error="{{ 'Invalid value'|trans }}">
+                                    <input type="text" id="stop" name="stop" class="form-control pull-right datetimepicker" readonly="" value="{{ item.stop|default('')|date("d.m.Y") }}" pattern="^\d\d\.\d\d\.\d\d\d\d$" data-error="{{ 'Invalid value'|trans }}">
                                 </div>
                                 <div class="help-block with-errors"></div>
                             </div>
 
+
                             <div class="form-group">
-                                <label for="price">{{ 'Price'|trans }}</label>
-                                <div class="input-group">
-                                    <div class="input-group-addon">
-                                        &#x20BC;
-                                    </div>
-                                    <input id="price" name="price" class="form-control" placeholder="{{ 'Price'|trans }}" value="{{ item.price|default(0) }}" type="text" data-error="{{ 'Invalid value'|trans }}">
-                                </div>
+                                <label for="title">{{ 'Title'|trans }} <span class="text-red">*</span></label>
+                                <input id="title" name="title" class="form-control" placeholder="{{ 'Title'|trans }}" value="{{ item.title|default('') }}" required="" type="text" data-error="{{ 'Invalid value'|trans }}">
                                 <div class="help-block with-errors"></div>
                             </div>
 
                             <div class="form-group has-feedback">
-                                <label for="site">{{ 'Site'|trans }}</label>
-                                <input id="site" name="site" class="form-control" placeholder="{{ 'Site'|trans }}" type="url" value="{{ item.site|default('') }}" data-error="{{ 'Invalid url'|trans }}">
+                                <label for="url">{{ 'Url'|trans }}</label>
+                                <input id="url" name="url" class="form-control" placeholder="{{ 'Url'|trans }}" type="url" value="{{ item.url|default('') }}" data-error="{{ 'Invalid url'|trans }}">
                                 <span class="glyphicon glyphicon-globe form-control-feedback"></span>
                                 <div class="help-block with-errors"></div>
-                            </div>
-
-                            <div class="nav-tabs-custom">
-                                <ul class="nav nav-tabs">
-                                    {% for lang in langs %}
-                                        <li {{ loop.first ? 'class="active"' }}><a data-toggle="tab" href="#tab_{{ lang }}">{{ lang|upper }}</a></li>
-                                    {% endfor %}
-                                </ul>
-                                <div class="tab-content">
-                                    {% for lang in langs %}
-                                        <div id="tab_{{ lang }}" class="tab-pane {{ loop.first ? 'in active' }}">
-                                            <input type="hidden" name="{{ lang }}[langId]" value="{{ item_langs[lang].langId|default('') }}" />
-
-                                            <div class="form-group">
-                                                <label for="title">{{ 'Title'|trans }} <span class="text-red">*</span></label>
-                                                <input id="title_{{ lang }}" name="{{ lang }}[title]" class="form-control" placeholder="{{ 'Title'|trans }}" value="{{ item_langs[lang].title|default('') }}" required="" type="text" data-error="{{ 'Invalid value'|trans }}">
-                                                <div class="help-block with-errors"></div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="text">{{ 'Text'|trans }} <span class="text-red">*</span></label>
-                                                <textarea id="text_{{ lang }}" name="{{ lang }}[text]" class="form-control ckeditor" placeholder="{{ 'Text'|trans }}" required="" data-error="{{ 'Invalid value'|trans }}">{{ item_langs[lang].text|default('') }}</textarea>
-                                                <div class="help-block with-errors"></div>
-                                            </div>
-                                        </div>
-                                    {% endfor %}
-                                </div>
                             </div>
 
                             <div class="form-group">
@@ -129,8 +88,17 @@
                     </div>
                     <div class="box-footer">
                         <div class="form-group">
-                            <button class="btn btn-primary" type="submit" form="updateForm">{{ 'Submit'|trans }}</button>
-                            <a class="btn btn-default pull-right" href="{{ path_for(indexRoute, {'lang': lang}) }}">{{ 'Cancel'|trans }}</a>
+                            {% if item.status|default('') is same as('0') %}
+                                {% if 'update' in actions %}
+                                    <button class="btn btn-success" type="submit" form="updateForm">{{ 'Moderate'|trans }}</button>
+                                {% endif %}
+                                <a class="btn btn-default pull-right" href="{{ path_for(indexRoute~'_moderate', {'lang': lang}) }}">{{ 'Cancel'|trans }}</a>
+                            {% else %}
+                                {% if 'update' in actions %}
+                                    <button class="btn btn-primary" type="submit" form="updateForm">{{ 'Submit'|trans }}</button>
+                                {% endif %}
+                                <a class="btn btn-default pull-right" href="{{ path_for(indexRoute, {'lang': lang}) }}">{{ 'Cancel'|trans }}</a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -195,6 +163,9 @@
 		        locale: '{{ lang }}',
                 maxDate: new Date(),
                 sideBySide: true,
+                ignoreReadonly: true,
+                showClear: true,
+                useCurrent: false,
 	        });
 
             $('#industry').select2({ theme: "bootstrap", width: '100%', placeholder: "{{ 'Select an industry'|trans }}" });
@@ -219,7 +190,7 @@
 		        + '</button>';
 
 	        var fileinput = $("#my_file").fileinput({
-
+                language: "{{ lang }}",
 		        otherActionButtons: btns,
 
 		        showUpload:                 false,
@@ -237,24 +208,23 @@
 
 		        validateInitialCount: true,
 
-		        initialCaption: "{{ files|length }} files",
-		        initialPreview: [
-                    {% for file in files %}
-			        '{{ base_url() }}/uploads/{{ file.file }}',
-                    {% endfor %}
-		        ],
-		        initialPreviewConfig: [
-                    {% for file in files %}
-			        {
-				        type: "{{ file.type }}",
-				        caption: "{{ file.caption }}",
-				        size: {{ file.size }},
-				        key: {{ file.id }},
-				        extra: {id: {{ file.id }}, file: '{{ file.file }}'}
-			        },
-                    {% endfor %}
+		        initialCaption: "Image",
+                {#       initialPreview: [
+                           '{{ base_url() }}/uploads/{{ item.file }}',
+                     ],
+                   {#
+                       initialPreviewConfig: [
+                           {% for file in files %}
+                           {
+                               type: "{{ file.type }}",
+                               caption: "{{ file.caption }}",
+                               size: {{ file.size }},
+                               key: {{ file.fileId }},
+                               extra: {id: {{ file.fileId }}, file: '{{ file.file }}'}
+                           },
+                           {% endfor %}
 
-		        ],
+                       ],
 
 		        uploadUrl: "{{ base_url() }}{{ path_for(indexRoute~'_upload_file', {'lang': lang}) }}",
 		        uploadExtraData: function(previewId, index) {
@@ -263,7 +233,7 @@
                 {% if files|length > 0 %}
 		        deleteUrl: "{{ base_url() }}{{ path_for(indexRoute~'_delete_file', {'lang': lang}) }}",
                 {% endif %}
-
+        #}
 		        // configure your icon file extensions
 		        previewFileIconSettings: {
 			        'doc': '<i class="fa fa-file-word-o text-primary"></i>',

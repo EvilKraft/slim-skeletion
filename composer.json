@@ -41,6 +41,7 @@
         "bower-asset/inputmask": "^4.0.0-beta.57@dev",
         "bower-asset/eonasdan-bootstrap-datetimepicker": "^4.17",
         "bower-asset/lightgallery": "^1.6",
+        "bower-asset/jquery.marquee": "^1.5",
 
         "EvilKraft/dataTableSelectAllBtn": "master@dev",
         "EvilKraft/dataTableActionBtns": "master@dev",

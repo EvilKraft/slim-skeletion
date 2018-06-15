@@ -34,8 +34,8 @@ $app->group('/{lang:'.$langRegExp.'}', function () use ($app) {
     $this->get('/rules',                    \Controller\Frontend::class.':rules')->setName('rules');
     $this->map(['GET', 'POST'], '/contact', \Controller\Frontend::class.':contact')->setName('contact');
 
-    $this->get('/industries/',                            \Controller\Frontend::class.':blogss')->setName('blogs');
     $this->get('/industry/{id:[0-9]+}[/page/{page:\d+}]', \Controller\Frontend::class.':blog')->setName('blog');
+    $this->get('/type/{id:[0-9]+}[/page/{page:\d+}]',     \Controller\Frontend::class.':postType')->setName('postType');
     $this->get('/post/{id:[0-9]+}',                       \Controller\Frontend::class.':post')->setName('post');
 
     $this->get('/search[/page/{page:\d+}]',               \Controller\Frontend::class.':searchPost')->setName('search');
@@ -63,8 +63,13 @@ $app->group('/{lang:'.$langRegExp.'}', function () use ($app) {
         $this->get('',              \Controller\Admin\Dashboard::class.':index')->setName('admin_dashboard');
         $this->group('/posts',      \Controller\Admin\Posts::class.'::registerRoutes');
         $this->group('/users',      \Controller\Admin\Users::class.'::registerRoutes');
+        $this->group('/posttypes',  \Controller\Admin\PostTypes::class.'::registerRoutes');
         $this->group('/industries', \Controller\Admin\Industries::class.'::registerRoutes');
         $this->group('/pages',      \Controller\Admin\Pages::class.'::registerRoutes');
+
+        $this->group('/banners',        \Controller\Admin\Banners::class.'::registerRoutes');
+        $this->group('/bannersClients', \Controller\Admin\bannersClients::class.'::registerRoutes');
+
     })->add(\Controller\Auth::class.':checkIsAdmin')
       ->add(\Controller\Auth::class.':checkAuth');
 });

@@ -5,7 +5,6 @@
  * Date: 22.08.2017
  */
 
-
 date_default_timezone_set('GMT+4');
 
 return [

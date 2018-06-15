@@ -24,9 +24,26 @@ class Image
         // your code
         // to access items in the container... $this->container->get('');
 
-        $server = \League\Glide\ServerFactory::create([
-            'source' => DIR.'public',
-            'cache' => DIR.'cache',
+        $server = self::initServer();
+
+        $image_name = $request->getAttribute('image_name', 'none');
+
+        if(!$server->sourceFileExists($image_name)){
+            $image_name = '../resources/img/default-placeholder.png';
+        }
+
+        $mimeType = $server->getSource()->getMimetype($server->getSourcePath($image_name));
+        if(!in_array($mimeType, ['image/gif', 'image/jpeg', 'image/png'])){
+            $image_name = '../resources/img/default-placeholder.png';
+        }
+
+        return $server->getImageResponse($image_name, $request->getQueryParams());
+    }
+
+    public static function initServer(){
+        return \League\Glide\ServerFactory::create([
+            'source' => PUBLIC_DIR,
+            'cache'  => CACHE_DIR,
             'source_path_prefix' => 'uploads',
             'cache_path_prefix'  => 'thumbnails',
             'response' => new \League\Glide\Responses\SlimResponseFactory(),
@@ -45,18 +62,5 @@ class Image
                 'bs5'  => ['w' => 309, 'h' => 170, 'fit' => 'crop',],
             ]
         ]);
-
-        $image_name = $request->getAttribute('image_name', 'none');
-
-        if(!$server->sourceFileExists($image_name)){
-            $image_name = '../resources/img/default-placeholder.png';
-        }
-
-        $mimeType = $server->getSource()->getMimetype($server->getSourcePath($image_name));
-        if(!in_array($mimeType, ['image/gif', 'image/jpeg', 'image/png'])){
-            $image_name = '../resources/img/default-placeholder.png';
-        }
-
-        return $server->getImageResponse($image_name, $request->getQueryParams());
     }
 }

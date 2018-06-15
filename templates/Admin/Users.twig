@@ -5,7 +5,7 @@
 {% block content %}
     <!-- Content Header (Page header) -->
     <section class="content-header">
-        <h1>{{ pageTitle }}</h1>
+        <h1>{{ page.title }}</h1>
     </section>
 
     <!-- Main content -->
@@ -232,7 +232,9 @@
                     </div>
                     <div class="box-footer">
                         <div class="form-group">
-                            <button class="btn btn-primary" type="submit" form="updateForm">{{ 'Submit'|trans }}</button>
+                            {% if 'update' in actions %}
+                                <button class="btn btn-primary" type="submit" form="updateForm">{{ 'Submit'|trans }}</button>
+                            {% endif %}
                             <a class="btn btn-default pull-right" href="{{ path_for(indexRoute, {'lang': lang}) }}">{{ 'Cancel'|trans }}</a>
                         </div>
                     </div>

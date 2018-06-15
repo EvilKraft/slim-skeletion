@@ -3,6 +3,7 @@
     <div class="widget-content">
         <div id="recent-posts">
             <ul>
+                {#
                 <li>
                     <img alt="New Form of Farming Revolutionizes the Way We Eat" src="/News16_files/woman_593141_960_720.jpg">
                     <div>
@@ -11,14 +12,14 @@
                     <span>23/10/2017 - 3 Comments</span>
                     <div style="clear:both"></div>
                 </li>
-
+#}
                 {% for item in recent_posts.items %}
                     <li>
                         <img src="{{ path_for('image', {'image_name':item.file}, {'p':'rp'}) }}" title="{{ item.title }}" alt="{{ item.title }}">
                         <div>
                             <a href="{{ path_for('post', {'lang':lang, 'id':item.postId}) }}" rel="nofollow" title="{{ item.text|striptags|truncate(30, true) }}">{{ item.title }}</a>
                         </div>
-                        <span>{{ item.createdAt }}</span>
+                        <span>{{ item.createdAt|date("d.m.Y H:i:s") }}</span>
                         <div style="clear:both"></div>
                     </li>
                 {% endfor %}

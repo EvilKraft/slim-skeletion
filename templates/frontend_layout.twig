@@ -6,7 +6,7 @@
         <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
         <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 
-        <link rel="icon" href="{{ base_url() }}/favicon.ico">
+        <link href="/favicon.ico?v=2" rel="icon" type="image/x-icon" />
 
         <meta name="description" content="News16 Professional Newspaper and Magazine Free Blogger Template Download" >
         <meta name="keywords"    content="YOUR, KEYWORDS, HERE" >
@@ -18,6 +18,8 @@
         {% block head %}
             <!-- Bootstrap core CSS -->
             <link rel="stylesheet" href="{{ base_url() }}/assets/bootstrap/dist/css/bootstrap.min.css?ver={{ version }}">
+            <!-- Font Awesome -->
+            <link rel="stylesheet" href="{{ base_url() }}/assets/font-awesome/css/font-awesome.min.css">
 
             <link type="text/css" rel="stylesheet" href="{{ base_url() }}/resources/css/2437439463-css_bundle_v2.css">
             <link type="text/css" rel="stylesheet" href="{{ base_url() }}/resources/css/page-skin-1.css?ver={{ version }}">
@@ -44,61 +46,85 @@
 		        //CSS Ready
 		        function loadCSS(e, t, n) { "use strict"; var i = window.document.createElement("link"); var o = t || window.document.getElementsByTagName("script")[0]; i.rel = "stylesheet"; i.href = e; i.media = "only x"; o.parentNode.insertBefore(i, o); setTimeout(function () { i.media = n || "all" }) }
 		        loadCSS("//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800|Material+Icons");
-		        loadCSS("//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
 		        //]]>
             </script>
         {% endblock %}
     </head>
     <body>
-        <div class="bwrapsite-content" id="bwrapcontent">
+    <div class="bwrapsite-content" id="bwrapcontent">
+
+
+
             <nav id="top-nav">
                 <div class="wrapper">
-                    <div class="blog-date"></div>
+                    <div class="blog-date" style="margin-right: 10px;">
+
+                    </div>
+
+                    <div class="blog-date marquee">
+                        {% for key, valute in valutes %}
+                            <strong>{{ valute.name }} ({{ key }})</strong>: {{ valute.value }};
+                        {% endfor %}
+                    </div>
+
+                    <div class="blog-date dropdown" style="float:right;" >
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="padding: 0 12px;">
+                            <i class="flag-icon flag-icon-{{ lang }}"></i>
+                        </a>
+                        <ul class="dropdown-menu" style="position: relative; z-index: 100; width: auto; min-width: 36px; top:0; left:0; border-radius: unset">
+                            <li >
+                                {% for site_lang in langs %}
+                                    {% if site_lang != lang %}
+                                        {% set currentRouteArgs = currentRouteArgs|merge({'lang': site_lang}) %}
+
+                                        <a href="{{ path_for(currentRoute, currentRouteArgs) }}" style="padding: 0 10px; min-width: 36px; line-height: 36px" >
+                                            <i class="flag-icon flag-icon-{{ site_lang }}"></i>
+                                        </a>
+                                    {% endif %}
+                                {% endfor %}
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div id="top-menu-icon" style="position: relative;" ></div>
+
                     <div class="menu-top-menu-container">
                         <ul class="menu" id="menu-top-menu">
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="padding: 0 12px;">
-                                    <i class="flag-icon flag-icon-{{ lang }}"></i>
-                                </a>
-                                <ul class="dropdown-menu" style="position: relative; z-index: 100; width: auto; min-width: 36px; top:0; left:0; border-radius: unset">
-                                    <li >
-                                        {% for site_lang in langs %}
-                                            {% if site_lang != lang %}
-                                                {% set currentRouteArgs = currentRouteArgs|merge({'lang': site_lang}) %}
-
-                                                <a href="{{ path_for(currentRoute, currentRouteArgs) }}" style="padding: 0 10px; min-width: 36px; line-height: 36px" >
-                                                    <i class="flag-icon flag-icon-{{ site_lang }}"></i>
-                                                </a>
-                                            {% endif %}
-                                        {% endfor %}
-                                    </li>
-                                </ul>
+                            <li class="menu-item">
+                                <div>
+                                    <a href="#" style="font-size: 24px; display: inline-block;"><i style="color:#3b5998;" class="fa fa-facebook-square"></i></a>
+                                    <a href="#" style="font-size: 24px; display: inline-block;"><i style="color:#dd4b39;" class="fa fa-google-plus-square"></i></a>
+                                    <a href="#" style="font-size: 24px; display: inline-block;"><i style="color:#007bb6;" class="fa fa-linkedin-square"></i></a>
+                                </div>
                             </li>
-
                             <li class="menu-item"><a href="{{ path_for('about',   {'lang':lang}) }}">{{ 'About'|trans }}</a></li>
                             <li class="menu-item"><a href="{{ path_for('contact', {'lang':lang}) }}">{{ 'Contact'|trans }}</a></li>
                             <li class="menu-item"><a href="{{ path_for('rules',   {'lang':lang}) }}">{{ 'Rules'|trans }}</a></li>
                         </ul>
                     </div>
-                    <div id="top-menu-icon"></div>
+
+
+
                 </div>
             </nav>
+
+
             <div class="top-header">
                 <div id="header-wrapper" itemscope="itemscope" itemtype="http://schema.org/WPHeader">
                     <div class="header section section" id="header">
                         <div class="widget Header" data-version="1" id="Header1">
                             <div id="header-inner">
                                 <a href="{{ path_for('home', {'lang':lang}) }}" style="display: block">
-                                    <img alt="News16" id="Header1_headerimg" src="/resources/img/site_logo.png" style="display: block" height="90px; " width="260px; ">
+                                    <img alt="News16" id="Header1_headerimg" src="/resources/img/site_logo5.png" style="display: block" height="90px; " width="260px; ">
                                 </a>
                             </div>
                         </div>
                     </div>
                     <div class="header-right section section" id="header-right">
                         <div class="widget HTML" data-version="1" id="HTML112">
-                            <div class="widget-content">
-                                <img alt="Ad 728x90" data-original-height="90" data-original-width="728" src="/News16_files/728.png" title="Ad 728x90" border="0">
-                            </div>
+                            {% if head_banner is defined %}
+                                {% include 'Frontend/Banner/banner.twig' with {'banner': head_banner} only %}
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -109,17 +135,31 @@
                     <ul>
                         <li class="homers"><a href="{{ path_for('home', {'lang': lang}) }}"><i class="material-icons" style=" line-height: 2.1; display: block; ">home</i></a></li>
                         <li><a href="{{ path_for('about', {'lang':lang}) }}">{{ 'About'|trans }}</a></li>
-                        <li><a href="{{ path_for('blogs', {'lang':lang}) }}">{{ 'Categories'|trans }}<i class="material-icons" style=" font-size: 14px; ">keyboard_arrow_down</i></a>
+                        <li>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                                {{ 'Categories'|trans }}<i class="material-icons" style=" font-size: 14px; ">keyboard_arrow_down</i>
+                            </a>
                             <ul class="menus">
                                 {% for industry in industries %}
-                                    <li><a href="{{ path_for('blog', {'lang':lang,'id':industry.industryId}) }}">{{ industry.name }}</a></li>
+                                    <li><a href="{{ path_for('blog', {'lang':lang,'id':industry.industryId}) }}">{{ industry.title }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                                {{ 'postTypes'|trans }}<i class="material-icons" style=" font-size: 14px; ">keyboard_arrow_down</i>
+                            </a>
+                            <ul class="menus">
+                                {% for postType in postTypes %}
+                                    <li><a href="{{ path_for('postType', {'lang':lang,'id':postType.typeId}) }}">{{ postType.title }}</a></li>
                                 {% endfor %}
                             </ul>
                         </li>
                         <li><a href="{{ path_for('contact', {'lang':lang}) }}">{{ 'Contact'|trans }}</a></li>
 
+
                         {% if session.user is defined  %}
-                            <li class="navbar-right" style="float: right">
+                            <li class="navbar-right">
                                 <a href="{{ path_for('member_dashboard', {'lang':lang}) }}">
                                     {{ session.user.name }}<i class="material-icons" style=" font-size: 14px; ">keyboard_arrow_down</i>
                                 </a>
@@ -178,17 +218,8 @@
                                 </div>
                             </div>
                         </div>
-                        {#
-                        <div class="widget HTML" data-version="1" id="HTML4">
-                            <h2 class="title">Advertisement</h2>
-                            <div class="widget-content">
-                                <img alt="Ad 300x250" src="/News16_files/300.png" title="Ad 300x250" border=">
-                            </div>
-                        </div>
 
-                        {#
-                        {% include 'Frontend/Blog/popular_posts.twig' %}
-                        #}
+                        {# {% include 'Frontend/Blog/popular_posts.twig' %} #}
 
                         <div class="widget Label" data-version="1" id="Label1">
                             <h2>All Categories</h2>
@@ -196,19 +227,19 @@
                                 <ul>
                                     {% for industry in industries %}
                                         <li>
-                                            <a dir="ltr" href="{{ path_for('blog', {'lang':lang,'id':industry.industryId}) }}">{{ industry.name }}</a>
+                                            <a dir="ltr" href="{{ path_for('blog', {'lang':lang,'id':industry.industryId}) }}">{{ industry.title }}</a>
                                         </li>
                                     {% endfor %}
                                 </ul>
                             </div>
                         </div>
 
-                        <div class="widget HTML" data-version="1" id="HTML1">
-                            <h2 class="title">Advertisement</h2>
-                            <div class="widget-content">
-                                <img alt="Ad 300x250" src="/News16_files/300.png" title="Ad 300x250" border="0">
+                        {% if side_banner is defined %}
+                            <div class="widget HTML" data-version="1" id="HTML1">
+                                <h2 class="title">{{ 'Advertisement'|trans }}</h2>
+                                {% include 'Frontend/Banner/banner.twig' with {'banner': side_banner} only %}
                             </div>
-                        </div>
+                        {% endif %}
 
                         {% if recent_posts is defined %}
                             {% include 'Frontend/Blog/recent_posts.twig' %}
@@ -219,135 +250,59 @@
             </div>
             <div class="clear"></div>
 
-            {#
-            <ul class="pt-followers-icons ptfollowers7 share-buttons">
-                <li class="twitter-share">
-                    <a target="_self" href="#"> <span class="counter"> 158</span> <span class="counted"> Followers</span> <span class="action-button"> Follow</span> </a>
-                </li>
-                <li class="facebook-share">
-                    <a target="_self" href="#"> <span class="counter"> 239</span> <span class="counted"> Fans</span> <span class="action-button"> Like</span> </a>
-                </li>
-                <li class="google-plus-share">
-                    <a target="_self" href="#"> <span class="counter"> 12071</span> <span class="counted"> Fans</span> <span class="action-button"> +1</span> </a>
-                </li>
-                <li class="instagram-share">
-                    <a target="_self" href="#"> <span class="counter"> 11071</span> <span class="counted"> Fans</span> <span class="action-button"> Follow </span> </a>
-                </li>
-            </ul>
-            #}
-
-
             <footer class="animated fadeInUpBig navplace" id="footer-wrapper" itemscope="itemscope" itemtype="http://schema.org/WPFooter" role="contentinfo">
+
                 <div class="footer-bottom">
                     <div id="footer-widgetfix">
                         <div class="footer-widget" id="footx1">
                             <div class="footer section" id="footer1">
                                 <div class="widget HTML" data-version="1" id="HTML555">
-                                    <h2 class="title">About News16</h2>
-                                    <div class="widget-content">
-                                        Etiam at libero iaculis, mollis justo non, blandit augue. Vestibulum sit
-                                        amet sodales est, a lacinia ex. Suspendisse vel enim sagittis, volutpat
-                                        sem eget, condimentum sem. Pellentesque eu interdum ex, tempus volutpat
-                                        massa.
-                                    </div>
+                                    <h2 class="title">{{ 'About'|trans }}</h2>
+                                    <div class="widget-content">{{ footerAbout|raw }}</div>
                                 </div>
                                 <div class="widget Image" data-version="1" id="Image1">
-                                    <div class="widget-content">
-                                        <img alt="Logo" id="Image1_img" src="/resources/img/site_logo2.png" height="90" width="260">
-                                        <br>
+                                    <div class="widget-content" style="margin-bottom: 20px">
+                                        <img alt="Logo" id="Image1_img" src="/resources/img/site_logo5.png" height="90" width="260">
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                         <div class="footer-widget" id="footx2">
                             <div class="footer section" id="footer2">
                                 <div class="widget Label" data-version="1" id="Label2">
                                     <h2>Popular Tags</h2>
                                     <div class="widget-content cloud-label-widget-content">
-                                        <span class="label-size label-size-5">
-                                            <a dir="ltr" href="https://news16-templatemark.blogspot.com/search/label/Advertisement">Advertisement</a>
-                                        </span>
-                                        <span class="label-size label-size-4">
-                                            <a dir="ltr" href="https://news16-templatemark.blogspot.com/search/label/Content%20Marketing">Content Marketing</a>
-                                        </span>
-                                        <span class="label-size label-size-5">
-                                            <a dir="ltr" href="https://news16-templatemark.blogspot.com/search/label/Facebook">Facebook</a>
-                                        </span>
-                                        <span class="label-size label-size-2">
-                                            <a dir="ltr" href="https://news16-templatemark.blogspot.com/search/label/Gadgets">Gadgets</a>
-                                        </span>
-                                        <span class="label-size label-size-5">
-                                            <a dir="ltr" href="https://news16-templatemark.blogspot.com/search/label/Google%20Map">Google Map</a>
-                                        </span>
-                                        <span class="label-size label-size-5">
-                                            <a dir="ltr" href="https://news16-templatemark.blogspot.com/search/label/Local%20Search">Local Search</a>
-                                        </span>
-                                        <span class="label-size label-size-2">
-                                            <a dir="ltr" href="https://news16-templatemark.blogspot.com/search/label/News">News</a>
-                                        </span>
-                                        <span class="label-size label-size-5">
-                                            <a dir="ltr" href="https://news16-templatemark.blogspot.com/search/label/Paid%20Search">Paid Search</a>
-                                        </span>
-                                        <span class="label-size label-size-1">
-                                            <a dir="ltr" href="https://news16-templatemark.blogspot.com/search/label/Technology">Technology</a>
-                                        </span>
-                                        <span class="label-size label-size-1">
-                                            <a dir="ltr" href="https://news16-templatemark.blogspot.com/search/label/Tips%20and%20Tricks">Tips and Tricks</a>
-                                        </span>
+                                        {% for category in pop_categories %}
+                                            <span class="label-size">
+                                                <a href="{{ path_for('blog', {'lang':lang,'id':category.industryId}) }}">{{ category.title }}</a>
+                                            </span>
+                                        {% endfor %}
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                         <div class="footer-widget" id="footx3">
                             <div class="footer section" id="footer3">
                                 <div class="widget PopularPosts" data-version="1" id="PopularPosts2">
-                                    <h2>Most Popular</h2>
-                                    <div class="widget-content popular-posts">
-                                        <ul>
-                                            <li>
-                                                <div class="item-thumbnail-only">
-                                                    <div class="item-thumbnail">
-                                                        <a href="https://news16-templatemark.blogspot.com/2017/10/new-form-of-farming-revolutionizes-way.html" target="_blank">
-                                                            <img alt="" src="/News16_files/woman_593141_960_720_002.jpg" border="0">
-                                                        </a>
-                                                    </div>
-                                                    <div class="item-title"><a href="https://news16-templatemark.blogspot.com/2017/10/new-form-of-farming-revolutionizes-way.html">New Form of Farming Revolutionizes the Way We Eat</a></div>
-                                                </div>
-                                                <div style="clear: both;"></div>
-                                            </li>
-                                            <li>
-                                                <div class="item-thumbnail-only">
-                                                    <div class="item-thumbnail">
-                                                        <a href="https://news16-templatemark.blogspot.com/2017/10/new-resources-critical-for-stroke.html" target="_blank">
-                                                            <img alt="" src="/News16_files/spring_2298279_960_7_0acWE.jpg" border="0">
-                                                        </a>
-                                                    </div>
-                                                    <div class="item-title"><a href="https://news16-templatemark.blogspot.com/2017/10/new-resources-critical-for-stroke.html">New Resources Critical for Stroke Recovery</a></div>
-                                                </div>
-                                                <div style="clear: both;"></div>
-                                            </li>
-                                            <li>
-                                                <div class="item-thumbnail-only">
-                                                    <div class="item-thumbnail">
-                                                        <a href="https://news16-templatemark.blogspot.com/2017/10/fall-in-love-with-greater-fort.html" target="_blank">
-                                                            <img alt="" src="/News16_files/necklace_518268_960__CTVFi_002.jpg" border="0">
-                                                        </a>
-                                                    </div>
-                                                    <div class="item-title"><a href="https://news16-templatemark.blogspot.com/2017/10/fall-in-love-with-greater-fort.html">Fall in Love with Greater Fort Lauderdale</a></div>
-                                                </div>
-                                                <div style="clear: both;"></div>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                    <h2>Social</h2>
+                                    <ul class="pt-followers-icons ptfollowers7 share-buttons">
+                                        <li style="margin: 0 5px 5px 0;" class="facebook-share"><a href="#">&nbsp;</a></li>
+                                        <li style="margin: 0 5px 5px 0;" class="google-plus-share"><a href="#">&nbsp;</a></li>
+                                        <li style="margin: 0 5px 5px 0;" class="linkedin-share"><a href="#">&nbsp;</a></li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+
                 <div id="footerfix">
                     <div class="copyleft">
                         Copyright © 2018
-                        <a href="{{path_for('home', {'lang': lang})}}">News16</a> All Rights Reserved - <div id="mscontent" style="display: inline-block;"><a href="http://www.templatemark.com/">Blogger Templates</a> Created with <i style="color:#ff695d;" class="fa fa-heart"></i> by Templatemark</div>
+                        <a href="{{path_for('home', {'lang': lang})}}">{{ 'site_name'|trans }}</a> All Rights Reserved - <div id="mscontent" style="display: inline-block;"> Created with <i style="color:#ff695d;" class="fa fa-heart"></i> by <a href="https://www.linkedin.com/in/kaluzhnikov/">Konstantin Kaluzhnikov</a></div>
                     </div>
                 </div>
             </footer>
@@ -372,7 +327,7 @@
 
             <script src="{{ base_url() }}/assets/jquery-toast-plugin/dist/jquery.toast.min.js"></script>
 
-
+            <script src="{{ base_url() }}/assets/jquery.marquee/jquery.marquee.min.js"></script>
 
             <script>
                 i18next
@@ -388,7 +343,12 @@
                     });
 
                 $(document).ready(function () {
-                    $('.blog-date').html(moment().locale('{{lang }}').format('LLLL'));
+                    $('.blog-date').first().html(moment().locale('{{lang }}').format('LLLL'));
+
+                    $('.marquee').show().marquee({
+                        duplicated: true,
+                        pauseOnHover: true,
+                    });
 
                     {% for type, group in flash_messages %}
                         $.toast({
@@ -455,8 +415,6 @@
                     // Prepend Menu Icons
                     $('#logo').after('<div id="menu-icon"></div>');
 
-                    $('#top-nav .wrapper').append('<div id="top-menu-icon"></div>');
-
                     // Toggle Nav
                     $('#menu-icon').on('click', function(){
                         $('#main-nav').slideToggle(250);
@@ -472,13 +430,13 @@
                     });
 
                     $('#top-menu-icon').on('click', function(){
-                        $('#top-nav ul').slideToggle(250);
+                        $('#top-nav ul#menu-top-menu').slideToggle(250);
                         $(this).toggleClass('active');
                     });
 
                     $(window).resize(function(){
                         var w = $(window).width();
-                        var navDisplay = $('#top-nav ul');
+                        var navDisplay = $('#top-nav ul#menu-top-menu');
                         if(w > 1000 && navDisplay.is(':hidden')) {
                             navDisplay.removeAttr('style');
                         }

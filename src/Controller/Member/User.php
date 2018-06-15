@@ -16,7 +16,21 @@ class User extends \Controller\BaseController
     protected  $data = [];
 
     public function dashboard(Request $request, Response $response, Array $args) {
-        $this->data['pageTitle'] = $this->trans('Dashboard');
+        $sql = "SELECT P.*, L.title, L.keywords, L.description, L.text
+                FROM pages P
+                INNER JOIN pages_lang L ON L.pageId=P.pageId AND L.lang=?
+                WHERE alias=?";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$this->lang, 'member_dashboard']);
+        $item = $stmt->fetch();
+
+        $this->data['page'] = array(
+            'title'       => $item['title'],
+            'keywords'    => $item['keywords'],
+            'description' => $item['description'],
+            'text'        => $item['text'],
+        );
 
         $stmt = $this->db->prepare("SELECT COUNT(*) FROM posts WHERE userId = ?");
         $stmt->execute([$_SESSION['user']['userId']]);
@@ -34,7 +48,7 @@ class User extends \Controller\BaseController
         }
         $this->data['item'] = $item;
 
-        $sql = "SELECT I.industryId, IL.name
+        $sql = "SELECT I.industryId, IL.title
                 FROM industries I
                 INNER JOIN industries_lang IL ON I.industryId = IL.industryId AND lang=?";
         $stmt = $this->db->prepare($sql);
@@ -133,7 +147,7 @@ class User extends \Controller\BaseController
             return $response->withStatus(302)->withHeader('Location', $this->router->pathFor('member_profile', ['lang' => $this->lang]));
         }
 
-        $this->data['pageTitle'] = $this->trans('Profile');
+        $this->data['page']['title'] = $this->trans('Profile');
 
         $stmt = $this->db->prepare("SELECT * FROM cities");
         $stmt->execute();

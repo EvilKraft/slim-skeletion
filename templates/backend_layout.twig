@@ -8,9 +8,9 @@
 
         <meta name="description" content="">
         <meta name="author" content="Konstantin Kaluzhnikov, k.kaluzhnikov@gmail.com">
-        <link rel="icon" href="{{ base_url() }}/favicon.ico">
+        <link href="/favicon.ico?v=2" rel="icon" type="image/x-icon" />
 
-        <title>{{ pageTitle|default('site_name'|trans) }}</title>
+        <title>{{ page.title|default('site_name'|trans) }}</title>
 
         {% block head %}
             <!-- Bootstrap 3.3.7 -->
@@ -18,7 +18,7 @@
             <!-- Font Awesome -->
             <link rel="stylesheet" href="{{ base_url() }}/assets/font-awesome/css/font-awesome.min.css">
             <!-- Ionicons -->
-            <link rel="stylesheet" href="{{ base_url() }}/assets/ionicons/css/ionicons.min.css">
+            <link rel="stylesheet" href="{{ base_url() }}/assets/ionicons/docs/v2/css/ionicons.min.css">
             <!-- Theme style -->
             <link rel="stylesheet" href="{{ base_url() }}/assets/adminlte/dist/css/AdminLTE.min.css">
             <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -121,31 +121,34 @@
                             <li class="header">{{ 'ADMINISTRATIVE TOOLS'|trans }}</li>
                             <li {{ currentRoute == 'admin_dashboard' ? 'class="active"' }}>
                                 <a href="{{ path_for('admin_dashboard', {'lang': lang}) }}">
-                                    <i class="fa fa-dashboard"></i> <span>{{ 'REST.Dashboard.pageTitle'|trans }}</span>
+                                    <i class="fa fa-dashboard"></i> <span>{{ 'REST.Dashboard.page.title'|trans }}</span>
                                 </a>
                             </li>
-
-
                             <li {{ currentRoute == 'admin_posts' ? 'class="active"' }}>
                                 <a href="{{ path_for('admin_posts', {'lang': lang}) }}">
-                                    <i class="fa fa-th-list"></i> <span>{{ 'REST.Posts.pageTitle'|trans }}</span>
+                                    <i class="fa fa-th-list"></i> <span>{{ 'REST.Posts.page.title'|trans }}</span>
                                 </a>
                             </li>
-
                             <li {{ currentRoute == 'admin_users' ? 'class="active"' }}>
-                                <a href="{{ path_for('admin_users', {'lang': lang}) }}"><i class="fa fa-users"></i> <span>{{ 'REST.Users.pageTitle'|trans }}</span></a>
+                                <a href="{{ path_for('admin_users', {'lang': lang}) }}"><i class="fa fa-users"></i> <span>{{ 'REST.Users.page.title'|trans }}</span></a>
+                            </li>
+                            <li {{ currentRoute == 'admin_posttypes' ? 'class="active"' }}>
+                                <a href="{{ path_for('admin_posttypes', {'lang': lang}) }}"><i class="fa fa-circle-o"></i> <span>{{ 'REST.PostTypes.page.title'|trans }}</span></a>
                             </li>
                             <li {{ currentRoute == 'admin_industries' ? 'class="active"' }}>
-                                <a href="{{ path_for('admin_industries', {'lang': lang}) }}"><i class="fa fa-industry"></i> <span>{{ 'REST.Industries.pageTitle'|trans }}</span></a>
+                                <a href="{{ path_for('admin_industries', {'lang': lang}) }}"><i class="fa fa-industry"></i> <span>{{ 'REST.Industries.page.title'|trans }}</span></a>
                             </li>
 
                             <li {{ currentRoute == 'admin_pages' ? 'class="active"' }}>
-                                <a href="{{ path_for('admin_pages', {'lang': lang}) }}"><i class="fa fa-pencil-square-o"></i> <span>{{ 'REST.Pages.pageTitle'|trans }}</span></a>
-                            </li>
-                            <li {{ currentRoute == 'admin_help' ? 'class="active"' }}>
-                                <a href="{{ path_for('admin_help', {'lang': lang}) }}"><i class="fa fa-question-circle"></i> <span>{{ 'REST.Help.pageTitle'|trans }}</span></a>
+                                <a href="{{ path_for('admin_pages', {'lang': lang}) }}"><i class="fa fa-pencil-square-o"></i> <span>{{ 'REST.Pages.page.title'|trans }}</span></a>
                             </li>
 
+                            <li {{ currentRoute == 'admin_banners' ? 'class="active"' }}>
+                                <a href="{{ path_for('admin_banners', {'lang': lang}) }}"><i class="fa fa-circle-o"></i> <span>{{ 'REST.Banners.page.title'|trans }}</span></a>
+                            </li>
+                            <li {{ currentRoute == 'admin_bannersclients' ? 'class="active"' }}>
+                                <a href="{{ path_for('admin_bannersclients', {'lang': lang}) }}"><i class="fa fa-circle-o"></i> <span>{{ 'REST.BannersClients.page.title'|trans }}</span></a>
+                            </li>
                         {% endif %}
 
                         <li class="header">{{ 'MENU'|trans }}</li>

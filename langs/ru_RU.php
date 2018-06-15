@@ -6,29 +6,16 @@
  */
 
 return array(
-    'site_name' => 'MYTENDER',
-    'version'       => 'версия',
+    'site_name' => 'MySite',
+    'version'   => 'версия',
 
     'REST' => [
         'Dashboard' => [
-            'pageTitle' => 'Dashboard',
-        ],
-        'Tenders' => [
-            'pageTitle' => 'Тендеры',
-            'fields'    => [
-                'id'            => 'Id',
-                'username'      => 'Имя клиента',
-                'name'          => 'Название',
-                'description'   => 'Описание',
-                'createdAt'     => 'Дата создания',
-                'industryname'  => 'Индустрия',
-                'status'        => 'Статус',
-            ],
+            'page' => [ 'title' =>'Dashboard',],
         ],
         'Users' => [
-            'pageTitle' => 'Пользователи',
+            'page' => [ 'title' =>'Пользователи',],
             'fields'    => [
-                'id'            => 'Id',
                 'login'         => 'Логин',
                 'groupName'     => 'Группа',
                 'industryName'  => 'Индустрия',
@@ -39,34 +26,32 @@ return array(
             ],
         ],
         'Industries' => [
-            'pageTitle' => 'Индустрии',
+            'page' => [ 'title' =>'Индустрии',],
             'fields'    => [
-                'id'            => 'Id',
-                'name'          => 'Название',
+                'title'         => 'Название',
+            ],
+        ],
+        'PostTypes' => [
+            'page' => [ 'title' =>'Типы',],
+            'fields'    => [
+                'title'         => 'Название',
             ],
         ],
         'Posts' => [
-            'pageTitle' => 'Posts',
+            'page' => [ 'title' =>'Posts',],
             'fields'    => [
-                'id'            => 'Id',
+                'name'          => 'Имя',
                 'createdAt'     => 'Дата создания',
                 'title'         => 'Заголовок',
                 'text'          => 'Текст',
+                'status'        => 'Статус',
             ],
         ],
         'Pages' => [
-            'pageTitle' => 'Страницы',
+            'page' => [ 'title' =>'Страницы',],
             'fields'    => [
-                'id'            => 'Id',
                 'alias'         => 'Alias',
                 'title'         => 'Заголовок',
-            ],
-        ],
-        'Help' => [
-            'pageTitle' => 'Помощь',
-            'fields'    => [
-                'id'            => 'Id',
-                'title'         => 'Вопрос',
             ],
         ],
     ],

@@ -5,11 +5,11 @@
         <div class="bwrapsite-main" id="mainbwrap" role="main">
             <div class="post-outer">
                 <article class="post hentry">
-                    <h1 class="post-title entry-title">{{ pageTitle }}</h1>
+                    <h1 class="post-title entry-title">{{ page.title }}</h1>
                     <div class="post-body entry-content">
 
                         <div class="row">
-                            <div class="col-lg-3 col-xs-6">
+                            <div class="col-lg-6 col-xs-6">
                                 <!-- small box -->
                                 <div class="small-box bg-aqua">
                                     <div class="inner">
@@ -17,19 +17,17 @@
                                         <p>{{ 'Posts'|trans }}</p>
                                     </div>
                                     <div class="icon">
-                                        <i class="ion ion-compose"></i>
+                                        <i class="fa fa-edit"></i>
                                     </div>
                                     <a href="{{ path_for('member_posts', {'lang':lang}) }}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-xs-12">
-                                <a class="btn btn-app bg-green" href="{{ path_for('member_posts_create', {'lang':lang}) }}">
+                                <a class="btn btn-primary" style="margin-right: 5px; color:#ffffff;" href="{{ path_for('member_posts_create', {'lang':lang}) }}">
                                     <i class="fa fa-plus"></i> {{ 'New'|trans }}
                                 </a>
                                 <br>
-                                dgdfgdfg вап вап вап
-                                вапвапавп вап ав пвап
-                                впвп вап вап вап вап
+                                {{ page.text|raw }}
                             </div>
                         </div>
                     </div>

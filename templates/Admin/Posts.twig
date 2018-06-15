@@ -3,7 +3,7 @@
 {% block content %}
     <!-- Content Header (Page header) -->
     <section class="content-header">
-        <h1>{{ pageTitle }}</h1>
+        <h1>{{ page.title }}</h1>
     </section>
 
     <!-- Main content -->
@@ -12,14 +12,33 @@
             <div class="col-lg-6">
                 <div class="box box-primary">
                     <div class="box-body">
-                        <form id="updateForm" method="POST" enctype="multipart/form-data" data-toggle="validator" action="{{ currentUrl }}">
+                        {% if item.status|default('') is same as('0') %}
+                            {% set actionUrl = path_for('admin_posts_domoderate', currentRouteArgs) %}
+                        {% else %}
+                            {% set actionUrl = path_for('admin_posts_update', currentRouteArgs) %}
+                        {% endif %}
+
+                        <form id="updateForm" method="POST" enctype="multipart/form-data" data-toggle="validator" action="{{ actionUrl }}">
                             {% if item is defined %}
                                 <input type="hidden" name="_METHOD" value="PUT" />
                             {% endif %}
 
-                            {% if currentRoute == 'admin_posts_domoderate' %}
+                            {% if item.status|default('') is same as('0') %}
                                 <input type="hidden" name="status" value="1" />
                             {% endif %}
+
+                            <div class="collapse in" id="collapsible">
+                                <div class="form-group">
+                                    <label for="typeId">{{ 'Type'|trans }} <span class="text-red">*</span></label>
+                                    <select id="typeId" name="typeId" class="form-control select2" required="" data-error="{{ 'Select a type'|trans }}">
+                                        <option value="" selected disabled>{{ 'Select a type'|trans }}</option>
+                                        {% for type in postTypes %}
+                                            <option value="{{ type.typeId }}" {{ (type.typeId == item.typeId|default('')) ? 'selected' }}>{{ type.title }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
 
                             <div class="collapse in" id="collapsible">
                                 <div class="form-group">
@@ -27,7 +46,7 @@
                                     <select id="industryId" name="industryId[]" class="form-control select2" required="" data-error="{{ 'Select an industry'|trans }}">
                                         <option value="" selected disabled>{{ 'Select an industry'|trans }}</option>
                                         {% for industry in industries %}
-                                            <option value="{{ industry.industryId }}" {{ (industry.PI_Id is not empty) ? 'selected' }}>{{ industry.name }}</option>
+                                            <option value="{{ industry.industryId }}" {{ (industry.PI_Id is not empty) ? 'selected' }}>{{ industry.title }}</option>
                                         {% endfor %}
                                     </select>
                                     <div class="help-block with-errors"></div>
@@ -64,7 +83,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-calendar"></i>
                                     </div>
-                                    <input type="text" id="buildedAt" name="buildedAt" class="form-control pull-right datetimepicker" value="{{ item.buildedAt|default('') == '' ? "" : item.finishedAt|date("d.m.Y") }}" pattern="^\d\d\.\d\d\.\d\d\d\d$" data-error="{{ 'Invalid value'|trans }}">
+                                    <input type="text" id="buildedAt" name="buildedAt" class="form-control pull-right datetimepicker" readonly="" value="{{ item.buildedAt|default('')|date("d.m.Y") }}" pattern="^\d\d\.\d\d\.\d\d\d\d$" data-error="{{ 'Invalid value'|trans }}">
                                 </div>
                                 <div class="help-block with-errors"></div>
                             </div>
@@ -134,14 +153,15 @@
                     <div class="box-footer">
                         <div class="form-group">
                             {% if item.status|default('') is same as('0') %}
-                                <button class="btn btn-success" type="submit" form="updateForm">{{ 'Moderate'|trans }}</button>
+                                {% if 'update' in actions %}
+                                    <button class="btn btn-success" type="submit" form="updateForm">{{ 'Moderate'|trans }}</button>
+                                {% endif %}
                                 <a class="btn btn-default pull-right" href="{{ path_for(indexRoute~'_moderate', {'lang': lang}) }}">{{ 'Cancel'|trans }}</a>
                             {% else %}
-                                <button class="btn btn-primary" type="submit" form="updateForm">{{ 'Submit'|trans }}</button>
+                                {% if 'update' in actions %}
+                                    <button class="btn btn-primary" type="submit" form="updateForm">{{ 'Submit'|trans }}</button>
+                                {% endif %}
                                 <a class="btn btn-default pull-right" href="{{ path_for(indexRoute, {'lang': lang}) }}">{{ 'Cancel'|trans }}</a>
-                            {% endif %}
-                            {% if item is defined and (session.user.groupId == 1 or session.user.userId == item.userId)  %}
-                                <a class="btn btn-danger" href="{{ path_for(indexRoute~'_finish', {'lang': lang, 'id': item.postId}) }}" onclick="return confirm('{{ 'Are you sure, you want to finish post?'|trans }}')">{{ 'Finish'|trans }}</a>
                             {% endif %}
                         </div>
                     </div>
@@ -207,6 +227,9 @@
 		        locale: '{{ lang }}',
                 maxDate: new Date(),
                 sideBySide: true,
+                ignoreReadonly: true,
+                showClear: true,
+                useCurrent: false,
 	        });
 
             $('#industry').select2({ theme: "bootstrap", width: '100%', placeholder: "{{ 'Select an industry'|trans }}" });
@@ -231,7 +254,7 @@
 		        + '</button>';
 
 	        var fileinput = $("#my_file").fileinput({
-
+                language: "{{ lang }}",
 		        otherActionButtons: btns,
 
 		        showUpload:                 false,

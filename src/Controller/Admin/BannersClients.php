@@ -12,15 +12,13 @@ use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
-class Pages extends \Controller\RESTController
+class BannersClients extends \Controller\RESTController
 {
-    protected $table        = 'pages';
-    protected $idxField     = 'pageId';
-    protected $template     = 'Admin\Pages.twig';
+    protected $table     = 'bannersClients';
+    protected $idxField  = 'clientId';
+    protected $template  = 'Admin\BannersClients.twig';
 
-    protected        $columns      = ['alias', 'title'];
-    protected static $actions      = ['create', 'update'];
-
-    protected $idxFieldLang = 'langId';
+    protected        $columns   = ['name', 'email', 'phone'];
+    protected static $actions   = ['create', 'update', 'delete'];
 
 }
