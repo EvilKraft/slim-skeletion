@@ -419,28 +419,30 @@ class Posts extends RESTController
 
             foreach($files['my_file'] as $myFile){
 
-                if ($myFile->getError() === UPLOAD_ERR_OK) {
-                    $uploadFileName = $myFile->getClientFilename();
-                    $ext = pathinfo($uploadFileName, PATHINFO_EXTENSION);
-
-                    $filename = null;
-                    while (true) {
-                        $filename = uniqid($this->table.'_', true) . '.'.$ext;
-                        if (!file_exists(UPLOAD_DIR.$filename)) break;
-                    }
-
-                    $myFile->moveTo(UPLOAD_DIR.$filename);
-
-                    $stmt->execute(array(
-                        $_SESSION['user']['userId'],
-                        null,
-                        $filename,
-                        $myFile->getClientFilename(),
-                        $myFile->getClientMediaType(),
-                        $myFile->getSize(),
-                        $data['secret']
-                    ));
+                if ($myFile->getError() !== UPLOAD_ERR_OK) {
+                    continue;
                 }
+
+                $uploadFileName = $myFile->getClientFilename();
+                $ext = pathinfo($uploadFileName, PATHINFO_EXTENSION);
+
+                $filename = null;
+                while (true) {
+                    $filename = uniqid($this->table.'_', true) . '.'.$ext;
+                    if (!file_exists(UPLOAD_DIR.$filename)) break;
+                }
+
+                $myFile->moveTo(UPLOAD_DIR.$filename);
+
+                $stmt->execute(array(
+                    $_SESSION['user']['userId'],
+                    null,
+                    $filename,
+                    $myFile->getClientFilename(),
+                    $myFile->getClientMediaType(),
+                    $myFile->getSize(),
+                    $data['secret']
+                ));
             }
 
             $this->db->commit();

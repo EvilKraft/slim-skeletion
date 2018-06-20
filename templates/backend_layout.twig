@@ -119,45 +119,39 @@
                     <ul class="sidebar-menu">
                         {% if session.user.groupId == 1 %}
                             <li class="header">{{ 'ADMINISTRATIVE TOOLS'|trans }}</li>
-                            <li {{ currentRoute == 'admin_dashboard' ? 'class="active"' }}>
+                            <li {{ currentRoute starts with 'admin_dashboard' ? 'class="active"' }}>
                                 <a href="{{ path_for('admin_dashboard', {'lang': lang}) }}">
                                     <i class="fa fa-dashboard"></i> <span>{{ 'REST.Dashboard.page.title'|trans }}</span>
                                 </a>
                             </li>
-                            <li {{ currentRoute == 'admin_posts' ? 'class="active"' }}>
+                            <li {{ currentRoute starts with 'admin_posts' ? 'class="active"' }}>
                                 <a href="{{ path_for('admin_posts', {'lang': lang}) }}">
                                     <i class="fa fa-th-list"></i> <span>{{ 'REST.Posts.page.title'|trans }}</span>
                                 </a>
                             </li>
-                            <li {{ currentRoute == 'admin_users' ? 'class="active"' }}>
+                            <li {{ currentRoute starts with 'admin_users' ? 'class="active"' }}>
                                 <a href="{{ path_for('admin_users', {'lang': lang}) }}"><i class="fa fa-users"></i> <span>{{ 'REST.Users.page.title'|trans }}</span></a>
                             </li>
-                            <li {{ currentRoute == 'admin_posttypes' ? 'class="active"' }}>
+                            <li {{ currentRoute starts with 'admin_posttypes' ? 'class="active"' }}>
                                 <a href="{{ path_for('admin_posttypes', {'lang': lang}) }}"><i class="fa fa-circle-o"></i> <span>{{ 'REST.PostTypes.page.title'|trans }}</span></a>
                             </li>
-                            <li {{ currentRoute == 'admin_industries' ? 'class="active"' }}>
+                            <li {{ currentRoute starts with 'admin_industries' ? 'class="active"' }}>
                                 <a href="{{ path_for('admin_industries', {'lang': lang}) }}"><i class="fa fa-industry"></i> <span>{{ 'REST.Industries.page.title'|trans }}</span></a>
                             </li>
 
-                            <li {{ currentRoute == 'admin_pages' ? 'class="active"' }}>
+                            <li {{ currentRoute starts with 'admin_pages' ? 'class="active"' }}>
                                 <a href="{{ path_for('admin_pages', {'lang': lang}) }}"><i class="fa fa-pencil-square-o"></i> <span>{{ 'REST.Pages.page.title'|trans }}</span></a>
                             </li>
 
-                            <li {{ currentRoute == 'admin_banners' ? 'class="active"' }}>
+                            <li {{ currentRoute starts with 'admin_banners' ? 'class="active"' }}>
                                 <a href="{{ path_for('admin_banners', {'lang': lang}) }}"><i class="fa fa-circle-o"></i> <span>{{ 'REST.Banners.page.title'|trans }}</span></a>
                             </li>
-                            <li {{ currentRoute == 'admin_bannersclients' ? 'class="active"' }}>
+                            <li {{ currentRoute starts with 'admin_bannersclients' ? 'class="active"' }}>
                                 <a href="{{ path_for('admin_bannersclients', {'lang': lang}) }}"><i class="fa fa-circle-o"></i> <span>{{ 'REST.BannersClients.page.title'|trans }}</span></a>
                             </li>
                         {% endif %}
 
                         <li class="header">{{ 'MENU'|trans }}</li>
-
-                        {% if session.user.groupId == 2 %}
-                            <li {{ currentRoute == 'member_posts' ? 'class="active"' }}>
-                                <a href="{{ path_for('member_posts', {'lang': lang}) }}"><i class="fa fa-edit"></i> <span>{{ 'Posts'|trans }}</span></a>
-                            </li>
-                        {% endif %}
 
                         <li class="treeview">
                             <a href="#">

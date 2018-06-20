@@ -84,3 +84,22 @@ td.action_btns_container :last-child{
 .flag-icon-en.flag-icon-squared {
     background-image: url(../../assets/flag-icon-css/flags/1x1/gb.svg);
 }
+
+/* Select2 readonly
+   https://jsfiddle.net/ujdbcy3d/36/
+*/
+
+select[readonly].select2-hidden-accessible + .select2-container {
+    pointer-events: none;
+    touch-action: none;
+}
+
+select[readonly].select2-hidden-accessible + .select2-container .select2-selection {
+    background: #eee;
+    box-shadow: none;
+}
+
+select[readonly].select2-hidden-accessible + .select2-container .select2-selection__arrow,
+select[readonly].select2-hidden-accessible + .select2-container .select2-selection__clear {
+    display: none;
+}

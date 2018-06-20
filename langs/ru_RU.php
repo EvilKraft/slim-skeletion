@@ -54,6 +54,22 @@ return array(
                 'title'         => 'Заголовок',
             ],
         ],
+        'Banners' => [
+            'page' => [ 'title' =>'Banners',],
+            'fields'    => [
+                'name'          => 'Client`s name',
+                'type'          => 'Type',
+                'title'         => 'Title',
+                'start'         => 'Start',
+                'stop'          => 'Stop',
+            ],
+        ],
+        'BannersClients' => [
+            'page' => [ 'title' =>'Banner`s clients',],
+            'fields'    => [
+                'name'         => 'Name',
+            ],
+        ],
     ],
 
     'New item added'                                            => 'Новый элемент добавлен',
@@ -173,7 +189,7 @@ return array(
     'Keywords'                  => 'Keywords',
     'Short description'         => 'Краткое описание',
     'Full description'          => 'Полное описание',
-    'Attachment'                => 'Приложение(*pdf,*docs,*txt,*xlsx)',
+    'Attachment'                => 'Приложение',
     'Moderate'                  => 'Модерировать',
     'Download'                  => 'Скачать',
     'All records'               => 'Все записи',

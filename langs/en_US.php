@@ -54,6 +54,22 @@ return array(
                 'title'         => 'Title',
             ],
         ],
+        'Banners' => [
+            'page' => [ 'title' =>'Banners',],
+            'fields'    => [
+                'name'          => 'Client`s name',
+                'type'          => 'Type',
+                'title'         => 'Title',
+                'start'         => 'Start',
+                'stop'          => 'Stop',
+            ],
+        ],
+        'BannersClients' => [
+            'page' => [ 'title' =>'Banner`s clients',],
+            'fields'    => [
+                'name'         => 'Name',
+            ],
+        ],
     ],
 
     'New item added'                                            => 'New item added',

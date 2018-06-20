@@ -510,32 +510,55 @@ class Frontend extends BaseController
     }
 
     protected function getHeadBanner(){
-        $data = array(
-            'url'   => $this->router->pathFor('contact', ['lang' => $this->lang]),
-            'img'   => '/resources/img/banners/banner-728-x-90.jpg',
-            'title' => 'Ad 728x90',
-        );
+        $data = $this->getBanner('head_banner');
+        if(is_null($data)){
+            $data = array(
+                'url'   => $this->router->pathFor('contact', ['lang' => $this->lang]),
+                'img'   => '/resources/img/banners/banner-728-x-90.jpg',
+                'title' => 'Ad 728x90',
+            );
+        }
         return $data;
     }
 
     protected function getSideBanner(){
-        $data = array(
-            'url'   => $this->router->pathFor('contact', ['lang' => $this->lang]),
-            'img'   => '/resources/img/banners/banner-300-x-250.jpg',
-            'title' => 'Ad 300x250',
-        );
+        $data = $this->getBanner('side_banner');
+        if(is_null($data)){
+            $data = array(
+                'url'   => $this->router->pathFor('contact', ['lang' => $this->lang]),
+                'img'   => '/resources/img/banners/banner-300-x-250.jpg',
+                'title' => 'Ad 300x250',
+            );
+        }
+
        return $data;
     }
 
     protected function getPageBanner(){
-        $data = array(
-            'banner' => array(
+        $data = $this->getBanner('page_banner');
+        if(is_null($data)){
+            $data = array(
                 'url'   => $this->router->pathFor('contact', ['lang' => $this->lang]),
                 'img'   => '/resources/img/banners/banner-728-x-90.jpg',
                 'title' => 'Ad 728x90',
-            ),
-        );
-        return $this->renderer->fetch('Frontend/Banner/pageBanner.twig', $data);
+            );
+        }
+
+        return $this->renderer->fetch('Frontend/Banner/pageBanner.twig', array('banner' => $data));
     }
 
+    protected function getBanner($type){
+        $data = null;
+
+        $stmt = $this->db->prepare("SELECT * FROM banners WHERE type = ? AND start <= NOW() AND stop >= NOW() ORDER BY views LIMIT 5");
+        $stmt->execute([$type]);
+        $items = $stmt->fetchAll();
+        if(count($items) > 0){
+            $id = array_rand($items);
+            $data = array('url' => $items[$id]['url'], 'img' => '/uploads/banners/'.$items[$id]['file'], 'title' => $items[$id]['title']);
+            $this->db->prepare("UPDATE banners SET views = views+1 WHERE bannerId = ?")->execute([$items[$id]['bannerId']]);
+        }
+
+        return $data;
+    }
 }

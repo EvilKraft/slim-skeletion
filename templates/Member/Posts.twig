@@ -134,7 +134,7 @@
                                             </div>
 
                                             <div class="form-group">
-                                                <label for="my_file">{{ 'Attachment'|trans }}</label>
+                                                <label for="my_file">{{ 'Attachment'|trans }} (*.jpg, *.jpeg, *.png, *.gif, *.txt, *.doc, *.docx, *.xls, *.xlsx, *.pdf)</label>
                                                 <input id="my_file" name="my_file[]" type="file" multiple accept=".jpg,.jpeg,.png,.gif,.txt,.doc,.docx,.xls,.xlsx,.pdf">
                                             </div>
                                             <input type="hidden" name="secret" value="{{ secret|default('') }}">
@@ -200,7 +200,9 @@
     <!-- optionally if you need a theme like font awesome theme you can include it as mentioned below -->
     <script src="{{ base_url() }}/assets/bootstrap-fileinput/themes/fa/theme.js?ver={{ version }}"></script>
     <!-- optionally if you need translation for your language then include locale file as mentioned below -->
-    <script src="{{ base_url() }}/assets/bootstrap-fileinput/js/locales/{{ lang }}.js?ver={{ version }}"></script>
+    {% if lang != 'en' %}
+        <script src="{{ base_url() }}/assets/bootstrap-fileinput/js/locales/{{ lang }}.js?ver={{ version }}"></script>
+    {% endif %}
 
 
     <script src="{{ base_url() }}/assets/bootstrap-validator/dist/validator.min.js?ver={{ version }}"></script>

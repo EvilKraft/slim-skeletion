@@ -189,24 +189,12 @@ class Users extends \Controller\RESTController
     }
 
     protected function extraFormData(){
-        $stmt = $this->db->prepare("SELECT * FROM userGroups WHERE id != 1");
+        $stmt = $this->db->prepare("SELECT * FROM userGroups WHERE userGroupId != 1");
         $stmt->execute();
         $this->data['groups'] = $stmt->fetchAll();
 
         $stmt = $this->db->prepare("SELECT * FROM cities");
         $stmt->execute();
         $this->data['cities'] = $stmt->fetchAll();
-
-        $sql = "SELECT I.industryId, IL.title, UI.userIndustryId AS UI_Id, UI.userId
-                FROM industries I
-                INNER JOIN industries_lang IL ON I.industryId = IL.industryId AND lang=?
-                LEFT JOIN userIndustries UI ON UI.industryId = I.industryId AND userId=?";
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute([$this->lang, $this->data['item']['id']]);
-        $this->data['industries'] = $stmt->fetchAll();
-
-        $stmt = $this->db->prepare("SELECT * FROM userContacts WHERE userId = ? AND status = 1");
-        $stmt->execute(array($this->data['item']['id']));
-        $this->data['contacts'] = $stmt->fetchAll();
     }
 }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Июн 14 2018 г., 18:30
+-- Время создания: Июн 20 2018 г., 18:39
 -- Версия сервера: 5.7.19
 -- Версия PHP: 7.1.7
 
@@ -40,8 +40,17 @@ CREATE TABLE `banners` (
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `deletedAt` timestamp NULL DEFAULT NULL,
   `start` date NOT NULL,
-  `stop` date NOT NULL
+  `stop` date NOT NULL,
+  `views` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `banners`
+--
+
+INSERT INTO `banners` (`bannerId`, `clientId`, `type`, `title`, `url`, `file`, `status`, `deleted`, `createdAt`, `deletedAt`, `start`, `stop`, `views`) VALUES
+(1, 1, 'head_banner', 'прапр', 'http://zzz.com', 'banners_5b2a50e7a08000.09994038.JPG', 1, 0, '2018-06-20 13:04:40', NULL, '2018-06-20', '2018-06-22', 1),
+(2, 1, 'head_banner', 'fghfghfgh', 'http://zzz4.com', 'banners_5b2a5410645639.12983323.jpg', 1, 0, '2018-06-20 13:18:08', NULL, '2018-06-20', '2018-06-28', 5);
 
 -- --------------------------------------------------------
 
@@ -702,7 +711,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `banners`
 --
 ALTER TABLE `banners`
-  MODIFY `bannerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `bannerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT для таблицы `bannersClients`
 --
