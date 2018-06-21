@@ -76,12 +76,8 @@ class Auth extends BaseController
             'activationCode' => $activationCode,
             'groupId'        => 2,
             'name'           => $data['name'],
-            'country'        => $data['country'],
-            'cityId'         => $data['city'],
-            'phone'          => $data['phone'],
+            'country'        => 'AZ',
             'email'          => $data['email'],
-            'site'           => $data['site'],
-            'facebook'       => $data['facebook'],
         );
 
         try {

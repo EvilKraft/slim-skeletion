@@ -34,7 +34,7 @@
                                     <div class="post-body entry-content">
                                         <div class="row invoice-info">
                                             <div class="col-sm-6 invoice-col">
-                                                {{ 'Company'|trans }}
+                                                {{ item.postType }}
                                                 <address>
                                                     <i class="fa fa-money text-light-blue"></i> {{ 'Price'|trans }} : <strong>{{ item.price }} </strong>
                                                     {% if item.workers > 0 %}

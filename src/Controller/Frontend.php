@@ -230,7 +230,8 @@ class Frontend extends BaseController
                     P.*, L.*, 
                     U.name, U.phone, U.email, U.site, U.facebook,
                     C.name as city, C.country,
-                    PF.file
+                    PF.file,
+                    PT.title as postType
                  FROM posts P
                  INNER JOIN posts_lang L ON L.postId = P.postId AND L.lang = ?
                  LEFT JOIN (
@@ -244,10 +245,11 @@ class Frontend extends BaseController
                      ) B ON A.fileId = B.fileId                 
                  ) PF ON PF.postId = P.postId
                  INNER JOIN users U ON P.userId = U.userId
+                 INNER JOIN postTypes_lang PT ON PT.typeId = P.typeId AND PT.lang = ?
                  LEFT JOIN cities C ON C.cityId = U.cityId
                  WHERE P.postId = ?";
         $stmt = $this->db->prepare($sql);
-        $stmt->execute([$this->lang, $args['id']]);
+        $stmt->execute([$this->lang, $this->lang, $args['id']]);
         if(!$data['item'] = $stmt->fetch()){
             throw new \Slim\Exception\NotFoundException($request, $response);
         }

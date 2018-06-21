@@ -32,10 +32,10 @@
 
                                             <div class="form-group">
                                                 <label for="city">{{ 'City'|trans }}</label>
-                                                <select id="city" name="city" class="form-control select2" data-error="{{ 'Select a city'|trans }}">
-                                                    <option value="" {{ (item.city|default('') == '') ? 'selected' }} disabled>{{ 'Select a city'|trans }}</option>
+                                                <select id="city" name="cityId" class="form-control select2" data-error="{{ 'Select a city'|trans }}">
+                                                    <option value="" {{ (item.cityId|default('') == '') ? 'selected' }} disabled>{{ 'Select a city'|trans }}</option>
                                                     {% for city in cities %}
-                                                        <option value="{{ city.cityId }}" {{ (city.cityId == item.city|default('')) ? 'selected' }}>{{ city.name }}</option>
+                                                        <option value="{{ city.cityId }}" {{ (city.cityId == item.cityId|default('')) ? 'selected' }}>{{ city.name }}</option>
                                                     {% endfor %}
                                                 </select>
                                                 <div class="help-block with-errors"></div>
@@ -114,24 +114,6 @@
     <script src="{{ base_url() }}/assets/bootstrap-validator/dist/validator.min.js?ver={{ version }}"></script>
 
     <script type="text/javascript">
-        function addContact() {
-            var elem = $('.fields-to-add').first().clone();
-
-            elem.find('a').show();
-            elem.find('input').val('');
-
-            $('.fields-to-add').last().after(elem);
-
-            //$('input[name="contact_phone[]"]').inputmask();
-
-            $('#updateForm').validator('update');
-        }
-        function removeContact(selector) {
-            $(selector).closest('.fields-to-add').remove();
-
-            $('#updateForm').validator('update');
-        }
-
         $(document).ready(function(){
             $('#inputPassword').keyup(function(event){
                 if($(this).val().length > 0){
@@ -147,19 +129,6 @@
                 theme: "bootstrap",
                 width: '100%',
             });
-
-            $('#industry').select2({
-                placeholder: "{{ 'Select an industry'|trans }}",
-                theme: "bootstrap",
-                width: '100%',
-                tags: true,
-            });
-            $('#contact').select2({
-                placeholder: "{{ 'Select a contact'|trans }}",
-                theme: "bootstrap",
-                width: '100%',
-            });
-
 
             //$('#phone').inputmask();
             //$('input[name="contact_phone[]"]').inputmask();

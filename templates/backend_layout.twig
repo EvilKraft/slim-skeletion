@@ -52,9 +52,9 @@
                 <!-- Logo -->
                 <a href="{{ path_for((session.user.groupId == 1)? 'admin_dashboard' : 'member_dashboard', {'lang': lang}) }}" class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
-                    <span class="logo-mini"><b>A</b>LT</span>
+                    <span class="logo-mini"><b>A</b>P</span>
                     <!-- logo for regular state and mobile devices -->
-                    <span class="logo-lg"><b>Admin</b>LTE</span>
+                    <span class="logo-lg"><b>Admin</b>PANEL</span>
                 </a>
                 <!-- Header Navbar: style can be found in header.less -->
                 <nav class="navbar navbar-static-top">
@@ -98,7 +98,7 @@
 
                                 <ul class="dropdown-menu">
                                     <li class="user-footer">
-                                        <a href="{{ path_for('member_profile', {'lang': lang}) }}"><i class="fa fa-address-card-o"></i>{{ 'Profile'|trans }}</a>
+                                        <a href="{{ path_for('admin_profile', {'lang': lang}) }}"><i class="fa fa-address-card-o"></i>{{ 'Profile'|trans }}</a>
                                         <hr>
                                         <a href="{{ path_for('logout', {'lang': lang}) }}"><i class="fa fa-power-off"></i>{{ 'Sign out'|trans }}</a>
                                     </li>
@@ -162,7 +162,7 @@
                                 </span>
                             </a>
                             <ul class="treeview-menu">
-                                <li {{ currentRoute == 'member_profile'  ? 'class="active"' }}><a href="{{ path_for('member_profile', {'lang': lang}) }}"><i class="fa fa-address-card-o"></i>{{ 'Profile'|trans }}</a></li>
+                                <li {{ currentRoute == 'admin_profile'  ? 'class="active"' }}><a href="{{ path_for('admin_profile', {'lang': lang}) }}"><i class="fa fa-address-card-o"></i>{{ 'Profile'|trans }}</a></li>
                             </ul>
                         </li>
 
@@ -183,18 +183,20 @@
             <footer class="main-footer">
 
                 <div class="pull-right" style="top: -6px; position:relative">
-                    <a href="#" target="_blank" class="btn btn-social-icon btn-facebook">
+                    <a href="https://www.facebook.com/konstantin.kaluzhnikov" target="_blank" class="btn btn-social-icon btn-facebook">
                         <i class="fa fa-facebook"></i>
                     </a>
+                    {#
                     <a href="#" target="_blank"	class="btn btn-social-icon btn-google">
                         <i class="fa fa-google-plus"></i>
                     </a>
-                    <a href="#" target="_blank" class="btn btn-social-icon btn-linkedin">
+                    #}
+                    <a href="https://www.linkedin.com/in/kaluzhnikov/" target="_blank" class="btn btn-social-icon btn-linkedin">
                         <i class="fa fa-linkedin"></i>
                     </a>
                 </div>
 
-                <strong>Copyright &copy; 2017 <a href="mailto:k.kaluzhnikov@gmail.com">Konstantin Kaluzhnikov, k.kaluzhnikov@gmail.com</a>.</strong> All rights reserved.
+                <strong>Copyright &copy; 2018 <a href="mailto:k.kaluzhnikov@gmail.com">Konstantin Kaluzhnikov, k.kaluzhnikov@gmail.com</a>.</strong> All rights reserved.
             </footer>
 
         </div>

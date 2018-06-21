@@ -60,7 +60,9 @@ $app->group('/{lang:'.$langRegExp.'}', function () use ($app) {
 
 
     $this->group('/admin', function () use ($app) {
-        $this->get('',              \Controller\Admin\Dashboard::class.':index')->setName('admin_dashboard');
+        $this->get('',                         \Controller\Admin\Dashboard::class.':index')->setName('admin_dashboard');
+        $this->map(['GET', 'PUT'], '/profile', \Controller\Admin\Users::class.':profile')->setName('admin_profile');
+
         $this->group('/posts',      \Controller\Admin\Posts::class.'::registerRoutes');
         $this->group('/users',      \Controller\Admin\Users::class.'::registerRoutes');
         $this->group('/posttypes',  \Controller\Admin\PostTypes::class.'::registerRoutes');

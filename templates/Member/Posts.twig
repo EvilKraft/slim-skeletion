@@ -73,7 +73,7 @@
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
-                                                    <input type="text" id="buildedAt" name="buildedAt" class="form-control pull-right datetimepicker" readonly="" value="{{ item.buildedAt|default('') }}" pattern="^\d\d\.\d\d\.\d\d\d\d$" data-error="{{ 'Invalid value'|trans }}">
+                                                    <input type="text" id="buildedAt" name="buildedAt" class="form-control pull-right datetimepicker" readonly="" value="{{ (item.buildedAt|default('') == '')? '':item.buildedAt|date("d.m.Y") }}" pattern="^\d\d\.\d\d\.\d\d\d\d$" data-error="{{ 'Invalid value'|trans }}">
                                                 </div>
                                                 <div class="help-block with-errors"></div>
                                             </div>
