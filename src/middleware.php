@@ -14,34 +14,33 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 $app->add(new \RunTracy\Middlewares\TracyMiddleware($app));
 
+// Twig Globals Middleware
 $app->add(function (Request $request, Response $response, callable $next) {
     $route = $request->getAttribute('route');
 
-    $translator = $this->get('i18n');
-    $translator->setLocale($this->lang);
+    $twigEnv = $this->get('renderer')->getEnvironment();
+//    $twigEnv->addGlobal('trans_catalogue',    json_encode($this->get('i18n')->getCatalogue()->all('messages'), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK));
 
-//    $this->get('renderer')->getEnvironment()->addGlobal('trans_catalogue',    json_encode($translator->getCatalogue()->all('messages'), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK));
+    $twigEnv->addGlobal('lang',               $this->lang);
+    $twigEnv->addGlobal('langs',              $this->get('settings')['i18n']['langs']);
 
-    $this->get('renderer')->getEnvironment()->addGlobal('lang',               $this->lang);
-    $this->get('renderer')->getEnvironment()->addGlobal('langs',              $this->get('settings')['i18n']['langs']);
+    $twigEnv->addGlobal('session',            $_SESSION);
+    $twigEnv->addGlobal('session_id',         session_id());
 
-    $this->get('renderer')->getEnvironment()->addGlobal('session',            $_SESSION);
-    $this->get('renderer')->getEnvironment()->addGlobal('session_id',         session_id());
+    $twigEnv->addGlobal('currentRoute',       $route->getName());
+    $twigEnv->addGlobal('currentUrl',         $request->getUri());
+    $twigEnv->addGlobal('currentRouteArgs',   $request->getAttribute('routeInfo')[2]);
 
-    $this->get('renderer')->getEnvironment()->addGlobal('currentRoute',       $route->getName());
-    $this->get('renderer')->getEnvironment()->addGlobal('currentUrl',         $request->getUri());
-    $this->get('renderer')->getEnvironment()->addGlobal('currentRouteArgs',   $request->getAttribute('routeInfo')[2]);
+    $twigEnv->addGlobal('flash_messages',     $this->flash->getMessages());
 
-    $this->get('renderer')->getEnvironment()->addGlobal('flash_messages',     $this->flash->getMessages());
-
-    $this->get('renderer')->getEnvironment()->addGlobal('version',            $this->get('settings')['version']);
+    $twigEnv->addGlobal('version',            $this->get('settings')['version']);
 
     $response = $next($request, $response);
 
     return $response;
 });
 
-
+// i18n middleware
 $app->add(function (Request $request, Response $response, callable $next)
 {
     $langSettings = $this->get('settings')['i18n'];
@@ -52,8 +51,13 @@ $app->add(function (Request $request, Response $response, callable $next)
         $lang = $langSettings['default_lang'];
         $request = $request->withAttribute('lang', $lang);
     }
-
     $this->lang = $lang;
+
+    $translator = $this->get('i18n');
+    $translator->setLocale($this->lang);
+
+    // remove founded translations from log
+    $this->get('i18n_logger')->checkTranslations($translator->getCatalogue());
 
     $response = $next($request, $response);
     return $response;

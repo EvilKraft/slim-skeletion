@@ -449,9 +449,7 @@ class Frontend extends BaseController
     }
 
     protected function recentPosts($limit = 10, $offset = 0){
-        $data = array(
-            'title' => $this->trans('Latest Posts'),
-        );
+        $data = array();
 
         $sql  = "SELECT P.*, L.*, U.name, PF.file
                  FROM posts P
