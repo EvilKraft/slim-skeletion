@@ -326,7 +326,7 @@
             <script src="{{ base_url() }}/assets/jquery.marquee/jquery.marquee.min.js"></script>
 
             <script>
-                i18next
+                var I18N = i18next
                     .use(i18nextXHRBackend)
                     .init({
                         lng: '{{ lang }}',
