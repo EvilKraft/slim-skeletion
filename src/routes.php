@@ -19,7 +19,7 @@ $app->any('/', function (Request $request, Response $response, Array $args) use 
 });
 
 $app->group('/locales', function () use ($app, $langRegExp) {
-    $this->get('/{lang:'.$langRegExp.'}/{ns}.json', \Controller\i18n::class.':getResource');
+    $this->get('/{lang:'.$langRegExp.'|dev}/{ns}.json', \Controller\i18n::class.':getResource');
     $this->post('/add/{lang}/{ns}',                 \Controller\i18n::class.':addMissingKey');
 });
 

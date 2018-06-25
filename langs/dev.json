@@ -1,5 +1,5 @@
 {
-    "_t": "Mon Jun 25 2018 15:01:44 GMT+0400",
+    "_t": "Mon Jun 25 2018 15:40:42 GMT+0400",
     "site_namezzz": {
         "aaa": "site_namezzz.aaa"
     },
@@ -7,9 +7,5 @@
         "ss": {
             "eee": "site_name2.ss.eee"
         }
-    },
-    "Are you sure you wont to delete this item?": "Are you sure you wont to delete this item?",
-    "Are you sure you wont to delete selected items?": "Are you sure you wont to delete selected items?",
-    "Items deleted": "Items deleted",
-    "Item deleted": "Item deleted"
+    }
 }
