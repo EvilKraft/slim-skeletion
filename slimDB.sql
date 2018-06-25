@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Июн 20 2018 г., 18:39
+-- Время создания: Июн 25 2018 г., 14:20
 -- Версия сервера: 5.7.19
 -- Версия PHP: 7.1.7
 
@@ -49,8 +49,8 @@ CREATE TABLE `banners` (
 --
 
 INSERT INTO `banners` (`bannerId`, `clientId`, `type`, `title`, `url`, `file`, `status`, `deleted`, `createdAt`, `deletedAt`, `start`, `stop`, `views`) VALUES
-(1, 1, 'head_banner', 'прапр', 'http://zzz.com', 'banners_5b2a50e7a08000.09994038.JPG', 1, 0, '2018-06-20 13:04:40', NULL, '2018-06-20', '2018-06-22', 1),
-(2, 1, 'head_banner', 'fghfghfgh', 'http://zzz4.com', 'banners_5b2a5410645639.12983323.jpg', 1, 0, '2018-06-20 13:18:08', NULL, '2018-06-20', '2018-06-28', 5);
+(1, 1, 'head_banner', 'прапр', 'http://zzz.com', 'banners_5b2a50e7a08000.09994038.JPG', 1, 0, '2018-06-20 13:04:40', NULL, '2018-06-20', '2018-06-22', 69),
+(2, 1, 'head_banner', 'fghfghfgh', 'http://zzz4.com', 'banners_5b2a5410645639.12983323.jpg', 1, 0, '2018-06-20 13:18:08', NULL, '2018-06-20', '2018-06-28', 267);
 
 -- --------------------------------------------------------
 
@@ -174,39 +174,40 @@ INSERT INTO `cities` (`cityId`, `name`, `country`, `iso2`, `population`) VALUES
 --
 
 CREATE TABLE `industries` (
-  `industryId` int(11) UNSIGNED NOT NULL
+  `industryId` int(11) UNSIGNED NOT NULL,
+  `onMain` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `industries`
 --
 
-INSERT INTO `industries` (`industryId`) VALUES
-(5),
-(6),
-(7),
-(8),
-(9),
-(10),
-(11),
-(12),
-(13),
-(14),
-(15),
-(16),
-(17),
-(18),
-(19),
-(20),
-(21),
-(22),
-(23),
-(24),
-(25),
-(26),
-(27),
-(28),
-(29);
+INSERT INTO `industries` (`industryId`, `onMain`) VALUES
+(5, 1),
+(6, 0),
+(7, 0),
+(8, 1),
+(9, 0),
+(10, 0),
+(11, 0),
+(12, 0),
+(13, 0),
+(14, 0),
+(15, 0),
+(16, 0),
+(17, 0),
+(18, 0),
+(19, 1),
+(20, 0),
+(21, 0),
+(22, 0),
+(23, 1),
+(24, 1),
+(25, 0),
+(26, 0),
+(27, 0),
+(28, 0),
+(29, 0);
 
 -- --------------------------------------------------------
 
@@ -353,9 +354,9 @@ INSERT INTO `pages_lang` (`langId`, `pageId`, `lang`, `title`, `keywords`, `desc
 (16, 6, 'en', 'Terms of Use and Privacy Policy', '', '', '<p><strong>1. Basic provisions</strong>. Mytender.az (hereinafter - the platform) undertakes to keep your privacy on the Internet. This Privacy Policy is about the collection, procession and storage of your personal data. This platform attaches high priority to protecting the personal information of users. By using the platform, the user agrees to the application of the rules for the collection and use of the data set forth in this document.</p>\r\n\r\n<p><strong>2. Information</strong><strong>.</strong></p>\r\n\r\n<p><strong>2.1 Information collected. </strong>The platform collects the following data about the users of the site:</p>\r\n\r\n<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ● Full name</p>\r\n\r\n<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ● E-mail address</p>\r\n\r\n<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ● Phone number</p>\r\n\r\n<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ● Company name</p>\r\n\r\n<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ● Company address</p>\r\n\r\n<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ● Taxpayer ID</p>\r\n\r\n<p><strong>2.2&nbsp;Use of information</strong><strong>. </strong>Here are some ways to use the user&#39;s personal information:<strong> </strong></p>\r\n\r\n<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;● to provide information and services that the user requests;</p>\r\n\r\n<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;● to respond to user requests.</p>\r\n\r\n<p><strong>2.3 Storage of information. </strong>The platform stores your personal information for the duration of the activity of your user account or for the time necessary to provide you with services. We can store personal information even after deactivating your user account and / or stopping the use of any specific services,&nbsp;to the extent necessary for the performance of our legal duties, for resolving disputes with users of the&nbsp;platform, preventing fraud and abuse, execution of our agreements and protection of our legitimate interests.</p>\r\n\r\n<p><strong>2.4 Information disclosure</strong><strong>. </strong>The platform does not transfer the user&#39;s personal data to third parties without the user&#39;s consent. The platform reserves the right to delete invalid accounts or accounts with forged names and registration data.</p>\r\n\r\n<p><strong>3. Advertising messages. </strong>By providing your email address or any other contact information (for example, your phone number or username on the social network), you agree to receive promotional messages, messages or calls from the platform staff. Accordingly, the platform employees have the right to call or send you mailings or messages via e-mail, SMS, personal text messages, make marketing calls or use similar&nbsp;forms communication. If you do not want to receive such advertisements or calls, you can notify the platform at any time, or follow the instructions on unsubscribing contained in the advertisements you received.</p>\r\n\r\n<p><strong>4. Security. </strong>The platform has adopted security measures designed to protect the personal information that you share with us, including physical, electronic and procedural measures. Among other things, the platform offers secure access to most of our services using the HTTPS protocol; transfer of confidential payment information (for example, a credit card number) through our specially designed forms that are protected by an encrypted connection of the industry standard SSL / TLS. The platform also regularly monitors the system for possible vulnerabilities and attacks, and is constantly looking for new solutions to improve the security of our services.</p>\r\n\r\n<p><strong>5. Terms of use</strong>.</p>\r\n\r\n<p><strong>5.1</strong> The platform asks users to avoid conflict situations and other violations, which can lead to undesirable consequences. In case this happens, the platform, having analyzed the situation, undertakes to act appropriately to prevent such actions henceforth.</p>\r\n\r\n<p><strong>5.2</strong> This Privacy policy, its interpretation, and any claims and disputes related to this instrument are regulated, interpreted and executed only and exclusively in accordance with the basic internal laws of the Republic of Azerbaijan. Hereby, you agree that any claims and disputes shall be resolved only by a competent court&nbsp;located in the Republic of Azerbaijan.</p>\r\n\r\n<p><strong>6. Deleting</strong><strong> </strong><strong>an</strong><strong> </strong><strong>account</strong><strong>. </strong>You can request the removal of your Personal Information from our blogs, communities or forums by contacting us&nbsp;at&nbsp;<a href=\"mailto:office@mytender.az?subject=email&amp;body=email\">office@mytender.az</a></p>\r\n'),
 (17, 6, 'ru', 'Правила пользования и политика конфиденциальности.', '', '', '<p><strong>1. Основные положения. </strong>Mytender.az (далее &ndash; платформа) обязуется хранить Вашу конфиденциальность в сети Интернет.&nbsp;Настоящая Политика Конфиденциальности, рассказывает о том, как собираются, обрабатываются и хранятся Ваши личные данные. Данная платформа уделяет большое внимание защите личной информации пользователей.&nbsp;Пользуясь платформой, пользователь дает согласие на применение правил сбора и использования данных, изложенных в настоящем документе.&nbsp;</p>\r\n\r\n<p><strong>2. Информация.</strong></p>\r\n\r\n<p><strong>2.1&nbsp;Собираемая информация. </strong>Платформа собирает следующую информацию о пользователях сайта:</p>\r\n\r\n<p>&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ● Фамилия, Имя</p>\r\n\r\n<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ● Адрес электронной почты</p>\r\n\r\n<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ● Номер телефона</p>\r\n\r\n<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ● Название компании</p>\r\n\r\n<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ● Адрес компании</p>\r\n\r\n<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ● Идентификационный номер налогоплательщика</p>\r\n\r\n<p><strong>2.2&nbsp;Использование информации. </strong>Ниже описаны некоторые способы использования личной информации пользователя:</p>\r\n\r\n<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ● для предоставления информации и услуг, которые&nbsp;&nbsp;запрашивает пользователь;</p>\r\n\r\n<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ● для ответа на запросы пользователя.</p>\r\n\r\n<p><strong>2.3</strong>&nbsp;<strong>Хранение информации. </strong>Платформа хранит вашу персональную информацию в течение всего времени активности вашей пользовательской учётной записи либо в течение времени, необходимого для оказания вам услуг. Хранение персональной информации может осуществляться нами даже после деактивации вашей пользовательской учётной записи и/или прекращения использования каких-либо конкретных услуг, в той мере, какой это необходимо для исполнения наших юридических обязанностей, для урегулирования споров в отношении пользователей платформы, предотвращения мошенничества и злоупотреблений, исполнения наших соглашений и защиты наших законных интересов.</p>\r\n\r\n<p><strong>2.4&nbsp;</strong><strong>Раскрытие информации</strong><strong>. </strong>Платформа не продает личные данные пользователя и не передает их третьим лицам без согласия на то пользователя. Платформа оставляет за собой право удалять недействительные учетные записи или учетные записи с поддельными названиями и регистрационными данными.</p>\r\n\r\n<p><strong>3.&nbsp;Рекламные сообщения. </strong>Предоставляя адрес вашей электронной почты или любую другую контактную информацию (например, ваш номер телефона или имя пользователя в социальной сети), вы соглашаетесь на получение рекламных рассылок, сообщений или звонков от сотрудников платформы. Соответственно, сотрудники платформы, вправе звонить или направлять вам рекламные рассылки или сообщения по электронной почте, SMS, личные текстовые сообщения, делать маркетинговые звонки или использовать аналогичные формы общения. Если вы не хотите получать такие рекламные сообщения или звонки, вы можете уведомить платформу в любое время, или выполнить инструкции по отказу от подписки, содержащиеся в рекламных сообщениях, которые вы получили.</p>\r\n\r\n<p><strong>4.&nbsp;Безопасность. </strong>Платформа приняла меры безопасности, предназначенные для защиты персональной информации, которой вы делитесь с нами, в том числе физические, электронные и процедурные меры. Среди прочего, платформа предлагает безопасный доступ к большинству ресурсов наших услуг по протоколу HTTPS; передачу конфиденциальной информации по оплате (например, номер кредитной карты) через наши специально разработанные формы, которые защищены шифрованным соединением отраслевого стандарта SSL/TLS. Платформа также регулярно отслеживает систему на предмет возможных уязвимых мест и атак, и постоянно ищем новые решения для повышения безопасности наших услуг.</p>\r\n\r\n<p><strong>5.&nbsp;Правила пользования.</strong></p>\r\n\r\n<p><strong>5.1 &nbsp;</strong>Платформа просит пользователей<strong> </strong>избегать конфликтные ситуации и другие нарушения, которые могут повлечь за собою нежелательные последствия. В случае если такое имеет место быть, платформа, проанализировав ситуацию обязуется предпринять надлежащие меры по недопущению подобных действий впредь.</p>\r\n\r\n<p><strong>5.2&nbsp;</strong>Настоящая политика конфиденциальности, её толкование, и любые претензии и споры, связанные с настоящим документом, регулируются, трактуются и исполняются только и исключительно в соответствии с основными внутренними законами Азерабайджанской Республики. Настоящим, вы соглашаетесь, что любые претензии и споры подлежат разрешению исключительно компетентным судом, находящимся в Азербайджанской Республике.</p>\r\n\r\n<p><strong>6.&nbsp;Удаление учетной записи. </strong>Вы можете запросить удаление вашей Персональной информации из наших блогов, сообществ или форумов, обратившись к нам по адресу <a href=\"mailto:office@mytender.az\">office@mytender.az</a></p>\r\n'),
 (18, 6, 'az', 'İstifadə qaydaları və məxfilik siyasəti.', '', '', '<p><strong>1. Əsas m&uuml;ddəalar.</strong><strong> </strong>Mytender.az (bundan sonra platforma adlandırılacaq) İnternet şəbəkəsində məxfiliyinizi qorumağı &ouml;hdəsinə g&ouml;t&uuml;r&uuml;r. Hazırki Məxfilik Siyasəti Sizin şəxsi məlumatlarınızın toplanması, işlənməsi və saxlanılması barədə məlumatları ehtiva edir. Platformadan istifadə etməklə istifadə&ccedil;i hazırki sənəddə yer alan məlumatların toplanması və istifadəsi qaydalarının tətbiq edilməsinə razılığını bildirir.</p>\r\n\r\n<p><strong>2. Məlumat.</strong></p>\r\n\r\n<p><strong>2.1&nbsp;</strong><strong>Toplanılan məlumat</strong><strong>. </strong>Platforma sayt istifadə&ccedil;iləri haqqında aşağıdakı məlumatları toplayır:</p>\r\n\r\n<p>&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ● Adı, soyadı</p>\r\n\r\n<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ● Elektron po&ccedil;t &uuml;nvanını</p>\r\n\r\n<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ● Telefon n&ouml;mrəsini</p>\r\n\r\n<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ● Şirkətin adını</p>\r\n\r\n<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ● Şirkətin &uuml;nvanını</p>\r\n\r\n<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ● Vergi &ouml;dəyicisinin eyniləşdirmə n&ouml;mrəsini</p>\r\n\r\n<p><strong>2.2&nbsp;</strong><strong>Məlumatların istifadə edilməsi. </strong>Aşağıda istifadə&ccedil;inin şəxsi məlumatlarının bir ne&ccedil;ə istifadə yolları təsvir edilmişdir:<br />\r\n&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;● istifadə&ccedil;inin tələb etdiyi məlumatların və xidmətlərin təqdim edilməsi &uuml;&ccedil;&uuml;n;</p>\r\n\r\n<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ● istifadə&ccedil;inin m&uuml;raciətlərinə cavab vernək &uuml;&ccedil;&uuml;n.</p>\r\n\r\n<p><strong>2.3</strong>&nbsp;<strong>Məlumatların saxlanılması. </strong>Platforma sizin şəxsi məlumatlarınızı istifadə&ccedil;i hesabınızın aktiv olduğu m&uuml;ddətdə və ya xidmətlərin g&ouml;stərilməsi &uuml;&ccedil;&uuml;n zəruri olan vaxt ərzində saxlayır. Şəxsi məlumatların saxlanılması h&uuml;quqi &ouml;hdəliklərimizin yerinə yetirilməsinin, platforma istifadə&ccedil;ilərinin m&uuml;bahisələrinin tənzimlənməsinin, saxtakarlığın və sui-istifadənin qarşısının alınmasının, razılaşmalarımızın icrasının və qanuni mənafelərimizin qorunmasının zəruriliyi baxımından, hətta, sizin istifadə&ccedil;i hesabınızın ləğv edilməsindən və / və ya hər hansı x&uuml;susi xidmətlərin istifadəsinin dayandırılmasından sonra da həyata ke&ccedil;irilə bilər.</p>\r\n\r\n<p><strong>2.4&nbsp;</strong><strong>Məlumatların a&ccedil;ıqlanması. </strong>Platforma istifadə&ccedil;inin şəxsi məlumatlarını həmin istifadə&ccedil;inin razılığı olmadan &uuml;&ccedil;&uuml;nc&uuml; şəxslərə &ouml;t&uuml;rm&uuml;r. Platforma etibarsız hesabların və ya saxta adları və qeydiyyat məlumatlarını ehtiva edən hesabların silinməsi h&uuml;ququna malikdir.</p>\r\n\r\n<p><strong>3.&nbsp;Reklam xarakterli mesajlar. </strong>Elektron po&ccedil;t &uuml;nvanınızı və ya digər istənilən əlaqə məlumatınızı (məsələn, telefon n&ouml;mrəsini və ya sosial şəbəkədə istifadə&ccedil;i adını) təqdim etməklə, Siz platforma əməkdaşlarından reklam xarakterli paylaşmaların, mesajların və ya zənglərin qəbul edilməsinə razılığınızı bildirirsiniz. M&uuml;vafiq olaraq, platforma əməkdaşları elektron po&ccedil;tunuza reklam xarakterli paylaşmaları və ya mesajları, SMS, şəxsi mətn mesajlarını g&ouml;ndərmək, marektinq zəngləri etmək və ya analoji əlaqə formalarından istifadə etmək h&uuml;ququna malikdir. Bu c&uuml;r reklam xarakterli mesajları və ya zəngləri qəbul etmək istəmədiyiniz təqdirdə, istənilən vaxt platformaya bildiriş g&ouml;ndərə və ya aldığınız reklam xarakterli mesajlarda yer alan abunə&ccedil;ilikdən imtina təlimatına riayət edə bilərsiniz.</p>\r\n\r\n<p><strong>4.&nbsp;Təhl&uuml;kəsizlik. </strong>Platforma bizimlə paylaşdığınız şəxsi məlumatların fiziki, elektron və icra tədbirləri də olmaqla təhl&uuml;kəsizlik tədbirlərini həyata ke&ccedil;irəcəkdir. Bundan savayı, platforma HTTPS protokolu &uuml;zrə bir sıra xidmətlər resursuna təhl&uuml;kəsiz girişi, SSL / TLS sahə standartının şifrələnmiş birləşməsi ilə qorunan x&uuml;susi tərtib edilmiş formalar vasitəsilə &ouml;dəniş (məsələn, kredit kartının n&ouml;mrəsi) yolu ilə məxfi məlumatların &ouml;t&uuml;r&uuml;lməsini də təklif edir. Platforma, həm&ccedil;inin, m&uuml;təmadi olaraq m&uuml;mk&uuml;n &ccedil;atışmazlıqların və h&uuml;cumların baş verə biləcəyi &uuml;zrə sistemə nəzarət edir. Xidmətlərimizin təhl&uuml;kəsizliyinin artırılması &uuml;&ccedil;&uuml;n yeni həllər yolunu axtarırıq.</p>\r\n\r\n<p><strong>5.&nbsp;İstifadə qaydaları.</strong></p>\r\n\r\n<p><strong>5.1 </strong>Platforma istifadə&ccedil;ilərdən xoşagəlməz nəticələrə gətirib &ccedil;ıxara biləcək m&uuml;bahisəli halların və digər pozuntuların yaranmamasını tələb edir. Belə hallara yol verildiyi təqdirdə, platforma yaranmış vəziyyəti təhlil edərək gələcəkdə buna bənzər halların yol verilməməsi &uuml;zrə m&uuml;vafiq tədbirləri həyata ke&ccedil;irməyi &ouml;hdəsinə g&ouml;t&uuml;r&uuml;r.</p>\r\n\r\n<p><strong>5.2&nbsp;</strong>Hazırki məxfilik siyasəti, onun təfsiri və hazırki sənədlə əlaqədar istənilən iradlar və m&uuml;bahisələr yalnız və m&uuml;stəsna olaraq Azərbaycan Respublikasının əsas daxili qanunları ilə tənzimlənir, təfsir edilir və icra edilir. Bununla da, siz iradların və m&uuml;bahisələrin m&uuml;stəsna olaraq Azərbaycan Respublikasında yerləşən səlahiyyətli məhkəmələr tərəfindən həll edilməsinə razılığınızı bildirirsiniz.</p>\r\n\r\n<p><strong>6.&nbsp;Hesabın silinməsi. </strong>Siz <a href=\"mailto:office@mytender.az\">office@mytender.az</a>&nbsp;elektron &uuml;nvan&nbsp;&uuml;zrə m&uuml;raciət etməklə bloqlarımızdan, toplumlarımızdan və ya forumlarımızdan şəxsi məlumatlarınızın silinməsini tələb edə bilərsiniz.</p>\r\n\r\n<p>&nbsp;</p>\r\n'),
-(19, 7, 'en', 'Main Page', '', '', '<p>Etiam at libero iaculis, mollis justo non, blandit augue. Vestibulum sit amet sodales est, a lacinia ex. Suspendisse vel enim sagittis, volutpat sem eget, condimentum sem. Pellentesque eu interdum ex, tempus volutpat massa.</p>\r\n'),
-(20, 7, 'ru', 'Main Page', '', '', '<p>Etiam at libero iaculis, mollis justo non, blandit augue. Vestibulum sit amet sodales est, a lacinia ex. Suspendisse vel enim sagittis, volutpat sem eget, condimentum sem. Pellentesque eu interdum ex, tempus volutpat massa.</p>\r\n'),
-(21, 7, 'az', 'Main Page', '', '', '<p>Etiam at libero iaculis, mollis justo non, blandit augue. Vestibulum sit amet sodales est, a lacinia ex. Suspendisse vel enim sagittis, volutpat sem eget, condimentum sem. Pellentesque eu interdum ex, tempus volutpat massa.</p>\r\n');
+(19, 7, 'en', 'Home', '', '', '<p>Etiam at libero iaculis, mollis justo non, blandit augue. Vestibulum sit amet sodales est, a lacinia ex. Suspendisse vel enim sagittis, volutpat sem eget, condimentum sem. Pellentesque eu interdum ex, tempus volutpat massa.</p>\r\n'),
+(20, 7, 'ru', 'Главная', '', '', '<p>Etiam at libero iaculis, mollis justo non, blandit augue. Vestibulum sit amet sodales est, a lacinia ex. Suspendisse vel enim sagittis, volutpat sem eget, condimentum sem. Pellentesque eu interdum ex, tempus volutpat massa.</p>\r\n'),
+(21, 7, 'az', 'Ana səhİfə', '', '', '<p>Etiam at libero iaculis, mollis justo non, blandit augue. Vestibulum sit amet sodales est, a lacinia ex. Suspendisse vel enim sagittis, volutpat sem eget, condimentum sem. Pellentesque eu interdum ex, tempus volutpat massa.</p>\r\n');
 
 -- --------------------------------------------------------
 
@@ -386,7 +387,8 @@ INSERT INTO `posts` (`postId`, `userId`, `createdAt`, `status`, `typeId`, `cityI
 (4, 1, '2018-05-21 17:38:19', 1, 6, 1, 0, NULL, '0', '0', ''),
 (5, 2, '2018-05-26 17:13:19', 1, 5, 1, 12, '2018-06-01', '0', '0', ''),
 (9, 5, '2018-06-05 08:35:48', 1, 7, 1, 0, '2018-06-13', '0', '0', ''),
-(10, 5, '2018-06-07 11:26:26', 0, 0, 1, 0, '2018-06-13', '0', '100', '');
+(10, 5, '2018-06-07 11:26:26', 0, 0, 1, 0, '2018-06-13', '0', '100', ''),
+(11, 7, '2018-06-20 15:59:50', 1, 5, 1, 0, NULL, '0', '0', '');
 
 -- --------------------------------------------------------
 
@@ -426,7 +428,9 @@ INSERT INTO `posts_files` (`fileId`, `userId`, `postId`, `file`, `caption`, `typ
 (17, 5, NULL, 'posts_5b164af0ef8084.55216006.JPG', 'IMG_4111.JPG', 'image/jpeg', 1878643, '5b164ad830a844.46693468', '2018-06-05 08:33:52'),
 (18, 5, 9, 'posts_5b164b62ee6d24.73492779.JPG', 'IMG_4107.JPG', 'image/jpeg', 1543171, '5b164b432844a4.84011962', '2018-06-05 08:35:46'),
 (19, 5, 9, 'posts_5b164b631f44b5.50857809.JPG', 'IMG_4111.JPG', 'image/jpeg', 1878643, '5b164b432844a4.84011962', '2018-06-05 08:35:47'),
-(22, 5, 10, 'posts_5b19165f802dc2.70835141.JPG', 'IMG_4111.JPG', 'image/jpeg', 1878643, '5b19162664c6f1.67704275', '2018-06-07 11:26:23');
+(22, 5, 10, 'posts_5b19165f802dc2.70835141.JPG', 'IMG_4111.JPG', 'image/jpeg', 1878643, '5b19162664c6f1.67704275', '2018-06-07 11:26:23'),
+(23, 7, 11, 'posts_5b2a79f3f228d7.03055919.jpg', '9674833.jpg', 'image/jpeg', 64583, '5b2a79b0973d58.57808208', '2018-06-20 15:59:47'),
+(24, 7, 11, 'posts_5b2a79f42f9080.40498190.pdf', 'hafele_bk_394.pdf', 'application/pdf', 83880, '5b2a79b0973d58.57808208', '2018-06-20 15:59:48');
 
 -- --------------------------------------------------------
 
@@ -449,7 +453,8 @@ INSERT INTO `posts_industries` (`id`, `postId`, `industryId`) VALUES
 (10, 4, 15),
 (11, 5, 5),
 (12, 9, 5),
-(13, 10, 5);
+(13, 10, 5),
+(14, 11, 5);
 
 -- --------------------------------------------------------
 
@@ -485,7 +490,10 @@ INSERT INTO `posts_lang` (`langId`, `postId`, `lang`, `title`, `text`, `text_sea
 (12, 9, 'az', 'fd пва павп авп вап вап в ', '<p>fd пва павп авп вап вап в</p>\r\n\r\n<p>п вавп вап авп</p>\r\n\r\n<p>п авва павп</p>\r\n\r\n<p>п ва павп вап ав</p>\r\n\r\n<p>авп авпавпавп</p>\r\n', 'fd пва павп авп вап вап в\r\n\r\nп вавп вап авп\r\n\r\nп авва павп\r\n\r\nп ва павп вап ав\r\n\r\nавп авпавпавп\r\n'),
 (13, 10, 'en', 'hhhhhh  h h h h h', '<p>в апвап вап вап вап вап вап вапв п впв ап</p>\r\n\r\n<p>&nbsp;вав павп вп авп вап вп&nbsp; впав пав пав пвап вап авп</p>\r\n\r\n<p>ап пв ап вап вп вп вап ва павпавпавпвп впвап впвпвап</p>\r\n\r\n<p>вап авп вапавп</p>\r\n', 'в апвап вап вап вап вап вап вапв п впв ап\r\n\r\n&nbsp;вав павп вп авп вап вп&nbsp; впав пав пав пвап вап авп\r\n\r\nап пв ап вап вп вп вап ва павпавпавпвп впвап впвпвап\r\n\r\nвап авп вапавп\r\n'),
 (14, 10, 'ru', 'hhhhhh  h h h h h', '<p>в апвап вап вап вап вап вап вапв п впв ап</p>\r\n\r\n<p>&nbsp;вав павп вп авп вап вп&nbsp; впав пав пав пвап вап авп</p>\r\n\r\n<p>ап пв ап вап вп вп вап ва павпавпавпвп впвап впвпвап</p>\r\n\r\n<p>вап авп вапавп</p>\r\n', 'в апвап вап вап вап вап вап вапв п впв ап\r\n\r\n&nbsp;вав павп вп авп вап вп&nbsp; впав пав пав пвап вап авп\r\n\r\nап пв ап вап вп вп вап ва павпавпавпвп впвап впвпвап\r\n\r\nвап авп вапавп\r\n'),
-(15, 10, 'az', 'hhhhhh  h h h h h', '<p>в апвап вап вап вап вап вап вапв п впв ап</p>\r\n\r\n<p>&nbsp;вав павп вп авп вап вп&nbsp; впав пав пав пвап вап авп</p>\r\n\r\n<p>ап пв ап вап вп вп вап ва павпавпавпвп впвап впвпвап</p>\r\n\r\n<p>вап авп вапавп</p>\r\n', 'в апвап вап вап вап вап вап вапв п впв ап\r\n\r\n&nbsp;вав павп вп авп вап вп&nbsp; впав пав пав пвап вап авп\r\n\r\nап пв ап вап вп вп вап ва павпавпавпвп впвап впвпвап\r\n\r\nвап авп вапавп\r\n');
+(15, 10, 'az', 'hhhhhh  h h h h h', '<p>в апвап вап вап вап вап вап вапв п впв ап</p>\r\n\r\n<p>&nbsp;вав павп вп авп вап вп&nbsp; впав пав пав пвап вап авп</p>\r\n\r\n<p>ап пв ап вап вп вп вап ва павпавпавпвп впвап впвпвап</p>\r\n\r\n<p>вап авп вапавп</p>\r\n', 'в апвап вап вап вап вап вап вапв п впв ап\r\n\r\n&nbsp;вав павп вп авп вап вп&nbsp; впав пав пав пвап вап авп\r\n\r\nап пв ап вап вп вп вап ва павпавпавпвп впвап впвпвап\r\n\r\nвап авп вапавп\r\n'),
+(16, 11, 'en', 'xvxcv xcv xcv xcv', '<p>x см xvcxvc xvc xcv</p>\r\n\r\n<p>в апвпв апв авп вап авп вап вап вап вп в</p>\r\n\r\n<p>в ап вп вп авп</p>\r\n', 'x см xvcxvc xvc xcv\r\n\r\nв апвпв апв авп вап авп вап вап вап вп в\r\n\r\nв ап вп вп авп\r\n'),
+(17, 11, 'ru', 'xvxcv xcv xcv xcv', '<p>x см xvcxvc xvc xcv</p>\r\n\r\n<p>в апвпв апв авп вап авп вап вап вап вп в</p>\r\n\r\n<p>в ап вп вп авп</p>\r\n', 'x см xvcxvc xvc xcv\r\n\r\nв апвпв апв авп вап авп вап вап вап вп в\r\n\r\nв ап вп вп авп\r\n'),
+(18, 11, 'az', 'xvxcv xcv xcv xcv', '<p>x см xvcxvc xvc xcv</p>\r\n\r\n<p>в апвпв апв авп вап авп вап вап вап вп в</p>\r\n\r\n<p>в ап вп вп авп</p>\r\n', 'x см xvcxvc xvc xcv\r\n\r\nв апвпв апв авп вап авп вап вап вап вп в\r\n\r\nв ап вп вп авп\r\n');
 
 -- --------------------------------------------------------
 
@@ -591,7 +599,8 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`userId`, `login`, `password`, `createdAt`, `groupId`, `name`, `country`, `cityId`, `phone`, `email`, `site`, `facebook`, `status`, `activationCode`) VALUES
 (1, 'admin', '$2y$10$WShDEA5s.Em0VNZYVpPaKeVTLtYMc2d7KHdchvWRLFhB5LYRmhUmW', '2017-07-28 08:02:27', 1, 'Admin', NULL, 0, '', 'k.kaluzhnikov@gmail.com', '', '', 1, 'eeef80f7660b283a3b799938a84416cc'),
 (2, 'test-b', '$2y$10$6Ic.8Twc9D0lrd6E88DAQezbUqZHGj59qjn8gGwuCm9MGWhZpvcUu', '2017-08-04 06:41:42', 2, 'Test Buyer', 'AZ', 1, '0555555555', 'zeuz@listzzz.ru', '', '', 1, '3f6b8a99b77a42b247003aa4e2563b23'),
-(5, 'zeuz@list.ru', '$2y$10$iuYvLdohN2x7KOqWxQSpjeFxm1NW4M/LN9QJM1m8xU0XBvj46mGIK', '2018-06-04 15:41:55', 2, 'fgh fgh ', NULL, NULL, NULL, 'zeuz@list.ru', NULL, NULL, 1, '3f6b8a99b77a42b247003aa4e2563b23');
+(5, 'zeuz@list.ru', '$2y$10$iuYvLdohN2x7KOqWxQSpjeFxm1NW4M/LN9QJM1m8xU0XBvj46mGIK', '2018-06-04 15:41:55', 2, 'fgh fgh ', NULL, NULL, NULL, 'zeuz@list.ru', NULL, NULL, 1, '3f6b8a99b77a42b247003aa4e2563b23'),
+(7, 'zz@zz.com', '$2y$10$R2zdnBAr5mDyBRv8h19SQuAGqy1LVcASQc1a/p406gefVmdy/ouu2', '2018-06-20 15:49:41', 2, 'fdg dg sg', NULL, 3, '0551234567', 'zz@zz.com', 'http://example.com', '', 1, '5e6b49bf8c38eddc8781aa603be170f5');
 
 --
 -- Индексы сохранённых таблиц
@@ -746,22 +755,22 @@ ALTER TABLE `pages_lang`
 -- AUTO_INCREMENT для таблицы `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `postId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `postId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT для таблицы `posts_files`
 --
 ALTER TABLE `posts_files`
-  MODIFY `fileId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `fileId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 --
 -- AUTO_INCREMENT для таблицы `posts_industries`
 --
 ALTER TABLE `posts_industries`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT для таблицы `posts_lang`
 --
 ALTER TABLE `posts_lang`
-  MODIFY `langId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `langId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 --
 -- AUTO_INCREMENT для таблицы `postTypes`
 --
@@ -781,7 +790,7 @@ ALTER TABLE `userGroups`
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `userId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `userId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- Ограничения внешнего ключа сохраненных таблиц
 --

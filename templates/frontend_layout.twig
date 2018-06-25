@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="v2" dir="ltr" xmlns="http://www.w3.org/1999/xhtml" >
     <head>
-        <title>{{ (page.title|default is empty)? '' : page.title|trans~' - ' }}{{ 'site_name'|trans }}</title>
+        <title>{{ (page.title|default is empty)? '' : page.title~' - ' }}{{ 'site_name'|trans }}</title>
         <meta charset="utf-8">
         <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
         <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
@@ -129,7 +129,7 @@
                     <input type="checkbox">
                     <label>≡</label>
                     <ul>
-                        <li class="homers"><a href="{{ path_for('home', {'lang': lang}) }}"><i class="material-icons" style=" line-height: 2.1; display: block; ">home</i></a></li>
+                        <li class="homers"><a href="{{ path_for('home', {'lang': lang}) }}" title="{{ 'Home'|trans }}"><i class="material-icons" style=" line-height: 2.1; display: block; ">home</i></a></li>
                         <li><a href="{{ path_for('about', {'lang':lang}) }}">{{ 'About'|trans }}</a></li>
                         <li>
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
@@ -162,7 +162,7 @@
                                 <ul class="menus">
                                     <li><a href="{{ path_for('member_posts', {'lang':lang}) }}">{{ 'Posts'|trans }}</a></li>
                                     <li><a href="{{ path_for('member_profile', {'lang':lang}) }}">{{ 'Profile'|trans }}</a></li>
-                                    <li><a href="{{ path_for('logout', {'lang':lang}) }}">{{ 'Logout'|trans }}</a></li>
+                                    <li><a href="{{ path_for('logout', {'lang':lang}) }}">{{ 'Sign out'|trans }}</a></li>
                                 </ul>
                             </li>
                         {% else %}
