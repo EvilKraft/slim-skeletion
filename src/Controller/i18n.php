@@ -17,7 +17,6 @@ class i18n extends BaseController
             $newResponse = $response->withStatus(200)
                                     ->withHeader('Content-Type', 'application/json;charset=utf-8');
             $newResponse->getBody()->write(@file_get_contents($this->settings['i18n']['path'].'dev.json'));
-
             return $newResponse;
         }
 

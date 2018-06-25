@@ -44,7 +44,8 @@ class TranslatorLogger implements \Psr\Log\LoggerInterface
     }
 
     protected function process($message, array $context = array()){
-        $this->data[$context['locale']][$context['domain']][$context['id']] = $message;
+        //$this->data[$context['locale']][$context['domain']][$context['id']] = $message;
+        $this->data[$context['locale']][$context['domain']][$context['id']] = $context['id'];
 
         file_put_contents($this->file, "<?php\n\nreturn ".var_export($this->data, true).";\n");
     }

@@ -136,6 +136,10 @@ return array(
     "You must first agree to the terms"                         => "Вы должны согласиться с условиями.",
     "I understand, accept, and agree to the following %terms%." => "Я понимаю и согласен со следующими %terms%.",
     "terms and conditions"                                      => "политикой и правилами",
+    "Are you sure you wont to delete this item?"                => "Вы уверены, что хотите удалить этот элемент?",
+    "Are you sure you wont to delete selected items?"           => "Вы уверены, что хотите удалить выбранные элементы?",
+    "Item deleted"                                              => "Элемент удален",
+    "Items deleted"                                             => "Элементы удалены",
 
     'Actions'                   => 'Действия',
 	'MENU'						=> 'МЕНЮ',
