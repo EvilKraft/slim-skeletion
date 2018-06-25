@@ -29,6 +29,7 @@ return array(
             'page' => [ 'title' =>'Sənayə',],
             'fields'    => [
                 'title'         => 'Ad',
+                'onMain'        => 'On MainPage',
             ],
         ],
         'PostTypes' => [
@@ -147,8 +148,6 @@ return array(
     'Industry'                  => 'Sənaye',
     'Description'               => 'Təsvir',
     'Created AT'                => 'Yaradılma tarixi',
-    'Suppliers'                 => 'Təchizatçılar',
-	'Buyers'					=> 'Alıcılar',
     'Status'                    => 'Status',
     'Messages'                  => 'Mesajlar',
     'Conformation'              => 'Təsdiq',
@@ -193,8 +192,6 @@ return array(
     'Why?'                      => 'NİYƏ?',
     'Remember me'               => 'Məni yadda saxla',
     'Registration'              => 'Qeydiyyat',
-    'Buyer'                     => 'Alıcı',
-    'Supplier'                  => 'Təchizatçı',
     'Company'                   => 'Şirkət',
 	'Country'					=> 'Ölkə',
     'From'                      => '	-dən',
@@ -204,7 +201,6 @@ return array(
     'Participate'               => 'İştirak et',
     'Back'                      => 'Geri',
     'Send'                      => 'Göndər',
-    'New supplier'              => 'Yeni təchizatçılar',
     'ADMINISTRATIVE TOOLS'      => 'ADMİNİSTAROTOR MENYUSU',
     'Settings'                  => 'Ayarlar',
     'Home'                      => 'ANA SƏHİFƏ',
@@ -222,4 +218,5 @@ return array(
 	'Partial copying'			=> 'Materialların tam və ya qismən köçürülməsi qadağandır, platformadan materialların razılaşdırılmış şəkildə istifadəsi zamanı istinad etmək lazımdır.',
 
     'All News'                  => 'All News',
+    'Show on MainPage'          => 'Show on Main Page',
 );

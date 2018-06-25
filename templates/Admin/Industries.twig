@@ -17,6 +17,16 @@
                                 <input type="hidden" name="_METHOD" value="PUT" />
                             {% endif %}
 
+                            <div class="form-group">
+                                <label for="onMain">{{ 'Show on MainPage'|trans }} <span class="text-red">*</span></label>
+                                <select id="onMain" name="onMain" class="form-control select2" >
+                                    {% for key, title in {0:'Hide', 1:'Show'} %}
+                                        <option value="{{ key }}" {{ (key == item.onMain|default('0')) ? 'selected' }}>{{ title|trans }}</option>
+                                    {% endfor %}
+                                </select>
+                                <div class="help-block with-errors"></div>
+                            </div>
+
                             <br>
                             <div class="nav-tabs-custom" style="border: solid #d2d6de 1px">
                                 <ul class="nav nav-tabs" >

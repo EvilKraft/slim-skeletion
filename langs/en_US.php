@@ -29,6 +29,7 @@ return array(
             'page' => [ 'title' =>'Industries',],
             'fields'    => [
                 'title'         => 'Title',
+                'onMain'        => 'On MainPage',
             ],
         ],
         'PostTypes' => [
@@ -147,8 +148,6 @@ return array(
     'Industry'                  => 'Industry',
     'Description'               => 'Description',
     'Created AT'                => 'Created at',
-    'Suppliers'                 => 'Suppliers',
-	'Buyers'					=> 'Buyers',
     'Status'                    => 'Status',
     'Messages'                  => 'Messages',
     'Conformation'              => 'Conformation',
@@ -193,8 +192,6 @@ return array(
     'Why?'                      => 'Why?',
     'Remember me'               => 'Remember me',
     'Registration'              => 'Registration',
-    'Buyer'                     => 'Buyer',
-    'Supplier'                  => 'Supplier',
     'Company'                   => 'Company',
 	'Country'					=> 'Country',
     'From'                      => 'From',
@@ -204,7 +201,6 @@ return array(
     'Participate'               => 'Participate',
     'Back'                      => 'Back',
     'Send'                      => 'Send',
-    'New supplier'              => 'New supplier',
     'ADMINISTRATIVE TOOLS'      => 'ADMINISTRATIVE TOOLS',
     'Settings'                  => 'Settings',
     'Home'                      => 'Home',
@@ -222,4 +218,5 @@ return array(
 	'Partial copying'			=> 'Full or partial copying of materials is prohibited, with consistent use of materials from the platform, refer to the resource.',
 
     'All News'                  => 'All News',
+    'Show on MainPage'          => 'Show on Main Page',
 );

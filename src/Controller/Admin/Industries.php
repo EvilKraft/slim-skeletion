@@ -18,9 +18,38 @@ class Industries extends \Controller\RESTController
     protected $idxField  = 'industryId';
     protected $template  = 'Admin\Industries.twig';
 
-    protected        $columns   = ['title'];
+    protected        $columns   = ['title', 'onMain'];
     protected static $actions   = ['create', 'update', 'delete'];
 
     protected $idxFieldLang = 'langId';
 
+
+    public function dtServerProcessing(Request $request, Response $response, Array $args)
+    {
+        $table = $this->table;
+        if(!empty($this->idxFieldLang)){
+            $l_columns = 'L.'.implode(', L.', array_keys($this->getTableColumns($this->table.'_lang', [$this->idxField, $this->idxFieldLang])));
+
+            $table = "(
+                SELECT T.*, ".$l_columns."
+                FROM ".$this->table." T
+                INNER JOIN ".$this->table."_lang L ON L.".$this->idxField." = T.".$this->idxField." AND L.lang = '".$this->lang."'
+            ) temp";
+        }
+
+        $dtColumns = $this->getDtColumns();
+
+        $this->setFormatter($dtColumns, 'onMain', function( $d, $row ) {
+            switch ($d){
+                case 1  : $class = 'fa-eye text-light-blue';  $text = 'Show'; break;
+                case 0  : $class = 'fa-eye-slash text-muted'; $text = 'Hide'; break;
+            }
+
+            return '<div class="text-center"><i class="fa '.$class.' fa-lg" title="'.$this->trans($text).'"></i></div>';
+        });
+
+        $data = \Helpers\dataTableSSP::simple($request->getQueryParams(), $this->db, $table, $this->idxField, $dtColumns);
+
+        return $response->withJson($data, 200);
+    }
 }

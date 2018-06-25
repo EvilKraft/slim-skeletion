@@ -1,23 +1,15 @@
 <!DOCTYPE html>
 <html class="v2" dir="ltr" xmlns="http://www.w3.org/1999/xhtml" >
     <head>
-        <title>News16</title>
+        <title>{{ (page.title|default is empty)? '' : page.title|trans~' - ' }}{{ 'site_name'|trans }}</title>
         <meta charset="utf-8">
         <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
         <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 
         <link href="/favicon.ico?v=2" rel="icon" type="image/x-icon" />
 
-        <meta name="description" content="News16 Professional Newspaper and Magazine Free Blogger Template Download" >
-        <meta name="keywords"    content="YOUR, KEYWORDS, HERE" >
-        <meta name="Author"      content="YOUR-NAME" >
-        <meta name="language"    content="english" >
-        <link rel="publisher"    href="https://plus.google.com/GOOGLE+ID/posts" >
-        <link rel="author"       href="https://plus.google.com/GOOGLE+ID/about" >
-
-
-
-
+        <meta name="description" content="{{ page.description|default }}" >
+        <meta name="keywords"    content="{{ page.keywords|default }}" >
 
         {% block head %}
             <!-- Bootstrap core CSS -->

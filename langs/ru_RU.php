@@ -29,6 +29,7 @@ return array(
             'page' => [ 'title' =>'Индустрии',],
             'fields'    => [
                 'title'         => 'Название',
+                'onMain'        => 'На Главной',
             ],
         ],
         'PostTypes' => [
@@ -147,8 +148,6 @@ return array(
     'Industry'                  => 'Индустрия',
     'Description'               => 'Описание',
     'Created AT'                => 'Дата создания',
-    'Suppliers'                 => 'Поставщики',
-	'Buyers'					=> 'Покупатели',
     'Status'                    => 'Статус',
     'Messages'                  => 'Сообщения',
     'Conformation'              => 'Подтверждение',
@@ -193,8 +192,6 @@ return array(
     'Why?'                      => 'Почему?',
     'Remember me'               => 'Запомнить меня',
     'Registration'              => 'Регистрация',
-    'Buyer'                     => 'Покупатель',
-    'Supplier'                  => 'Поставщик',
     'Company'                   => 'Компания',
 	'Country'					=> 'Страна',
     'From'                      => 'От',
@@ -204,7 +201,6 @@ return array(
     'Participate'               => 'Принять участие',
     'Back'                      => 'Назад',
     'Send'                      => 'Послать',
-    'New supplier'              => 'Новый поставщик',
     'ADMINISTRATIVE TOOLS'      => 'МЕНЮ АДМИНИСТРАТОРА',
     'Settings'                  => 'Настройки',
     'Home'                      => 'Главная',
@@ -222,4 +218,5 @@ return array(
 	'Partial copying'			=> 'Полное или частичное копирование материалов запрещено, при согласованном использовании материалов из платформы необходима ссылка на ресурс.',
 
     'All News'                  => 'Все новости',
+    'Show on MainPage'          => 'Показывать на Главной странице',
 );

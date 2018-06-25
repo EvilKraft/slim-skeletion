@@ -16,14 +16,21 @@ class Frontend extends BaseController
 {
     public function index(Request $request, Response $response, Array $args) {
 
+        $stmt = $this->db->prepare("SELECT * FROM industries WHERE onMain = 1");
+        $stmt->execute();
+        $industries = $stmt->fetchAll();
+
         $containers = array();
-        $containers[] = $this->renderer->fetch('Frontend/Blog/blog_stile1.twig', $this->getPosts(5, 6));
-        $containers[] = $this->getPageBanner();
-        $containers[] = $this->renderer->fetch('Frontend/Blog/blog_stile1.twig', $this->getPosts(5, 6));
-    //    $containers[] = $this->getPageBanner();
-        $containers[] = $this->renderer->fetch('Frontend/Blog/blog_stile1.twig', $this->getPosts(5, 6));
+        foreach ($industries as $key => $industry){
+            $containers[] = $this->renderer->fetch('Frontend/Blog/blog_stile1.twig', $this->getPosts($industry['industryId'], 6));
+
+            if(in_array($key, [0])){
+                $containers[] = $this->getPageBanner();
+            }
+        }
 
         $data = array(
+            'page'       => $this->getPage('main'),
             'containers' => $containers
         );
 
@@ -32,14 +39,18 @@ class Frontend extends BaseController
 
     public function about(Request $request, Response $response, Array $args) {
 
-        $data = $this->getPage('about');
+        $data = array(
+            'page' => $this->getPage('about'),
+        );
 
         return $this->render($response, 'Frontend/page.twig', $data);
     }
 
     public function rules(Request $request, Response $response, Array $args) {
 
-        $data = $this->getPage('rules');
+        $data = array(
+            'page' => $this->getPage('rules'),
+        );
 
         return $this->render($response, 'Frontend/page.twig', $data);
     }
@@ -84,7 +95,9 @@ class Frontend extends BaseController
             return $response->withStatus(302)->withHeader('Location', $this->router->pathFor('home', ['lang' => $this->lang]));
         }
 
-        $data = $this->getPage('contacts');
+        $data = array(
+            'page' => $this->getPage('contacts'),
+        );
 
         return $this->render($response, 'Frontend/contact.twig', $data);
     }
@@ -153,6 +166,13 @@ class Frontend extends BaseController
         $pagination = new Pagination($request, $this->router, $options);
         $data['pagination'] = $this->renderer->fetch('Frontend/pagination.twig', ['pagination' => $pagination]);
 
+        $data['page'] = array(
+            'title'       => $category['title'],
+            'keywords'    => $category['title'],
+            'description' => $category['title'],
+            'text'        => '',
+        );
+
         return $this->render($response, 'Frontend/blog.twig', $data);
     }
 
@@ -220,6 +240,13 @@ class Frontend extends BaseController
         $pagination = new Pagination($request, $this->router, $options);
         $data['pagination'] = $this->renderer->fetch('Frontend/pagination.twig', ['pagination' => $pagination]);
 
+        $data['page'] = array(
+            'title'       => $category['title'],
+            'keywords'    => $category['title'],
+            'description' => $category['title'],
+            'text'        => '',
+        );
+
         return $this->render($response, 'Frontend/blog.twig', $data);
     }
 
@@ -274,6 +301,13 @@ class Frontend extends BaseController
                 $data['item']['files'][] = $file;
             }
         }
+
+        $data['page'] = array(
+            'title'       => $data['item']['title'],
+            'keywords'    => implode(',', array_column($data['item']['industries'], 'title')),
+            'description' => $data['item']['title'],
+            'text'        => '',
+        );
 
         return $this->render($response, 'Frontend/post.twig', $data);
     }
@@ -341,27 +375,38 @@ class Frontend extends BaseController
         $pagination = new Pagination($request, $this->router, $options);
         $data['pagination'] = $this->renderer->fetch('Frontend/pagination.twig', ['pagination' => $pagination]);
 
+        $data['page'] = array(
+            'title'       => $this->trans('Search').' - '.$query,
+            'keywords'    => $this->trans('Search').','.$query,
+            'description' => $this->trans('Search').' '.$query,
+            'text'        => '',
+        );
+
         return $this->render($response, 'Frontend/blog.twig', $data);
     }
 
 
     public function frontendMiddleware(Request $request, Response $response, callable $next)
     {
-        $this->renderer->getEnvironment()->addGlobal('footerAbout', $this->getFooterAbout());
-        $this->renderer->getEnvironment()->addGlobal('industries', $this->getCategories());
-        $this->renderer->getEnvironment()->addGlobal('postTypes', $this->getPostTypes());
-        $this->renderer->getEnvironment()->addGlobal('recent_posts', $this->recentPosts());
-        $this->renderer->getEnvironment()->addGlobal('pop_categories', $this->popularCategories(10));
-        $this->renderer->getEnvironment()->addGlobal('valutes', $this->getValutes());
+        $twigEnv = $this->renderer->getEnvironment();
 
-        $this->renderer->getEnvironment()->addGlobal('head_banner', $this->getHeadBanner());
-        $this->renderer->getEnvironment()->addGlobal('side_banner', $this->getSideBanner());
+        $twigEnv->addGlobal('footerAbout',    $this->getFooterAbout());
+        $twigEnv->addGlobal('industries',     $this->getCategories());
+        $twigEnv->addGlobal('postTypes',      $this->getPostTypes());
+        $twigEnv->addGlobal('recent_posts',   $this->recentPosts());
+        $twigEnv->addGlobal('pop_categories', $this->popularCategories(10));
+        $twigEnv->addGlobal('valutes',        $this->getValutes());
+
+        $twigEnv->addGlobal('head_banner',    $this->getHeadBanner());
+        $twigEnv->addGlobal('side_banner',    $this->getSideBanner());
 
         return $next($request, $response, $next);
     }
 
 
     protected function getPage($alias){
+        $data = array_fill_keys(['title', 'keywords', 'description', 'text'], '');
+
         $sql = "SELECT P.*, L.title, L.keywords, L.description, L.text
                 FROM pages P
                 INNER JOIN pages_lang L ON L.pageId=P.pageId AND L.lang=?
@@ -369,14 +414,14 @@ class Frontend extends BaseController
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$this->lang, $alias]);
-        $item = $stmt->fetch();
-
-        $data = array(
-            'title'       => $item['title'],
-            'keywords'    => $item['keywords'],
-            'description' => $item['description'],
-            'text'        => $item['text'],
-        );
+        if($item = $stmt->fetch()){
+            $data = array(
+                'title'       => $item['title'],
+                'keywords'    => $item['keywords'],
+                'description' => $item['description'],
+                'text'        => $item['text'],
+            );
+        }
 
         return $data;
     }
