@@ -90,9 +90,10 @@ return [
 
         // i18n settings
         'i18n' => [
-            'langs'         => ['en', 'ru', 'az'],
-            'default_lang'  => 'az',
-            'path'          => DIR.'langs'.DS,
+            'langs'          => ['en', 'ru', 'az'],
+            'default_lang'   => 'az',
+            'fallback_langs' => ['en'],
+            'path'           => DIR.'langs'.DS,
         ],
 
         // Mailer settings

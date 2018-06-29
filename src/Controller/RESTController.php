@@ -53,7 +53,8 @@ class RESTController extends BaseController implements RESTInterface
         $class  = static::class;
         $prefix = self::routePrefix();
 
-        $app->get('', $class.':index')->setName($prefix);
+        $app->get('',          $class.':index')->setName($prefix);
+        $app->get('/getTable', $class.':dtServerProcessing')->setName($prefix.'_getTable');
 
         if(in_array('create', $class::$actions)){
             $app->map(['GET', 'POST'], '/new', $class.':create')->setName($prefix.'_create');
@@ -78,8 +79,6 @@ class RESTController extends BaseController implements RESTInterface
         if(in_array('delete', $class::$actions)){
             $app->delete('/{ids: .+}', $class.':deleteSelected')->setName($prefix.'_deleteSelected');
         }
-
-        $app->get('/getTable',    $class.':dtServerProcessing')->setName($prefix.'_getTable');
     }
 
     public static function routePrefix(){
@@ -129,7 +128,7 @@ class RESTController extends BaseController implements RESTInterface
 
         $stmt = $this->db->query("SELECT * FROM ".$this->table." WHERE ".$this->idxField."=".(int) $args['id']);
         if (!$item = $stmt->fetch()) {
-            $data['errors'][] = array('message' => $this->trans('Record not found'));
+            $data['errors'][] = array('message' => $this->trans('Item %item_id% not found', ['%item_id%' => $args['id']]));
             return $response->withJson($data, 200);
         }
 
@@ -442,10 +441,7 @@ class RESTController extends BaseController implements RESTInterface
 
                 case 'text' :
                     $dtcolumn['formatter'] = function( $d, $row ) {
-                        if(strlen($d) > 40){
-                            return substr($d, 0, 38).'...';
-                        }
-                        return $d;
+                        return str_limit($d, 40);
                     };
                     break;
 

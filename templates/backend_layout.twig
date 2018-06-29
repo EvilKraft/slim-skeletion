@@ -149,6 +149,10 @@
                             <li {{ currentRoute starts with 'admin_bannersclients' ? 'class="active"' }}>
                                 <a href="{{ path_for('admin_bannersclients', {'lang': lang}) }}"><i class="fa fa-circle-o"></i> <span>{{ 'REST.BannersClients.page.title'|trans }}</span></a>
                             </li>
+
+                            <li {{ currentRoute starts with 'admin_translations' ? 'class="active"' }}>
+                                <a href="{{ path_for('admin_translations', {'lang': lang}) }}"><i class="fa fa-language"></i> <span>{{ 'REST.Translations.page.title'|trans }}</span></a>
+                            </li>
                         {% endif %}
 
                         <li class="header">{{ 'MENU'|trans }}</li>
@@ -224,16 +228,17 @@
 
             <script src="{{ base_url() }}/resources/js/main.js?ver={{ version }}"></script>
             <script>
-                var I18N = i18next
+                 i18next
                     .use(i18nextXHRBackend)
                     .init({
                         lng: '{{ lang }}',
                         backend: {
-                            loadPath: '/locales/{{ '{{lng}}' }}/{{ '{{ns}}' }}.json',
+                            {#loadPath: '/locales/{{ '{{lng}}' }}/{{ '{{ns}}' }}.json',#}
                             addPath: '/locales/add/{{ '{{lng}}' }}/{{ '{{ns}}' }}',
                         },
                         saveMissing: true,
-                        //    debug: true
+                        resources: {{ trans_catalogue|raw }},
+                        debug: true
                     });
 
                 $(document).ready(function () {
@@ -252,7 +257,6 @@
                             loader: false
                         });
                     {% endfor %}
-
                 })
             </script>
         {% endblock %}

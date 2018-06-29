@@ -19,10 +19,10 @@ $app->add(function (Request $request, Response $response, callable $next) {
     $route = $request->getAttribute('route');
 
     $twigEnv = $this->get('renderer')->getEnvironment();
-//    $twigEnv->addGlobal('trans_catalogue',    json_encode($this->get('i18n')->getCatalogue()->all('messages'), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK));
 
     $twigEnv->addGlobal('lang',               $this->lang);
     $twigEnv->addGlobal('langs',              $this->get('settings')['i18n']['langs']);
+    $twigEnv->addGlobal('trans_catalogue',    json_encode([$this->lang => ['translation' => $this->get('i18n')->getCatalogue()->all('messages')]], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK));
 
     $twigEnv->addGlobal('session',            $_SESSION);
     $twigEnv->addGlobal('session_id',         session_id());

@@ -10,7 +10,7 @@ namespace Helpers;
 
 use Symfony\Component\Translation\MessageCatalogueInterface;
 
-class TranslatorLogger implements \Psr\Log\LoggerInterface
+class i18nLogger implements \Psr\Log\LoggerInterface
 {
     protected $file;
     protected $data;
@@ -26,16 +26,11 @@ class TranslatorLogger implements \Psr\Log\LoggerInterface
     }
 
     public function checkTranslations(MessageCatalogueInterface $MessageCatalogue){
-        $locale = $MessageCatalogue->getLocale();
 
-        if(!array_key_exists($locale, $this->data)){
-            return;
-        }
-
-        foreach ($this->data[$locale] as $domain => $translations){
+        foreach ($this->data as $domain => $translations){
             foreach (array_keys($translations) as $id ){
                 if($MessageCatalogue->has($id, $domain)){
-                    unset($this->data[$locale][$domain][$id]);
+                    unset($this->data[$domain][$id]);
                 }
             }
         }
@@ -44,8 +39,7 @@ class TranslatorLogger implements \Psr\Log\LoggerInterface
     }
 
     protected function process($message, array $context = array()){
-        //$this->data[$context['locale']][$context['domain']][$context['id']] = $message;
-        $this->data[$context['locale']][$context['domain']][$context['id']] = $context['id'];
+        $this->data[$context['domain']][$context['id']] = '';
 
         file_put_contents($this->file, "<?php\n\nreturn ".var_export($this->data, true).";\n");
     }
@@ -60,7 +54,6 @@ class TranslatorLogger implements \Psr\Log\LoggerInterface
      */
     public function emergency($message, array $context = array())
     {
-        // TODO: Implement emergency() method.
         $this->process($message, $context);
     }
 
@@ -77,7 +70,6 @@ class TranslatorLogger implements \Psr\Log\LoggerInterface
      */
     public function alert($message, array $context = array())
     {
-        // TODO: Implement alert() method.
         $this->process($message, $context);
     }
 
@@ -93,7 +85,6 @@ class TranslatorLogger implements \Psr\Log\LoggerInterface
      */
     public function critical($message, array $context = array())
     {
-        // TODO: Implement critical() method.
         $this->process($message, $context);
     }
 
@@ -108,7 +99,6 @@ class TranslatorLogger implements \Psr\Log\LoggerInterface
      */
     public function error($message, array $context = array())
     {
-        // TODO: Implement error() method.
         $this->process($message, $context);
     }
 
@@ -125,7 +115,6 @@ class TranslatorLogger implements \Psr\Log\LoggerInterface
      */
     public function warning($message, array $context = array())
     {
-        // TODO: Implement warning() method.
         $this->process($message, $context);
     }
 
@@ -139,7 +128,6 @@ class TranslatorLogger implements \Psr\Log\LoggerInterface
      */
     public function notice($message, array $context = array())
     {
-        // TODO: Implement notice() method.
         $this->process($message, $context);
     }
 
@@ -155,7 +143,6 @@ class TranslatorLogger implements \Psr\Log\LoggerInterface
      */
     public function info($message, array $context = array())
     {
-        // TODO: Implement info() method.
         $this->process($message, $context);
     }
 
@@ -169,7 +156,6 @@ class TranslatorLogger implements \Psr\Log\LoggerInterface
      */
     public function debug($message, array $context = array())
     {
-        // TODO: Implement debug() method.
         $this->process($message, $context);
     }
 
@@ -184,7 +170,6 @@ class TranslatorLogger implements \Psr\Log\LoggerInterface
      */
     public function log($level, $message, array $context = array())
     {
-        // TODO: Implement log() method.
         $this->process($message, $context);
     }
 }

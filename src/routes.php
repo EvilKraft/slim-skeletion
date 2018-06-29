@@ -72,6 +72,8 @@ $app->group('/{lang:'.$langRegExp.'}', function () use ($app) {
         $this->group('/banners',        \Controller\Admin\Banners::class.'::registerRoutes');
         $this->group('/bannersClients', \Controller\Admin\bannersClients::class.'::registerRoutes');
 
+        $this->group('/translations',      \Controller\Admin\Translations::class.'::registerRoutes');
+
     })->add(\Controller\Auth::class.':checkIsAdmin')
       ->add(\Controller\Auth::class.':checkAuth');
 });
