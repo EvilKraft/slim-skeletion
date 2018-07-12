@@ -7,36 +7,63 @@
 
 namespace Controller;
 
+use \Psr\Container\ContainerInterface;
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
 abstract class BaseController
 {
-    protected $app;
-
+    /**
+     * @var array Settings.
+     */
     protected $settings;
+
+    /**
+     * @var \Slim\Interfaces\RouterInterface.
+     */
     protected $router;
+
+    /**
+     * @var \Slim\Views\Twig Renderer.
+     */
     protected $renderer;
+
+    /**
+     * @var \Symfony\Component\Translation\LoggingTranslator Translator.
+     */
     protected $i18n;
+
+    /**
+     * @var \Doctrine\DBAL\Connection DataBase.
+     */
     protected $db;
+
+    /**
+     * @var \Slim\Flash\Messages Flash messafes.
+     */
     protected $flash;
+
+    /**
+     * @var \Swift_Mailer Swift Mailer.
+     */
     protected $mailer;
 
+    /**
+     * @var string Language.
+     */
     protected $lang;
 
     //Constructor
-    public function __construct(\Slim\Container $app) {
-    //    $this->app = $app;
+    public function __construct(ContainerInterface $ci) {
+        $this->settings   = $ci->get('settings');
+        $this->router     = $ci->get('router');
+        $this->renderer   = $ci->get('renderer');
+        $this->i18n       = $ci->get('i18n');
+        $this->db         = $ci->get('db');
+        $this->flash      = $ci->get('flash');
+        $this->mailer     = $ci->get('mailer');
 
-        $this->settings   = $app->settings;
-        $this->router     = $app->router;
-        $this->renderer   = $app->renderer;
-        $this->i18n       = $app->i18n;
-        $this->db         = $app->db;
-        $this->flash      = $app->flash;
-        $this->mailer     = $app->mailer;
-
-        $this->lang       = $app->lang;
+        $this->lang       = $ci->lang;
     }
 
     public function trans($id, array $parameters = array(), $domain = null, $locale = null){

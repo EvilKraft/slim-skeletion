@@ -13,21 +13,51 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 
 //abstract class RESTController extends BaseController implements RESTInterface
-class RESTController extends BaseController implements RESTInterface
+abstract class RESTController extends BaseController implements RESTInterface
 {
-    protected $table            = null;  //table name
-    protected $idxField         = null;  // Primary key
-    protected $template         = null; //'Admin\Users.twig';
+    /**
+     * @var string Table name.
+     */
+    protected $table            = null;
+
+    /**
+     * @var integer Identity column name in the table. This column should be primary key.
+     */
+    protected $idxField         = null;
+
+    /**
+     * @var string Form template name.
+     */
+    protected $template         = null;
+
+    /**
+     * @var string Table template name.
+     */
     protected $table_template   = 'table.twig';
 
-
+    /**
+     * @var array Columns to display in table.
+     */
     protected        $columns     = [];
+
+    /**
+     * @var array Actions.
+     */
     protected static $actions     = ['create', 'update', 'delete', 'move'];
+
+    /**
+     * @var array Filters.
+     */
     protected        $col_filters = [];
 
-    // langs properties
+    /**
+     * @var integer Identity column name in the lang table. This column should be primary key in lang table.
+     */
     protected $idxFieldLang = null;
 
+    /**
+     * @var array Associative array of template variables.
+     */
     protected $data = array();
 
     public function __construct(\Slim\Container $app)
@@ -69,6 +99,10 @@ class RESTController extends BaseController implements RESTInterface
 
             if(in_array('delete', $class::$actions)){
                 $app->delete('', $class.':delete')->setName($prefix.'_delete');
+            }
+
+            if(in_array('addChild', $class::$actions)){
+                $app->map(['GET', 'POST'], '/new', $class.':create')->setName($prefix.'_addChild');
             }
 
             if(in_array('move', $class::$actions)){
@@ -474,6 +508,7 @@ class RESTController extends BaseController implements RESTInterface
 
         $tableColumns = array_merge($this->getTableColumns(), $this->getTableColumns($this->table.'_lang'));
 
+
         foreach ($this->columns as $column){
             $trans_id  = 'REST.'.self::getBaseClassName().'.fields.'.$column;
             $title     = ($catalogue->defines($trans_id)) ? $this->trans($trans_id) : $column;
@@ -507,11 +542,11 @@ class RESTController extends BaseController implements RESTInterface
             );
         }
 
-        $func = '';
+        $actionsFunc = '';
         if(!empty(static::$actions)){
 
             $actionsStr = implode(',', array_map(function($value) { return '"'.$value.'"'; }, static::$actions));
-            $func = '$.fn.dataTable.render.dataTableActionBtns(['.$actionsStr.'])';
+            $actionsFunc = '$.fn.dataTable.render.dataTableActionBtns(['.$actionsStr.'])';
 
             $out[] = array(
                 'data'       => null,
@@ -526,16 +561,26 @@ class RESTController extends BaseController implements RESTInterface
         }
 
         $out = json_encode($out);
-        $out = str_replace('"#!!actionBtns!!#"',$func, $out);
+        $out = str_replace('"#!!actionBtns!!#"', $actionsFunc, $out);
 
         return $out;
     }
 
     // Datatable language property value
     protected function dtLanguage(){
-        return json_encode([
-         //   'url' => '/libs/DataTables/Plugins-1.10.16/i18n/Russian.lang',
+        $langNames = array(
+            'az' => 'Azerbaijan',
+            'en' => 'English',
+            'ru' => 'Russian',
+        );
+        $json = file_get_contents(PUBLIC_DIR.'libs/DataTables/Plugins-1.10.16/i18n/'.$langNames[$this->lang].'.lang');
 
+        $json = preg_replace('!/\*.*?\*/!s', '', $json); // remove comments
+        $json = preg_replace('/\n\s*\n/', "\n", $json); // remove empty lines that can create errors
+
+        $array = json_decode($json, true);
+
+        $myTrans = [
             'select' => [
                 'rows' => [
                     '_' => $this->trans('You have selected %d rows'),
@@ -554,9 +599,20 @@ class RESTController extends BaseController implements RESTInterface
                 'edit'          => $this->trans('Edit item'),
                 'delete'        => $this->trans('Delete item'),
                 'deleteItems'   => $this->trans('Delete items'),
+                'addChild'      => $this->trans('Add child'),
                 'moveUp'        => $this->trans('Move up'),
                 'moveDown'      => $this->trans('Move down'),
+
+                'rowDeleteConfirm'  => $this->trans('Are you sure you wont to delete this item?'),
+                'rowsDeleteConfirm' => $this->trans('Are you sure you wont to delete selected items?'),
+                'itemDeleted'       => $this->trans('Item deleted'),
+                'itemsDeleted'      => $this->trans('Items deleted'),
             ]
-        ]);
+        ];
+
+        $array = array_merge_recursive($array, $myTrans);
+
+
+        return json_encode($array);
     }
 }

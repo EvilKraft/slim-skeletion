@@ -78,7 +78,6 @@
                     },
                 ],
 
-                language: {{ dtLanguage|raw }},
 
                 select: {
                     style: 'multi',
@@ -110,7 +109,17 @@
                 ajax: "{{ base_url() }}{{ path_for(currentRoute~'_getTable', {'lang': lang}) }}",
                 columns: {{ dtColumns|raw }},
 
+                language: {{ dtLanguage|raw }},
+
                 dataTableActionBtns: {{ actions|json_encode|raw }},
+
+
+
+                createdRow: function( row, data, dataIndex ) {
+                    if(data['lvl'] % 2){
+                        $(row).addClass( 'bg-gray1' );
+                    }
+                },
 
                 initComplete: function (settings, json) {
                     var api = this.api();

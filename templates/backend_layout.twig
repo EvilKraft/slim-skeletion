@@ -124,6 +124,12 @@
                                     <i class="fa fa-dashboard"></i> <span>{{ 'REST.Dashboard.page.title'|trans }}</span>
                                 </a>
                             </li>
+                            <li {{ currentRoute starts with 'admin_content' ? 'class="active"' }}>
+                                <a href="{{ path_for('admin_content', {'lang': lang}) }}">
+                                    <i class="fa fa-file-text"></i> <span>{{ 'REST.Content.page.title'|trans }}</span>
+                                </a>
+                            </li>
+
                             <li {{ currentRoute starts with 'admin_posts' ? 'class="active"' }}>
                                 <a href="{{ path_for('admin_posts', {'lang': lang}) }}">
                                     <i class="fa fa-th-list"></i> <span>{{ 'REST.Posts.page.title'|trans }}</span>
@@ -238,7 +244,7 @@
                         },
                         saveMissing: true,
                         resources: {{ trans_catalogue|raw }},
-                        debug: true
+                     //   debug: true
                     });
 
                 $(document).ready(function () {

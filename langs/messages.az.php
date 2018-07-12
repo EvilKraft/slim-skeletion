@@ -224,4 +224,5 @@ return array (
   'REST.Translations.fields.domain' => 'Domain',
   'REST.Translations.fields.key' => 'Key',
   'REST.Translations.fields.value' => 'Value',
+  'REST.Content.page.title' => 'Content',
 );

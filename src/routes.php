@@ -63,16 +63,18 @@ $app->group('/{lang:'.$langRegExp.'}', function () use ($app) {
         $this->get('',                         \Controller\Admin\Dashboard::class.':index')->setName('admin_dashboard');
         $this->map(['GET', 'PUT'], '/profile', \Controller\Admin\Users::class.':profile')->setName('admin_profile');
 
-        $this->group('/posts',      \Controller\Admin\Posts::class.'::registerRoutes');
-        $this->group('/users',      \Controller\Admin\Users::class.'::registerRoutes');
-        $this->group('/posttypes',  \Controller\Admin\PostTypes::class.'::registerRoutes');
-        $this->group('/industries', \Controller\Admin\Industries::class.'::registerRoutes');
-        $this->group('/pages',      \Controller\Admin\Pages::class.'::registerRoutes');
 
+        $this->group('/content',          \Controller\Admin\Content::class.'::registerRoutes');
+
+
+        $this->group('/posts',          \Controller\Admin\Posts::class.'::registerRoutes');
+        $this->group('/users',          \Controller\Admin\Users::class.'::registerRoutes');
+        $this->group('/posttypes',      \Controller\Admin\PostTypes::class.'::registerRoutes');
+        $this->group('/industries',     \Controller\Admin\Industries::class.'::registerRoutes');
+        $this->group('/pages',          \Controller\Admin\Pages::class.'::registerRoutes');
         $this->group('/banners',        \Controller\Admin\Banners::class.'::registerRoutes');
         $this->group('/bannersClients', \Controller\Admin\bannersClients::class.'::registerRoutes');
-
-        $this->group('/translations',      \Controller\Admin\Translations::class.'::registerRoutes');
+        $this->group('/translations',   \Controller\Admin\Translations::class.'::registerRoutes');
 
     })->add(\Controller\Auth::class.':checkIsAdmin')
       ->add(\Controller\Auth::class.':checkAuth');
