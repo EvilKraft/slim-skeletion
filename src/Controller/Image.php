@@ -26,7 +26,11 @@ class Image
 
         $server = self::initServer();
 
-        $image_name = $request->getAttribute('image_name', 'none');
+        $image_name = $request->getAttribute('image_name');
+
+        if(empty($image_name)){
+            $image_name = 'none';
+        }gi
 
         if(!$server->sourceFileExists($image_name)){
             $image_name = '../resources/img/default-placeholder.png';
