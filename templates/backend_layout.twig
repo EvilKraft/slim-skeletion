@@ -52,9 +52,9 @@
                 <!-- Logo -->
                 <a href="{{ path_for((session.user.groupId == 1)? 'admin_dashboard' : 'member_dashboard', {'lang': lang}) }}" class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
-                    <span class="logo-mini"><b>A</b>LT</span>
+                    <span class="logo-mini"><b>A</b>P</span>
                     <!-- logo for regular state and mobile devices -->
-                    <span class="logo-lg"><b>Admin</b>LTE</span>
+                    <span class="logo-lg"><b>Admin</b>PANEL</span>
                 </a>
                 <!-- Header Navbar: style can be found in header.less -->
                 <nav class="navbar navbar-static-top">
@@ -98,7 +98,7 @@
 
                                 <ul class="dropdown-menu">
                                     <li class="user-footer">
-                                        <a href="{{ path_for('member_profile', {'lang': lang}) }}"><i class="fa fa-address-card-o"></i>{{ 'Profile'|trans }}</a>
+                                        <a href="{{ path_for('admin_profile', {'lang': lang}) }}"><i class="fa fa-address-card-o"></i>{{ 'Profile'|trans }}</a>
                                         <hr>
                                         <a href="{{ path_for('logout', {'lang': lang}) }}"><i class="fa fa-power-off"></i>{{ 'Sign out'|trans }}</a>
                                     </li>
@@ -119,45 +119,49 @@
                     <ul class="sidebar-menu">
                         {% if session.user.groupId == 1 %}
                             <li class="header">{{ 'ADMINISTRATIVE TOOLS'|trans }}</li>
-                            <li {{ currentRoute == 'admin_dashboard' ? 'class="active"' }}>
+                            <li {{ currentRoute starts with 'admin_dashboard' ? 'class="active"' }}>
                                 <a href="{{ path_for('admin_dashboard', {'lang': lang}) }}">
                                     <i class="fa fa-dashboard"></i> <span>{{ 'REST.Dashboard.page.title'|trans }}</span>
                                 </a>
                             </li>
-                            <li {{ currentRoute == 'admin_posts' ? 'class="active"' }}>
+                            <li {{ currentRoute starts with 'admin_content' ? 'class="active"' }}>
+                                <a href="{{ path_for('admin_content', {'lang': lang}) }}">
+                                    <i class="fa fa-file-text"></i> <span>{{ 'REST.Content.page.title'|trans }}</span>
+                                </a>
+                            </li>
+
+                            <li {{ currentRoute starts with 'admin_posts' ? 'class="active"' }}>
                                 <a href="{{ path_for('admin_posts', {'lang': lang}) }}">
                                     <i class="fa fa-th-list"></i> <span>{{ 'REST.Posts.page.title'|trans }}</span>
                                 </a>
                             </li>
-                            <li {{ currentRoute == 'admin_users' ? 'class="active"' }}>
+                            <li {{ currentRoute starts with 'admin_users' ? 'class="active"' }}>
                                 <a href="{{ path_for('admin_users', {'lang': lang}) }}"><i class="fa fa-users"></i> <span>{{ 'REST.Users.page.title'|trans }}</span></a>
                             </li>
-                            <li {{ currentRoute == 'admin_posttypes' ? 'class="active"' }}>
+                            <li {{ currentRoute starts with 'admin_posttypes' ? 'class="active"' }}>
                                 <a href="{{ path_for('admin_posttypes', {'lang': lang}) }}"><i class="fa fa-circle-o"></i> <span>{{ 'REST.PostTypes.page.title'|trans }}</span></a>
                             </li>
-                            <li {{ currentRoute == 'admin_industries' ? 'class="active"' }}>
+                            <li {{ currentRoute starts with 'admin_industries' ? 'class="active"' }}>
                                 <a href="{{ path_for('admin_industries', {'lang': lang}) }}"><i class="fa fa-industry"></i> <span>{{ 'REST.Industries.page.title'|trans }}</span></a>
                             </li>
 
-                            <li {{ currentRoute == 'admin_pages' ? 'class="active"' }}>
+                            <li {{ currentRoute starts with 'admin_pages' ? 'class="active"' }}>
                                 <a href="{{ path_for('admin_pages', {'lang': lang}) }}"><i class="fa fa-pencil-square-o"></i> <span>{{ 'REST.Pages.page.title'|trans }}</span></a>
                             </li>
 
-                            <li {{ currentRoute == 'admin_banners' ? 'class="active"' }}>
+                            <li {{ currentRoute starts with 'admin_banners' ? 'class="active"' }}>
                                 <a href="{{ path_for('admin_banners', {'lang': lang}) }}"><i class="fa fa-circle-o"></i> <span>{{ 'REST.Banners.page.title'|trans }}</span></a>
                             </li>
-                            <li {{ currentRoute == 'admin_bannersclients' ? 'class="active"' }}>
+                            <li {{ currentRoute starts with 'admin_bannersclients' ? 'class="active"' }}>
                                 <a href="{{ path_for('admin_bannersclients', {'lang': lang}) }}"><i class="fa fa-circle-o"></i> <span>{{ 'REST.BannersClients.page.title'|trans }}</span></a>
+                            </li>
+
+                            <li {{ currentRoute starts with 'admin_translations' ? 'class="active"' }}>
+                                <a href="{{ path_for('admin_translations', {'lang': lang}) }}"><i class="fa fa-language"></i> <span>{{ 'REST.Translations.page.title'|trans }}</span></a>
                             </li>
                         {% endif %}
 
                         <li class="header">{{ 'MENU'|trans }}</li>
-
-                        {% if session.user.groupId == 2 %}
-                            <li {{ currentRoute == 'member_posts' ? 'class="active"' }}>
-                                <a href="{{ path_for('member_posts', {'lang': lang}) }}"><i class="fa fa-edit"></i> <span>{{ 'Posts'|trans }}</span></a>
-                            </li>
-                        {% endif %}
 
                         <li class="treeview">
                             <a href="#">
@@ -168,7 +172,7 @@
                                 </span>
                             </a>
                             <ul class="treeview-menu">
-                                <li {{ currentRoute == 'member_profile'  ? 'class="active"' }}><a href="{{ path_for('member_profile', {'lang': lang}) }}"><i class="fa fa-address-card-o"></i>{{ 'Profile'|trans }}</a></li>
+                                <li {{ currentRoute == 'admin_profile'  ? 'class="active"' }}><a href="{{ path_for('admin_profile', {'lang': lang}) }}"><i class="fa fa-address-card-o"></i>{{ 'Profile'|trans }}</a></li>
                             </ul>
                         </li>
 
@@ -189,18 +193,20 @@
             <footer class="main-footer">
 
                 <div class="pull-right" style="top: -6px; position:relative">
-                    <a href="#" target="_blank" class="btn btn-social-icon btn-facebook">
+                    <a href="https://www.facebook.com/konstantin.kaluzhnikov" target="_blank" class="btn btn-social-icon btn-facebook">
                         <i class="fa fa-facebook"></i>
                     </a>
+                    {#
                     <a href="#" target="_blank"	class="btn btn-social-icon btn-google">
                         <i class="fa fa-google-plus"></i>
                     </a>
-                    <a href="#" target="_blank" class="btn btn-social-icon btn-linkedin">
+                    #}
+                    <a href="https://www.linkedin.com/in/kaluzhnikov/" target="_blank" class="btn btn-social-icon btn-linkedin">
                         <i class="fa fa-linkedin"></i>
                     </a>
                 </div>
 
-                <strong>Copyright &copy; 2017 <a href="mailto:k.kaluzhnikov@gmail.com">Konstantin Kaluzhnikov, k.kaluzhnikov@gmail.com</a>.</strong> All rights reserved.
+                <strong>Copyright &copy; 2018 <a href="mailto:k.kaluzhnikov@gmail.com">Konstantin Kaluzhnikov, k.kaluzhnikov@gmail.com</a>.</strong> All rights reserved.
             </footer>
 
         </div>
@@ -228,16 +234,17 @@
 
             <script src="{{ base_url() }}/resources/js/main.js?ver={{ version }}"></script>
             <script>
-                i18next
+                 i18next
                     .use(i18nextXHRBackend)
                     .init({
                         lng: '{{ lang }}',
                         backend: {
-                            loadPath: '/locales/{{ '{{lng}}' }}/{{ '{{ns}}' }}.json',
+                            {#loadPath: '/locales/{{ '{{lng}}' }}/{{ '{{ns}}' }}.json',#}
                             addPath: '/locales/add/{{ '{{lng}}' }}/{{ '{{ns}}' }}',
                         },
                         saveMissing: true,
-                        //    debug: true
+                        resources: {{ trans_catalogue|raw }},
+                     //   debug: true
                     });
 
                 $(document).ready(function () {
@@ -256,7 +263,6 @@
                             loader: false
                         });
                     {% endfor %}
-
                 })
             </script>
         {% endblock %}

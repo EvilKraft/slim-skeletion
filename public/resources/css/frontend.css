@@ -110,7 +110,7 @@ td.action_btns_container :last-child{
 
 .marquee {
 	float: left;
-	width: 430px;
+	width: 400px;
 	overflow: hidden;
 
 	display: none;

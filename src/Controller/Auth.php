@@ -15,7 +15,7 @@ class Auth extends BaseController
     public function login(Request $request, Response $response, Array $args) {
 
         if(!$request->isPost()){
-            return $this->render($response, 'Auth/login.twig');
+            return $this->render($response, 'Auth/login.twig', ['page' => ['title' => $this->trans('Sign in')]]);
         }
 
         $data = $request->getParsedBody();
@@ -57,7 +57,7 @@ class Auth extends BaseController
     public function register(Request $request, Response $response, Array $args) {
 
         if(!$request->isPost()){
-            return $this->render($response, 'Auth/login.twig');
+            return $this->render($response, 'Auth/login.twig', ['page' => ['title' => $this->trans('Sign up')]]);
         }
 
         $data = $request->getParsedBody();
@@ -76,12 +76,8 @@ class Auth extends BaseController
             'activationCode' => $activationCode,
             'groupId'        => 2,
             'name'           => $data['name'],
-            'country'        => $data['country'],
-            'cityId'         => $data['city'],
-            'phone'          => $data['phone'],
+            'country'        => 'AZ',
             'email'          => $data['email'],
-            'site'           => $data['site'],
-            'facebook'       => $data['facebook'],
         );
 
         try {
@@ -111,7 +107,7 @@ class Auth extends BaseController
             }
 
             $this->db->commit();
-            return $this->render($response, 'Frontend/page.twig', ['title' => 'Info', 'text' => 'Please, check email to complete registration']);
+            return $this->render($response, 'Frontend/page.twig', ['page' => ['title' => $this->trans('Info'), 'text' => $this->trans('Please, check email to complete registration')]]);
         } catch (\Exception $e) {
             $this->db->rollBack();
             $flashMsg = ($this->settings['displayErrorDetails']) ? $e->getMessage() : $this->trans('An error occurred. Please contact administrator');
@@ -125,7 +121,7 @@ class Auth extends BaseController
         $stmt = $this->db->prepare("SELECT * FROM users where activationCode = ? AND status = 0");
         $stmt->execute(array($args['code']));
         if(!$user = $stmt->fetch()){
-            return $this->render($response, 'Frontend/page.twig', ['title' => 'Error!', 'text' => 'Wrong activation code.']);
+            return $this->render($response, 'Frontend/page.twig', ['page' => ['title' => $this->trans('Error'), 'text' => $this->trans('Wrong activation code.')]]);
         }
 
         try {
@@ -135,7 +131,7 @@ class Auth extends BaseController
             $stmt->execute(array($user['userId']));
 
             $this->db->commit();
-            return $this->render($response, 'Frontend/page.twig', ['title' => 'Info', 'text' => 'Conformation complete. Please, sign in.']);
+            return $this->render($response, 'Frontend/page.twig', ['page' => ['title' => $this->trans('Info'), 'text' => $this->trans('Conformation complete. Please, sign in.')]]);
         } catch (\Exception $e) {
             $this->db->rollBack();
             $flashMsg = ($this->settings['displayErrorDetails']) ? $e->getMessage() : $this->trans('An error occurred. Please contact administrator');
@@ -147,7 +143,7 @@ class Auth extends BaseController
     public function forgotPassword(Request $request, Response $response, Array $args) {
 
         if(!$request->isPost()){
-            return $this->render($response, 'Auth/forgotPassword.twig');
+            return $this->render($response, 'Auth/forgotPassword.twig', ['page' => ['title' => $this->trans('Forgot password')]]);
         }
 
         $vars = $request->getParsedBody();
@@ -186,7 +182,7 @@ class Auth extends BaseController
             }
 
             $this->db->commit();
-            return $this->render($response, 'Frontend/page.twig', ['title' => 'Info', 'text' => 'Please, check email']);
+            return $this->render($response, 'Frontend/page.twig', ['page' => ['title' => $this->trans('Info'), 'text' => $this->trans('Please, check email')]]);
         } catch (\Exception $e) {
             $this->db->rollBack();
             $flashMsg = ($this->settings['displayErrorDetails']) ? $e->getMessage() : $this->trans('An error occurred. Please contact administrator');

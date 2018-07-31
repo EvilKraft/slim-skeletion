@@ -9,26 +9,31 @@ use Symfony\Bridge\Twig\Extension\TranslationExtension;
 use Symfony\Component\Translation\Loader\PhpFileLoader;
 use Symfony\Component\Translation\MessageSelector;
 use Symfony\Component\Translation\Translator;
+use Symfony\Component\Translation\LoggingTranslator;
 
 // DIC configuration
 $container = $app->getContainer();
 
 // i18n
+$container['i18n_logger'] = function ($c) {
+    return new \Helpers\i18nLogger($c->get('settings')['i18n']['path'].DS.'dev.php');
+};
 $container['i18n'] = function ($c) {
     $settings = $c->get('settings')['i18n'];
 
     // First param is the "default language" to use.
     $translator = new Translator($settings['default_lang'], new MessageSelector());
     // Set a fallback language incase you don't have a translation in the default language
-    $translator->setFallbackLocales(['en']);
+    $translator->setFallbackLocales($settings['fallback_langs']);
     // Add a loader that will get the php files we are going to store our translations in
     $translator->addLoader('php', new PhpFileLoader());
     // Add language files here
-    $translator->addResource('php', $settings['path'].'az_AZ.php', 'az'); // Azerbayjan
-    $translator->addResource('php', $settings['path'].'en_US.php', 'en'); // English
-    $translator->addResource('php', $settings['path'].'ru_RU.php', 'ru'); // Russian
+    foreach ($settings['langs'] as $lang){
+        $domain = 'messages';
+        $translator->addResource('php', $settings['path'].$domain.'.'.$lang.'.php', $lang, $domain);
+    }
 
-    return $translator;
+    return new LoggingTranslator($translator, $c->get('i18n_logger'));
 };
 
 $container['twig_profile'] = function () {

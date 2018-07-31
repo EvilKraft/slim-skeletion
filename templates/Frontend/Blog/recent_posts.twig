@@ -1,18 +1,8 @@
 <div class="widget HTML" data-version="1" id="HTML55">
-    <h2 class="title">{{ recent_posts.title }}</h2>
+    <h2 class="title">{{ 'Latest Posts'|trans }}</h2>
     <div class="widget-content">
         <div id="recent-posts">
             <ul>
-                {#
-                <li>
-                    <img alt="New Form of Farming Revolutionizes the Way We Eat" src="/News16_files/woman_593141_960_720.jpg">
-                    <div>
-                        <a href="https://news16-templatemark.blogspot.com/2017/10/new-form-of-farming-revolutionizes-way.html" rel="nofollow" title="By 2050, the world population will reach almost 10 billion people, at least 66 percent of whom will live in urban areas.Water-scarcity issues are…">New Form of Farming Revolutionizes the Way We Eat</a>
-                    </div>
-                    <span>23/10/2017 - 3 Comments</span>
-                    <div style="clear:both"></div>
-                </li>
-#}
                 {% for item in recent_posts.items %}
                     <li>
                         <img src="{{ path_for('image', {'image_name':item.file}, {'p':'rp'}) }}" title="{{ item.title }}" alt="{{ item.title }}">

@@ -19,7 +19,7 @@ $app->any('/', function (Request $request, Response $response, Array $args) use 
 });
 
 $app->group('/locales', function () use ($app, $langRegExp) {
-    $this->get('/{lang:'.$langRegExp.'}/{ns}.json', \Controller\i18n::class.':getResource');
+    $this->get('/{lang:'.$langRegExp.'|dev}/{ns}.json', \Controller\i18n::class.':getResource');
     $this->post('/add/{lang}/{ns}',                 \Controller\i18n::class.':addMissingKey');
 });
 
@@ -60,15 +60,21 @@ $app->group('/{lang:'.$langRegExp.'}', function () use ($app) {
 
 
     $this->group('/admin', function () use ($app) {
-        $this->get('',              \Controller\Admin\Dashboard::class.':index')->setName('admin_dashboard');
-        $this->group('/posts',      \Controller\Admin\Posts::class.'::registerRoutes');
-        $this->group('/users',      \Controller\Admin\Users::class.'::registerRoutes');
-        $this->group('/posttypes',  \Controller\Admin\PostTypes::class.'::registerRoutes');
-        $this->group('/industries', \Controller\Admin\Industries::class.'::registerRoutes');
-        $this->group('/pages',      \Controller\Admin\Pages::class.'::registerRoutes');
+        $this->get('',                         \Controller\Admin\Dashboard::class.':index')->setName('admin_dashboard');
+        $this->map(['GET', 'PUT'], '/profile', \Controller\Admin\Users::class.':profile')->setName('admin_profile');
 
+
+        $this->group('/content',          \Controller\Admin\Content::class.'::registerRoutes');
+
+
+        $this->group('/posts',          \Controller\Admin\Posts::class.'::registerRoutes');
+        $this->group('/users',          \Controller\Admin\Users::class.'::registerRoutes');
+        $this->group('/posttypes',      \Controller\Admin\PostTypes::class.'::registerRoutes');
+        $this->group('/industries',     \Controller\Admin\Industries::class.'::registerRoutes');
+        $this->group('/pages',          \Controller\Admin\Pages::class.'::registerRoutes');
         $this->group('/banners',        \Controller\Admin\Banners::class.'::registerRoutes');
         $this->group('/bannersClients', \Controller\Admin\bannersClients::class.'::registerRoutes');
+        $this->group('/translations',   \Controller\Admin\Translations::class.'::registerRoutes');
 
     })->add(\Controller\Auth::class.':checkIsAdmin')
       ->add(\Controller\Auth::class.':checkAuth');

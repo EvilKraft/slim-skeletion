@@ -45,4 +45,23 @@ class Helpers
     public static function isImageMIME($mimeType){
         return in_array($mimeType, ['image/gif', 'image/jpeg', 'image/png']);
     }
+
+    public static function array_diff_keys(Array $array1, Array $array2){
+        $keys1 = array_keys(reset($array1));
+        $keys2 = array_keys(reset($array2));
+
+        $diff1 = array_diff_key($array1, $array2);
+        $diff2 = array_diff_key($array2, $array1);
+
+        $items = array();
+        foreach ($diff1 as $item){
+            $items[] = array_merge($item, array_fill_keys($keys2, ''));
+        }
+
+        foreach ($diff2 as $item){
+            $items[] = array_merge(array_fill_keys($keys1, ''), $item);
+        }
+
+        return $items;
+    }
 }

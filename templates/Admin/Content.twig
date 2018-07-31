@@ -1,0 +1,128 @@
+{% extends 'backend_layout.twig' %}
+
+{% block content %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>{{ page.title }}</h1>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-10 col-lg-8">
+                <div class="box box-primary">
+                    <div class="box-body">
+                        <form id="updateForm" method="POST" enctype="multipart/form-data" data-toggle="validator" action="{{ currentUrl }}">
+                            {% if item is defined %}
+                                <input type="hidden" name="_METHOD" value="PUT" />
+                            {% endif %}
+
+                            <div class="collapse in" id="collapsible">
+                                <div class="form-group">
+                                    <label for="parentId">{{ 'Parent'|trans }}</label>
+                                    <select id="parentId" name="parentId" class="form-control select2" data-error="{{ 'Select a parent'|trans }}">
+                                        <option value="">{{ 'NO PARENT'|trans }}</option>
+                                        {% for parent in parents %}
+                                            <option value="{{ parent.contentId }}" {{ (parent.contentId == item.contentId|default(currentRouteArgs['id']|default)) ? 'selected' }}>{{ parent.title }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="alias">{{ 'Alias'|trans }} <span class="text-red">*</span></label>
+                                <input id="alias" name="alias" class="form-control" placeholder="{{ 'Alias'|trans }}" value="{{ item.alias|default('') }}" {{ item.id|default('') != '' ? 'readonly=""' }} required="" type="text" data-error="{{ 'Invalid value'|trans }}">
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <br>
+                            <div class="nav-tabs-custom" style="border: solid #d2d6de 1px">
+                                <ul class="nav nav-tabs" >
+                                    {% for lang in langs %}
+                                        <li {{ loop.first ? 'class="active"' }}><a data-toggle="tab" href="#tab_{{ lang }}">{{ lang|upper }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                                <div class="tab-content">
+                                    {% for lang in langs %}
+                                        <div id="tab_{{ lang }}" class="tab-pane {{ loop.first ? 'in active' }}">
+                                            <input type="hidden" name="{{ lang }}[langId]" value="{{ item_langs[lang].langId|default('') }}" />
+
+                                            <div class="form-group">
+                                                <label for="title">{{ 'Title'|trans }} <span class="text-red">*</span></label>
+                                                <input id="title_{{ lang }}" name="{{ lang }}[title]" class="form-control" placeholder="{{ 'Title'|trans }}" value="{{ item_langs[lang].title|default('') }}"  type="text" data-error="{{ 'Invalid value'|trans }}">
+                                                <div class="help-block with-errors"></div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="keywords">{{ 'Keywords'|trans }}</label>
+                                                <input id="keywords_{{ lang }}" name="{{ lang }}[keywords]" class="form-control" placeholder="{{ 'Keywords'|trans }}" value="{{ item_langs[lang].keywords|default('') }}" type="text">
+                                                <div class="help-block with-errors"></div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="description">{{ 'Description'|trans }}</label>
+                                                <input id="description_{{ lang }}" name="{{ lang }}[description]" class="form-control" placeholder="{{ 'Description'|trans }}" value="{{ item_langs[lang].description|default('') }}" type="text">
+                                                <div class="help-block with-errors"></div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="intro">{{ 'Intro'|trans }} <span class="text-red">*</span></label>
+                                                <textarea id="intro_{{ lang }}" name="{{ lang }}[intro]" class="form-control ckeditor" placeholder="{{ 'Intro'|trans }}"  data-error="{{ 'Invalid value'|trans }}">{{ item_langs[lang].intro|default('') }}</textarea>
+                                                <div class="help-block with-errors"></div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="text">{{ 'Text'|trans }} <span class="text-red">*</span></label>
+                                                <textarea id="text_{{ lang }}" name="{{ lang }}[text]" class="form-control ckeditor" placeholder="{{ 'Text'|trans }}"  data-error="{{ 'Invalid value'|trans }}">{{ item_langs[lang].text|default('') }}</textarea>
+                                                <div class="help-block with-errors"></div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="box-footer">
+                        <div class="form-group">
+                            {% if 'update' in actions %}
+                                <button class="btn btn-primary" type="submit" form="updateForm">{{ 'Submit'|trans }}</button>
+                            {% endif %}
+                            <a class="btn btn-default pull-right" href="{{ path_for(indexRoute, {'lang': lang}) }}">{{ 'Cancel'|trans }}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+
+    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/assets/select2/dist/css/select2.min.css?ver={{ version }}">
+    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/assets/select2-bootstrap-theme-dist/dist/select2-bootstrap.min.css?ver={{ version }}">
+
+    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/assets/adminlte/plugins/ckeditor/skins/moono/editor_gecko.css?t=H5SE&ver={{ version }}">
+    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/assets/adminlte/plugins/ckeditor/skins/moono/dialog.css?t=H5SE&ver={{ version }}">
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+
+    <script src="{{ base_url() }}/assets/select2/dist/js/select2.min.js?ver={{ version }}"></script>
+    <script src="{{ base_url() }}/assets/select2/dist/js/i18n/{{ lang }}.js?ver={{ version }}"></script>
+
+    <script src="{{ base_url() }}/assets/adminlte/plugins/ckeditor/ckeditor.js?ver={{ version }}"></script>
+    <script src="{{ base_url() }}/assets/adminlte/plugins/ckeditor/config.js?t=H5SE&ver={{ version }}"></script>
+    <script src="{{ base_url() }}/assets/adminlte/plugins/ckeditor/lang/{{ lang }}.js?t=H5SE&ver={{ version }}"></script>
+    <script src="{{ base_url() }}/assets/adminlte/plugins/ckeditor/styles.js?t=H5SE&ver={{ version }}"></script>
+    <script src="{{ base_url() }}/assets/adminlte/plugins/ckeditor/plugins/image/dialogs/image.js?t=H5SE&ver={{ version }}"></script>
+
+    <script src="{{ base_url() }}/assets/bootstrap-validator/dist/validator.min.js?ver={{ version }}"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#parentId').select2({ theme: "bootstrap", width: '100%'});
+
+//	        CKEDITOR.replaceClass = 'ckeditor';
+        });
+    </script>
+
+{% endblock %}

@@ -18,12 +18,14 @@
                             {% endif %}
 
                             <div class="form-group">
-                                <label for="onMain">{{ 'Show on MainPage'|trans }} <span class="text-red">*</span></label>
-                                <select id="onMain" name="onMain" class="form-control select2" >
-                                    {% for key, title in {0:'Hide', 1:'Show'} %}
-                                        <option value="{{ key }}" {{ (key == item.onMain|default('0')) ? 'selected' }}>{{ title|trans }}</option>
-                                    {% endfor %}
-                                </select>
+                                <label for="domain">{{ 'REST.Translations.fields.domain'|trans }} <span class="text-red">*</span></label>
+                                <input id="domain" name="domain" class="form-control" placeholder="{{ 'REST.Translations.fields.domain'|trans }}" value="{{ item.domain|default('messages') }}" {{ item.domain|default('') != '' ? 'readonly=""' }} required="" type="text" data-error="{{ 'Invalid value'|trans }}">
+                                <div class="help-block with-errors"></div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="key">{{ 'REST.Translations.fields.key'|trans }} <span class="text-red">*</span></label>
+                                <input id="key" name="key" class="form-control" placeholder="{{ 'REST.Translations.fields.key'|trans }}" value="{{ item.key|default('') }}" {{ item.domain|default('') != '' ? 'readonly=""' }} required="" type="text" data-error="{{ 'Invalid value'|trans }}">
                                 <div class="help-block with-errors"></div>
                             </div>
 
@@ -37,11 +39,11 @@
                                 <div class="tab-content">
                                     {% for lang in langs %}
                                         <div id="tab_{{ lang }}" class="tab-pane {{ loop.first ? 'in active' }}">
-                                            <input type="hidden" name="{{ lang }}[langId]" value="{{ item_langs[lang].langId|default('') }}" />
+                                            <input type="hidden" name="{{ lang }}[langId]" value="{{ lang }}" />
 
                                             <div class="form-group">
-                                                <label for="title">{{ 'Title'|trans }} <span class="text-red">*</span></label>
-                                                <input id="title_{{ lang }}" name="{{ lang }}[title]" class="form-control" placeholder="{{ 'Title'|trans }}" value="{{ item_langs[lang].title|default('') }}" required="" type="text" data-error="{{ 'Invalid value'|trans }}">
+                                                <label for="value">{{ 'REST.Translations.fields.value'|trans }} <span class="text-red">*</span></label>
+                                                <input id="value_{{ lang }}" name="{{ lang }}[value]" class="form-control" placeholder="{{ 'REST.Translations.fields.value'|trans }}" value="{{ item_langs[lang].value|default('') }}" required="" type="text" data-error="{{ 'Invalid value'|trans }}">
                                                 <div class="help-block with-errors"></div>
                                             </div>
                                         </div>

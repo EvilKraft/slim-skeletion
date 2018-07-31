@@ -1,19 +1,15 @@
 <!DOCTYPE html>
 <html class="v2" dir="ltr" xmlns="http://www.w3.org/1999/xhtml" >
     <head>
-        <title>News16</title>
+        <title>{{ (page.title|default is empty)? '' : page.title~' - ' }}{{ 'site_name'|trans }}</title>
         <meta charset="utf-8">
         <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
         <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 
         <link href="/favicon.ico?v=2" rel="icon" type="image/x-icon" />
 
-        <meta name="description" content="News16 Professional Newspaper and Magazine Free Blogger Template Download" >
-        <meta name="keywords"    content="YOUR, KEYWORDS, HERE" >
-        <meta name="Author"      content="YOUR-NAME" >
-        <meta name="language"    content="english" >
-        <link rel="publisher"    href="https://plus.google.com/GOOGLE+ID/posts" >
-        <link rel="author"       href="https://plus.google.com/GOOGLE+ID/about" >
+        <meta name="description" content="{{ page.description|default }}" >
+        <meta name="keywords"    content="{{ page.keywords|default }}" >
 
         {% block head %}
             <!-- Bootstrap core CSS -->
@@ -115,7 +111,7 @@
                         <div class="widget Header" data-version="1" id="Header1">
                             <div id="header-inner">
                                 <a href="{{ path_for('home', {'lang':lang}) }}" style="display: block">
-                                    <img alt="News16" id="Header1_headerimg" src="/resources/img/site_logo5.png" style="display: block" height="90px; " width="260px; ">
+                                    <img alt="News16" id="Header1_headerimg" src="/resources/img/site_logo.png" style="display: block" height="90px; " width="260px; ">
                                 </a>
                             </div>
                         </div>
@@ -133,7 +129,7 @@
                     <input type="checkbox">
                     <label>≡</label>
                     <ul>
-                        <li class="homers"><a href="{{ path_for('home', {'lang': lang}) }}"><i class="material-icons" style=" line-height: 2.1; display: block; ">home</i></a></li>
+                        <li class="homers"><a href="{{ path_for('home', {'lang': lang}) }}" title="{{ 'Home'|trans }}"><i class="material-icons" style=" line-height: 2.1; display: block; ">home</i></a></li>
                         <li><a href="{{ path_for('about', {'lang':lang}) }}">{{ 'About'|trans }}</a></li>
                         <li>
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
@@ -166,14 +162,14 @@
                                 <ul class="menus">
                                     <li><a href="{{ path_for('member_posts', {'lang':lang}) }}">{{ 'Posts'|trans }}</a></li>
                                     <li><a href="{{ path_for('member_profile', {'lang':lang}) }}">{{ 'Profile'|trans }}</a></li>
-                                    <li><a href="{{ path_for('logout', {'lang':lang}) }}">{{ 'Logout'|trans }}</a></li>
+                                    <li><a href="{{ path_for('logout', {'lang':lang}) }}">{{ 'Sign out'|trans }}</a></li>
                                 </ul>
                             </li>
                         {% else %}
-                            <li class="navbar-right"><a href="{{ path_for('register', {'lang':lang}) }}">{{ 'Register'|trans }}</a></li>
+                            <li class="navbar-right"><a href="{{ path_for('register', {'lang':lang}) }}">{{ 'Registration'|trans }}</a></li>
                             <li class="navbar-right dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                                    {{ 'Sign In'|trans }}<i class="material-icons" style=" font-size: 14px; ">keyboard_arrow_down</i>
+                                    {{ 'Sign in'|trans }}<i class="material-icons" style=" font-size: 14px; ">keyboard_arrow_down</i>
                                 </a>
                                 <div class="dropdown-menu" id="formLogin">
                                     <div class="row">
@@ -207,11 +203,11 @@
                 <div class="sidebar-area" id="sidebar" role="complementary">
                     <div class="sidebarbtop section" id="sidebarbtop">
                         <div class="widget HTML" data-version="1" id="HTML3">
-                            <h2>{{ 'Search' }}</h2>
+                            <h2>{{ 'Search'|trans }}</h2>
                             <div class="widget-content">
                                 <div id="search-bar">
                                     <form action="{{ path_for('search', {'lang':lang}) }}" id="search-form" method="get">
-                                        <input id="sq" name="q" placeholder="Search Here..." type="text">
+                                        <input id="sq" name="q" placeholder="{{ 'Search Here'|trans }}..." type="text">
                                         <input id="searchsubmit" value="" type="submit">
                                     </form>
                                     <span class="search-form-icon"><span class="fa fa-search"></span></span>
@@ -222,7 +218,7 @@
                         {# {% include 'Frontend/Blog/popular_posts.twig' %} #}
 
                         <div class="widget Label" data-version="1" id="Label1">
-                            <h2>All Categories</h2>
+                            <h2>{{ 'All Categories'|trans }}</h2>
                             <div class="widget-content list-label-widget-content">
                                 <ul>
                                     {% for industry in industries %}
@@ -262,7 +258,7 @@
                                 </div>
                                 <div class="widget Image" data-version="1" id="Image1">
                                     <div class="widget-content" style="margin-bottom: 20px">
-                                        <img alt="Logo" id="Image1_img" src="/resources/img/site_logo5.png" height="90" width="260">
+                                        <img alt="Logo" id="Image1_img" src="/resources/img/site_logo2.png" height="90" width="260">
                                     </div>
                                 </div>
                             </div>
@@ -271,7 +267,7 @@
                         <div class="footer-widget" id="footx2">
                             <div class="footer section" id="footer2">
                                 <div class="widget Label" data-version="1" id="Label2">
-                                    <h2>Popular Tags</h2>
+                                    <h2>{{ 'Popular'|trans }}</h2>
                                     <div class="widget-content cloud-label-widget-content">
                                         {% for category in pop_categories %}
                                             <span class="label-size">
@@ -286,7 +282,7 @@
                         <div class="footer-widget" id="footx3">
                             <div class="footer section" id="footer3">
                                 <div class="widget PopularPosts" data-version="1" id="PopularPosts2">
-                                    <h2>Social</h2>
+                                    <h2>{{ 'Social'|trans }}</h2>
                                     <ul class="pt-followers-icons ptfollowers7 share-buttons">
                                         <li style="margin: 0 5px 5px 0;" class="facebook-share"><a href="#">&nbsp;</a></li>
                                         <li style="margin: 0 5px 5px 0;" class="google-plus-share"><a href="#">&nbsp;</a></li>
@@ -302,7 +298,7 @@
                 <div id="footerfix">
                     <div class="copyleft">
                         Copyright © 2018
-                        <a href="{{path_for('home', {'lang': lang})}}">{{ 'site_name'|trans }}</a> All Rights Reserved - <div id="mscontent" style="display: inline-block;"> Created with <i style="color:#ff695d;" class="fa fa-heart"></i> by <a href="https://www.linkedin.com/in/kaluzhnikov/">Konstantin Kaluzhnikov</a></div>
+                        <a href="{{path_for('home', {'lang': lang})}}">{{ 'site_name'|trans }}</a> {{ 'All rights reserved'|trans }} - <div id="mscontent" style="display: inline-block;"> Created with <i style="color:#ff695d;" class="fa fa-heart"></i> by <a href="https://www.linkedin.com/in/kaluzhnikov/">Konstantin Kaluzhnikov</a></div>
                     </div>
                 </div>
             </footer>
@@ -330,7 +326,7 @@
             <script src="{{ base_url() }}/assets/jquery.marquee/jquery.marquee.min.js"></script>
 
             <script>
-                i18next
+                var I18N = i18next
                     .use(i18nextXHRBackend)
                     .init({
                         lng: '{{ lang }}',
@@ -341,6 +337,7 @@
                         saveMissing: true,
                         //    debug: true
                     });
+
 
                 $(document).ready(function () {
                     $('.blog-date').first().html(moment().locale('{{lang }}').format('LLLL'));
