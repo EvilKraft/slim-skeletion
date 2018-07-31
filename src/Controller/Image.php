@@ -30,7 +30,7 @@ class Image
 
         if(empty($image_name)){
             $image_name = 'none';
-        }gi
+        }
 
         if(!$server->sourceFileExists($image_name)){
             $image_name = '../resources/img/default-placeholder.png';
