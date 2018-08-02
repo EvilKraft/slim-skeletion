@@ -43,10 +43,10 @@
         "bower-asset/lightgallery": "^1.6",
         "bower-asset/jquery.marquee": "^1.5",
 
-        "EvilKraft/dataTableSelectAllBtn": "master@dev",
-        "EvilKraft/dataTableActionBtns": "master@dev",
-        "EvilKraft/dataTableColumnFilter": "master@dev",
-        "EvilKraft/dataTableExportCollection": "master@dev",
+        "EvilKraft/dataTableSelectAllBtn": "@dev",
+        "EvilKraft/dataTableActionBtns": "@dev",
+        "EvilKraft/dataTableColumnFilter": "@dev",
+        "EvilKraft/dataTableExportCollection": "@dev",
 
         "slim/slim": "^3.1",
         "slim/php-view": "^2.0",
