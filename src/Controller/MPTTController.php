@@ -93,6 +93,7 @@ abstract class MPTTController extends RESTController implements \Interfaces\MPTT
         return $item;
     }
 
+    // Deletes a node and its children.
     public function deleteNode(int $id): bool
     {
         $node = $this->getNode($id);
@@ -110,7 +111,7 @@ abstract class MPTTController extends RESTController implements \Interfaces\MPTT
             ':treeId' => $node[$this->treeId],
         ]);
         // since a node was deleted we must shrink the tree to remove the gap
-        $r2 = $this->resizeAt($node[$this->rgt], $node[$this->treeId], -(2 + self::countChildren($node[$this->lft], $node[$this->rgt]) * 2));
+        $r2 = $this->resizeAt($node[$this->rgt], $node[$this->treeId], -(2 + $this->countChildren($node) * 2));
         return $r1 && $r2;
     }
 
@@ -218,7 +219,7 @@ abstract class MPTTController extends RESTController implements \Interfaces\MPTT
         $target = $this->getNode($targetParent);
 
         // expand the target parent to fit the node and its children
-        $growth = 2 + self::countChildren($node[$this->lft], $node[$this->rgt]) * 2;
+        $growth = 2 + $this->countChildren($node) * 2;
         $r1 = $this->resizeAt($target[$this->rgt] - 1, $target[$this->treeId], $growth);
         $moveDelta = $target[$this->rgt] + $growth - $node[$this->rgt] - 1;
         $depthDelta = $target[$this->lvl] + 1 - $node[$this->lvl];
@@ -295,11 +296,61 @@ abstract class MPTTController extends RESTController implements \Interfaces\MPTT
     }
 
     /**
+     * Count children of the node
+     * @param array $node
      * @return int
      */
-    public static function countChildren(int $lft, int $rgt): int
+    protected function countChildren(array $node): int
     {
+        return (int) floor(($node[$this->rgt] - $node[$this->lft]) / 2);
+    }
 
-        return (int) floor(($rgt - $lft) / 2);
+    /**
+     * Checks if the current node has any children.
+     * @param array $node
+     * @return  bool
+     */
+    protected function hasChildren(array $node): bool
+    {
+        return ($this->countChildren($node) > 0);
+    }
+
+    /**
+     * Is the current node a leaf node?
+     * @param array $node
+     * @return  bool
+     */
+    protected function isLeaf(array $node): bool
+    {
+        return (!$this->hasChildren($node));
+    }
+
+    /**
+     * Is the current node a descendant of the supplied node.
+     * @param array $node
+     * @param $target
+     * @return  bool
+     */
+    protected function isDescendant(array $node, $target): bool
+    {
+        if (!is_array($target)) {
+            $target = $this->getNode($target);
+        }
+
+        return (
+            $node[$this->lft]    > $target[$this->lft] &&
+            $node[$this->rgt]    < $target[$this->rgt] &&
+            $node[$this->treeId] = $target[$this->treeId]
+        );
+    }
+
+    /**
+     * Checks if the current node is a root node.
+     * @param array $node
+     * @return  bool
+     */
+    protected function isRoot(array $node)
+    {
+        return ($node[$this->lft] === 0);
     }
 }
