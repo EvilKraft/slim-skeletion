@@ -99,7 +99,7 @@ table.tr-caption-container{padding:4px;margin-bottom:.5em}
 td.tr-caption{font-size:80%}
 .widget ul {padding:0;}
 .quickedit{display:none;visibility:hidden}
-body {background: #fff;color: #656e7f;font-family:'Open Sans', sans-serif;font-size: 18px;font-weight: 300;line-height: 27px;margin:0}
+body {background: #fff;color: #656e7f;font-family:sans-serif;font-size: 18px;font-weight: 300;line-height: 27px;margin:0}
 body#layout #mainbwrap{width:100%;float:left}
 body#layout #sidebar-wrapper{width:33%;left:0;padding:0;float:right}
 body#layout .sidebar-area {width:80%;margin:0;padding:0}
@@ -116,7 +116,13 @@ a:visited{color:#2574A9}
 a:hover,a:focus,a:active{color:#f77e75;-webkit-transition:all .2s ease-in-out;-moz-transition:all .2s ease-in-out;-o-transition:all .2s ease-in-out;transition:all .2s ease-in-out}
 .site-header{background:#242d36;border-bottom:5px solid #1e252d;margin:0;position:relative;width:100%;z-index:100}
 .site-header img{display:block;margin:0 auto;max-height:200px}
-.bwrapsite-content{margin: 0 auto; max-width: 1021px; overflow: hidden;border: 1px solid #e6e6e6; border-top: 0;}
+.bwrapsite-content{
+	margin: 0 auto;
+	max-width: 1021px;
+	overflow: hidden;
+	border: 1px solid #e6e6e6;
+	border-top: 0;
+}
 .content-area{float:left;margin:0 -25% 0 0;width:68%; /*border-right:1px solid #e6e6e6*/ border-right: none;}
 .widget-title{background:none repeat scroll 0 0 #4B3F57;color:#FFF;font-size:16px;font-weight:400;text-transform:uppercase;margin:0 0 5px;position:relative;transition:all .5s ease-out}
 #header-wrapper{overflow: hidden; padding:20px; position: relative; margin: 0 auto;}
@@ -214,7 +220,7 @@ ul#label_with_thumbs {padding:15px;}
 .viewall a {background:#fff!important; color:#444!important;}
 #magstyle1 .title a, #magstyle2 .title a, #slider2 .title a, #magstyle4 .title a, #magstyle44 .title a, #recent1 .title a, #recent2 .title a, #recent3 .title a, .title22 a {background:#2574A9; padding: 4px 10px; border-radius: 4px;color:#fff;font-weight:600;}
 .avatar-image-container img{height:70px;width:70px;overflow:hidden;float:left;margin-right:20px;max-width:100%!important}
-.comments .comments-content .comment{padding:20px;font-family: 'Open Sans', sans-serif;}
+.comments .comments-content .comment{padding:20px;font-family: sans-serif;}
 #comments{padding:0!important;margin-top:20px;}
 #comments h4 {display:none;}
 .comments .avatar-image-container{max-height:100%!important;width:70px!important;margin-right:10px;border-radius:100%;border:4px solid #2574A9;}
@@ -295,12 +301,14 @@ h2.date-header{margin:10px 0;display:none}
 
 #menu li.navbar-right ul.menus{width: 250px; right:0; }
 #menu li.navbar-right div.dropdown-menu{width: 250px; right:0; padding: 15px}
-#menu li.navbar-right label{display:block; width:100%; text-align:left; font-size:12px; text-transform:none }
+#menu li.navbar-right label{display:block; width:100%; text-align:left; font-size:14px; text-transform:none; line-height: normal; height:auto }
 #menu li.navbar-right input{display:block; width:100%; opacity:1; cursor:auto}
+#menu li.navbar-right .container-fluid a{color: #2574A9; padding:0; line-height:30px; font-size:12px;}
+#menu li.navbar-right .container-fluid a:hover{background: #ffffff}
 
 @media screen and (max-width: 800px){
 	#menu{position: relative; height: 40px; width: 100%; border-top: 1px solid #e6e6e6; border-bottom: 1px solid #e6e6e6;margin-top: 10px;}
-	#menu ul{background:#111;position:absolute;top:100%;right:0;left:0;z-index:3;height:auto;display:none}
+	#menu ul{/*background:#656e7f;*/position:absolute;top:100%;right:0;left:0;z-index:3;height:auto;display:none}
 	#menu ul.menus{width:100%;position:static;padding-left:20px}
 	#menu li{display:block;float:none;width:auto; font:normal 0.8em Arial;}
 	#menu input,#menu label{position:absolute;top:0;left:0;display:block}

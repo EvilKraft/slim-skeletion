@@ -78,6 +78,7 @@ class Auth extends BaseController
             'name'           => $data['name'],
             'country'        => 'AZ',
             'email'          => $data['email'],
+            'phone'          => $data['phone'],
         );
 
         try {
@@ -92,7 +93,7 @@ class Auth extends BaseController
 
             $emailFrom = $this->settings['info_mail'];
             $emailTo   = array($data['email'] => $data['name']);
-            $emailBody = $this->renderer->fetch('Emails/registrationConfirm.twig', array('code' => $activationCode));
+            $emailBody = $this->renderer->fetch('Emails/registrationConfirm.twig', array('login' => $data['login'], 'code' => $activationCode));
 
             // Setting all needed info and passing in my email template.
             $message = (new \Swift_Message($this->trans('Conformation')))

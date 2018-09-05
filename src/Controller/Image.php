@@ -20,7 +20,7 @@ class Image
         $this->container = $container;
     }
 
-    public function __invoke(Request $request, Response $response, $args) {
+    public function __invoke(Request $request, Response $response, array $args) {
         // your code
         // to access items in the container... $this->container->get('');
 

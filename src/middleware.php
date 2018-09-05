@@ -31,8 +31,6 @@ $app->add(function (Request $request, Response $response, callable $next) {
     $twigEnv->addGlobal('currentUrl',         $request->getUri());
     $twigEnv->addGlobal('currentRouteArgs',   $request->getAttribute('routeInfo')[2]);
 
-    $twigEnv->addGlobal('flash_messages',     $this->flash->getMessages());
-
     $twigEnv->addGlobal('version',            $this->get('settings')['version']);
 
     $response = $next($request, $response);
@@ -74,6 +72,7 @@ $app->add(function (Request $request, Response $response, callable $next) {
 });
 
 // Trailing / in route patterns
+
 $app->add(function (Request $request, Response $response, callable $next) {
     $uri = $request->getUri();
     $path = $uri->getPath();

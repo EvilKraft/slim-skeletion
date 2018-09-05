@@ -14,6 +14,19 @@ use Symfony\Component\Translation\LoggingTranslator;
 // DIC configuration
 $container = $app->getContainer();
 
+$container['environment'] = function () {
+
+    $server = $_SERVER;
+
+    // fix the secure environment detection if behind an AWS ELB
+    if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https') {
+        $server['HTTPS'] = 'on';
+        $server['SERVER_PORT'] = 443;
+    }
+
+    return new Slim\Http\Environment($server);
+};
+
 // i18n
 $container['i18n_logger'] = function ($c) {
     return new \Helpers\i18nLogger($c->get('settings')['i18n']['path'].DS.'dev.php');
@@ -57,6 +70,7 @@ $container['renderer'] = function ($c) {
             $renderer->addExtension(new \Twig_Extension_Debug());
             $renderer->addExtension(new TranslationExtension($c->get('i18n')));
             $renderer->addExtension(new Twig_Extensions_Extension_Text());
+            $renderer->addExtension(new Knlv\Slim\Views\TwigMessages(new Slim\Flash\Messages()));
 
             $renderer->getEnvironment()->addFilter(new \Twig_Filter('timeago',      \Helpers\Helpers::class.'::timeago'));
             $renderer->getEnvironment()->addFilter(new \Twig_Filter('phone_format', \Helpers\Helpers::class.'::phoneFormat' ));

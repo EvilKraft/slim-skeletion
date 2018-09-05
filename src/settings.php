@@ -11,7 +11,7 @@ return [
     'settings' => [
         'version'   => '1.0.0.1',
 
-        'displayErrorDetails'               => true,   // set to false in production
+        'displayErrorDetails'               => false,   // set to false in production
         'addContentLengthHeader'            => false,   // Allow the web server to send the content-length header
         'determineRouteBeforeAppMiddleware' => true,    // Only set this if you need access to route within middleware
 
@@ -90,7 +90,7 @@ return [
 
         // i18n settings
         'i18n' => [
-            'langs'          => ['en', 'ru', 'az'],
+            'langs'          => ['az', 'ru', 'en'],
             'default_lang'   => 'az',
             'fallback_langs' => ['en'],
             'path'           => DIR.'langs'.DS,
@@ -110,6 +110,7 @@ return [
         'info_mail'          => ['noreply@mysite.com' => 'mysite.com'],
         'mailer_queue_limit' => 10,
 
+        'post_live_months' => 6,    // How match months post lives
 
         'tracy' => [
             'showPhpInfoPanel' => 1,

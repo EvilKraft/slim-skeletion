@@ -19,7 +19,7 @@ class Industries extends \Controller\RESTController
     protected $template  = 'Admin\Industries.twig';
 
     protected        $columns   = ['title', 'onMain'];
-    protected static $actions   = ['create', 'update', 'delete', 'move'];
+    protected static $actions   = ['create', 'update', 'delete'];
 
     protected $idxFieldLang = 'langId';
 

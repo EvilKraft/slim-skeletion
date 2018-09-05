@@ -114,46 +114,46 @@
 {% block head %}
     {{ parent() }}
 
-    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/assets/select2/dist/css/select2.min.css?ver={{ version }}">
-    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/assets/select2-bootstrap-theme-dist/dist/select2-bootstrap.min.css?ver={{ version }}">
+    <link type="text/css" rel="stylesheet" href="/assets/select2/dist/css/select2.min.css?ver={{ version }}">
+    <link type="text/css" rel="stylesheet" href="/assets/select2-bootstrap-theme-dist/dist/select2-bootstrap.min.css?ver={{ version }}">
 
-    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/assets/adminlte/plugins/ckeditor/skins/moono/editor_gecko.css?t=H5SE&ver={{ version }}">
-    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/assets/adminlte/plugins/ckeditor/skins/moono/dialog.css?t=H5SE&ver={{ version }}">
+    <link type="text/css" rel="stylesheet" href="/assets/adminlte/plugins/ckeditor/skins/moono/editor_gecko.css?t=H5SE&ver={{ version }}">
+    <link type="text/css" rel="stylesheet" href="/assets/adminlte/plugins/ckeditor/skins/moono/dialog.css?t=H5SE&ver={{ version }}">
 
-    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/assets/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css?ver={{ version }}">
+    <link type="text/css" rel="stylesheet" href="/assets/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css?ver={{ version }}">
 
-    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/assets/bootstrap-fileinput/css/fileinput.min.css?ver={{ version }}" media="all" >
+    <link type="text/css" rel="stylesheet" href="/assets/bootstrap-fileinput/css/fileinput.min.css?ver={{ version }}" media="all" >
 {% endblock %}
 
 {% block scripts %}
     {{ parent() }}
 
-    <script src="{{ base_url() }}/assets/select2/dist/js/select2.min.js?ver={{ version }}"></script>
-    <script src="{{ base_url() }}/assets/select2/dist/js/i18n/{{ lang }}.js?ver={{ version }}"></script>
+    <script src="/assets/select2/dist/js/select2.min.js?ver={{ version }}"></script>
+    <script src="/assets/select2/dist/js/i18n/{{ lang }}.js?ver={{ version }}"></script>
 
-    <script src="{{ base_url() }}/assets/moment/min/moment-with-locales.min.js?ver={{ version }}"></script>
-    <script src="{{ base_url() }}/assets/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js?ver={{ version }}"></script>
+    <script src="/assets/moment/min/moment-with-locales.min.js?ver={{ version }}"></script>
+    <script src="/assets/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js?ver={{ version }}"></script>
 
     <!-- piexif.min.js is only needed if you wish to resize images before upload to restore exif data.
      This must be loaded before fileinput.min.js -->
-    <script src="{{ base_url() }}/assets/bootstrap-fileinput/js/plugins/piexif.min.js?ver={{ version }}" type="text/javascript"></script>
+    <script src="/assets/bootstrap-fileinput/js/plugins/piexif.min.js?ver={{ version }}" type="text/javascript"></script>
     <!-- sortable.min.js is only needed if you wish to sort / rearrange files in initial preview.
          This must be loaded before fileinput.min.js -->
-    <script src="{{ base_url() }}/assets/bootstrap-fileinput/js/plugins/sortable.min.js?ver={{ version }}" type="text/javascript"></script>
+    <script src="/assets/bootstrap-fileinput/js/plugins/sortable.min.js?ver={{ version }}" type="text/javascript"></script>
     <!-- purify.min.js is only needed if you wish to purify HTML content in your preview for HTML files.
          This must be loaded before fileinput.min.js -->
-    <script src="{{ base_url() }}/assets/bootstrap-fileinput/js/plugins/purify.min.js?ver={{ version }}" type="text/javascript"></script>
+    <script src="/assets/bootstrap-fileinput/js/plugins/purify.min.js?ver={{ version }}" type="text/javascript"></script>
     <!-- the main fileinput plugin file -->
-    <script src="{{ base_url() }}/assets/bootstrap-fileinput/js/fileinput.min.js?ver={{ version }}"></script>
+    <script src="/assets/bootstrap-fileinput/js/fileinput.min.js?ver={{ version }}"></script>
     <!-- optionally if you need a theme like font awesome theme you can include it as mentioned below -->
-    <script src="{{ base_url() }}/assets/bootstrap-fileinput/themes/fa/theme.js?ver={{ version }}"></script>
+    <script src="/assets/bootstrap-fileinput/themes/fa/theme.js?ver={{ version }}"></script>
     <!-- optionally if you need translation for your language then include locale file as mentioned below -->
     {% if lang != 'en' %}
-        <script src="{{ base_url() }}/assets/bootstrap-fileinput/js/locales/{{ lang }}.js?ver={{ version }}"></script>
+        <script src="/assets/bootstrap-fileinput/js/locales/{{ lang }}.js?ver={{ version }}"></script>
     {% endif %}
 
 
-    <script src="{{ base_url() }}/assets/bootstrap-validator/dist/validator.min.js?ver={{ version }}"></script>
+    <script src="/assets/bootstrap-validator/dist/validator.min.js?ver={{ version }}"></script>
 
     <script type="text/javascript">
         $(document).ready(function(){

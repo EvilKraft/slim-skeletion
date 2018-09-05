@@ -6,6 +6,7 @@
     <body>
         {% set my_link = '<a href="'~base_url()~path_for('home', {'lang': lang})~'">'~'site_name'|trans~'</a>' %}
         <p>{{ 'Thank you for registration on %link%'|trans({'%link%': my_link})|raw }}!</p>
+        <p>{{ 'Your login is: %login'|trans({'%login': login}) }}</p>
         <p>{{ 'To complete registration, click on the link below'|trans }}</p>
         <p><a href="{{ base_url() }}{{ path_for('confirmMail', {'lang': lang, 'code': code}) }}">{{ base_url() }}{{ path_for('confirmMail', {'lang': lang, 'code': code}) }}</a></p>
     </body>

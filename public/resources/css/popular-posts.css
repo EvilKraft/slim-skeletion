@@ -19,7 +19,7 @@
 ul.pt-followers-icons.share-buttons li { color: #fff; width: 31%; text-align: center; padding: 15px 0; display: inline-block; float: left; margin: 0 5px 5px 0; position: relative; z-index: 97; overflow: hidden; -webkit-transition: all 0.2s ease-in-out; -moz-transition: all 0.2s ease-in-out; -o-transition: all 0.2s ease-in-out; -ms-transition: all 0.2s ease-in-out; transition: all 0.2s ease-in-out;}
 .share-buttons li {height:auto}
 @media only screen and (max-width: 1389px) {
-	ul.pt-followers-icons.share-buttons li {width: 48.33%;}}
+	ul.pt-followers-icons.share-buttons li {width: 31%;}}
 .sidebar .widget ul li.pt-followers-icons.share-buttons a,
 .widget ul li.pt-followers-icons.share-buttons a,
 ul.pt-followers-icons.share-buttons li a { color: #fff !important; }

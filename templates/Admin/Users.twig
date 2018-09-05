@@ -131,22 +131,22 @@
 {% block head %}
     {{ parent() }}
 
-    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/assets/select2/dist/css/select2.min.css?ver={{ version }}">
-    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/assets/select2-bootstrap-theme-dist/dist/select2-bootstrap.min.css?ver={{ version }}">
+    <link type="text/css" rel="stylesheet" href="/assets/select2/dist/css/select2.min.css?ver={{ version }}">
+    <link type="text/css" rel="stylesheet" href="/assets/select2-bootstrap-theme-dist/dist/select2-bootstrap.min.css?ver={{ version }}">
 
 {% endblock %}
 
 {% block scripts %}
     {{ parent() }}
 
-    <script src="{{ base_url() }}/assets/select2/dist/js/select2.min.js?ver={{ version }}"></script>
-    <script src="{{ base_url() }}/assets/select2/dist/js/i18n/{{ lang }}.js?ver={{ version }}"></script>
+    <script src="/assets/select2/dist/js/select2.min.js?ver={{ version }}"></script>
+    <script src="/assets/select2/dist/js/i18n/{{ lang }}.js?ver={{ version }}"></script>
 
-    <script src="{{ base_url() }}/resources/js/select2Countries.js?ver={{ version }}"></script>
+    <script src="/resources/js/select2Countries.js?ver={{ version }}"></script>
 
-    <script src="{{ base_url() }}/assets/inputmask/dist/min/jquery.inputmask.bundle.min.js?ver={{ version }}"></script>
+    <script src="/assets/inputmask/dist/min/jquery.inputmask.bundle.min.js?ver={{ version }}"></script>
 
-    <script src="{{ base_url() }}/assets/bootstrap-validator/dist/validator.min.js?ver={{ version }}"></script>
+    <script src="/assets/bootstrap-validator/dist/validator.min.js?ver={{ version }}"></script>
 
     <script type="text/javascript">
         function addContact() {

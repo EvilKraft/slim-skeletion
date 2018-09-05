@@ -5,8 +5,58 @@
 	background-image: url(../../assets/flag-icon-css/flags/1x1/gb.svg);
 }
 
-.bg-aqua, .callout.callout-info, .alert-info, .label-info, .modal-info .modal-body {
+.bg-aqua, .callout.callout-info, .alert-info, .modal-info .modal-body {
 	background-color: #00c0ef !important;
+}
+
+.select2-selection__arrow b{
+	padding: 0;
+}
+
+.nav-tabs-custom div.tab-content{
+	border: 1px solid #e6e6e6;
+	padding: 10px 10px 0 10px;
+}
+
+.nav-tabs-custom div.active{
+	border: none;
+}
+
+.reg-menu a{
+	background-color: #ef7f1a !important;
+}
+
+#sidebar h2{
+	text-transform: uppercase;
+}
+.Label li{
+	border: 2px solid #ef7f1a;
+	padding: 10px 20px 10px 10px !important;
+	margin-bottom: 6px;
+}
+.Label li:last-child{
+	margin-bottom: 0;
+}
+.Label li::before {
+	padding-left: 7px;
+}
+.Label li a{
+	margin-left: 15px;
+}
+
+.label-info a{
+	margin-right: 5px;
+}
+
+body {
+	background-image: url(../img/b4.jpg);
+	background-attachment: fixed;
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+.bwrapsite-content{
+	/*max-width:none;*/
+	background-color: #ffffff;
 }
 
 /*
@@ -110,7 +160,7 @@ td.action_btns_container :last-child{
 
 .marquee {
 	float: left;
-	width: 400px;
+	width: 370px;
 	overflow: hidden;
 
 	display: none;
@@ -118,12 +168,12 @@ td.action_btns_container :last-child{
 
 @media only screen and (max-width: 1066px) {
 	.marquee {
-		width: 40%;
+		width: 34%;
 	}
 }
 @media screen and (max-width:960px) {
 	.marquee {
-		width: 23%;
+		width: 20%;
 	}
 }
 @media only screen and (max-width: 768px) {

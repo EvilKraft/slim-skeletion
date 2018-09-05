@@ -32,6 +32,7 @@ $app->group('/{lang:'.$langRegExp.'}', function () use ($app) {
     $this->get('/about',                    \Controller\Frontend::class.':about')->setName('about');
     $this->get('/privacy',                  \Controller\Frontend::class.':privacy')->setName('privacy');
     $this->get('/rules',                    \Controller\Frontend::class.':rules')->setName('rules');
+    $this->get('/reklam',                   \Controller\Frontend::class.':reklam')->setName('reklam');
     $this->map(['GET', 'POST'], '/contact', \Controller\Frontend::class.':contact')->setName('contact');
 
     $this->get('/industry/{id:[0-9]+}[/page/{page:\d+}]', \Controller\Frontend::class.':blog')->setName('blog');
@@ -80,6 +81,6 @@ $app->group('/{lang:'.$langRegExp.'}', function () use ($app) {
       ->add(\Controller\Auth::class.':checkAuth');
 });
 
-$app->get('/img[/{image_name:.*}]', \Controller\Image::class)->setName('image');
 
+$app->get('/img[/{image_name:.*}]', \Controller\Image::class)->setName('image');
 

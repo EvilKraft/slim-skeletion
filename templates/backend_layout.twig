@@ -8,31 +8,31 @@
 
         <meta name="description" content="">
         <meta name="author" content="Konstantin Kaluzhnikov, k.kaluzhnikov@gmail.com">
-        <link href="/favicon.ico?v=2" rel="icon" type="image/x-icon" />
+    <link href="/favicon.ico?v=4" rel="icon" type="image/x-icon" />
 
         <title>{{ page.title|default('site_name'|trans) }}</title>
 
         {% block head %}
             <!-- Bootstrap 3.3.7 -->
-            <link rel="stylesheet" href="{{ base_url() }}/assets/bootstrap/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/assets/bootstrap/dist/css/bootstrap.min.css">
             <!-- Font Awesome -->
-            <link rel="stylesheet" href="{{ base_url() }}/assets/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/assets/font-awesome/css/font-awesome.min.css">
             <!-- Ionicons -->
-            <link rel="stylesheet" href="{{ base_url() }}/assets/ionicons/docs/v2/css/ionicons.min.css">
+        <link rel="stylesheet" href="/assets/ionicons/docs/v2/css/ionicons.min.css">
             <!-- Theme style -->
-            <link rel="stylesheet" href="{{ base_url() }}/assets/adminlte/dist/css/AdminLTE.min.css">
+        <link rel="stylesheet" href="/assets/adminlte/dist/css/AdminLTE.min.css">
             <!-- AdminLTE Skins. Choose a skin from the css/skins
                  folder instead of downloading all of them to reduce the load. -->
-            <link rel="stylesheet" href="{{ base_url() }}/assets/adminlte/dist/css/skins/_all-skins.min.css">
+        <link rel="stylesheet" href="/assets/adminlte/dist/css/skins/_all-skins.min.css">
 
-            <link rel="stylesheet" href="{{ base_url() }}/assets/jquery-toast-plugin/dist/jquery.toast.min.css">
+        <link rel="stylesheet" href="/assets/jquery-toast-plugin/dist/jquery.toast.min.css">
 
-            <link rel="stylesheet" href="{{ base_url() }}/assets/bootstrap-star-rating/css/star-rating.min.css">
+        <link rel="stylesheet" href="/assets/bootstrap-star-rating/css/star-rating.min.css">
 
-            <link rel="stylesheet" href="{{ base_url() }}/assets/flag-icon-css/css/flag-icon.min.css">
+            <link rel="stylesheet" href="/assets/flag-icon-css/css/flag-icon.min.css">
         {% endblock %}
 
-        <link rel="stylesheet" href="{{ base_url() }}/resources/css/backend.css?ver={{ version }}">
+        <link rel="stylesheet" href="/resources/css/backend.css?ver={{ version }}">
 
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -92,7 +92,7 @@
                                     <span class="hidden-xs">{{ session.user.name }}</span>
                                     <i class="hidden-xs" style="position: absolute; top: 30px; left: 38px; display: block; font-size: 12px;">
 										{% if session.user.groupId in [2] %}
-                                            <p> {{'Buyers'|trans}} </p>                                        
+                                    <p> {{'Buyers'|trans}} </p>
 										{% endif %}
 									</i>
                                 </a>
@@ -215,25 +215,25 @@
 
         {% block scripts %}
             <!-- jQuery 3 -->
-            <script src="{{ base_url() }}/assets/jquery/dist/jquery.min.js"></script>
+    <script src="/assets/jquery/dist/jquery.min.js"></script>
             <!-- Bootstrap 3.3.7 -->
-            <script src="{{ base_url() }}/assets/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/assets/bootstrap/dist/js/bootstrap.min.js"></script>
             <!-- SlimScroll -->
-            <script src="{{ base_url() }}/assets/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="/assets/slimscroll/jquery.slimscroll.min.js"></script>
             <!-- FastClick -->
-            <script src="{{ base_url() }}/assets/fastclick/lib/fastclick.js"></script>
+    <script src="/assets/fastclick/lib/fastclick.js"></script>
             <!-- AdminLTE App -->
-            <script src="{{ base_url() }}/assets/adminlte/dist/js/app.min.js"></script>
+    <script src="/assets/adminlte/dist/js/app.min.js"></script>
 
-            <script src="{{ base_url() }}/assets/i18next/i18next.min.js"></script>
-            <script src="{{ base_url() }}/assets/i18next-xhr-backend/i18nextXHRBackend.min.js"></script>
+    <script src="/assets/i18next/i18next.min.js"></script>
+    <script src="/assets/i18next-xhr-backend/i18nextXHRBackend.min.js"></script>
 
 
-            <script src="{{ base_url() }}/assets/jquery-toast-plugin/dist/jquery.toast.min.js"></script>
+    <script src="/assets/jquery-toast-plugin/dist/jquery.toast.min.js"></script>
 
-            <script src="{{ base_url() }}/assets/bootstrap-star-rating/js/star-rating.min.js"></script>
+    <script src="/assets/bootstrap-star-rating/js/star-rating.min.js"></script>
 
-            <script src="{{ base_url() }}/resources/js/main.js?ver={{ version }}"></script>
+    <script src="/resources/js/main.js?ver={{ version }}"></script>
             <script>
                  i18next
                     .use(i18nextXHRBackend)
@@ -249,7 +249,7 @@
                     });
 
                 $(document).ready(function () {
-                    {% for type, group in flash_messages %}
+            {% for type, group in flash() %}
                         $.toast({
                             heading: '{{ type|capitalize }}!',
                             text: [
@@ -260,7 +260,7 @@
                             icon: '{{ type }}',
                             position: 'bottom-right',
                             showHideTransition: 'slide',
-	                        hideAfter : false,
+                hideAfter : false,      // `false` to make it sticky or time in miliseconds to hide after
                             loader: false
                         });
                     {% endfor %}

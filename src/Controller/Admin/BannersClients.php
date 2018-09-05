@@ -12,7 +12,7 @@ use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
-class BannersClients extends \Controller\RESTController
+class BannersClients extends RESTController
 {
     protected $table     = 'bannersClients';
     protected $idxField  = 'clientId';

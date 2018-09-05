@@ -44,7 +44,7 @@
                                 <br><br>
                             </div>
                             <div id="signup" class="tab-pane fade {{ currentRoute == 'register' ? 'in active' }}" style="border: none">
-                                <form id="registerForm" method="post" data-toggle="validator" action="{{ path_for('register', {'lang': lang}) }}">
+                                <form id="registerForm" method="post" {#data-toggle="validator"#} action="{{ path_for('register', {'lang': lang}) }}">
                                     <h4 class="form-signin-heading">{{ 'Registration'|trans }}</h4>
 
                                     <div class="form-group has-feedback">
@@ -60,6 +60,14 @@
                                         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                                         <div class="help-block with-errors"></div>
                                     </div>
+
+                                    <div class="form-group has-feedback">
+                                        <label for="phone">{{ 'Phone'|trans }} <span class="text-danger">*</span></label>
+                                        <input id="phone" name="phone" class="form-control form" placeholder="{{ 'Phone'|trans }}" type="text" value="{{ item.phone|default('') }}" required="" data-error="{{ 'Invalid value'|trans }}">
+                                        <span class="glyphicon glyphicon-earphone form-control-feedback"></span>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+
                                     <div class="form-group has-feedback">
                                         <label for="inputPassword">{{ 'Password'|trans }} <span class="text-danger">*</span></label>
                                         <input id="inputPassword" name="password" class="form-control form" placeholder="{{ 'Password'|trans }}" required="" type="password" data-minlength="6" >
@@ -83,7 +91,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <button class="form-btn semibold" type="submit">{{ 'Sign up'|trans }}</button>
+                                        <button class="btn btn-primary" type="submit">{{ 'Sign up'|trans }}</button>
                                     </div>
                                 </form>
                             </div>
@@ -101,27 +109,36 @@
 {% block head %}
     {{ parent() }}
 
-    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/assets/select2/dist/css/select2.min.css?ver={{ version }}">
-    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/assets/select2-bootstrap-theme-dist/dist/select2-bootstrap.min.css?ver={{ version }}">
+    <link type="text/css" rel="stylesheet" href="/assets/select2/dist/css/select2.min.css?ver={{ version }}">
+    <link type="text/css" rel="stylesheet" href="/assets/select2-bootstrap-theme-dist/dist/select2-bootstrap.min.css?ver={{ version }}">
 
 {% endblock %}
 
 {% block scripts %}
     {{ parent() }}
 
-    <script src="{{ base_url() }}/assets/select2/dist/js/select2.min.js?ver={{ version }}"></script>
-    <script src="{{ base_url() }}/assets/select2/dist/js/i18n/{{ lang }}.js?ver={{ version }}"></script>
+    <script src="/assets/select2/dist/js/select2.min.js?ver={{ version }}"></script>
+    <script src="/assets/select2/dist/js/i18n/{{ lang }}.js?ver={{ version }}"></script>
 
-    <script src="{{ base_url() }}/resources/js/select2Countries.js?ver={{ version }}"></script>
+    <script src="/resources/js/select2Countries.js?ver={{ version }}"></script>
 
-    <script src="{{ base_url() }}/assets/inputmask/dist/min/jquery.inputmask.bundle.min.js?ver={{ version }}"></script>
+    <script src="/assets/inputmask/dist/min/jquery.inputmask.bundle.min.js?ver={{ version }}"></script>
 
 
-    <script src="{{ base_url() }}/assets/bootstrap-validator/dist/validator.min.js?ver={{ version }}"></script>
+    <script src="/assets/bootstrap-validator/dist/validator.min.js?ver={{ version }}"></script>
 
     <script type="text/javascript">
         $(document).ready(function(){
-            $('#registerForm').validator('update');
+
+	        $('#registerForm')
+		        .on('submit', function (e) {
+			        var validator = $(this).data('bs.validator');
+			        validator.$inputs = validator.$inputs.not('[data-remote]');
+		        })
+		        .validator() // initialize the validator (which sets its own submit handler)
+		        .on('submit', function (e) {
+			        $(this).validator('update') // to re-add the remote validators so future inputs get validated
+		        });
         });
     </script>
 {% endblock %}

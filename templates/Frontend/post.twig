@@ -27,6 +27,8 @@
                                         <span class="time-info">
                                             <a class="timestamp-link" href="{{ path_for('post', {'lang':lang, 'id':item.postId}) }}" rel="bookmark" title="permanent link"><abbr class="published updated timeago" title="2017-10-23T11:35:00-07:00">{{ item.createdAt }}</abbr></a>
                                         </span>
+                                        <br>
+                                        {{ 'post_number'|trans }}: {{ item.postId }}
                                     </div>
                                     <div class="post-header">
                                         <div class="post-header-line-1"></div>
@@ -34,7 +36,7 @@
                                     <div class="post-body entry-content">
                                         <div class="row invoice-info">
                                             <div class="col-sm-6 invoice-col">
-                                                {{ item.postType }}
+                                                <a href="{{ path_for('postType', {'lang':lang,'id':item.typeId}) }}">{{ item.postType }}</a>
                                                 <address>
                                                     <i class="fa fa-money text-light-blue"></i> {{ 'Price'|trans }} : <strong>{{ item.price }} </strong>
                                                     {% if item.workers > 0 %}
@@ -46,6 +48,7 @@
                                                     {% if item.income > 0 %}
                                                         <br><i class="fa fa-line-chart text-light-blue"></i> : {{ item.income }}
                                                     {% endif %}
+                                                    <br><i class="glyphicon glyphicon-map-marker text-light-blue"></i> : <span class="flag-icon flag-icon-{{ item.country|default('AZ')|lower }} flag-icon-squared"></span> {{ item.city }}
                                                     {% if item.site|length > 0 %}
                                                         <br><i class="glyphicon glyphicon-globe text-light-blue"></i> : <a href="{{ item.site }}">{{ item.site }}</a>
                                                     {% endif %}
@@ -54,19 +57,19 @@
                                             <div class="col-sm-6 invoice-col">
                                                 {{ 'Contact'|trans }}
                                                 <address>
-                                                    <strong>{{ item.name }}</strong>
-                                                    <br><i class="glyphicon glyphicon-envelope text-light-blue"></i> : <a href="mailto:{{ item.email }}">{{ item.email }}</a>
-                                                    {% if item.phone is not empty %}
-                                                        <br><i class="glyphicon glyphicon-phone-alt text-light-blue"></i> : {{ item.phone }}
+                                                    <strong>{{ item.u_name }}</strong>
+                                                    <br><i class="glyphicon glyphicon-envelope text-light-blue"></i> : <a href="mailto:{{ item.u_email }}">{{ item.u_email }}</a>
+                                                    {% if item.u_phone is not empty %}
+                                                        <br><i class="glyphicon glyphicon-phone-alt text-light-blue"></i> : {{ item.u_phone }}
                                                     {% endif %}
-                                                    {% if item.city is not empty %}
-                                                        <br><i class="glyphicon glyphicon-map-marker text-light-blue"></i> : {{ [item.city, item.country]|join(', ')|trim(', ') }}
+                                                    {% if item.u_city is not empty %}
+                                                        <br><i class="glyphicon glyphicon-map-marker text-light-blue"></i> : <span class="flag-icon flag-icon-{{ item.u_country|default('AZ')|lower }} flag-icon-squared"></span> {{ item.u_city }}
                                                     {% endif %}
-                                                         {% if item.site|length > 0 %}
-                                                        <br><i class="glyphicon glyphicon-globe text-light-blue"></i> : <a href="{{ item.site }}">{{ item.site }}</a>
+                                                    {% if item.u_site|length > 0 %}
+                                                        <br><i class="glyphicon glyphicon-globe text-light-blue"></i> : <a href="{{ item.u_site }}">{{ item.u_site }}</a>
                                                     {% endif %}
-                                                    {% if item.facebook|length > 0 %}
-                                                        <br><i class="fa fa-facebook-official text-light-blue" style="font-size: 17px"></i> : <a href="{{ item.facebook }}">{{ item.facebook }}</a>
+                                                    {% if item.u_facebook|length > 0 %}
+                                                        <br><i class="fa fa-facebook-official text-light-blue" style="font-size: 17px"></i> : <a href="{{ item.u_facebook }}">{{ item.u_facebook }}</a>
                                                     {% endif %}
                                                 </address>
                                             </div>
@@ -89,7 +92,7 @@
                                         {% if item.files is defined %}
                                             <hr>
                                             {% for file in item.files %}
-                                                <a class="btn btn-primary" style="margin-right: 5px; color:#ffffff;" href="{{ base_url() }}/uploads/{{ file.file }}">
+                                                <a class="btn btn-primary" style="margin-right: 5px; color:#ffffff;" href="/uploads/{{ file.file }}">
                                                     <i class="fa fa-download"></i> {{ 'Download attachment'|trans }}
                                                 </a> {{ file.caption }}
                                                 <br><br>
@@ -147,7 +150,7 @@
 {% block head %}
     {{ parent() }}
 
-    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/assets/lightgallery/dist/css/lightgallery.min.css" />
+    <link type="text/css" rel="stylesheet" href="/assets/lightgallery/dist/css/lightgallery.min.css" />
 
     <style type="text/css">
         .post {padding:0; }
@@ -182,7 +185,7 @@
 {% block scripts %}
     {{ parent() }}
 
-    <script src="{{ base_url() }}/assets/lightgallery/dist/js/lightgallery-all.min.js"></script>
+    <script src="/assets/lightgallery/dist/js/lightgallery-all.min.js"></script>
 
     <script type="text/javascript">
         jQuery(document).ready(function($){

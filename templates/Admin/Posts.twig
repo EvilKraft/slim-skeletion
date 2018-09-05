@@ -27,7 +27,16 @@
                                 <input type="hidden" name="status" value="1" />
                             {% endif %}
 
-                            <div class="collapse in" id="collapsible">
+                            <div class="form-group">
+                                <label for="isVip">{{ 'VIP'|trans }} <span class="text-red">*</span></label>
+                                <select id="isVip" name="isVip" class="form-control select2" >
+                                    {% for key, title in {0:'No', 1:'Yes'} %}
+                                        <option value="{{ key }}" {{ (key == item.isVip|default('0')) ? 'selected' }}>{{ title|trans }}</option>
+                                    {% endfor %}
+                                </select>
+                                <div class="help-block with-errors"></div>
+                            </div>
+
                                 <div class="form-group">
                                     <label for="typeId">{{ 'Type'|trans }} <span class="text-red">*</span></label>
                                     <select id="typeId" name="typeId" class="form-control select2" required="" data-error="{{ 'Select a type'|trans }}">
@@ -38,33 +47,34 @@
                                     </select>
                                     <div class="help-block with-errors"></div>
                                 </div>
-                            </div>
 
-                            <div class="collapse in" id="collapsible">
                                 <div class="form-group">
                                     <label for="industryId">{{ 'Industry'|trans }} <span class="text-red">*</span></label>
-                                    <select id="industryId" name="industryId[]" class="form-control select2" required="" data-error="{{ 'Select an industry'|trans }}">
-                                        <option value="" selected disabled>{{ 'Select an industry'|trans }}</option>
+                                <select id="industryId" name="industryId[]" class="form-control select2" required="" multiple="multiple" data-error="{{ 'Select an industry'|trans }}">
+                                    <option value="" disabled>{{ 'Select an industry'|trans }}</option>
                                         {% for industry in industries %}
                                             <option value="{{ industry.industryId }}" {{ (industry.PI_Id is not empty) ? 'selected' }}>{{ industry.title }}</option>
                                         {% endfor %}
                                     </select>
                                     <div class="help-block with-errors"></div>
                                 </div>
+
+                                <div class="form-group">
+                                <label for="country">{{ 'Country'|trans }}</label>
+                                <select id="country" name="country" class="form-control form select2" required=""></select>
+                                <div class="help-block with-errors"></div>
                             </div>
 
-                            <div class="collapse in" id="collapsible">
-                                <div class="form-group">
-                                    <label for="cityId">{{ 'City'|trans }} <span class="text-red">*</span></label>
-                                    <select id="cityId" name="cityId" class="form-control select2" required="" data-error="{{ 'Select a city'|trans }}">
-                                        <option value="" {{ (item.cityId|default('') == '') ? 'selected' }} disabled>{{ 'Select a city'|trans }}</option>
+                            <div class="form-group foreign-company">
+                                <label for="cityId">{{ 'City'|trans }}</label>
+                                <select id="cityId" name="cityId" class="form-control select2" data-error="{{ 'Select a city'|trans }}">
+                                    <option value="0" {{ (item.cityId|default('0') == '0') ? 'selected' }} >{{ 'Select a city'|trans }}</option>
                                         {% for city in cities %}
                                             <option value="{{ city.cityId }}" {{ (city.cityId == item.cityId|default('')) ? 'selected' }}>{{ city.name }}</option>
                                         {% endfor %}
                                     </select>
                                     <div class="help-block with-errors"></div>
                                 </div>
-                            </div>
 
                             <div class="form-group">
                                 <label for="workers">{{ 'Workers'|trans }}</label>
@@ -119,23 +129,23 @@
 
                             <div class="nav-tabs-custom">
                                 <ul class="nav nav-tabs">
-                                    {% for lang in langs %}
-                                        <li {{ loop.first ? 'class="active"' }}><a data-toggle="tab" href="#tab_{{ lang }}">{{ lang|upper }}</a></li>
+                                    {% for lng in langs %}
+                                        <li {{ (lng == lang) ? 'class="active"' }}><a data-toggle="tab" href="#tab_{{ lng }}">{{ lng|upper }}</a></li>
                                     {% endfor %}
                                 </ul>
                                 <div class="tab-content">
-                                    {% for lang in langs %}
-                                        <div id="tab_{{ lang }}" class="tab-pane {{ loop.first ? 'in active' }}">
-                                            <input type="hidden" name="{{ lang }}[langId]" value="{{ item_langs[lang].langId|default('') }}" />
+                                    {% for lng in langs %}
+                                        <div id="tab_{{ lng }}" class="tab-pane {{ (lng == lang) ? 'in active' }}">
+                                            <input type="hidden" name="{{ lng }}[langId]" value="{{ item_langs[lng].langId|default('') }}" />
 
                                             <div class="form-group">
-                                                <label for="title">{{ 'Title'|trans }} <span class="text-red">*</span></label>
-                                                <input id="title_{{ lang }}" name="{{ lang }}[title]" class="form-control" placeholder="{{ 'Title'|trans }}" value="{{ item_langs[lang].title|default('') }}" required="" type="text" data-error="{{ 'Invalid value'|trans }}">
+                                                <label for="title">{{ 'Title'|trans }} {{ (lng == lang) ? '<span class="text-red">*</span>' }}</label>
+                                                <input id="title_{{ lng }}" name="{{ lng }}[title]" class="form-control" placeholder="{{ 'Title'|trans }}" value="{{ item_langs[lng].title|default('') }}" {{ (lng == lang) ? 'required=""' }} type="text" data-error="{{ 'Invalid value'|trans }}">
                                                 <div class="help-block with-errors"></div>
                                             </div>
                                             <div class="form-group">
-                                                <label for="text">{{ 'Text'|trans }} <span class="text-red">*</span></label>
-                                                <textarea id="text_{{ lang }}" name="{{ lang }}[text]" class="form-control ckeditor" placeholder="{{ 'Text'|trans }}" required="" data-error="{{ 'Invalid value'|trans }}">{{ item_langs[lang].text|default('') }}</textarea>
+                                                <label for="text">{{ 'Text'|trans }} {{ (lng == lang) ? '<span class="text-red">*</span>' }}</label>
+                                                <textarea id="text_{{ lng }}" name="{{ lng }}[text]" class="form-control ckeditor" placeholder="{{ 'Text'|trans }}" {{ (lng == lang) ? 'required=""' }} data-error="{{ 'Invalid value'|trans }}">{{ item_langs[lng].text|default('') }}</textarea>
                                                 <div class="help-block with-errors"></div>
                                             </div>
                                         </div>
@@ -175,52 +185,54 @@
 {% block head %}
     {{ parent() }}
 
-    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/assets/select2/dist/css/select2.min.css?ver={{ version }}">
-    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/assets/select2-bootstrap-theme-dist/dist/select2-bootstrap.min.css?ver={{ version }}">
+    <link type="text/css" rel="stylesheet" href="/assets/select2/dist/css/select2.min.css?ver={{ version }}">
+    <link type="text/css" rel="stylesheet" href="/assets/select2-bootstrap-theme-dist/dist/select2-bootstrap.min.css?ver={{ version }}">
 
-    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/assets/adminlte/plugins/ckeditor/skins/moono/editor_gecko.css?t=H5SE&ver={{ version }}">
-    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/assets/adminlte/plugins/ckeditor/skins/moono/dialog.css?t=H5SE&ver={{ version }}">
+    <link type="text/css" rel="stylesheet" href="/assets/adminlte/plugins/ckeditor/skins/moono/editor_gecko.css?t=H5SE&ver={{ version }}">
+    <link type="text/css" rel="stylesheet" href="/assets/adminlte/plugins/ckeditor/skins/moono/dialog.css?t=H5SE&ver={{ version }}">
 
-    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/assets/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css?ver={{ version }}">
+    <link type="text/css" rel="stylesheet" href="/assets/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css?ver={{ version }}">
 
-    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/assets/bootstrap-fileinput/css/fileinput.min.css?ver={{ version }}" media="all" >
+    <link type="text/css" rel="stylesheet" href="/assets/bootstrap-fileinput/css/fileinput.min.css?ver={{ version }}" media="all" >
 {% endblock %}
 
 {% block scripts %}
     {{ parent() }}
 
-    <script src="{{ base_url() }}/assets/select2/dist/js/select2.min.js?ver={{ version }}"></script>
-    <script src="{{ base_url() }}/assets/select2/dist/js/i18n/{{ lang }}.js?ver={{ version }}"></script>
+    <script src="/assets/select2/dist/js/select2.min.js?ver={{ version }}"></script>
+    <script src="/assets/select2/dist/js/i18n/{{ lang }}.js?ver={{ version }}"></script>
 
-    <script src="{{ base_url() }}/assets/adminlte/plugins/ckeditor/ckeditor.js?ver={{ version }}"></script>
-    <script src="{{ base_url() }}/assets/adminlte/plugins/ckeditor/config.js?t=H5SE&ver={{ version }}"></script>
-    <script src="{{ base_url() }}/assets/adminlte/plugins/ckeditor/lang/{{ lang }}.js?t=H5SE&ver={{ version }}"></script>
-    <script src="{{ base_url() }}/assets/adminlte/plugins/ckeditor/styles.js?t=H5SE&ver={{ version }}"></script>
-    <script src="{{ base_url() }}/assets/adminlte/plugins/ckeditor/plugins/image/dialogs/image.js?t=H5SE&ver={{ version }}"></script>
+    <script src="/resources/js/select2Countries.js?ver={{ version }}"></script>
 
-    <script src="{{ base_url() }}/assets/moment/min/moment-with-locales.min.js?ver={{ version }}"></script>
-    <script src="{{ base_url() }}/assets/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js?ver={{ version }}"></script>
+    <script src="/assets/adminlte/plugins/ckeditor/ckeditor.js?ver={{ version }}"></script>
+    <script src="/assets/adminlte/plugins/ckeditor/config.js?t=H5SE&ver={{ version }}"></script>
+    <script src="/assets/adminlte/plugins/ckeditor/lang/{{ lang }}.js?t=H5SE&ver={{ version }}"></script>
+    <script src="/assets/adminlte/plugins/ckeditor/styles.js?t=H5SE&ver={{ version }}"></script>
+    <script src="/assets/adminlte/plugins/ckeditor/plugins/image/dialogs/image.js?t=H5SE&ver={{ version }}"></script>
+
+    <script src="/assets/moment/min/moment-with-locales.min.js?ver={{ version }}"></script>
+    <script src="/assets/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js?ver={{ version }}"></script>
 
     <!-- piexif.min.js is only needed if you wish to resize images before upload to restore exif data.
      This must be loaded before fileinput.min.js -->
-    <script src="{{ base_url() }}/assets/bootstrap-fileinput/js/plugins/piexif.min.js?ver={{ version }}" type="text/javascript"></script>
+    <script src="/assets/bootstrap-fileinput/js/plugins/piexif.min.js?ver={{ version }}" type="text/javascript"></script>
     <!-- sortable.min.js is only needed if you wish to sort / rearrange files in initial preview.
          This must be loaded before fileinput.min.js -->
-    <script src="{{ base_url() }}/assets/bootstrap-fileinput/js/plugins/sortable.min.js?ver={{ version }}" type="text/javascript"></script>
+    <script src="/assets/bootstrap-fileinput/js/plugins/sortable.min.js?ver={{ version }}" type="text/javascript"></script>
     <!-- purify.min.js is only needed if you wish to purify HTML content in your preview for HTML files.
          This must be loaded before fileinput.min.js -->
-    <script src="{{ base_url() }}/assets/bootstrap-fileinput/js/plugins/purify.min.js?ver={{ version }}" type="text/javascript"></script>
+    <script src="/assets/bootstrap-fileinput/js/plugins/purify.min.js?ver={{ version }}" type="text/javascript"></script>
     <!-- the main fileinput plugin file -->
-    <script src="{{ base_url() }}/assets/bootstrap-fileinput/js/fileinput.min.js?ver={{ version }}"></script>
+    <script src="/assets/bootstrap-fileinput/js/fileinput.min.js?ver={{ version }}"></script>
     <!-- optionally if you need a theme like font awesome theme you can include it as mentioned below -->
-    <script src="{{ base_url() }}/assets/bootstrap-fileinput/themes/fa/theme.js?ver={{ version }}"></script>
+    <script src="/assets/bootstrap-fileinput/themes/fa/theme.js?ver={{ version }}"></script>
     <!-- optionally if you need translation for your language then include locale file as mentioned below -->
     {% if lang != 'en' %}
-        <script src="{{ base_url() }}/assets/bootstrap-fileinput/js/locales/{{ lang }}.js?ver={{ version }}"></script>
+        <script src="/assets/bootstrap-fileinput/js/locales/{{ lang }}.js?ver={{ version }}"></script>
     {% endif %}
 
 
-    <script src="{{ base_url() }}/assets/bootstrap-validator/dist/validator.min.js?ver={{ version }}"></script>
+    <script src="/assets/bootstrap-validator/dist/validator.min.js?ver={{ version }}"></script>
 
     <script type="text/javascript">
         $(document).ready(function(){
@@ -234,8 +246,21 @@
                 useCurrent: false,
 	        });
 
+	        $("[name='country']").on('change', function() {
+
+		        if($(this).val() == 'AZ'){
+			        $('.foreign-company').show();
+			        $('#city').attr('data-validate', 'true').attr("disabled", false);
+		        }else{
+			        $('.foreign-company').hide();
+			        $('#city').attr('data-validate', 'false').attr("disabled", true);
+		        }
+
+		        $('#registerForm').validator('update');
+	        });
+
             $('#typeId').select2({ theme: "bootstrap", width: '100%', placeholder: "{{ 'Select a type'|trans }}" });
-            $('#industryId').select2({ theme: "bootstrap", width: '100%', placeholder: "{{ 'Select an industry'|trans }}" });
+            $('#industryId').select2({ theme: "bootstrap", width: '100%', placeholder: "{{ 'Select an industry'|trans }}", tags: true });
             $('#cityId').select2({ theme: "bootstrap", width: '100%', placeholder: "{{ 'Select a city'|trans }}" });
 
             // Switch tab on validation

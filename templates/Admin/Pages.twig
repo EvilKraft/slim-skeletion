@@ -78,20 +78,20 @@
 {% block head %}
     {{ parent() }}
 
-    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/assets/adminlte/plugins/ckeditor/skins/moono/editor_gecko.css?t=H5SE&ver={{ version }}">
-    <link type="text/css" rel="stylesheet" href="{{ base_url() }}/assets/adminlte/plugins/ckeditor/skins/moono/dialog.css?t=H5SE&ver={{ version }}">
+    <link type="text/css" rel="stylesheet" href="/assets/adminlte/plugins/ckeditor/skins/moono/editor_gecko.css?t=H5SE&ver={{ version }}">
+    <link type="text/css" rel="stylesheet" href="/assets/adminlte/plugins/ckeditor/skins/moono/dialog.css?t=H5SE&ver={{ version }}">
 {% endblock %}
 
 {% block scripts %}
     {{ parent() }}
 
-    <script src="{{ base_url() }}/assets/adminlte/plugins/ckeditor/ckeditor.js?ver={{ version }}"></script>
-    <script src="{{ base_url() }}/assets/adminlte/plugins/ckeditor/config.js?t=H5SE&ver={{ version }}"></script>
-    <script src="{{ base_url() }}/assets/adminlte/plugins/ckeditor/lang/{{ lang }}.js?t=H5SE&ver={{ version }}"></script>
-    <script src="{{ base_url() }}/assets/adminlte/plugins/ckeditor/styles.js?t=H5SE&ver={{ version }}"></script>
-    <script src="{{ base_url() }}/assets/adminlte/plugins/ckeditor/plugins/image/dialogs/image.js?t=H5SE&ver={{ version }}"></script>
+    <script src="/assets/adminlte/plugins/ckeditor/ckeditor.js?ver={{ version }}"></script>
+    <script src="/assets/adminlte/plugins/ckeditor/config.js?t=H5SE&ver={{ version }}"></script>
+    <script src="/assets/adminlte/plugins/ckeditor/lang/{{ lang }}.js?t=H5SE&ver={{ version }}"></script>
+    <script src="/assets/adminlte/plugins/ckeditor/styles.js?t=H5SE&ver={{ version }}"></script>
+    <script src="/assets/adminlte/plugins/ckeditor/plugins/image/dialogs/image.js?t=H5SE&ver={{ version }}"></script>
 
-    <script src="{{ base_url() }}/assets/bootstrap-validator/dist/validator.min.js?ver={{ version }}"></script>
+    <script src="/assets/bootstrap-validator/dist/validator.min.js?ver={{ version }}"></script>
 
     <script type="text/javascript">
         $(document).ready(function(){

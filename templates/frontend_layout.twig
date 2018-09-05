@@ -6,28 +6,28 @@
         <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
         <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 
-        <link href="/favicon.ico?v=2" rel="icon" type="image/x-icon" />
+        <link href="/favicon.ico?v=4" rel="icon" type="image/x-icon" />
 
         <meta name="description" content="{{ page.description|default }}" >
         <meta name="keywords"    content="{{ page.keywords|default }}" >
 
         {% block head %}
             <!-- Bootstrap core CSS -->
-            <link rel="stylesheet" href="{{ base_url() }}/assets/bootstrap/dist/css/bootstrap.min.css?ver={{ version }}">
+            <link rel="stylesheet" href="/assets/bootstrap/dist/css/bootstrap.min.css?ver={{ version }}">
             <!-- Font Awesome -->
-            <link rel="stylesheet" href="{{ base_url() }}/assets/font-awesome/css/font-awesome.min.css">
+            <link rel="stylesheet" href="/assets/font-awesome/css/font-awesome.min.css">
 
-            <link type="text/css" rel="stylesheet" href="{{ base_url() }}/resources/css/2437439463-css_bundle_v2.css">
-            <link type="text/css" rel="stylesheet" href="{{ base_url() }}/resources/css/page-skin-1.css?ver={{ version }}">
-            <link type="text/css" rel="stylesheet" href="{{ base_url() }}/resources/css/template-skin-1.css?ver={{ version }}">
-            <link type="text/css" rel="stylesheet" href="{{ base_url() }}/resources/css/popular-posts.css?ver={{ version }}">
-            <link type="text/css" rel="stylesheet" href="{{ base_url() }}/resources/css/css.css" media="all">
+            <link type="text/css" rel="stylesheet" href="/resources/css/2437439463-css_bundle_v2.css">
+            <link type="text/css" rel="stylesheet" href="/resources/css/page-skin-1.css?ver={{ version }}">
+            <link type="text/css" rel="stylesheet" href="/resources/css/template-skin-1.css?ver={{ version }}">
+            <link type="text/css" rel="stylesheet" href="/resources/css/popular-posts.css?ver={{ version }}">
+            <link type="text/css" rel="stylesheet" href="/resources/css/css.css" media="all">
 
-            <link rel="stylesheet" href="{{ base_url() }}/assets/jquery-toast-plugin/dist/jquery.toast.min.css">
+            <link rel="stylesheet" href="/assets/jquery-toast-plugin/dist/jquery.toast.min.css">
 
-            <link rel="stylesheet" href="{{ base_url() }}/assets/flag-icon-css/css/flag-icon.min.css">
+            <link rel="stylesheet" href="/assets/flag-icon-css/css/flag-icon.min.css">
 
-            <link type="text/css" rel="stylesheet" href="{{ base_url() }}/resources/css/frontend.css">
+            <link type="text/css" rel="stylesheet" href="/resources/css/frontend.css">
 
             <style type="text/css">.fb_hidden{position:absolute;top:-10000px;z-index:10001}.fb_reposition{overflow:hidden;position:relative}.fb_invisible{display:none}.fb_reset{background:none;border:0;border-spacing:0;color:#000;cursor:auto;direction:ltr;font-family:"lucida grande", tahoma, verdana, arial, sans-serif;font-size:11px;font-style:normal;font-variant:normal;font-weight:normal;letter-spacing:normal;line-height:1;margin:0;overflow:visible;padding:0;text-align:left;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;visibility:visible;white-space:normal;word-spacing:normal}.fb_reset>div{overflow:hidden}.fb_link img{border:none}@keyframes fb_transform{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}.fb_animate{animation:fb_transform .3s forwards}
                 .fb_dialog{background:rgba(82, 82, 82, .7);position:absolute;top:-10000px;z-index:10001}.fb_reset .fb_dialog_legacy{overflow:visible}.fb_dialog_advanced{padding:10px;border-radius:8px}.fb_dialog_content{background:#fff;color:#333}.fb_dialog_close_icon{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 0 transparent;cursor:pointer;display:block;height:15px;position:absolute;right:18px;top:17px;width:15px}.fb_dialog_mobile .fb_dialog_close_icon{top:5px;left:5px;right:auto}.fb_dialog_padding{background-color:transparent;position:absolute;width:1px;z-index:-1}.fb_dialog_close_icon:hover{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -15px transparent}.fb_dialog_close_icon:active{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -30px transparent}.fb_dialog_loader{background-color:#f6f7f9;border:1px solid #606060;font-size:24px;padding:20px}.fb_dialog_top_left,.fb_dialog_top_right,.fb_dialog_bottom_left,.fb_dialog_bottom_right{height:10px;width:10px;overflow:hidden;position:absolute}.fb_dialog_top_left{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/ye/r/8YeTNIlTZjm.png) no-repeat 0 0;left:-10px;top:-10px}.fb_dialog_top_right{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/ye/r/8YeTNIlTZjm.png) no-repeat 0 -10px;right:-10px;top:-10px}.fb_dialog_bottom_left{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/ye/r/8YeTNIlTZjm.png) no-repeat 0 -20px;bottom:-10px;left:-10px}.fb_dialog_bottom_right{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/ye/r/8YeTNIlTZjm.png) no-repeat 0 -30px;right:-10px;bottom:-10px}.fb_dialog_vert_left,.fb_dialog_vert_right,.fb_dialog_horiz_top,.fb_dialog_horiz_bottom{position:absolute;background:#525252;filter:alpha(opacity=70);opacity:.7}.fb_dialog_vert_left,.fb_dialog_vert_right{width:10px;height:100%}.fb_dialog_vert_left{margin-left:-10px}.fb_dialog_vert_right{right:0;margin-right:-10px}.fb_dialog_horiz_top,.fb_dialog_horiz_bottom{width:100%;height:10px}.fb_dialog_horiz_top{margin-top:-10px}.fb_dialog_horiz_bottom{bottom:0;margin-bottom:-10px}.fb_dialog_iframe{line-height:0}.fb_dialog_content .dialog_title{background:#6d84b4;border:1px solid #365899;color:#fff;font-size:14px;font-weight:bold;margin:0}.fb_dialog_content .dialog_title>span{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/yd/r/Cou7n-nqK52.gif) no-repeat 5px 50%;float:left;padding:5px 0 7px 26px}body.fb_hidden{-webkit-transform:none;height:100%;margin:0;overflow:visible;position:absolute;top:-10000px;left:0;width:100%}.fb_dialog.fb_dialog_mobile.loading{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/ya/r/3rhSv5V8j3o.gif) white no-repeat 50% 50%;min-height:100%;min-width:100%;overflow:hidden;position:absolute;top:0;z-index:10001}.fb_dialog.fb_dialog_mobile.loading.centered{width:auto;height:auto;min-height:initial;min-width:initial;background:none}.fb_dialog.fb_dialog_mobile.loading.centered #fb_dialog_loader_spinner{width:100%}.fb_dialog.fb_dialog_mobile.loading.centered .fb_dialog_content{background:none}.loading.centered #fb_dialog_loader_close{color:#fff;display:block;padding-top:20px;clear:both;font-size:18px}#fb-root #fb_dialog_ipad_overlay{background:rgba(0, 0, 0, .45);position:absolute;bottom:0;left:0;right:0;top:0;width:100%;min-height:100%;z-index:10000}#fb-root #fb_dialog_ipad_overlay.hidden{display:none}.fb_dialog.fb_dialog_mobile.loading iframe{visibility:hidden}.fb_dialog_content .dialog_header{-webkit-box-shadow:white 0 1px 1px -1px inset;background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#738ABA), to(#2C4987));border-bottom:1px solid;border-color:#1d4088;color:#fff;font:14px Helvetica, sans-serif;font-weight:bold;text-overflow:ellipsis;text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0;vertical-align:middle;white-space:nowrap}.fb_dialog_content .dialog_header table{-webkit-font-smoothing:subpixel-antialiased;height:43px;width:100%}.fb_dialog_content .dialog_header td.header_left{font-size:12px;padding-left:5px;vertical-align:middle;width:60px}.fb_dialog_content .dialog_header td.header_right{font-size:12px;padding-right:5px;vertical-align:middle;width:60px}.fb_dialog_content .touchable_button{background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#4966A6), color-stop(.5, #355492), to(#2A4887));border:1px solid #29487d;-webkit-background-clip:padding-box;-webkit-border-radius:3px;-webkit-box-shadow:rgba(0, 0, 0, .117188) 0 1px 1px inset, rgba(255, 255, 255, .167969) 0 1px 0;display:inline-block;margin-top:3px;max-width:85px;line-height:18px;padding:4px 12px;position:relative}.fb_dialog_content .dialog_header .touchable_button input{border:none;background:none;color:#fff;font:12px Helvetica, sans-serif;font-weight:bold;margin:2px -12px;padding:2px 6px 3px 6px;text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0}.fb_dialog_content .dialog_header .header_center{color:#fff;font-size:16px;font-weight:bold;line-height:18px;text-align:center;vertical-align:middle}.fb_dialog_content .dialog_content{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/y9/r/jKEcVPZFk-2.gif) no-repeat 50% 50%;border:1px solid #555;border-bottom:0;border-top:0;height:150px}.fb_dialog_content .dialog_footer{background:#f6f7f9;border:1px solid #555;border-top-color:#ccc;height:40px}#fb_dialog_loader_close{float:left}.fb_dialog.fb_dialog_mobile .fb_dialog_close_button{text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0}.fb_dialog.fb_dialog_mobile .fb_dialog_close_icon{visibility:hidden}#fb_dialog_loader_spinner{animation:rotateSpinner 1.2s linear infinite;background-color:transparent;background-image:url(https://static.xx.fbcdn.net/rsrc.php/v3/yD/r/t-wz8gw1xG1.png);background-repeat:no-repeat;background-position:50% 50%;height:24px;width:24px}@keyframes rotateSpinner{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
@@ -48,12 +48,9 @@
     </head>
     <body>
     <div class="bwrapsite-content" id="bwrapcontent">
-
-
-
             <nav id="top-nav">
                 <div class="wrapper">
-                    <div class="blog-date" style="margin-right: 10px;">
+                    <div class="blog-date" style="margin-right: 10px; color: #2574A9">
 
                     </div>
 
@@ -98,9 +95,6 @@
                             <li class="menu-item"><a href="{{ path_for('rules',   {'lang':lang}) }}">{{ 'Rules'|trans }}</a></li>
                         </ul>
                     </div>
-
-
-
                 </div>
             </nav>
 
@@ -111,7 +105,7 @@
                         <div class="widget Header" data-version="1" id="Header1">
                             <div id="header-inner">
                                 <a href="{{ path_for('home', {'lang':lang}) }}" style="display: block">
-                                    <img alt="News16" id="Header1_headerimg" src="/resources/img/site_logo.png" style="display: block" height="90px; " width="260px; ">
+                                    <img alt="{{ 'site_name'|trans }}" id="Header1_headerimg" src="/resources/img/site_logo.png" style="display: block; height:90px; width:auto">
                                 </a>
                             </div>
                         </div>
@@ -130,9 +124,10 @@
                     <label>≡</label>
                     <ul>
                         <li class="homers"><a href="{{ path_for('home', {'lang': lang}) }}" title="{{ 'Home'|trans }}"><i class="material-icons" style=" line-height: 2.1; display: block; ">home</i></a></li>
-                        <li><a href="{{ path_for('about', {'lang':lang}) }}">{{ 'About'|trans }}</a></li>
+                        <li><a href="{{ path_for('about', {'lang':lang}) }}"><i class="material-icons" style="position:relative; top: 7px;">info</i> {{ 'About'|trans }}</a></li>
                         <li>
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                                <i class="material-icons" style="position:relative; top: 7px;">view_list</i>
                                 {{ 'Categories'|trans }}<i class="material-icons" style=" font-size: 14px; ">keyboard_arrow_down</i>
                             </a>
                             <ul class="menus">
@@ -143,6 +138,7 @@
                         </li>
                         <li>
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                                <i class="material-icons" style="position:relative; top: 7px;">local_offer</i>
                                 {{ 'postTypes'|trans }}<i class="material-icons" style=" font-size: 14px; ">keyboard_arrow_down</i>
                             </a>
                             <ul class="menus">
@@ -151,7 +147,7 @@
                                 {% endfor %}
                             </ul>
                         </li>
-                        <li><a href="{{ path_for('contact', {'lang':lang}) }}">{{ 'Contact'|trans }}</a></li>
+                        <li><a href="{{ path_for('contact', {'lang':lang}) }}"><i class="material-icons" style="position:relative; top: 7px;">help</i> {{ 'Contact'|trans }}</a></li>
 
 
                         {% if session.user is defined  %}
@@ -166,26 +162,33 @@
                                 </ul>
                             </li>
                         {% else %}
-                            <li class="navbar-right"><a href="{{ path_for('register', {'lang':lang}) }}">{{ 'Registration'|trans }}</a></li>
+                            <li class="homers navbar-right reg-menu">
+                                <a href="{{ path_for('register', {'lang':lang}) }}">
+                                    <i class="material-icons" style="position:relative; top: 6px;">add</i> {{ 'Add new post'|trans }}
+                                </a>
+                            </li>
                             <li class="navbar-right dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                                    {{ 'Sign in'|trans }}<i class="material-icons" style=" font-size: 14px; ">keyboard_arrow_down</i>
+                                    <i class="material-icons" style="position:relative; top: 6px;">person</i> {{ 'Sign in'|trans }}<i class="material-icons" style=" font-size: 14px; ">keyboard_arrow_down</i>
                                 </a>
                                 <div class="dropdown-menu" id="formLogin">
                                     <div class="row">
                                         <div class="container-fluid">
                                             <form id="loginForm" method="post" data-toggle="validator" action="{{ path_for('login', {'lang': lang}) }}">
                                                 <div class="form-group">
-                                                    <label>{{ 'Login'|trans }}</label>
-                                                    <input class="form-control" name="login" id="auth_login" type="text" placeholder="{{ 'Login'|trans }}">
+                                                    <label>Email</label>
+                                                    <input class="form-control" name="login" id="auth_login" type="text" placeholder="Email">
                                                 </div>
                                                 <div class="form-group">
                                                     <label>{{ 'Password'|trans }}</label>
                                                     <input class="form-control" name="password" id="auth_password" type="password" placeholder="{{ 'Password'|trans }}">
-                                                    <br>
                                                 </div>
+                                                <div class="form-group">
                                                 <button type="submit" id="btnLogin" class="btn btn-success btn-sm">{{ 'Sign in'|trans }}</button>
+                                                </div>
                                             </form>
+
+                                            <a href="{{ path_for('forgotPassword', {'lang': lang}) }}" >{{ 'I forgot my password'|trans }}</a>
                                         </div>
                                     </div>
                                 </div>
@@ -203,7 +206,7 @@
                 <div class="sidebar-area" id="sidebar" role="complementary">
                     <div class="sidebarbtop section" id="sidebarbtop">
                         <div class="widget HTML" data-version="1" id="HTML3">
-                            <h2>{{ 'Search'|trans }}</h2>
+                            {#<h2>{{ 'Search'|trans }}</h2>#}
                             <div class="widget-content">
                                 <div id="search-bar">
                                     <form action="{{ path_for('search', {'lang':lang}) }}" id="search-form" method="get">
@@ -218,12 +221,12 @@
                         {# {% include 'Frontend/Blog/popular_posts.twig' %} #}
 
                         <div class="widget Label" data-version="1" id="Label1">
-                            <h2>{{ 'All Categories'|trans }}</h2>
+                            <h2>{{ 'postTypes'|trans }}</h2>
                             <div class="widget-content list-label-widget-content">
                                 <ul>
-                                    {% for industry in industries %}
+                                    {% for postType in postTypes %}
                                         <li>
-                                            <a dir="ltr" href="{{ path_for('blog', {'lang':lang,'id':industry.industryId}) }}">{{ industry.title }}</a>
+                                            <a dir="ltr" href="{{ path_for('postType', {'lang':lang,'id':postType.typeId}) }}">{{ postType.title }}</a>
                                         </li>
                                     {% endfor %}
                                 </ul>
@@ -232,7 +235,7 @@
 
                         {% if side_banner is defined %}
                             <div class="widget HTML" data-version="1" id="HTML1">
-                                <h2 class="title">{{ 'Advertisement'|trans }}</h2>
+                                {#<h2 class="title">{{ 'Advertisement'|trans }}</h2>#}
                                 {% include 'Frontend/Banner/banner.twig' with {'banner': side_banner} only %}
                             </div>
                         {% endif %}
@@ -253,12 +256,12 @@
                         <div class="footer-widget" id="footx1">
                             <div class="footer section" id="footer1">
                                 <div class="widget HTML" data-version="1" id="HTML555">
-                                    <h2 class="title">{{ 'About'|trans }}</h2>
-                                    <div class="widget-content">{{ footerAbout|raw }}</div>
+                                    <h2 class="title"><a href="{{ path_for('reklam', {'lang': lang}) }}">{{ 'Advertising on the website'|trans }}</a></h2>
+                                    {#<div class="widget-content">{{ footerAbout|raw }}</div>#}
                                 </div>
                                 <div class="widget Image" data-version="1" id="Image1">
                                     <div class="widget-content" style="margin-bottom: 20px">
-                                        <img alt="Logo" id="Image1_img" src="/resources/img/site_logo2.png" height="90" width="260">
+                                        <img alt="{{ 'site_name'|trans }}" id="Image1_img" src="/resources/img/site_logo2.png" style="height:90px; width:auto">
                                     </div>
                                 </div>
                             </div>
@@ -312,18 +315,18 @@
 
         {% block scripts %}
             <!-- jQuery 3 -->
-            <script src="{{ base_url() }}/assets/jquery/dist/jquery.min.js?ver={{ version }}"></script>
+            <script src="/assets/jquery/dist/jquery.min.js?ver={{ version }}"></script>
             <!-- Bootstrap 3.3.7 -->
-            <script src="{{ base_url() }}/assets/bootstrap/dist/js/bootstrap.min.js?ver={{ version }}"></script>
+            <script src="/assets/bootstrap/dist/js/bootstrap.min.js?ver={{ version }}"></script>
 
-            <script src="{{ base_url() }}/assets/moment/min/moment-with-locales.min.js?ver={{ version }}"></script>
+            <script src="/assets/moment/min/moment-with-locales.min.js?ver={{ version }}"></script>
 
-            <script src="{{ base_url() }}/assets/i18next/i18next.min.js"></script>
-            <script src="{{ base_url() }}/assets/i18next-xhr-backend/i18nextXHRBackend.min.js"></script>
+            <script src="/assets/i18next/i18next.min.js"></script>
+            <script src="/assets/i18next-xhr-backend/i18nextXHRBackend.min.js"></script>
 
-            <script src="{{ base_url() }}/assets/jquery-toast-plugin/dist/jquery.toast.min.js"></script>
+            <script src="/assets/jquery-toast-plugin/dist/jquery.toast.min.js"></script>
 
-            <script src="{{ base_url() }}/assets/jquery.marquee/jquery.marquee.min.js"></script>
+            <script src="/assets/jquery.marquee/jquery.marquee.min.js"></script>
 
             <script>
                 var I18N = i18next
@@ -347,7 +350,7 @@
                         pauseOnHover: true,
                     });
 
-                    {% for type, group in flash_messages %}
+                    {% for type, group in flash() %}
                         $.toast({
                             heading: '{{ type|capitalize }}!',
                             text: [
@@ -358,7 +361,7 @@
                             icon: '{{ type }}',
                             position: 'bottom-right',
                             showHideTransition: 'slide',
-                            hideAfter : false,
+                            hideAfter : 10000,      // `false` to make it sticky or time in miliseconds to hide after
                             loader: false
                         });
                     {% endfor %}

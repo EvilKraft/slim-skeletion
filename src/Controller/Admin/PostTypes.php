@@ -19,7 +19,7 @@ class PostTypes extends \Controller\RESTController
     protected $template  = 'Admin\PostTypes.twig';
 
     protected        $columns   = ['title'];
-    protected static $actions   = ['update'];
+    protected static $actions   = ['create', 'update', 'delete'];
 
     protected $idxFieldLang = 'langId';
 

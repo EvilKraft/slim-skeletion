@@ -19,7 +19,7 @@ class Pages extends \Controller\RESTController
     protected $template     = 'Admin\Pages.twig';
 
     protected        $columns      = ['alias', 'title'];
-    protected static $actions      = ['create', 'update'];
+    protected static $actions      = ['update'];
 
     protected $idxFieldLang = 'langId';
 

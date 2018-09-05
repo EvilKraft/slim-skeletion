@@ -21,6 +21,9 @@ class Frontend extends BaseController
         $industries = $stmt->fetchAll();
 
         $containers = array();
+
+        $containers[] = $this->renderer->fetch('Frontend/Blog/blog_stile1.twig', $this->getVipPosts(6));
+
         foreach ($industries as $key => $industry){
             $containers[] = $this->renderer->fetch('Frontend/Blog/blog_stile1.twig', $this->getPosts($industry['industryId'], 6));
 
@@ -50,6 +53,15 @@ class Frontend extends BaseController
 
         $data = array(
             'page' => $this->getPage('rules'),
+        );
+
+        return $this->render($response, 'Frontend/page.twig', $data);
+    }
+
+    public function reklam(Request $request, Response $response, Array $args) {
+
+        $data = array(
+            'page' => $this->getPage('reklam'),
         );
 
         return $this->render($response, 'Frontend/page.twig', $data);
@@ -128,7 +140,8 @@ class Frontend extends BaseController
                      FROM posts P
                      INNER JOIN posts_lang L ON L.postId = P.postId AND L.lang = '".$this->lang."'
                      INNER JOIN users U ON P.userId = U.userId
-                     INNER JOIN posts_industries PI ON PI.postId = P.postId AND PI.industryId = :industryId";
+                     INNER JOIN posts_industries PI ON PI.postId = P.postId AND PI.industryId = :industryId
+                     WHERE P.createdAt >= DATE_SUB(NOW(), INTERVAL ".$this->settings['post_live_months']." MONTH)";
 
         $dataSQL  = "SELECT P.*, L.*, U.name, PF.file
                      FROM posts P
@@ -145,6 +158,7 @@ class Frontend extends BaseController
                      ) PF ON PF.postId = P.postId
                      INNER JOIN users U ON P.userId = U.userId
                      INNER JOIN posts_industries PI ON PI.postId = P.postId AND PI.industryId = :industryId
+                     WHERE P.createdAt >= DATE_SUB(NOW(), INTERVAL ".$this->settings['post_live_months']." MONTH)
                      ORDER BY P.createdAt DESC
                      LIMIT :limit OFFSET :offset";
 
@@ -202,7 +216,9 @@ class Frontend extends BaseController
                      FROM posts P
                      INNER JOIN posts_lang L ON L.postId = P.postId AND L.lang = '".$this->lang."'
                      INNER JOIN users U ON P.userId = U.userId
-                     WHERE P.typeId = :typeId";
+                     WHERE 
+                         P.typeId = :typeId
+                     AND P.createdAt >= DATE_SUB(NOW(), INTERVAL ".$this->settings['post_live_months']." MONTH)";
 
         $dataSQL  = "SELECT P.*, L.*, U.name, PF.file
                      FROM posts P
@@ -218,7 +234,9 @@ class Frontend extends BaseController
                          ) B ON A.fileId = B.fileId                 
                      ) PF ON PF.postId = P.postId
                      INNER JOIN users U ON P.userId = U.userId
-                     WHERE P.typeId = :typeId
+                     WHERE 
+                         P.typeId = :typeId
+                     AND P.createdAt >= DATE_SUB(NOW(), INTERVAL ".$this->settings['post_live_months']." MONTH)
                      ORDER BY P.createdAt DESC
                      LIMIT :limit OFFSET :offset";
 
@@ -255,8 +273,9 @@ class Frontend extends BaseController
 
         $sql  = "SELECT 
                     P.*, L.*, 
-                    U.name, U.phone, U.email, U.site, U.facebook,
-                    C.name as city, C.country,
+                    U.name u_name, U.phone u_phone, U.email u_email, U.site u_site, U.facebook u_facebook, U.country u_country,
+                    UC.name u_city,
+                    PC.name city,
                     PF.file,
                     PT.title as postType
                  FROM posts P
@@ -273,8 +292,11 @@ class Frontend extends BaseController
                  ) PF ON PF.postId = P.postId
                  INNER JOIN users U ON P.userId = U.userId
                  INNER JOIN postTypes_lang PT ON PT.typeId = P.typeId AND PT.lang = ?
-                 LEFT JOIN cities C ON C.cityId = U.cityId
-                 WHERE P.postId = ?";
+                 LEFT JOIN cities UC ON UC.cityId = U.cityId
+                 LEFT JOIN cities PC ON PC.cityId = P.cityId
+                 WHERE
+                     P.postId = ?
+                 AND P.createdAt >= DATE_SUB(NOW(), INTERVAL ".$this->settings['post_live_months']." MONTH)";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$this->lang, $this->lang, $args['id']]);
         if(!$data['item'] = $stmt->fetch()){
@@ -338,7 +360,9 @@ class Frontend extends BaseController
                      FROM posts P
                      INNER JOIN posts_lang L ON L.postId = P.postId AND L.lang = '".$this->lang."'
                      INNER JOIN users U ON P.userId = U.userId
-                     WHERE MATCH (L.title, L.text_search) AGAINST (:query)";
+                     WHERE 
+                         MATCH (L.title, L.text_search) AGAINST (:query)
+                     AND P.createdAt >= DATE_SUB(NOW(), INTERVAL ".$this->settings['post_live_months']." MONTH)";
 
         $dataSQL = "SELECT P.*, L.*, U.name, PF.file
                     FROM posts P
@@ -354,7 +378,9 @@ class Frontend extends BaseController
                         ) B ON A.fileId = B.fileId                 
                     ) PF ON PF.postId = P.postId
                     INNER JOIN users U ON P.userId = U.userId
-                    WHERE MATCH (L.title, L.text_search) AGAINST (:query)
+                    WHERE 
+                        MATCH (L.title, L.text_search) AGAINST (:query)
+                    AND P.createdAt >= DATE_SUB(NOW(), INTERVAL ".$this->settings['post_live_months']." MONTH)
                     LIMIT :limit OFFSET :offset";
 
         $countQuery = $this->db->prepare($countSQL);
@@ -451,12 +477,44 @@ class Frontend extends BaseController
                  ) PF ON PF.postId = P.postId
                  INNER JOIN users U ON P.userId = U.userId
                  INNER JOIN posts_industries PI ON PI.postId = P.postId AND PI.industryId = :industryId
-                 
+                 WHERE P.createdAt >= DATE_SUB(NOW(), INTERVAL ".$this->settings['post_live_months']." MONTH)
                  ORDER BY P.createdAt DESC
                  LIMIT :limit OFFSET :offset";
 
         $stmt = $this->db->prepare($sql);
         $stmt->bindValue(':industryId',  $industryId,  \PDO::PARAM_INT);
+        $stmt->bindValue(':limit',       $limit,       \PDO::PARAM_INT);
+        $stmt->bindValue(':offset',      $offset,      \PDO::PARAM_INT);
+        $stmt->execute();
+
+        $data['items'] = $stmt->fetchAll();
+
+        return $data;
+    }
+
+    protected function getVipPosts($limit = 10, $offset = 0){
+        $data = array();
+
+        $sql  = "SELECT P.*, L.*, U.name, PF.file
+                 FROM posts P
+                 INNER JOIN posts_lang L ON L.postId = P.postId AND L.lang = '".$this->lang."'
+                 LEFT JOIN (
+                     SELECT A.postId, A.file
+                     FROM posts_files A
+                     INNER JOIN (
+                         SELECT MAX(a.fileId) fileId, a.postId 
+                         FROM posts_files a 
+                         WHERE type LIKE 'image%' 
+                         GROUP BY a.postId
+                     ) B ON A.fileId = B.fileId                 
+                 ) PF ON PF.postId = P.postId
+                 INNER JOIN users U ON P.userId = U.userId
+                 WHERE P.createdAt >= DATE_SUB(NOW(), INTERVAL ".$this->settings['post_live_months']." MONTH)
+                 AND P.isVip = 1
+                 ORDER BY P.createdAt DESC
+                 LIMIT :limit OFFSET :offset";
+
+        $stmt = $this->db->prepare($sql);
         $stmt->bindValue(':limit',       $limit,       \PDO::PARAM_INT);
         $stmt->bindValue(':offset',      $offset,      \PDO::PARAM_INT);
         $stmt->execute();
@@ -510,7 +568,7 @@ class Frontend extends BaseController
                      ) B ON A.fileId = B.fileId                 
                  ) PF ON PF.postId = P.postId
                  INNER JOIN users U ON P.userId = U.userId
-
+                 WHERE P.createdAt >= DATE_SUB(NOW(), INTERVAL ".$this->settings['post_live_months']." MONTH)
                  ORDER BY P.createdAt DESC
                  LIMIT :limit OFFSET :offset";
 
@@ -559,7 +617,7 @@ class Frontend extends BaseController
         if(is_null($data)){
             $data = array(
                 'url'   => $this->router->pathFor('contact', ['lang' => $this->lang]),
-                'img'   => '/resources/img/banners/banner-728-x-90.jpg',
+                'img'   => '/resources/img/banners/banner-728-x-90az.jpg',
                 'title' => 'Ad 728x90',
             );
         }
@@ -571,7 +629,7 @@ class Frontend extends BaseController
         if(is_null($data)){
             $data = array(
                 'url'   => $this->router->pathFor('contact', ['lang' => $this->lang]),
-                'img'   => '/resources/img/banners/banner-300-x-250.jpg',
+                'img'   => '/resources/img/banners/banner-300-x-250az.jpg',
                 'title' => 'Ad 300x250',
             );
         }
@@ -584,7 +642,7 @@ class Frontend extends BaseController
         if(is_null($data)){
             $data = array(
                 'url'   => $this->router->pathFor('contact', ['lang' => $this->lang]),
-                'img'   => '/resources/img/banners/banner-728-x-90.jpg',
+                'img'   => '/resources/img/banners/banner-728-x-90az.jpg',
                 'title' => 'Ad 728x90',
             );
         }

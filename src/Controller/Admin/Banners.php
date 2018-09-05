@@ -23,6 +23,15 @@ class Banners extends \Controller\RESTController
 
     protected $bannersDir = UPLOAD_DIR.'banners'.DS;
 
+    public function __construct(\Slim\Container $app)
+    {
+        parent::__construct($app);
+
+        if (!file_exists($this->bannersDir)) {
+            mkdir($this->bannersDir, 0755, true);
+        }
+    }
+
     public function dtServerProcessing(Request $request, Response $response, Array $args)
     {
         $u_columns = 'U.' . implode(', U.', array_keys($this->getTableColumns('bannersClients', ['clientId', 'createdAt'])));
@@ -65,7 +74,7 @@ class Banners extends \Controller\RESTController
             $files  = $request->getUploadedFiles();
             $myFile = reset($files['my_file']);
 
-            if ($myFile->getError() === UPLOAD_ERR_OK) {
+            if ($myFile->getError() !== UPLOAD_ERR_OK) {
                 throw new \Exception('File was not uploaded');
             }
 

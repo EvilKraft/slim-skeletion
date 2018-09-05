@@ -42,7 +42,7 @@ class Posts extends RESTController
     public function dtServerProcessing(Request $request, Response $response, Array $args)
     {
         $l_columns = 'L.'.implode(', L.', array_keys($this->getTableColumns($this->table.'_lang', [$this->idxField, $this->idxFieldLang])));
-        $u_columns = 'U.'.implode(', U.', array_keys($this->getTableColumns('users', ['userId', 'createdAt', 'site', 'status', 'cityId'])));
+        $u_columns = 'U.'.implode(', U.', array_keys($this->getTableColumns('users', ['userId', 'createdAt', 'site', 'status', 'country', 'cityId'])));
 
         $table = "(
             SELECT T.*, ".$l_columns.", ".$u_columns.", TL.title AS postType
@@ -66,6 +66,15 @@ class Posts extends RESTController
             return '<div class="text-center"><span class="label '.$class.'">'.$this->trans($text).'</span></div>';
         });
 
+        $this->setFormatter($dtColumns, 'isVip', function( $d, $row ) {
+            switch ($d){
+                case 1  : $isVip = '<div class="text-center"><i class="fa fa-star text-light-blue fa-lg" title="'.$this->trans('VIP').'"></i></div>'; break;
+                case 0  : $isVip = ''; break;
+            }
+
+            return $isVip;
+        });
+
         $data = \Helpers\dataTableSSP::simple($request->getQueryParams(), $this->db, $table, $this->idxField, $dtColumns);
 
         return $response->withJson($data, 200);
@@ -74,7 +83,7 @@ class Posts extends RESTController
     public function toModerateServerProcessing(Request $request, Response $response, Array $args)
     {
         $l_columns = 'L.'.implode(', L.', array_keys($this->getTableColumns($this->table.'_lang', [$this->idxField, $this->idxFieldLang])));
-        $u_columns = 'U.'.implode(', U.', array_keys($this->getTableColumns('users', ['userId', 'createdAt', 'site', 'status', 'cityId'])));
+        $u_columns = 'U.'.implode(', U.', array_keys($this->getTableColumns('users', ['userId', 'createdAt', 'site', 'status', 'country', 'cityId'])));
 
         $table = "(
             SELECT T.*, ".$l_columns.", ".$u_columns.", TL.title AS postType
@@ -180,11 +189,11 @@ class Posts extends RESTController
             $stmt->execute(array($args['id']));
 
             $server = \Controller\Image::initServer();
-            $stmt = $this->db->prepare("DELETE FROM ".$this->table."_files WHERE fileId = ?");
+            $del_stmt = $this->db->prepare("DELETE FROM ".$this->table."_files WHERE fileId = ?");
             foreach ($stmt->fetchAll() as $file){
                 $server->deleteCache($file['file']);
                 unlink(UPLOAD_DIR.$file['file']);
-                $stmt->execute(array($file['fileId']));
+                $del_stmt->execute(array($file['fileId']));
             }
 
             $this->db->commit();
@@ -225,14 +234,14 @@ class Posts extends RESTController
             $stmt->execute($ids);
 
             $stmt = $this->db->prepare("SELECT * FROM ".$this->table."_files WHERE ".$this->idxField." IN (".$questionsStr.")");
-            $stmt->execute(array($args['id']));
+            $stmt->execute($ids);
 
             $server = \Controller\Image::initServer();
-            $stmt = $this->db->prepare("DELETE FROM ".$this->table."_files WHERE fileId = ?");
+            $del_stmt = $this->db->prepare("DELETE FROM ".$this->table."_files WHERE fileId = ?");
             foreach ($stmt->fetchAll() as $file){
                 $server->deleteCache($file['file']);
                 unlink(UPLOAD_DIR.$file['file']);
-                $stmt->execute(array($file['fileId']));
+                $del_stmt->execute(array($file['fileId']));
             }
 
             $this->db->commit();
@@ -283,7 +292,7 @@ class Posts extends RESTController
                     $vars = array_intersect_key($request->getParsedBody()[$lang], $tableColumns);
                     $vars_lang[$lang] = array_merge_recursive( [$this->idxField => $lastId, 'lang' => $lang ], $vars);
 
-                    $vars_lang[$lang]['text_search'] = strip_tags($vars_lang[$lang]['text']);
+                    $vars_lang[$lang]['text_search'] = trim(strip_tags($vars_lang[$lang]['text']));
                 }
 
 
@@ -293,6 +302,16 @@ class Posts extends RESTController
                 $stmt = $this->db->prepare("INSERT INTO ".$this->table."_lang (".$colNames.") VALUES (".$questions.")");
 
                 foreach ($vars_lang as $lang => $vars){
+
+                    if(empty($vars['title'])){
+                        $vars['title'] = $vars_lang[$this->lang]['title'];
+                    }
+
+                    if(empty($vars['text_search'])){
+                        $vars['text']        = $vars_lang[$this->lang]['text'];
+                        $vars['text_search'] = $vars_lang[$this->lang]['text_search'];
+                    }
+
                     $stmt->execute(array_values($vars));
                 }
             }
@@ -370,6 +389,16 @@ class Posts extends RESTController
                 $stmt = $this->db->prepare("UPDATE ".$this->table."_lang SET ".$colNames." WHERE ".$this->idxFieldLang." = ?");
 
                 foreach ($vars_lang as $lang => $vars){
+
+                    if(empty($vars['title'])){
+                        $vars['title'] = $vars_lang[$this->lang]['title'];
+                    }
+
+                    if(empty($vars['text_search'])){
+                        $vars['text']        = $vars_lang[$this->lang]['text'];
+                        $vars['text_search'] = $vars_lang[$this->lang]['text_search'];
+                    }
+
                     $stmt->execute(array_merge(array_values($vars), [$request->getParsedBody()[$lang][$this->idxFieldLang]]));
                 }
             }
