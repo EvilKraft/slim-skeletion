@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Июн 25 2018 г., 14:20
+-- Время создания: Сен 05 2018 г., 10:08
 -- Версия сервера: 5.7.19
 -- Версия PHP: 7.1.7
 
@@ -50,7 +50,7 @@ CREATE TABLE `banners` (
 
 INSERT INTO `banners` (`bannerId`, `clientId`, `type`, `title`, `url`, `file`, `status`, `deleted`, `createdAt`, `deletedAt`, `start`, `stop`, `views`) VALUES
 (1, 1, 'head_banner', 'прапр', 'http://zzz.com', 'banners_5b2a50e7a08000.09994038.JPG', 1, 0, '2018-06-20 13:04:40', NULL, '2018-06-20', '2018-06-22', 69),
-(2, 1, 'head_banner', 'fghfghfgh', 'http://zzz4.com', 'banners_5b2a5410645639.12983323.jpg', 1, 0, '2018-06-20 13:18:08', NULL, '2018-06-20', '2018-06-28', 267);
+(2, 1, 'head_banner', 'fghfghfgh', 'http://zzz4.com', 'banners_5b2a5410645639.12983323.jpg', 1, 0, '2018-06-20 13:18:08', NULL, '2018-06-20', '2018-06-28', 293);
 
 -- --------------------------------------------------------
 
@@ -166,6 +166,103 @@ INSERT INTO `cities` (`cityId`, `name`, `country`, `iso2`, `population`) VALUES
 (71, 'Zərdab', 'Azerbaijan', 'AZ', 0),
 (72, 'Şərur', 'Azerbaijan', 'AZ', 0),
 (73, 'Qıvraq', 'Azerbaijan', 'AZ', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `content`
+--
+
+CREATE TABLE `content` (
+  `contentId` int(11) UNSIGNED NOT NULL,
+  `parentId` int(11) UNSIGNED DEFAULT '0',
+  `lft` int(11) UNSIGNED NOT NULL,
+  `rgt` int(11) UNSIGNED NOT NULL,
+  `lvl` int(11) UNSIGNED NOT NULL,
+  `treeId` int(11) UNSIGNED DEFAULT NULL,
+  `alias` varchar(30) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `content`
+--
+
+INSERT INTO `content` (`contentId`, `parentId`, `lft`, `rgt`, `lvl`, `treeId`, `alias`) VALUES
+(1, 0, 0, 1, 0, 1, 'test'),
+(2, 0, 0, 19, 0, 2, 'test2'),
+(3, 0, 0, 1, 0, 3, 'aaaaaaaaaaa'),
+(5, 2, 1, 18, 1, 2, 'zzzzzzzzzzzz'),
+(6, 5, 2, 9, 2, 2, 'zzz2'),
+(7, 6, 3, 4, 3, 2, 'zzz3'),
+(8, 6, 5, 6, 3, 2, 'zzz3-2'),
+(9, 6, 7, 8, 3, 2, 'zzz3-3'),
+(10, 5, 10, 17, 2, 2, 'xxx2'),
+(11, 10, 11, 12, 3, 2, 'xxx3'),
+(12, 10, 13, 16, 3, 2, 'xxx3-2'),
+(27, 0, 0, 1, 0, 4, 'mmm'),
+(28, 12, 14, 15, 4, 2, 'xxx4');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `content_lang`
+--
+
+CREATE TABLE `content_lang` (
+  `langId` int(10) UNSIGNED NOT NULL,
+  `contentId` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `lang` char(2) NOT NULL DEFAULT '0',
+  `title` varchar(255) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `keywords` varchar(255) DEFAULT NULL,
+  `intro` text,
+  `text` text
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `content_lang`
+--
+
+INSERT INTO `content_lang` (`langId`, `contentId`, `lang`, `title`, `description`, `keywords`, `intro`, `text`) VALUES
+(1, 1, 'en', 'fggh', '', '', '', ''),
+(2, 1, 'ru', 'fghfh', '', '', '', ''),
+(3, 1, 'az', 'fghfgh', '', '', '', ''),
+(4, 2, 'en', 'sdfsdfs', '', '', '', ''),
+(5, 2, 'ru', 'ssd', '', '', '', ''),
+(6, 2, 'az', '', '', '', '', ''),
+(7, 3, 'en', 'aaaaaaaaaaa', '', '', '', ''),
+(8, 3, 'ru', 'aaaaaaaaaaaa', '', '', '', ''),
+(9, 3, 'az', '', '', '', '', ''),
+(10, 5, 'en', '', '', '', '', ''),
+(11, 5, 'ru', 'zzzzzzzzzzzz', '', '', '', ''),
+(12, 5, 'az', '', '', '', '', ''),
+(13, 6, 'en', '', '', '', '', ''),
+(14, 6, 'ru', 'zzz2', '', '', '', ''),
+(15, 6, 'az', '', '', '', '', ''),
+(16, 7, 'en', '', '', '', '', ''),
+(17, 7, 'ru', 'zzz3', '', '', '', ''),
+(18, 7, 'az', '', '', '', '', ''),
+(19, 8, 'en', '', '', '', '', ''),
+(20, 8, 'ru', 'zzz3-2', '', '', '', ''),
+(21, 8, 'az', '', '', '', '', ''),
+(22, 9, 'en', '', '', '', '', ''),
+(23, 9, 'ru', 'zzz3-3', '', '', '', ''),
+(24, 9, 'az', '', '', '', '', ''),
+(25, 10, 'en', '', '', '', '', ''),
+(26, 10, 'ru', 'xxx2', '', '', '', ''),
+(27, 10, 'az', '', '', '', '', ''),
+(28, 11, 'en', '', '', '', '', ''),
+(29, 11, 'ru', 'xxx3', '', '', '', ''),
+(30, 11, 'az', '', '', '', '', ''),
+(31, 12, 'en', '', '', '', '', ''),
+(32, 12, 'ru', 'xxx3-2', '', '', '', ''),
+(33, 12, 'az', '', '', '', '', ''),
+(40, 27, 'en', '', '', '', '', ''),
+(41, 27, 'ru', 'mmm', '', '', '', ''),
+(42, 27, 'az', '', '', '', '', ''),
+(43, 28, 'en', '', '', '', '', ''),
+(44, 28, 'ru', 'xxx4', '', '', '', ''),
+(45, 28, 'az', '', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -375,20 +472,21 @@ CREATE TABLE `posts` (
   `buildedAt` date DEFAULT NULL,
   `income` decimal(10,0) UNSIGNED NOT NULL,
   `price` decimal(10,0) UNSIGNED NOT NULL,
-  `site` varchar(255) NOT NULL
+  `site` varchar(255) NOT NULL,
+  `isVip` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `posts`
 --
 
-INSERT INTO `posts` (`postId`, `userId`, `createdAt`, `status`, `typeId`, `cityId`, `workers`, `buildedAt`, `income`, `price`, `site`) VALUES
-(1, 1, '2018-05-20 18:43:04', 1, 5, 3, 0, NULL, '0', '0', ''),
-(4, 1, '2018-05-21 17:38:19', 1, 6, 1, 0, NULL, '0', '0', ''),
-(5, 2, '2018-05-26 17:13:19', 1, 5, 1, 12, '2018-06-01', '0', '0', ''),
-(9, 5, '2018-06-05 08:35:48', 1, 7, 1, 0, '2018-06-13', '0', '0', ''),
-(10, 5, '2018-06-07 11:26:26', 0, 0, 1, 0, '2018-06-13', '0', '100', ''),
-(11, 7, '2018-06-20 15:59:50', 1, 5, 1, 0, NULL, '0', '0', '');
+INSERT INTO `posts` (`postId`, `userId`, `createdAt`, `status`, `typeId`, `cityId`, `workers`, `buildedAt`, `income`, `price`, `site`, `isVip`) VALUES
+(1, 1, '2018-05-20 18:43:04', 1, 5, 3, 0, NULL, '0', '0', '', 0),
+(4, 1, '2018-05-21 17:38:19', 1, 6, 1, 0, NULL, '0', '0', '', 0),
+(5, 2, '2018-05-26 17:13:19', 1, 5, 1, 12, '2018-06-01', '0', '0', '', 0),
+(9, 5, '2018-06-05 08:35:48', 1, 7, 1, 0, '2018-06-13', '0', '0', '', 0),
+(10, 5, '2018-06-07 11:26:26', 0, 0, 1, 0, '2018-06-13', '0', '100', '', 0),
+(11, 7, '2018-06-20 15:59:50', 1, 5, 1, 0, NULL, '0', '0', '', 0);
 
 -- --------------------------------------------------------
 
@@ -626,6 +724,22 @@ ALTER TABLE `cities`
   ADD PRIMARY KEY (`cityId`);
 
 --
+-- Индексы таблицы `content`
+--
+ALTER TABLE `content`
+  ADD PRIMARY KEY (`contentId`),
+  ADD KEY `parent_id` (`parentId`),
+  ADD KEY `lft` (`lft`),
+  ADD KEY `scope` (`treeId`);
+
+--
+-- Индексы таблицы `content_lang`
+--
+ALTER TABLE `content_lang`
+  ADD PRIMARY KEY (`langId`),
+  ADD KEY `id_lang_id_idx` (`contentId`,`lang`);
+
+--
 -- Индексы таблицы `industries`
 --
 ALTER TABLE `industries`
@@ -731,6 +845,16 @@ ALTER TABLE `bannersClients`
 --
 ALTER TABLE `cities`
   MODIFY `cityId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
+--
+-- AUTO_INCREMENT для таблицы `content`
+--
+ALTER TABLE `content`
+  MODIFY `contentId` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+--
+-- AUTO_INCREMENT для таблицы `content_lang`
+--
+ALTER TABLE `content_lang`
+  MODIFY `langId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 --
 -- AUTO_INCREMENT для таблицы `industries`
 --
